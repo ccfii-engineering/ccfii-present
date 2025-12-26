@@ -1,5 +1,10 @@
 ### v.2.4.0
 
+### ⚠️ Breaking changes 
+
+- S3 variables are now named: S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_REGION and S3_BUCKET
+- Users now have roles. Refer to the `roles` table and assign a role to a user with the `role_id` column in the `users` table.
+
 ### Features
 
 - Add Admin Panel to manage users and presentations
@@ -8,6 +13,7 @@
 - Add hideable presenter attendee count (#183 #155)
 - Add Hungarian translation (#161)
 - Add Latvian translation (#163)
+- Add custom S3 endpoint with `S3_SCHEME`, `S3_HOST`, `S3_PORT` and `S3_PUBLIC_URL`
 
 ### Fixes and improvements
 
@@ -22,6 +28,7 @@
 - Fix duplicate key quiz when duplicate (#182)
 - Fix email change confirmation (#172)
 - Fix italian translation (#179)
+- Fix random poll choices (#184)
 
 ### v.2.3.2
 
