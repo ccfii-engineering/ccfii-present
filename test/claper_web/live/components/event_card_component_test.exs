@@ -35,7 +35,9 @@ defmodule ClaperWeb.EventCardComponentTest do
         NaiveDateTime.add(NaiveDateTime.utc_now(), -10, :second)
       )
 
-      {:ok, _view, html} = live(conn, "/events")
+      {:ok, view, _html} = live(conn, "/events")
+      # Expired events are shown in the "Done" tab
+      html = view |> element("[phx-click='change-tab'][phx-value-tab='expired']") |> render_click()
       assert html =~ "Finished"
     end
 
@@ -46,7 +48,9 @@ defmodule ClaperWeb.EventCardComponentTest do
         NaiveDateTime.utc_now()
       )
 
-      {:ok, _view, html} = live(conn, "/events")
+      {:ok, view, _html} = live(conn, "/events")
+      # Expired events are shown in the "Done" tab
+      html = view |> element("[phx-click='change-tab'][phx-value-tab='expired']") |> render_click()
       assert html =~ "Finished"
     end
   end

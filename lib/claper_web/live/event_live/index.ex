@@ -38,6 +38,8 @@ defmodule ClaperWeb.EventLive.Index do
       |> assign(:total_pages, 1)
       |> assign(:total_entries, 0)
       |> assign(:events, [])
+      |> assign(:search_query, "")
+      |> assign(:view_mode, "grid")
       |> assign(:temporary_assigns, events: [])
       |> load_events()
 
@@ -185,6 +187,23 @@ defmodule ClaperWeb.EventLive.Index do
     end
   end
 
+  @impl true
+  def handle_event("search", %{"search" => search_query}, socket) do
+    socket =
+      socket
+      |> assign(:search_query, search_query)
+      |> assign(:page, 1)
+      |> assign(:events, [])
+      |> load_events()
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("change-view", %{"view" => view_mode}, socket) do
+    {:noreply, assign(socket, :view_mode, view_mode)}
+  end
+
   defp apply_action(socket, :edit, %{"id" => id}) do
     event =
       Events.get_user_event!(socket.assigns.current_user.id, id, [:presentation_file, :leaders])
@@ -225,7 +244,11 @@ defmodule ClaperWeb.EventLive.Index do
   end
 
   defp load_events(socket) do
-    params = %{"page" => socket.assigns.page, "page_size" => 5}
+    params = %{
+      "page" => socket.assigns.page,
+      "page_size" => 5,
+      "search" => socket.assigns.search_query
+    }
 
     {events, total_entries, total_pages} =
       case socket.assigns.active_tab do

@@ -66,6 +66,33 @@ defmodule Claper.Presentations do
   end
 
   @doc """
+  Returns the URL of the first slide (thumbnail) for a given presentation.
+  Returns nil if no presentation file or hash is provided.
+  """
+  def get_first_slide_url(nil), do: nil
+
+  def get_first_slide_url(%PresentationFile{hash: nil}), do: nil
+  def get_first_slide_url(%PresentationFile{length: nil}), do: nil
+  def get_first_slide_url(%PresentationFile{length: 0}), do: nil
+
+  def get_first_slide_url(%PresentationFile{hash: hash, length: length})
+      when is_binary(hash) and length > 0 do
+    config = Application.get_env(:claper, :presentations)
+
+    case Keyword.fetch!(config, :storage) do
+      "local" ->
+        "/uploads/#{hash}/1.jpg"
+
+      "s3" ->
+        base_url = Keyword.fetch!(config, :s3_public_url)
+        base_url <> "/presentations/#{hash}/1.jpg"
+
+      storage ->
+        raise "Unrecognised presentations storage value #{storage}"
+    end
+  end
+
+  @doc """
   Returns a list of JPG slide URLs for a given presentation `hash` and
   `length`. See also `get_slide_urls/1`.
   """

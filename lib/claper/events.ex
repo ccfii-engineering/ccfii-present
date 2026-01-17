@@ -79,12 +79,14 @@ defmodule Claper.Events do
   def paginate_not_expired_events(user_id, params \\ %{}, preload \\ []) do
     page = Map.get(params, "page", 1)
     page_size = Map.get(params, "page_size", @default_page_size)
+    search = Map.get(params, "search", nil)
 
     query =
       from(e in Event,
         where: e.user_id == ^user_id and is_nil(e.expired_at),
         order_by: [desc: e.id]
       )
+      |> apply_search(search)
 
     Repo.paginate(query, page: page, page_size: page_size, preload: preload)
   end
@@ -119,12 +121,14 @@ defmodule Claper.Events do
   def paginate_expired_events(user_id, params \\ %{}, preload \\ []) do
     page = Map.get(params, "page", 1)
     page_size = Map.get(params, "page_size", @default_page_size)
+    search = Map.get(params, "search", nil)
 
     query =
       from(e in Event,
         where: e.user_id == ^user_id and not is_nil(e.expired_at),
         order_by: [desc: e.expired_at]
       )
+      |> apply_search(search)
 
     Repo.paginate(query, page: page, page_size: page_size, preload: preload)
   end
@@ -164,6 +168,7 @@ defmodule Claper.Events do
   def paginate_managed_events_by(email, params \\ %{}, preload \\ []) do
     page = Map.get(params, "page", 1)
     page_size = Map.get(params, "page_size", @default_page_size)
+    search = Map.get(params, "search", nil)
 
     query =
       from(a in ActivityLeader,
@@ -175,6 +180,7 @@ defmodule Claper.Events do
         order_by: [desc: e.expired_at, desc: e.id],
         select: e
       )
+      |> apply_search_managed(search)
 
     Repo.paginate(query, page: page, page_size: page_size, preload: preload)
   end
@@ -196,6 +202,28 @@ defmodule Claper.Events do
       where: e.user_id == ^user_id and not is_nil(e.expired_at)
     )
     |> Repo.aggregate(:count, :id)
+  end
+
+  defp apply_search(query, nil), do: query
+  defp apply_search(query, ""), do: query
+
+  defp apply_search(query, search) when is_binary(search) do
+    search_term = "%#{search}%"
+
+    from(e in query,
+      where: ilike(e.name, ^search_term) or ilike(e.code, ^search_term)
+    )
+  end
+
+  defp apply_search_managed(query, nil), do: query
+  defp apply_search_managed(query, ""), do: query
+
+  defp apply_search_managed(query, search) when is_binary(search) do
+    search_term = "%#{search}%"
+
+    from([a, u, e] in query,
+      where: ilike(e.name, ^search_term) or ilike(e.code, ^search_term)
+    )
   end
 
   def count_events_month(user_id) do
