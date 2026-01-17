@@ -109,6 +109,9 @@ defmodule ClaperWeb do
       import ClaperWeb.ErrorHelpers
       use Gettext, backend: ClaperWeb.Gettext
 
+      # Import design system components
+      import ClaperWeb.Component.Button
+
       unquote(verified_routes())
     end
   end
