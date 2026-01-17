@@ -111,6 +111,7 @@ defmodule ClaperWeb do
 
       # Import design system components
       import ClaperWeb.Component.Button
+      import ClaperWeb.Component.Badge
 
       unquote(verified_routes())
     end
