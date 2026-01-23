@@ -1,5 +1,11 @@
 ### v.2.4.1
 
+### Fixes and improvements
+
+- Improve SMTP config and handling (#197)
+- Fix presentation slides URL (#200)
+- Fix custom S3 endpoint (#199)
+
 ### v.2.4.0
 
 ### ⚠️ Breaking changes 
