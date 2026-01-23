@@ -42,7 +42,11 @@ defmodule ClaperWeb.Component.Tabs do
 
   slot :tab, required: true do
     attr :active, :boolean
+    attr :disabled, :boolean
     attr :class, :string
+    attr :"phx-click", :string
+    attr :"phx-target", :string
+    attr :"phx-value-tab", :string
   end
 
   def tabs(assigns) do
@@ -60,10 +64,12 @@ defmodule ClaperWeb.Component.Tabs do
           role="tab"
           class={[
             tab_base_classes(@style),
-            tab_state_classes(@style, tab[:active] || false)
+            tab_state_classes(@style, tab[:active] || false),
+            disabled_classes(tab[:disabled] || false)
           ]}
           aria-selected={tab[:active] || false}
-          {assigns_to_attributes(tab, [:active, :class, :inner_block])}
+          disabled={tab[:disabled] || false}
+          {assigns_to_attributes(tab, [:active, :disabled, :class, :inner_block])}
         >
           {render_slot(tab)}
         </button>
@@ -82,6 +88,7 @@ defmodule ClaperWeb.Component.Tabs do
   """
   attr :style, :atom, default: :bordered, values: [:bordered, :lifted, :boxed]
   attr :active, :boolean, default: false
+  attr :disabled, :boolean, default: false
   attr :class, :string, default: nil
   attr :rest, :global, include: ~w(phx-click phx-target phx-value-tab)
 
@@ -94,9 +101,11 @@ defmodule ClaperWeb.Component.Tabs do
       class={[
         tab_base_classes(@style),
         tab_state_classes(@style, @active),
+        disabled_classes(@disabled),
         @class
       ]}
       aria-selected={@active}
+      disabled={@disabled}
       {@rest}
     >
       {render_slot(@inner_block)}
@@ -154,4 +163,8 @@ defmodule ClaperWeb.Component.Tabs do
   defp tab_state_classes(:boxed, false) do
     "text-gray-500 hover:text-gray-700 bg-transparent"
   end
+
+  # Disabled classes
+  defp disabled_classes(true), do: "opacity-50 cursor-not-allowed"
+  defp disabled_classes(false), do: "cursor-pointer"
 end
