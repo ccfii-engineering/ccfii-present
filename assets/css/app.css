@@ -2,11 +2,22 @@
 @import 'animate.css/animate.min.css';
 
 @import 'tailwindcss';
-@import './theme.css' layer(theme);
+@import './theme-config.css';
 
 @plugin "daisyui" {
-  themes: light --default;
-  include: toggle;
+  themes: claper --default;
+}
+
+@utility btn {
+  @apply rounded-full !font-display text-small-body;
+}
+
+@utility input {
+  @apply rounded-full focus:outline-none focus-within:outline-none focus:border-2 focus-within:border-2 !font-display text-small-body transition-all;
+}
+
+@utility select {
+  @apply rounded-full focus:outline-none focus-within:outline-none focus:border-2 focus-within:border-2 !font-display text-small-body transition-all;
 }
 
 @layer base {
@@ -16,6 +27,11 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
+  }
+
+  button,
+  [role="button"] {
+    cursor: pointer;
   }
 }
 
@@ -321,23 +337,6 @@
   src: url('/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf');
 }
 
-.bg-gradient-animate {
-  background: linear-gradient(-45deg, var(--color-secondary-500), var(--color-secondary-600), var(--color-primary-400), var(--color-primary-400));
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
 
 .arrow_box {
 	position: relative;

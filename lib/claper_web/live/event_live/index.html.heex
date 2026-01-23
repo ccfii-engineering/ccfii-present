@@ -26,8 +26,18 @@
       >
       </div>
       <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black/5 transition-all relative">
-        <button phx-click="toggle-quick-create" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <button
+          phx-click="toggle-quick-create"
+          class="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
@@ -60,24 +70,38 @@
         </div>
       </div>
     </div>
-
-    <!-- Filter Bar and Actions -->
+    
+<!-- Filter Bar and Actions -->
     <div class="pt-6 pb-6">
       <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
         <!-- Left: Filter Tabs -->
         <.tabs style={:boxed}>
-          <:tab active={@active_tab == "not_expired"} phx-click="change-tab" phx-value-tab="not_expired">
+          <:tab
+            active={@active_tab == "not_expired"}
+            phx-click="change-tab"
+            phx-value-tab="not_expired"
+          >
             {gettext("Active")}
           </:tab>
-          <:tab active={@active_tab == "expired"} disabled={not @has_expired_events} phx-click="change-tab" phx-value-tab="expired">
+          <:tab
+            active={@active_tab == "expired"}
+            disabled={not @has_expired_events}
+            phx-click="change-tab"
+            phx-value-tab="expired"
+          >
             {gettext("Done")}
           </:tab>
-          <:tab active={@active_tab == "invited"} disabled={not @has_invited_events} phx-click="change-tab" phx-value-tab="invited">
+          <:tab
+            active={@active_tab == "invited"}
+            disabled={not @has_invited_events}
+            phx-click="change-tab"
+            phx-value-tab="invited"
+          >
             {gettext("Shared with you")}
           </:tab>
         </.tabs>
-
-        <!-- Right: View Toggle & Action Buttons -->
+        
+<!-- Right: View Toggle & Action Buttons -->
         <div class="flex items-center gap-2 flex-wrap">
           <!-- View Toggle -->
           <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-full p-1">
@@ -86,8 +110,17 @@
               phx-value-view="grid"
               class={"p-2 rounded-full transition #{if @view_mode == "grid", do: "bg-primary-50 border-b-2 border-primary-500", else: "hover:bg-gray-100"}"}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class={"w-5 h-5 #{if @view_mode == "grid", do: "text-primary-500", else: "text-secondary-500"}"} viewBox="0 0 24 24" fill="currentColor">
-                <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class={"w-5 h-5 #{if @view_mode == "grid", do: "text-primary-500", else: "text-secondary-500"}"}
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z"
+                  clip-rule="evenodd"
+                />
               </svg>
             </button>
             <button
@@ -95,38 +128,65 @@
               phx-value-view="list"
               class={"p-2 rounded-full transition #{if @view_mode == "list", do: "bg-primary-50 border-b-2 border-primary-500", else: "hover:bg-gray-100"}"}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class={"w-5 h-5 #{if @view_mode == "list", do: "text-primary-500", else: "text-secondary-500"}"} viewBox="0 0 24 24" fill="currentColor">
-                <path fill-rule="evenodd" d="M2.625 6.75a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0A.75.75 0 0 1 8.25 6h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75ZM2.625 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0ZM7.5 12a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12A.75.75 0 0 1 7.5 12Zm-4.875 5.25a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class={"w-5 h-5 #{if @view_mode == "list", do: "text-primary-500", else: "text-secondary-500"}"}
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M2.625 6.75a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0A.75.75 0 0 1 8.25 6h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75ZM2.625 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0ZM7.5 12a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12A.75.75 0 0 1 7.5 12Zm-4.875 5.25a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75Z"
+                  clip-rule="evenodd"
+                />
               </svg>
             </button>
           </div>
-
-          <!-- Quick Event Button -->
+          
+<!-- Quick Event Button -->
           <button
             phx-click="toggle-quick-create"
             class="flex items-center gap-2 px-4 py-3 border border-secondary-500 text-secondary-500 rounded-full font-bold hover:bg-secondary-50 transition"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                clip-rule="evenodd"
+              />
             </svg>
             <span class="hidden sm:inline">{gettext("Create a quick event")}</span>
           </button>
-
-          <!-- Create Event Button -->
+          
+<!-- Create Event Button -->
           <.link
             href={~p"/events/new"}
             class="flex items-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                clip-rule="evenodd"
+              />
             </svg>
             <span class="hidden sm:inline">{gettext("Create an event")}</span>
           </.link>
         </div>
       </div>
     </div>
-
-    <!-- Events Grid/List -->
+    
+<!-- Events Grid/List -->
     <div class="relative">
       <%= if @view_mode == "grid" do %>
         <!-- Grid View -->
@@ -159,8 +219,8 @@
           <% end %>
         </ul>
       <% end %>
-
-      <!-- Load More Button -->
+      
+<!-- Load More Button -->
       <%= if @page < @total_pages do %>
         <div class="flex justify-center my-8">
           <button
@@ -171,20 +231,40 @@
           </button>
         </div>
       <% end %>
-
-      <!-- Empty State -->
+      
+<!-- Empty State -->
       <%= if Enum.count(@events) == 0 do %>
         <div class="w-full py-16 text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-16 w-16 mx-auto text-gray-300 mb-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
           </svg>
           <p class="text-xl text-gray-400">{gettext("Create your first event")}</p>
           <.link
             href={~p"/events/new"}
             class="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                clip-rule="evenodd"
+              />
             </svg>
             <span>{gettext("Create an event")}</span>
           </.link>

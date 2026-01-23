@@ -26,187 +26,255 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
     ~H"""
     <div
       id={"event-#{@event.uuid}"}
-      class="group bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-200"
-      x-data="{showActions: false}"
+      class="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-200 h-80"
+      x-data="{showActions: false, showJoinMenu: false}"
       @mouseenter="showActions = true"
-      @mouseleave="showActions = false"
+      @mouseleave="showActions = false; showJoinMenu = false"
     >
-      <!-- Thumbnail Area -->
-      <div class="relative h-52 border-b border-gray-200 rounded-t-xl overflow-hidden">
+      <!-- Full-height Thumbnail Area -->
+      <div class="absolute inset-0">
         <%= if @thumbnail_url do %>
-          <img
-            src={@thumbnail_url}
-            alt={@event.name}
-            class="w-full h-full object-cover"
-          />
+          <img src={@thumbnail_url} alt={@event.name} class="w-full h-full object-cover" />
         <% else %>
           <div class="w-full h-full bg-gray-100 flex items-center justify-center">
             <img src="/images/logo.svg" class="h-12 opacity-30" alt="Claper" />
           </div>
         <% end %>
+      </div>
 
-        <!-- Status Badge -->
-        <div class="absolute top-4 left-4">
-          <%= if Event.started?(@event) && !Event.finished?(@event) do %>
-            <div class="px-3 py-1 text-xs font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-red-600 text-white flex items-center gap-1">
-              <span class="h-1.5 w-1.5 bg-white rounded-full animate-pulse"></span>
-              {gettext("Live")}
-            </div>
-          <% end %>
-          <%= if !Event.started?(@event) && !Event.finished?(@event) do %>
-            <div class="px-3 py-1 text-xs font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-green-100 text-green-800">
-              {gettext("Incoming")}
-            </div>
-          <% end %>
-          <%= if Event.finished?(@event) do %>
-            <div class="px-3 py-1 text-xs font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-gray-100 text-gray-800">
-              {gettext("Finished")}
-            </div>
-          <% end %>
-        </div>
-
-        <!-- LTI Badge -->
-        <div :if={@event.lti_resource} class="absolute top-4 right-4">
-          <div class="px-2 py-0.5 text-xs font-medium rounded-md bg-gray-500 text-white flex items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-3 w-3">
-              <path fill-rule="evenodd" d="M9.664 1.319a.75.75 0 0 1 .672 0 41.059 41.059 0 0 1 8.198 5.424.75.75 0 0 1-.254 1.285 31.372 31.372 0 0 0-7.86 3.83.75.75 0 0 1-.84 0 31.508 31.508 0 0 0-2.08-1.287V9.394c0-.244.116-.463.302-.592a35.504 35.504 0 0 1 3.305-2.033.75.75 0 0 0-.714-1.319 37 37 0 0 0-3.446 2.12A2.216 2.216 0 0 0 6 9.393v.38a31.293 31.293 0 0 0-4.28-1.746.75.75 0 0 1-.254-1.285 41.059 41.059 0 0 1 8.198-5.424ZM6 11.459a29.848 29.848 0 0 0-2.455-1.158 41.029 41.029 0 0 0-.39 3.114.75.75 0 0 0 .419.74c.528.256 1.046.53 1.554.82-.21.324-.455.63-.739.914a.75.75 0 1 0 1.06 1.06c.37-.369.69-.77.96-1.193a26.61 26.61 0 0 1 3.095 2.348.75.75 0 0 0 .992 0 26.547 26.547 0 0 1 5.93-3.95.75.75 0 0 0 .42-.739 41.053 41.053 0 0 0-.39-3.114 29.925 29.925 0 0 0-5.199 2.801 2.25 2.25 0 0 1-2.514 0c-.41-.275-.826-.541-1.25-.797a6.985 6.985 0 0 1-1.084 3.45 26.503 26.503 0 0 0-1.281-.78A5.487 5.487 0 0 0 6 12v-.54Z" clip-rule="evenodd" />
-            </svg>
-            <span>LTI</span>
+    <!-- Status Badge -->
+      <div class="absolute top-4 left-4 z-10">
+        <%= if Event.started?(@event) && !Event.finished?(@event) do %>
+          <div class="px-3 py-1 text-xs font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-red-600 text-white flex items-center gap-1">
+            <span class="h-1.5 w-1.5 bg-white rounded-full animate-pulse"></span>
+            {gettext("Live")}
           </div>
-        </div>
+        <% end %>
+        <%= if !Event.started?(@event) && !Event.finished?(@event) do %>
+          <div class="px-3 py-1 text-xs font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-green-100 text-green-800">
+            {gettext("Incoming")}
+          </div>
+        <% end %>
+        <%= if Event.finished?(@event) do %>
+          <div class="px-3 py-1 text-xs font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-gray-100 text-gray-800">
+            {gettext("Finished")}
+          </div>
+        <% end %>
+      </div>
 
-        <!-- Hover Actions Overlay -->
-        <div
-          x-show="showActions"
-          x-transition:enter="transition ease-out duration-150"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition ease-in duration-100"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0"
-          class="absolute inset-0 bg-black/40 flex items-center justify-center gap-2"
-          :if={@event.presentation_file.status == "done" && !Event.finished?(@event)}
-        >
-          <a
-            href={~p"/e/#{@event.code}/manage"}
-            class="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 rounded-full font-bold text-sm hover:bg-gray-100 transition"
+    <!-- LTI Badge -->
+      <div :if={@event.lti_resource} class="absolute top-4 right-4 z-10">
+        <div class="px-2 py-0.5 text-xs font-medium rounded-md bg-gray-500 text-white flex items-center gap-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="h-3 w-3"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-              <path fill-rule="evenodd" d="M2.25 2.25a.75.75 0 0 0 0 1.5H3v10.5a3 3 0 0 0 3 3h1.21l-1.172 3.513a.75.75 0 0 0 1.424.474l.329-.987h8.418l.33.987a.75.75 0 0 0 1.422-.474l-1.17-3.513H18a3 3 0 0 0 3-3V3.75h.75a.75.75 0 0 0 0-1.5H2.25Zm6.04 16.5.5-1.5h6.42l.5 1.5H8.29Zm7.46-12a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0v-6Zm-3 2.25a.75.75 0 0 0-1.5 0v3.75a.75.75 0 0 0 1.5 0V9Zm-3 2.25a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5Z" clip-rule="evenodd" />
-            </svg>
-            {gettext("Manager")}
-          </a>
-          <a
-            href={~p"/e/#{@event.code}"}
-            class="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 rounded-full font-bold text-sm hover:bg-gray-100 transition"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-              <path fill-rule="evenodd" d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z" clip-rule="evenodd" />
-              <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
-            </svg>
-            {gettext("Attendees")}
-          </a>
+            <path
+              fill-rule="evenodd"
+              d="M9.664 1.319a.75.75 0 0 1 .672 0 41.059 41.059 0 0 1 8.198 5.424.75.75 0 0 1-.254 1.285 31.372 31.372 0 0 0-7.86 3.83.75.75 0 0 1-.84 0 31.508 31.508 0 0 0-2.08-1.287V9.394c0-.244.116-.463.302-.592a35.504 35.504 0 0 1 3.305-2.033.75.75 0 0 0-.714-1.319 37 37 0 0 0-3.446 2.12A2.216 2.216 0 0 0 6 9.393v.38a31.293 31.293 0 0 0-4.28-1.746.75.75 0 0 1-.254-1.285 41.059 41.059 0 0 1 8.198-5.424ZM6 11.459a29.848 29.848 0 0 0-2.455-1.158 41.029 41.029 0 0 0-.39 3.114.75.75 0 0 0 .419.74c.528.256 1.046.53 1.554.82-.21.324-.455.63-.739.914a.75.75 0 1 0 1.06 1.06c.37-.369.69-.77.96-1.193a26.61 26.61 0 0 1 3.095 2.348.75.75 0 0 0 .992 0 26.547 26.547 0 0 1 5.93-3.95.75.75 0 0 0 .42-.739 41.053 41.053 0 0 0-.39-3.114 29.925 29.925 0 0 0-5.199 2.801 2.25 2.25 0 0 1-2.514 0c-.41-.275-.826-.541-1.25-.797a6.985 6.985 0 0 1-1.084 3.45 26.503 26.503 0 0 0-1.281-.78A5.487 5.487 0 0 0 6 12v-.54Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span>LTI</span>
         </div>
       </div>
 
-      <!-- Card Body -->
-      <div class="p-2">
-        <div class="flex items-start justify-between gap-4">
-          <div class="flex-1 min-w-0">
-            <h3 class="font-bold text-gray-800 truncate">
-              {@event.name}
-            </h3>
-            <p class="text-gray-500 text-base">
-              # {@event.code}
-            </p>
-          </div>
+    <!-- Sliding Bottom Panel -->
+      <div
+        class="absolute bottom-0 left-0 right-0 bg-white transition-transform duration-300 ease-out z-20"
+        x-bind:class="showActions ? 'translate-y-0' : 'translate-y-16'"
+      >
+        <!-- Card Body (Title, Code, Menu) -->
+        <div class="p-2 border-t border-gray-200">
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex-1 min-w-0">
+              <h3 class="font-bold text-gray-800 truncate">
+                {@event.name}
+              </h3>
+              <p class="text-gray-500 text-base">
+                # {@event.code}
+              </p>
+            </div>
 
-          <!-- 3-dot Menu -->
-          <div class="relative shrink-0">
+      <!-- 3-dot Menu -->
+            <div class="relative shrink-0">
+              <button
+                phx-click-away={JS.hide(to: "#dropdown-menu-#{@event.uuid}")}
+                phx-click={JS.toggle(to: "#dropdown-menu-#{@event.uuid}")}
+                phx-target={@myself}
+                class="p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <circle cx="12" cy="5" r="2" />
+                  <circle cx="12" cy="12" r="2" />
+                  <circle cx="12" cy="19" r="2" />
+                </svg>
+              </button>
+              <div
+                id={"dropdown-menu-#{@event.uuid}"}
+                phx-hook="Dropdown"
+                class="hidden absolute right-0 bottom-full mb-2 w-44 rounded-lg shadow-lg bg-white border z-30"
+              >
+                {render_dropdown_menu(assigns)}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <!-- Action Buttons (revealed on hover) -->
+        <div
+          :if={@event.presentation_file.status == "done" && !Event.finished?(@event)}
+          class="px-2 pb-2 flex gap-2"
+        >
+          <!-- Join Button with Dropdown -->
+          <div class="relative flex-1">
             <button
-              phx-click-away={JS.hide(to: "#dropdown-menu-#{@event.uuid}")}
-              phx-click={JS.toggle(to: "#dropdown-menu-#{@event.uuid}")}
-              phx-target={@myself}
-              class="p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
+              @click="showJoinMenu = !showJoinMenu"
+              @click.away="showJoinMenu = false"
+              class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                <circle cx="12" cy="5" r="2" />
-                <circle cx="12" cy="12" r="2" />
-                <circle cx="12" cy="19" r="2" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              {gettext("Join")}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 transition-transform"
+                x-bind:class="showJoinMenu ? 'rotate-180' : ''"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                  clip-rule="evenodd"
+                />
               </svg>
             </button>
+            <!-- Dropdown Menu -->
             <div
-              id={"dropdown-menu-#{@event.uuid}"}
-              phx-hook="Dropdown"
-              class="hidden absolute right-0 top-8 w-44 rounded-lg shadow-lg bg-white border z-30"
+              x-show="showJoinMenu"
+              x-transition:enter="transition ease-out duration-100"
+              x-transition:enter-start="opacity-0 scale-95"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-75"
+              x-transition:leave-start="opacity-100 scale-100"
+              x-transition:leave-end="opacity-0 scale-95"
+              class="absolute bottom-full left-0 right-0 mb-2 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden"
             >
-              {render_dropdown_menu(assigns)}
+              <a
+                href={~p"/e/#{@event.code}/manage"}
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="w-5 h-5"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2.25 2.25a.75.75 0 0 0 0 1.5H3v10.5a3 3 0 0 0 3 3h1.21l-1.172 3.513a.75.75 0 0 0 1.424.474l.329-.987h8.418l.33.987a.75.75 0 0 0 1.422-.474l-1.17-3.513H18a3 3 0 0 0 3-3V3.75h.75a.75.75 0 0 0 0-1.5H2.25Zm6.04 16.5.5-1.5h6.42l.5 1.5H8.29Zm7.46-12a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0v-6Zm-3 2.25a.75.75 0 0 0-1.5 0v3.75a.75.75 0 0 0 1.5 0V9Zm-3 2.25a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span class="font-medium">{gettext("Event Manager")}</span>
+              </a>
+              <a
+                href={~p"/e/#{@event.code}"}
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition border-t border-gray-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="w-5 h-5"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
+                    clip-rule="evenodd"
+                  />
+                  <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
+                </svg>
+                <span class="font-medium">{gettext("Attendant Room")}</span>
+              </a>
             </div>
           </div>
+          <!-- End Event Button -->
+          <.link
+            :if={Event.started?(@event) && not @is_leader}
+            data-confirm={
+              gettext("Are you sure you want to terminate this event? This action cannot be undone.")
+            }
+            phx-value-id={@event.uuid}
+            phx-click="terminate"
+            class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 text-gray-700 rounded-full font-bold hover:bg-gray-200 transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z"
+              />
+            </svg>
+            {gettext("End Event")}
+          </.link>
         </div>
-      </div>
-
-      <!-- Action Buttons (shown on hover for active events) -->
-      <div
-        :if={@event.presentation_file.status == "done" && !Event.finished?(@event)}
-        x-show="showActions"
-        x-transition:enter="transition ease-out duration-150"
-        x-transition:enter-start="opacity-0 translate-y-2"
-        x-transition:enter-end="opacity-100 translate-y-0"
-        class="px-2 pb-2 flex gap-2"
-      >
-        <a
-          href={~p"/e/#{@event.code}/manage"}
-          class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-          </svg>
-          {gettext("Join")}
-        </a>
-        <.link
-          :if={Event.started?(@event) && not @is_leader}
-          data-confirm={gettext("Are you sure you want to terminate this event? This action cannot be undone.")}
-          phx-value-id={@event.uuid}
-          phx-click="terminate"
-          class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 text-gray-700 rounded-full font-bold hover:bg-gray-200 transition"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" clip-rule="evenodd" />
-          </svg>
-          {gettext("End Event")}
-        </.link>
-      </div>
 
       <!-- Processing Status -->
-      <div
-        :if={@event.presentation_file.status == "progress"}
-        class="px-2 pb-2 flex items-center gap-2"
-      >
-        <img src="/images/loading.gif" class="h-6" />
-        <span class="text-sm text-gray-500">{gettext("Processing your file...")}</span>
-      </div>
+        <div
+          :if={@event.presentation_file.status == "progress"}
+          class="px-2 pb-2 flex items-center gap-2"
+        >
+          <img src="/images/loading.gif" class="h-6" />
+          <span class="text-sm text-gray-500">{gettext("Processing your file...")}</span>
+        </div>
 
       <!-- Error Status -->
-      <div
-        :if={@event.presentation_file.status == "fail"}
-        class="px-2 pb-2"
-      >
-        <span class="text-sm text-supporting-red-500">{gettext("Error when processing the file")}</span>
-      </div>
+        <div :if={@event.presentation_file.status == "fail"} class="px-2 pb-2">
+          <span class="text-sm text-supporting-red-500">
+            {gettext("Error when processing the file")}
+          </span>
+        </div>
 
       <!-- Finished Event Actions -->
-      <div :if={Event.finished?(@event)} class="px-2 pb-2">
-        <a
-          href={~p"/events/#{@event.uuid}/stats"}
-          class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
-            <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
-          </svg>
-          {gettext("View report")}
-        </a>
+        <div :if={Event.finished?(@event)} class="px-2 pb-2">
+          <a
+            href={~p"/events/#{@event.uuid}/stats"}
+            class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
+              <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
+            </svg>
+            {gettext("View report")}
+          </a>
+        </div>
       </div>
     </div>
     """
@@ -228,7 +296,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             <% end %>
           </div>
 
-          <!-- Event Info -->
+    <!-- Event Info -->
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2">
               <a
@@ -241,8 +309,17 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 :if={@event.lti_resource}
                 class="text-xs text-white rounded-md px-2 py-0.5 bg-gray-500 flex items-center gap-1"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-3 w-3">
-                  <path fill-rule="evenodd" d="M9.664 1.319a.75.75 0 0 1 .672 0 41.059 41.059 0 0 1 8.198 5.424.75.75 0 0 1-.254 1.285 31.372 31.372 0 0 0-7.86 3.83.75.75 0 0 1-.84 0 31.508 31.508 0 0 0-2.08-1.287V9.394c0-.244.116-.463.302-.592a35.504 35.504 0 0 1 3.305-2.033.75.75 0 0 0-.714-1.319 37 37 0 0 0-3.446 2.12A2.216 2.216 0 0 0 6 9.393v.38a31.293 31.293 0 0 0-4.28-1.746.75.75 0 0 1-.254-1.285 41.059 41.059 0 0 1 8.198-5.424ZM6 11.459a29.848 29.848 0 0 0-2.455-1.158 41.029 41.029 0 0 0-.39 3.114.75.75 0 0 0 .419.74c.528.256 1.046.53 1.554.82-.21.324-.455.63-.739.914a.75.75 0 1 0 1.06 1.06c.37-.369.69-.77.96-1.193a26.61 26.61 0 0 1 3.095 2.348.75.75 0 0 0 .992 0 26.547 26.547 0 0 1 5.93-3.95.75.75 0 0 0 .42-.739 41.053 41.053 0 0 0-.39-3.114 29.925 29.925 0 0 0-5.199 2.801 2.25 2.25 0 0 1-2.514 0c-.41-.275-.826-.541-1.25-.797a6.985 6.985 0 0 1-1.084 3.45 26.503 26.503 0 0 0-1.281-.78A5.487 5.487 0 0 0 6 12v-.54Z" clip-rule="evenodd" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  class="h-3 w-3"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M9.664 1.319a.75.75 0 0 1 .672 0 41.059 41.059 0 0 1 8.198 5.424.75.75 0 0 1-.254 1.285 31.372 31.372 0 0 0-7.86 3.83.75.75 0 0 1-.84 0 31.508 31.508 0 0 0-2.08-1.287V9.394c0-.244.116-.463.302-.592a35.504 35.504 0 0 1 3.305-2.033.75.75 0 0 0-.714-1.319 37 37 0 0 0-3.446 2.12A2.216 2.216 0 0 0 6 9.393v.38a31.293 31.293 0 0 0-4.28-1.746.75.75 0 0 1-.254-1.285 41.059 41.059 0 0 1 8.198-5.424ZM6 11.459a29.848 29.848 0 0 0-2.455-1.158 41.029 41.029 0 0 0-.39 3.114.75.75 0 0 0 .419.74c.528.256 1.046.53 1.554.82-.21.324-.455.63-.739.914a.75.75 0 1 0 1.06 1.06c.37-.369.69-.77.96-1.193a26.61 26.61 0 0 1 3.095 2.348.75.75 0 0 0 .992 0 26.547 26.547 0 0 1 5.93-3.95.75.75 0 0 0 .42-.739 41.053 41.053 0 0 0-.39-3.114 29.925 29.925 0 0 0-5.199 2.801 2.25 2.25 0 0 1-2.514 0c-.41-.275-.826-.541-1.25-.797a6.985 6.985 0 0 1-1.084 3.45 26.503 26.503 0 0 0-1.281-.78A5.487 5.487 0 0 0 6 12v-.54Z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
                 <span>LTI</span>
               </p>
@@ -254,19 +331,17 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 id={"event-date-#{@event.uuid}"}
                 phx-update="ignore"
               >
-                {gettext("Starting on")} <span x-text={"moment.utc('#{@event.started_at}').local().format('lll')"}></span>
+                {gettext("Starting on")}
+                <span x-text={"moment.utc('#{@event.started_at}').local().format('lll')"}></span>
               </span>
-              <span
-                :if={Event.finished?(@event)}
-                id={"event-date-#{@event.uuid}"}
-                phx-update="ignore"
-              >
-                {gettext("Finished on")} <span x-text={"moment.utc('#{@event.expired_at}').local().format('lll')"}></span>
+              <span :if={Event.finished?(@event)} id={"event-date-#{@event.uuid}"} phx-update="ignore">
+                {gettext("Finished on")}
+                <span x-text={"moment.utc('#{@event.expired_at}').local().format('lll')"}></span>
               </span>
             </div>
           </div>
 
-          <!-- Status Badge -->
+    <!-- Status Badge -->
           <div class="shrink-0">
             <%= if Event.started?(@event) && !Event.finished?(@event) do %>
               <div class="px-3 py-1 text-xs font-semibold rounded-full bg-red-500 text-white flex items-center gap-1">
@@ -286,7 +361,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             <% end %>
           </div>
 
-          <!-- Actions -->
+    <!-- Actions -->
           <div class="shrink-0 flex items-center gap-2">
             <%= if @event.presentation_file.status == "done" && !Event.finished?(@event) do %>
               <a
@@ -297,7 +372,11 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               </a>
               <.link
                 :if={Event.started?(@event) && not @is_leader}
-                data-confirm={gettext("Are you sure you want to terminate this event? This action cannot be undone.")}
+                data-confirm={
+                  gettext(
+                    "Are you sure you want to terminate this event? This action cannot be undone."
+                  )
+                }
                 phx-value-id={@event.uuid}
                 phx-click="terminate"
                 class="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-full font-bold text-sm hover:bg-gray-200 transition"
@@ -326,7 +405,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               </a>
             <% end %>
 
-            <!-- 3-dot Menu -->
+    <!-- 3-dot Menu -->
             <div class="relative">
               <button
                 phx-click-away={JS.hide(to: "#dropdown-menu-#{@event.uuid}")}
@@ -334,7 +413,12 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 phx-target={@myself}
                 class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <circle cx="12" cy="5" r="2" />
                   <circle cx="12" cy="12" r="2" />
                   <circle cx="12" cy="19" r="2" />
@@ -361,33 +445,15 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
       <%= if !Event.finished?(@event) && not @is_leader do %>
         <li>
           <a
-            href={~p"/e/#{@event.code}/manage"}
-            class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-              <path fill-rule="evenodd" d="M2.25 2.25a.75.75 0 0 0 0 1.5H3v10.5a3 3 0 0 0 3 3h1.21l-1.172 3.513a.75.75 0 0 0 1.424.474l.329-.987h8.418l.33.987a.75.75 0 0 0 1.422-.474l-1.17-3.513H18a3 3 0 0 0 3-3V3.75h.75a.75.75 0 0 0 0-1.5H2.25Zm6.04 16.5.5-1.5h6.42l.5 1.5H8.29Zm7.46-12a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0v-6Zm-3 2.25a.75.75 0 0 0-1.5 0v3.75a.75.75 0 0 0 1.5 0V9Zm-3 2.25a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5Z" clip-rule="evenodd" />
-            </svg>
-            {gettext("Event manager")}
-          </a>
-        </li>
-        <li>
-          <a
-            href={~p"/e/#{@event.code}"}
-            class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-              <path fill-rule="evenodd" d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z" clip-rule="evenodd" />
-              <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
-            </svg>
-            {gettext("Attendees room")}
-          </a>
-        </li>
-        <li class="border-t border-gray-100">
-          <a
             href={~p"/events/#{@event.uuid}/edit"}
             class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="h-5 w-5"
+            >
               <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
               <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
             </svg>
@@ -400,7 +466,12 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             phx-click="duplicate"
             class="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
               <path d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z" />
               <path d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z" />
             </svg>
@@ -416,7 +487,12 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             phx-click="duplicate"
             class="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
               <path d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z" />
               <path d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z" />
             </svg>
@@ -427,11 +503,24 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           <.link
             phx-click="delete"
             phx-value-id={@event.uuid}
-            data-confirm={gettext("This will delete all data related to your event, this cannot be undone. Confirm ?")}
+            data-confirm={
+              gettext(
+                "This will delete all data related to your event, this cannot be undone. Confirm ?"
+              )
+            }
             class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-gray-100 cursor-pointer"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-5 w-5">
-              <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="h-5 w-5"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z"
+                clip-rule="evenodd"
+              />
             </svg>
             {gettext("Delete")}
           </.link>

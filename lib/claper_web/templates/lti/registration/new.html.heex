@@ -32,11 +32,7 @@
           <form action={~p"/lti/register"} method="post">
             <input type="hidden" name="openid_configuration" value={@conf} />
             <input type="hidden" name="registration_token" value={@token} />
-            <button
-              :if={@current_user}
-              type="submit"
-              class="flex justify-center text-white p-4 rounded-md tracking-wide font-bold focus:outline-hidden focus:shadow-outline shadow-lg bg-linear-to-tl from-primary-500 to-secondary-500 bg-size-[200%_200%] bg-position-[0%_0%] hover:bg-position-[100%_100%] transition-all duration-500"
-            >
+            <button :if={@current_user} type="submit" class="btn btn-primary">
               {gettext("Add Claper")}
             </button>
             <p :if={!@current_user} class="text-white italic">

@@ -84,11 +84,7 @@
     </button>
 
     <div class="flex space-x-3">
-      <button
-        type="submit"
-        phx_disable_with="Loading..."
-        class="w-full lg:w-auto px-6 text-white py-2 rounded-md tracking-wide font-bold focus:outline-hidden focus:shadow-outline bg-linear-to-tl from-primary-500 to-secondary-500 bg-size-[200%_200%] bg-position-[0%_0%] hover:bg-position-[100%_100%] transition-all duration-500"
-      >
+      <button type="submit" phx_disable_with="Loading..." class="btn btn-primary w-full lg:w-auto">
         {case @live_action do
           :new -> gettext("Create")
           :edit -> gettext("Save")
@@ -106,8 +102,7 @@
                 "This will delete all responses associated and the form itself, are you sure?"
               )
           ],
-          class:
-            "w-full lg:w-auto px-6 text-center text-white py-2 rounded-md tracking-wide font-bold focus:outline-hidden focus:shadow-outline bg-linear-to-tl from-supporting-red-600 to-supporting-red-400 bg-size-[200%_200%] bg-position-[0%_0%] hover:bg-position-[100%_100%] transition-all duration-500"
+          class: "btn btn-error w-full lg:w-auto"
         )}
       <% end %>
     </div>

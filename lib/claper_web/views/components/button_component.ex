@@ -30,12 +30,18 @@ defmodule ClaperWeb.Component.Button do
   use ClaperWeb, :view_component
 
   attr :type, :string, default: "button"
-  attr :style, :atom, default: :primary, values: [:primary, :secondary, :neutral, :accent, :ghost, :default]
+
+  attr :style, :atom,
+    default: :primary,
+    values: [:primary, :secondary, :neutral, :accent, :ghost, :default]
+
   attr :size, :atom, default: :md, values: [:xs, :sm, :md, :lg]
   attr :shape, :atom, default: :square, values: [:square, :circle]
   attr :disabled, :boolean, default: false
   attr :class, :string, default: nil
-  attr :rest, :global, include: ~w(phx-click phx-target phx-disable-with phx-value-id form name value)
+
+  attr :rest, :global,
+    include: ~w(phx-click phx-target phx-disable-with phx-value-id form name value)
 
   slot :inner_block, required: true
   slot :icon_left
@@ -72,12 +78,18 @@ defmodule ClaperWeb.Component.Button do
   end
 
   attr :type, :string, default: "button"
-  attr :style, :atom, default: :default, values: [:primary, :secondary, :neutral, :accent, :ghost, :default]
+
+  attr :style, :atom,
+    default: :default,
+    values: [:primary, :secondary, :neutral, :accent, :ghost, :default]
+
   attr :size, :atom, default: :md, values: [:xs, :sm, :md, :lg]
   attr :shape, :atom, default: :square, values: [:square, :circle]
   attr :disabled, :boolean, default: false
   attr :class, :string, default: nil
-  attr :rest, :global, include: ~w(phx-click phx-target phx-disable-with phx-value-id form name value)
+
+  attr :rest, :global,
+    include: ~w(phx-click phx-target phx-disable-with phx-value-id form name value)
 
   slot :inner_block, required: true
 

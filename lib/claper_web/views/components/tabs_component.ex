@@ -123,7 +123,7 @@ defmodule ClaperWeb.Component.Tabs do
   end
 
   defp container_classes(:boxed) do
-    "inline-flex items-center bg-gray-100 p-0.5 rounded-full"
+    "inline-flex items-center bg-gray-100 rounded-full"
   end
 
   # Base tab classes based on style
@@ -136,7 +136,7 @@ defmodule ClaperWeb.Component.Tabs do
   end
 
   defp tab_base_classes(:boxed) do
-    "px-4 py-1.5 text-sm font-normal font-display transition-all duration-200 rounded-full"
+    "px-5 py-3 text-sm font-normal font-display transition-all duration-200 rounded-full"
   end
 
   # Tab state classes (active/inactive) based on style

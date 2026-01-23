@@ -1,5 +1,5 @@
 <%= if @started || @is_leader do %>
-  <div class="relative min-h-screen lg:flex lg:flex-col lg:items-center lg:w-full bg-black lg:bg-linear-to-tl from-primary-500 to-secondary-500">
+  <div class="relative min-h-screen lg:flex lg:flex-col lg:items-center lg:w-full bg-black lg:bg-primary">
     <div class="relative w-full">
       <div
         id="side-menu-shadow"
@@ -42,7 +42,7 @@
       <div class="flex justify-between items-center px-5 py-3">
         <button
           phx-click={toggle_side_menu()}
-          class="bg-black rounded-full text-sm px-3 py-1 bg-linear-to-tl from-primary-500 to-secondary-500 bg-size-[200%_200%] bg-position-[0%_0%] text-white uppercase flex items-center"
+          class="bg-primary rounded-full text-sm px-3 py-1 text-white uppercase flex items-center"
         >
           <img src="/images/icons/menu-outline.svg" class="h-6" />
           <span class="ml-1">#{@event.code}</span>
@@ -458,7 +458,7 @@
         </div>
       </div>
       <div class="hidden lg:block lg:w-1/2">
-        <div class="h-full object-cover bg-gradient-animate">
+        <div class="h-full object-cover bg-primary">
           <div class="h-full bg-black/50 text-white text-center flex flex-col items-center justify-center">
             <span class="text-4xl font-semibold mb-10">
               {gettext("Scan to interact in real-time")}

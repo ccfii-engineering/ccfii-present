@@ -8,7 +8,7 @@ defmodule ClaperWeb.Component.Alert do
 
     ~H"""
     <div
-      class="bg-supporting-green-50 border-t-4 rounded-b-md shadow-md border-supporting-green-400 p-4 mb-3"
+      class="alert alert-success shadow-md p-4 mb-3"
       x-data="{ open: true }"
       x-show={if @stick, do: "true", else: "open"}
       x-init="setTimeout(() => {open = false},  4000)"
@@ -17,7 +17,7 @@ defmodule ClaperWeb.Component.Alert do
       <div class="flex">
         <div class="shrink-0">
           <svg
-            class="h-5 w-5 text-green-400"
+            class="h-5 w-5 text-success"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -31,7 +31,7 @@ defmodule ClaperWeb.Component.Alert do
           </svg>
         </div>
         <div class="ml-3">
-          <p class="text-sm text-supporting-green-700">
+          <p class="text-sm text-success-content">
             {@message}
           </p>
         </div>
@@ -47,7 +47,7 @@ defmodule ClaperWeb.Component.Alert do
 
     ~H"""
     <div
-      class="bg-supporting-red-50 border-t-4 rounded-b-md shadow-md border-supporting-red-400 p-4 mb-3"
+      class="alert alert-error shadow-md p-4 mb-3"
       x-data="{ open: true }"
       x-show={if @stick, do: "true", else: "open"}
       x-init="setTimeout(() => {open = false},  4000)"
@@ -57,7 +57,7 @@ defmodule ClaperWeb.Component.Alert do
         <div class="shrink-0">
           <!-- Heroicon name: solid/exclamation -->
           <svg
-            class="h-5 w-5 text-supporting-red-400"
+            class="h-5 w-5 text-error"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -71,7 +71,7 @@ defmodule ClaperWeb.Component.Alert do
           </svg>
         </div>
         <div class="ml-3">
-          <p class="text-sm text-supporting-red-700">
+          <p class="text-sm text-error-content">
             {@message}
           </p>
         </div>

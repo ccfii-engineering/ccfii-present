@@ -30,7 +30,11 @@ defmodule ClaperWeb.Component.Badge do
   use ClaperWeb, :view_component
 
   attr :type, :atom, default: :contained, values: [:contained, :outlined]
-  attr :style, :atom, default: :default, values: [:default, :neutral, :primary, :secondary, :accent, :ghost]
+
+  attr :style, :atom,
+    default: :default,
+    values: [:default, :neutral, :primary, :secondary, :accent, :ghost]
+
   attr :size, :atom, default: :xs, values: [:xs, :sm, :md, :lg]
   attr :class, :string, default: nil
   attr :rest, :global
