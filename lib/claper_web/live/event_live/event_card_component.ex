@@ -11,10 +11,10 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
       |> assign_new(:view_mode, fn -> "grid" end)
       |> assign(:thumbnail_url, get_thumbnail_url(assigns.event))
 
-    if assigns.view_mode == "grid" do
-      render_grid_card(assigns)
-    else
-      render_list_card(assigns)
+    case assigns.view_mode do
+      "grid" -> render_grid_card(assigns)
+      "mobile" -> render_mobile_card(assigns)
+      _ -> render_list_card(assigns)
     end
   end
 
@@ -41,7 +41,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           </div>
         <% end %>
       </div>
-
+      
     <!-- Status Badge -->
       <div class="absolute top-4 left-4 z-10">
         <%= if Event.started?(@event) && !Event.finished?(@event) do %>
@@ -61,7 +61,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           </div>
         <% end %>
       </div>
-
+      
     <!-- LTI Badge -->
       <div :if={@event.lti_resource} class="absolute top-4 right-4 z-10">
         <div class="px-2 py-0.5 text-xs font-medium rounded-md bg-gray-500 text-white flex items-center gap-1">
@@ -80,7 +80,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           <span>LTI</span>
         </div>
       </div>
-
+      
     <!-- Sliding Bottom Panel -->
       <div
         class="absolute bottom-0 left-0 right-0 bg-white transition-transform duration-300 ease-out z-20"
@@ -97,8 +97,8 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 # {@event.code}
               </p>
             </div>
-
-      <!-- 3-dot Menu -->
+            
+    <!-- 3-dot Menu -->
             <div class="relative shrink-0">
               <button
                 phx-click-away={JS.hide(to: "#dropdown-menu-#{@event.uuid}")}
@@ -127,8 +127,8 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             </div>
           </div>
         </div>
-
-      <!-- Action Buttons (revealed on hover) -->
+        
+    <!-- Action Buttons (revealed on hover) -->
         <div
           :if={@event.presentation_file.status == "done" && !Event.finished?(@event)}
           class="px-2 pb-2 flex gap-2"
@@ -233,15 +233,13 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               viewBox="0 0 20 20"
               fill="currentColor"
             >
-              <path
-                d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z"
-              />
+              <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
             </svg>
             {gettext("End Event")}
           </.link>
         </div>
-
-      <!-- Processing Status -->
+        
+    <!-- Processing Status -->
         <div
           :if={@event.presentation_file.status == "progress"}
           class="px-2 pb-2 flex items-center gap-2"
@@ -249,15 +247,15 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           <img src="/images/loading.gif" class="h-6" />
           <span class="text-sm text-gray-500">{gettext("Processing your file...")}</span>
         </div>
-
-      <!-- Error Status -->
+        
+    <!-- Error Status -->
         <div :if={@event.presentation_file.status == "fail"} class="px-2 pb-2">
           <span class="text-sm text-supporting-red-500">
             {gettext("Error when processing the file")}
           </span>
         </div>
-
-      <!-- Finished Event Actions -->
+        
+    <!-- Finished Event Actions -->
         <div :if={Event.finished?(@event)} class="px-2 pb-2">
           <a
             href={~p"/events/#{@event.uuid}/stats"}
@@ -295,7 +293,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               </div>
             <% end %>
           </div>
-
+          
     <!-- Event Info -->
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2">
@@ -340,7 +338,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               </span>
             </div>
           </div>
-
+          
     <!-- Status Badge -->
           <div class="shrink-0">
             <%= if Event.started?(@event) && !Event.finished?(@event) do %>
@@ -360,7 +358,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               </div>
             <% end %>
           </div>
-
+          
     <!-- Actions -->
           <div class="shrink-0 flex items-center gap-2">
             <%= if @event.presentation_file.status == "done" && !Event.finished?(@event) do %>
@@ -404,7 +402,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 {gettext("View report")}
               </a>
             <% end %>
-
+            
     <!-- 3-dot Menu -->
             <div class="relative">
               <button
@@ -432,6 +430,172 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 {render_dropdown_menu(assigns)}
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    """
+  end
+
+  defp render_mobile_card(assigns) do
+    ~H"""
+    <li class="w-full" id={"event-#{@event.uuid}"}>
+      <div class="bg-white rounded-3xl border border-gray-200 overflow-hidden p-2">
+        <div class="flex flex-col gap-2">
+          <!-- Top Row: Thumbnail + Info + Menu -->
+          <div class="flex gap-3 items-start">
+            <!-- Thumbnail -->
+            <div class="shrink-0 w-28 h-24 rounded-2xl overflow-hidden bg-gray-100">
+              <%= if @thumbnail_url do %>
+                <img src={@thumbnail_url} alt={@event.name} class="w-full h-full object-cover" />
+              <% else %>
+                <div class="w-full h-full flex items-center justify-center">
+                  <img src="/images/logo.svg" class="h-8 opacity-30" alt="Claper" />
+                </div>
+              <% end %>
+            </div>
+
+    <!-- Event Info -->
+            <div class="flex-1 min-w-0 py-1">
+              <h3 class="font-semibold text-gray-800 text-lg leading-tight truncate">
+                {@event.name}
+              </h3>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="text-xs text-gray-500"># {@event.code}</span>
+                <!-- Status Badge -->
+                <%= if Event.started?(@event) && !Event.finished?(@event) do %>
+                  <span class="px-2 py-0.5 text-[10px] font-medium rounded-tl-none rounded-lg bg-primary-500 text-white">
+                    {gettext("En direct")}
+                  </span>
+                <% end %>
+                <%= if !Event.started?(@event) && !Event.finished?(@event) do %>
+                  <span class="px-2 py-0.5 text-[10px] font-medium rounded-tl-none rounded-lg bg-green-100 text-green-800">
+                    {gettext("Incoming")}
+                  </span>
+                <% end %>
+                <%= if Event.finished?(@event) do %>
+                  <span class="px-2 py-0.5 text-[10px] font-medium rounded-tl-none rounded-lg bg-gray-100 text-gray-600">
+                    {gettext("Finished")}
+                  </span>
+                <% end %>
+              </div>
+            </div>
+            
+    <!-- 3-dot Menu -->
+            <div class="relative shrink-0">
+              <button
+                phx-click-away={JS.hide(to: "#dropdown-menu-#{@event.uuid}")}
+                phx-click={JS.toggle(to: "#dropdown-menu-#{@event.uuid}")}
+                phx-target={@myself}
+                class="p-1.5 text-gray-400 hover:text-gray-600"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <circle cx="12" cy="5" r="2" />
+                  <circle cx="12" cy="12" r="2" />
+                  <circle cx="12" cy="19" r="2" />
+                </svg>
+              </button>
+              <div
+                id={"dropdown-menu-#{@event.uuid}"}
+                phx-hook="Dropdown"
+                class="hidden absolute right-0 top-8 w-36 rounded-lg shadow-lg bg-white border z-30"
+              >
+                {render_dropdown_menu(assigns)}
+              </div>
+            </div>
+          </div>
+          
+    <!-- Bottom Row: Action Buttons -->
+          <div class="flex gap-2">
+            <%= if @event.presentation_file.status == "done" && !Event.finished?(@event) do %>
+              <a
+                href={~p"/e/#{@event.code}/manage"}
+                class="flex items-center justify-center gap-1.5 px-3 py-2 border border-secondary-500 text-secondary-500 rounded-full font-bold text-sm hover:bg-secondary-50 transition"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 rotate-[135deg]"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {gettext("Join")}
+              </a>
+              <.link
+                :if={Event.started?(@event) && not @is_leader}
+                data-confirm={
+                  gettext(
+                    "Are you sure you want to terminate this event? This action cannot be undone."
+                  )
+                }
+                phx-value-id={@event.uuid}
+                phx-click="terminate"
+                class="flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-100 text-gray-700 rounded-full font-bold text-sm hover:bg-gray-200 transition"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                </svg>
+                {gettext("Terminé")}
+              </.link>
+            <% end %>
+
+            <%= if @event.presentation_file.status == "progress" do %>
+              <div class="flex items-center gap-2 px-3 py-2">
+                <img src="/images/loading.gif" class="h-5" />
+                <span class="text-sm text-gray-500">{gettext("Processing...")}</span>
+              </div>
+            <% end %>
+
+            <%= if @event.presentation_file.status == "fail" do %>
+              <span class="text-sm text-supporting-red-500 px-3 py-2">{gettext("Error")}</span>
+            <% end %>
+
+            <%= if Event.finished?(@event) do %>
+              <a
+                href={~p"/events/#{@event.uuid}/stats"}
+                class="flex items-center justify-center gap-1.5 px-3 py-2 border border-secondary-500 text-secondary-500 rounded-full font-bold text-sm hover:bg-secondary-50 transition"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 rotate-[135deg]"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {gettext("View report")}
+              </a>
+              <span class="flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-100 text-gray-700 rounded-full font-bold text-sm">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                </svg>
+                {gettext("Terminé")}
+              </span>
+            <% end %>
           </div>
         </div>
       </div>

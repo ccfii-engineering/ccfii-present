@@ -1,4 +1,4 @@
-<div class="px-6 lg:px-12 pb-12">
+<div class="px-4 lg:px-12 pb-12 lg:pb-12 pb-36">
   <!-- Event Form Modal -->
   <%= if @live_action in [:new, :edit] do %>
     <.live_component
@@ -72,8 +72,65 @@
     </div>
     
 <!-- Filter Bar and Actions -->
-    <div class="pt-6 pb-6">
-      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+    <div class="pt-4 lg:pt-6 pb-4 lg:pb-6">
+      <!-- Mobile: Search bar + Centered tabs -->
+      <div class="lg:hidden mb-4">
+        <form phx-submit="search" phx-change="search" class="relative">
+          <div class="flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 h-10">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            <input
+              type="text"
+              name="search"
+              placeholder={gettext("Search")}
+              class="flex-1 bg-transparent border-none focus:outline-none focus:ring-0 text-sm text-gray-700 placeholder-gray-400"
+              phx-debounce="300"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="flex lg:hidden items-center justify-center">
+        <.tabs style={:boxed}>
+          <:tab
+            active={@active_tab == "not_expired"}
+            phx-click="change-tab"
+            phx-value-tab="not_expired"
+          >
+            {gettext("Active")}
+          </:tab>
+          <:tab
+            active={@active_tab == "expired"}
+            disabled={not @has_expired_events}
+            phx-click="change-tab"
+            phx-value-tab="expired"
+          >
+            {gettext("Done")}
+          </:tab>
+          <:tab
+            active={@active_tab == "invited"}
+            disabled={not @has_invited_events}
+            phx-click="change-tab"
+            phx-value-tab="invited"
+          >
+            {gettext("Shared with you")}
+          </:tab>
+        </.tabs>
+      </div>
+      
+<!-- Desktop: Full layout with tabs, view toggle, and action buttons -->
+      <div class="hidden lg:flex items-center justify-between gap-4">
         <!-- Left: Filter Tabs -->
         <.tabs style={:boxed}>
           <:tab
@@ -104,7 +161,11 @@
 <!-- Right: View Toggle & Action Buttons -->
         <div class="flex items-center gap-2 flex-wrap">
           <!-- View Toggle -->
-          <div id="view-mode-toggle" phx-hook="ViewModePreference" class="flex items-center gap-1 bg-white border border-gray-200 rounded-full p-1">
+          <div
+            id="view-mode-toggle"
+            phx-hook="ViewModePreference"
+            class="flex items-center gap-1 bg-white border border-gray-200 rounded-full p-1"
+          >
             <button
               phx-click="change-view"
               phx-value-view="grid"
@@ -160,7 +221,7 @@
                 clip-rule="evenodd"
               />
             </svg>
-            <span class="hidden sm:inline">{gettext("Create a quick event")}</span>
+            <span>{gettext("Create a quick event")}</span>
           </button>
           
 <!-- Create Event Button -->
@@ -180,7 +241,7 @@
                 clip-rule="evenodd"
               />
             </svg>
-            <span class="hidden sm:inline">{gettext("Create an event")}</span>
+            <span>{gettext("Create an event")}</span>
           </.link>
         </div>
       </div>
@@ -188,9 +249,25 @@
     
 <!-- Events Grid/List -->
     <div class="relative">
+      <!-- Mobile: Always list view -->
+      <ul role="event-list" id="events-mobile" class="lg:hidden space-y-2.5">
+        <% current_time = NaiveDateTime.utc_now() %>
+        <%= for event <- @events do %>
+          <.live_component
+            module={ClaperWeb.EventLive.EventCardComponent}
+            id={"event-mobile-#{event.id}"}
+            event={event}
+            current_time={current_time}
+            is_leader={@active_tab == "invited"}
+            view_mode="mobile"
+          />
+        <% end %>
+      </ul>
+      
+<!-- Desktop: Grid or List based on view_mode -->
       <%= if @view_mode == "grid" do %>
         <!-- Grid View -->
-        <div id="events" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div id="events" class="hidden lg:grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           <% current_time = NaiveDateTime.utc_now() %>
           <%= for event <- @events do %>
             <.live_component
@@ -205,7 +282,7 @@
         </div>
       <% else %>
         <!-- List View -->
-        <ul role="event-list" id="events" class="space-y-4">
+        <ul role="event-list" id="events" class="hidden lg:block space-y-4">
           <% current_time = NaiveDateTime.utc_now() %>
           <%= for event <- @events do %>
             <.live_component
@@ -270,6 +347,48 @@
           </.link>
         </div>
       <% end %>
+    </div>
+    
+<!-- Mobile Fixed Bottom Action Buttons -->
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-t from-white from-70% via-white via-85% to-transparent px-4 pt-12 pb-6 z-20">
+      <div class="flex flex-col gap-2.5">
+        <button
+          phx-click="toggle-quick-create"
+          class="w-full flex items-center justify-center gap-2 h-12 px-4 border border-secondary-500 text-secondary-500 rounded-full font-bold hover:bg-secondary-50 transition"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span>{gettext("Create a quick event")}</span>
+        </button>
+        <.link
+          href={~p"/events/new"}
+          class="w-full flex items-center justify-center gap-2 h-12 px-4 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span>{gettext("Create an event")}</span>
+        </.link>
+      </div>
     </div>
   <% end %>
 </div>
