@@ -201,6 +201,14 @@ defmodule ClaperWeb.EventLive.Index do
 
   @impl true
   def handle_event("change-view", %{"view" => view_mode}, socket) do
+    {:noreply,
+     socket
+     |> assign(:view_mode, view_mode)
+     |> push_event("save-view-mode", %{view: view_mode})}
+  end
+
+  @impl true
+  def handle_event("restore-view-mode", %{"view" => view_mode}, socket) do
     {:noreply, assign(socket, :view_mode, view_mode)}
   end
 

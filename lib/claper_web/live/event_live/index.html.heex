@@ -104,7 +104,7 @@
 <!-- Right: View Toggle & Action Buttons -->
         <div class="flex items-center gap-2 flex-wrap">
           <!-- View Toggle -->
-          <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-full p-1">
+          <div id="view-mode-toggle" phx-hook="ViewModePreference" class="flex items-center gap-1 bg-white border border-gray-200 rounded-full p-1">
             <button
               phx-click="change-view"
               phx-value-view="grid"
