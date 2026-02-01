@@ -169,7 +169,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             </button>
             <!-- Dropdown Menu -->
             <div
-              x-show="showJoinMenu"
+              x-cloak x-show="showJoinMenu"
               x-transition:enter="transition ease-out duration-100"
               x-transition:enter-start="opacity-0 scale-95"
               x-transition:enter-end="opacity-100 scale-100"
@@ -280,7 +280,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
 
   defp render_list_card(assigns) do
     ~H"""
-    <li class="w-full" id={"event-#{@event.uuid}"}>
+    <li class="w-full" id={"event-#{@event.uuid}"} x-data="{showJoinMenu: false}">
       <div class="bg-white rounded-2xl border border-gray-200 hover:shadow-lg transition-shadow duration-200">
         <div class="p-4 flex items-center gap-4">
           <!-- Thumbnail -->
@@ -293,16 +293,30 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               </div>
             <% end %>
           </div>
-          
+
     <!-- Event Info -->
-          <div class="flex-1 min-w-0">
+          <div class="min-w-0">
             <div class="flex items-center gap-2">
-              <a
-                href={~p"/e/#{@event.code}/manage"}
-                class="text-lg font-bold text-primary-600 truncate hover:underline"
-              >
+              <h3 class="text-lg font-bold text-gray-800 truncate">
                 {@event.name}
-              </a>
+              </h3>
+              <!-- Status Badge -->
+              <%= if Event.started?(@event) && !Event.finished?(@event) do %>
+                <div class="px-3 py-1 text-xs font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-red-600 text-white flex items-center gap-1">
+                  <span class="h-1.5 w-1.5 bg-white rounded-full animate-pulse"></span>
+                  {gettext("Live")}
+                </div>
+              <% end %>
+              <%= if !Event.started?(@event) && !Event.finished?(@event) do %>
+                <div class="px-3 py-1 text-xs font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-green-100 text-green-800">
+                  {gettext("Incoming")}
+                </div>
+              <% end %>
+              <%= if Event.finished?(@event) do %>
+                <div class="px-3 py-1 text-xs font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-gray-100 text-gray-800">
+                  {gettext("Finished")}
+                </div>
+              <% end %>
               <p
                 :if={@event.lti_resource}
                 class="text-xs text-white rounded-md px-2 py-0.5 bg-gray-500 flex items-center gap-1"
@@ -338,48 +352,113 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               </span>
             </div>
           </div>
-          
-    <!-- Status Badge -->
-          <div class="shrink-0">
-            <%= if Event.started?(@event) && !Event.finished?(@event) do %>
-              <div class="px-3 py-1 text-xs font-semibold rounded-full bg-red-500 text-white flex items-center gap-1">
-                <span class="h-2 w-2 bg-white rounded-full animate-pulse"></span>
-                {gettext("Live")}
-              </div>
-            <% end %>
-            <%= if !Event.started?(@event) && !Event.finished?(@event) do %>
-              <div class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                {gettext("Incoming")}
-              </div>
-            <% end %>
-            <%= if Event.finished?(@event) do %>
-              <div class="px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
-                {gettext("Finished")}
-              </div>
-            <% end %>
-          </div>
-          
+
     <!-- Actions -->
-          <div class="shrink-0 flex items-center gap-2">
+          <div class="flex items-center gap-2 ml-auto">
             <%= if @event.presentation_file.status == "done" && !Event.finished?(@event) do %>
-              <a
-                href={~p"/e/#{@event.code}/manage"}
-                class="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-full font-bold text-sm hover:bg-primary-600 transition"
-              >
-                {gettext("Join")}
-              </a>
+              <!-- Join Button with Dropdown -->
+              <div class="relative">
+                <button
+                  @click="showJoinMenu = !showJoinMenu"
+                  @click.away="showJoinMenu = false"
+                  class="flex items-center justify-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-full font-bold text-sm hover:bg-primary-600 transition"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  {gettext("Join")}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 transition-transform"
+                    x-bind:class="showJoinMenu ? 'rotate-180' : ''"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+                <!-- Dropdown Menu -->
+                <div
+                  x-cloak x-show="showJoinMenu"
+                  x-transition:enter="transition ease-out duration-100"
+                  x-transition:enter-start="opacity-0 scale-95"
+                  x-transition:enter-end="opacity-100 scale-100"
+                  x-transition:leave="transition ease-in duration-75"
+                  x-transition:leave-start="opacity-100 scale-100"
+                  x-transition:leave-end="opacity-0 scale-95"
+                  class="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden z-30"
+                >
+                  <a
+                    href={~p"/e/#{@event.code}/manage"}
+                    class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition whitespace-nowrap"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M2.25 2.25a.75.75 0 0 0 0 1.5H3v10.5a3 3 0 0 0 3 3h1.21l-1.172 3.513a.75.75 0 0 0 1.424.474l.329-.987h8.418l.33.987a.75.75 0 0 0 1.422-.474l-1.17-3.513H18a3 3 0 0 0 3-3V3.75h.75a.75.75 0 0 0 0-1.5H2.25Zm6.04 16.5.5-1.5h6.42l.5 1.5H8.29Zm7.46-12a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0v-6Zm-3 2.25a.75.75 0 0 0-1.5 0v3.75a.75.75 0 0 0 1.5 0V9Zm-3 2.25a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <span class="font-medium">{gettext("Event Manager")}</span>
+                  </a>
+                  <a
+                    href={~p"/e/#{@event.code}"}
+                    class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition border-t border-gray-100 whitespace-nowrap"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
+                        clip-rule="evenodd"
+                      />
+                      <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
+                    </svg>
+                    <span class="font-medium">{gettext("Attendant Room")}</span>
+                  </a>
+                </div>
+              </div>
+              <!-- End Event Button -->
               <.link
                 :if={Event.started?(@event) && not @is_leader}
                 data-confirm={
-                  gettext(
-                    "Are you sure you want to terminate this event? This action cannot be undone."
-                  )
+                  gettext("Are you sure you want to terminate this event? This action cannot be undone.")
                 }
                 phx-value-id={@event.uuid}
                 phx-click="terminate"
-                class="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-full font-bold text-sm hover:bg-gray-200 transition"
+                class="flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-full font-bold text-sm hover:bg-gray-200 transition"
               >
-                {gettext("End")}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                </svg>
+                {gettext("End Event")}
               </.link>
             <% end %>
 
@@ -397,12 +476,21 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             <%= if Event.finished?(@event) do %>
               <a
                 href={~p"/events/#{@event.uuid}/stats"}
-                class="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-full font-bold text-sm hover:bg-primary-600 transition"
+                class="flex items-center justify-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-full font-bold text-sm hover:bg-primary-600 transition"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
+                  <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
+                </svg>
                 {gettext("View report")}
               </a>
             <% end %>
-            
+
     <!-- 3-dot Menu -->
             <div class="relative">
               <button
@@ -439,8 +527,8 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
 
   defp render_mobile_card(assigns) do
     ~H"""
-    <li class="w-full" id={"event-#{@event.uuid}"}>
-      <div class="bg-white rounded-3xl border border-gray-200 overflow-hidden p-2">
+    <li class="w-full" id={"event-#{@event.uuid}"} x-data="{showJoinMenu: false}">
+      <div class="bg-white rounded-3xl border border-gray-200 p-2">
         <div class="flex flex-col gap-2">
           <!-- Top Row: Thumbnail + Info + Menu -->
           <div class="flex gap-3 items-start">
@@ -464,23 +552,24 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 <span class="text-xs text-gray-500"># {@event.code}</span>
                 <!-- Status Badge -->
                 <%= if Event.started?(@event) && !Event.finished?(@event) do %>
-                  <span class="px-2 py-0.5 text-[10px] font-medium rounded-tl-none rounded-lg bg-primary-500 text-white">
-                    {gettext("En direct")}
+                  <span class="px-2 py-0.5 text-[10px] font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-red-600 text-white flex items-center gap-1">
+                    <span class="h-1.5 w-1.5 bg-white rounded-full animate-pulse"></span>
+                    {gettext("Live")}
                   </span>
                 <% end %>
                 <%= if !Event.started?(@event) && !Event.finished?(@event) do %>
-                  <span class="px-2 py-0.5 text-[10px] font-medium rounded-tl-none rounded-lg bg-green-100 text-green-800">
+                  <span class="px-2 py-0.5 text-[10px] font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-green-100 text-green-800">
                     {gettext("Incoming")}
                   </span>
                 <% end %>
                 <%= if Event.finished?(@event) do %>
-                  <span class="px-2 py-0.5 text-[10px] font-medium rounded-tl-none rounded-lg bg-gray-100 text-gray-600">
+                  <span class="px-2 py-0.5 text-[10px] font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-gray-100 text-gray-600">
                     {gettext("Finished")}
                   </span>
                 <% end %>
               </div>
             </div>
-            
+
     <!-- 3-dot Menu -->
             <div class="relative shrink-0">
               <button
@@ -509,38 +598,103 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               </div>
             </div>
           </div>
-          
+
     <!-- Bottom Row: Action Buttons -->
           <div class="flex gap-2">
             <%= if @event.presentation_file.status == "done" && !Event.finished?(@event) do %>
-              <a
-                href={~p"/e/#{@event.code}/manage"}
-                class="flex items-center justify-center gap-1.5 px-3 py-2 border border-secondary-500 text-secondary-500 rounded-full font-bold text-sm hover:bg-secondary-50 transition"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 rotate-[135deg]"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+              <!-- Join Button with Dropdown -->
+              <div class="relative flex-1">
+                <button
+                  @click="showJoinMenu = !showJoinMenu"
+                  @click.away="showJoinMenu = false"
+                  class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {gettext("Join")}
-              </a>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  {gettext("Join")}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 transition-transform"
+                    x-bind:class="showJoinMenu ? 'rotate-180' : ''"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+                <!-- Dropdown Menu -->
+                <div
+                  x-cloak x-show="showJoinMenu"
+                  x-transition:enter="transition ease-out duration-100"
+                  x-transition:enter-start="opacity-0 scale-95"
+                  x-transition:enter-end="opacity-100 scale-100"
+                  x-transition:leave="transition ease-in duration-75"
+                  x-transition:leave-start="opacity-100 scale-100"
+                  x-transition:leave-end="opacity-0 scale-95"
+                  class="absolute bottom-full left-0 right-0 mb-2 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden z-30"
+                >
+                  <a
+                    href={~p"/e/#{@event.code}/manage"}
+                    class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M2.25 2.25a.75.75 0 0 0 0 1.5H3v10.5a3 3 0 0 0 3 3h1.21l-1.172 3.513a.75.75 0 0 0 1.424.474l.329-.987h8.418l.33.987a.75.75 0 0 0 1.422-.474l-1.17-3.513H18a3 3 0 0 0 3-3V3.75h.75a.75.75 0 0 0 0-1.5H2.25Zm6.04 16.5.5-1.5h6.42l.5 1.5H8.29Zm7.46-12a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0v-6Zm-3 2.25a.75.75 0 0 0-1.5 0v3.75a.75.75 0 0 0 1.5 0V9Zm-3 2.25a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <span class="font-medium">{gettext("Event Manager")}</span>
+                  </a>
+                  <a
+                    href={~p"/e/#{@event.code}"}
+                    class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition border-t border-gray-100"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
+                        clip-rule="evenodd"
+                      />
+                      <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
+                    </svg>
+                    <span class="font-medium">{gettext("Attendant Room")}</span>
+                  </a>
+                </div>
+              </div>
+              <!-- End Event Button -->
               <.link
                 :if={Event.started?(@event) && not @is_leader}
                 data-confirm={
-                  gettext(
-                    "Are you sure you want to terminate this event? This action cannot be undone."
-                  )
+                  gettext("Are you sure you want to terminate this event? This action cannot be undone.")
                 }
                 phx-value-id={@event.uuid}
                 phx-click="terminate"
-                class="flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-100 text-gray-700 rounded-full font-bold text-sm hover:bg-gray-200 transition"
+                class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 text-gray-700 rounded-full font-bold hover:bg-gray-200 transition"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -550,7 +704,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 >
                   <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                 </svg>
-                {gettext("Terminé")}
+                {gettext("End Event")}
               </.link>
             <% end %>
 
@@ -568,33 +722,19 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             <%= if Event.finished?(@event) do %>
               <a
                 href={~p"/events/#{@event.uuid}/stats"}
-                class="flex items-center justify-center gap-1.5 px-3 py-2 border border-secondary-500 text-secondary-500 rounded-full font-bold text-sm hover:bg-secondary-50 transition"
+                class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 rotate-[135deg]"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {gettext("View report")}
-              </a>
-              <span class="flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-100 text-gray-700 rounded-full font-bold text-sm">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
-                  <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                  <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
+                  <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
                 </svg>
-                {gettext("Terminé")}
-              </span>
+                {gettext("View report")}
+              </a>
             <% end %>
           </div>
         </div>
