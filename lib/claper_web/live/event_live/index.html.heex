@@ -250,12 +250,12 @@
 <!-- Events Grid/List -->
     <div class="relative">
       <!-- Mobile: Always list view -->
-      <ul role="event-list" id="events-mobile" class="lg:hidden space-y-2.5">
+      <ul role="event-list" id={"events-mobile-#{@active_tab}"} class="lg:hidden space-y-2.5">
         <% current_time = NaiveDateTime.utc_now() %>
         <%= for event <- @events do %>
           <.live_component
             module={ClaperWeb.EventLive.EventCardComponent}
-            id={"event-mobile-#{event.id}"}
+            id={"event-mobile-#{@active_tab}-#{event.id}"}
             event={event}
             current_time={current_time}
             is_leader={@active_tab == "invited"}
@@ -267,7 +267,7 @@
 <!-- Desktop: Grid or List based on view_mode -->
       <%= if @view_mode == "grid" do %>
         <!-- Grid View -->
-        <div id="events" class="hidden lg:grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div id="events" phx-update="replace" class="hidden lg:grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           <% current_time = NaiveDateTime.utc_now() %>
           <%= for event <- @events do %>
             <.live_component
@@ -282,7 +282,7 @@
         </div>
       <% else %>
         <!-- List View -->
-        <ul role="event-list" id="events" class="hidden lg:block space-y-4">
+        <ul role="event-list" id="events" phx-update="replace" class="hidden lg:block space-y-4">
           <% current_time = NaiveDateTime.utc_now() %>
           <%= for event <- @events do %>
             <.live_component
