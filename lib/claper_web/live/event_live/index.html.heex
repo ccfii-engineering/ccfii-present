@@ -62,7 +62,7 @@
             <button
               type="submit"
               phx_disable_with="Loading..."
-              class="mt-5 w-full px-6 text-white py-3 rounded-full tracking-wide font-bold focus:outline-hidden bg-primary-500 hover:bg-primary-600 transition"
+              class="btn btn-primary w-full mt-5"
             >
               {gettext("Create")}
             </button>
@@ -207,7 +207,7 @@
 <!-- Quick Event Button -->
           <button
             phx-click="toggle-quick-create"
-            class="flex items-center gap-2 px-4 py-3 border border-secondary-500 text-secondary-500 rounded-full font-bold hover:bg-secondary-50 transition"
+            class="btn btn-outline btn-secondary"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -227,7 +227,7 @@
 <!-- Create Event Button -->
           <.link
             href={~p"/events/new"}
-            class="flex items-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
+            class="btn btn-gradient"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -302,7 +302,7 @@
         <div class="flex justify-center my-8">
           <button
             phx-click="load-more"
-            class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-bold rounded-full text-primary-700 bg-primary-100 hover:bg-primary-200 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition"
+            class="btn btn-soft btn-primary"
           >
             {gettext("Load more")}
           </button>
@@ -329,7 +329,7 @@
           <p class="text-xl text-gray-400">{gettext("Create your first event")}</p>
           <.link
             href={~p"/events/new"}
-            class="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
+            class="btn btn-gradient mt-4"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -354,7 +354,7 @@
       <div class="flex flex-col gap-2.5">
         <button
           phx-click="toggle-quick-create"
-          class="w-full flex items-center justify-center gap-2 h-12 px-4 border border-secondary-500 text-secondary-500 rounded-full font-bold hover:bg-secondary-50 transition"
+          class="btn btn-outline btn-secondary w-full"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -372,7 +372,7 @@
         </button>
         <.link
           href={~p"/events/new"}
-          class="w-full flex items-center justify-center gap-2 h-12 px-4 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
+          class="btn btn-gradient w-full"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

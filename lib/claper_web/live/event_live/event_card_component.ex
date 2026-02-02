@@ -26,7 +26,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
     ~H"""
     <div
       id={"event-#{@event.uuid}"}
-      class="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-200 h-80"
+      class="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-200 h-96"
       x-data="{showActions: false, showJoinMenu: false}"
       @mouseenter="showActions = true"
       @mouseleave="showActions = false; showJoinMenu = false"
@@ -84,7 +84,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
     <!-- Sliding Bottom Panel -->
       <div
         class="absolute bottom-0 left-0 right-0 bg-white transition-transform duration-300 ease-out z-20"
-        x-bind:class="showActions ? 'translate-y-0' : 'translate-y-16'"
+        x-bind:class="showActions ? 'translate-y-0' : 'translate-y-12'"
       >
         <!-- Card Body (Title, Code, Menu) -->
         <div class="p-2 border-t border-gray-200">
@@ -138,7 +138,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             <button
               @click="showJoinMenu = !showJoinMenu"
               @click.away="showJoinMenu = false"
-              class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
+              class="btn btn-primary w-full"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -225,7 +225,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             }
             phx-value-id={@event.uuid}
             phx-click="terminate"
-            class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 text-gray-700 rounded-full font-bold hover:bg-gray-200 transition"
+            class="btn btn-outline flex-1"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -259,7 +259,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
         <div :if={Event.finished?(@event)} class="px-2 pb-2">
           <a
             href={~p"/events/#{@event.uuid}/stats"}
-            class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
+            class="btn btn-primary w-full"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -361,7 +361,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 <button
                   @click="showJoinMenu = !showJoinMenu"
                   @click.away="showJoinMenu = false"
-                  class="flex items-center justify-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-full font-bold text-sm hover:bg-primary-600 transition"
+                  class="btn btn-primary btn-sm"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -448,7 +448,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 }
                 phx-value-id={@event.uuid}
                 phx-click="terminate"
-                class="flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-full font-bold text-sm hover:bg-gray-200 transition"
+                class="btn btn-outline btn-sm"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -476,7 +476,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             <%= if Event.finished?(@event) do %>
               <a
                 href={~p"/events/#{@event.uuid}/stats"}
-                class="flex items-center justify-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-full font-bold text-sm hover:bg-primary-600 transition"
+                class="btn btn-primary btn-sm"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -607,7 +607,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 <button
                   @click="showJoinMenu = !showJoinMenu"
                   @click.away="showJoinMenu = false"
-                  class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
+                  class="btn btn-primary w-full"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -694,7 +694,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 }
                 phx-value-id={@event.uuid}
                 phx-click="terminate"
-                class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 text-gray-700 rounded-full font-bold hover:bg-gray-200 transition"
+                class="btn btn-outline flex-1"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -722,7 +722,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             <%= if Event.finished?(@event) do %>
               <a
                 href={~p"/events/#{@event.uuid}/stats"}
-                class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-full font-bold hover:bg-primary-600 transition"
+                class="btn btn-primary w-full"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
