@@ -40,6 +40,14 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             <img src="/images/logo.svg" class="h-12 opacity-30" alt="Claper" />
           </div>
         <% end %>
+        <!-- Processing Overlay -->
+        <div
+          :if={@event.presentation_file.status == "progress"}
+          class="absolute inset-0 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3"
+        >
+          <img src="/images/logo.svg" class="h-12 animate-pulse" alt="Loading" />
+          <span class="text-sm font-medium text-gray-600">{gettext("Processing...")}</span>
+        </div>
       </div>
       
     <!-- Status Badge -->
@@ -51,7 +59,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           </div>
         <% end %>
         <%= if !Event.started?(@event) && !Event.finished?(@event) do %>
-          <div class="px-3 py-1 text-xs font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-green-100 text-green-800">
+          <div class="px-3 py-1 text-xs font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-primary text-primary-content">
             {gettext("Incoming")}
           </div>
         <% end %>
@@ -64,7 +72,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
       
     <!-- LTI Badge -->
       <div :if={@event.lti_resource} class="absolute top-4 right-4 z-10">
-        <div class="px-2 py-0.5 text-xs font-medium rounded-md bg-gray-500 text-white flex items-center gap-1">
+        <span class="badge badge-neutral gap-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -77,8 +85,8 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               clip-rule="evenodd"
             />
           </svg>
-          <span>LTI</span>
-        </div>
+          LTI
+        </span>
       </div>
       
     <!-- Sliding Bottom Panel -->
@@ -169,7 +177,8 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             </button>
             <!-- Dropdown Menu -->
             <div
-              x-cloak x-show="showJoinMenu"
+              x-cloak
+              x-show="showJoinMenu"
               x-transition:enter="transition ease-out duration-100"
               x-transition:enter-start="opacity-0 scale-95"
               x-transition:enter-end="opacity-100 scale-100"
@@ -239,15 +248,6 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           </.link>
         </div>
         
-    <!-- Processing Status -->
-        <div
-          :if={@event.presentation_file.status == "progress"}
-          class="px-2 pb-2 flex items-center gap-2"
-        >
-          <img src="/images/loading.gif" class="h-6" />
-          <span class="text-sm text-gray-500">{gettext("Processing your file...")}</span>
-        </div>
-        
     <!-- Error Status -->
         <div :if={@event.presentation_file.status == "fail"} class="px-2 pb-2">
           <span class="text-sm text-supporting-red-500">
@@ -257,10 +257,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
         
     <!-- Finished Event Actions -->
         <div :if={Event.finished?(@event)} class="px-2 pb-2">
-          <a
-            href={~p"/events/#{@event.uuid}/stats"}
-            class="btn btn-primary w-full"
-          >
+          <a href={~p"/events/#{@event.uuid}/stats"} class="btn btn-primary w-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5"
@@ -284,7 +281,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
       <div class="bg-white rounded-2xl border border-gray-200 hover:shadow-lg transition-shadow duration-200">
         <div class="p-4 flex items-center gap-4">
           <!-- Thumbnail -->
-          <div class="shrink-0 w-24 h-16 rounded-lg overflow-hidden border border-gray-200">
+          <div class="shrink-0 w-24 h-16 rounded-lg overflow-hidden border border-gray-200 relative">
             <%= if @thumbnail_url do %>
               <img src={@thumbnail_url} alt={@event.name} class="w-full h-full object-cover" />
             <% else %>
@@ -292,8 +289,15 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 <img src="/images/logo.svg" class="h-6 opacity-30" alt="Claper" />
               </div>
             <% end %>
+            <!-- Processing Overlay -->
+            <div
+              :if={@event.presentation_file.status == "progress"}
+              class="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center"
+            >
+              <img src="/images/logo.svg" class="h-6 animate-pulse" alt="Loading" />
+            </div>
           </div>
-
+          
     <!-- Event Info -->
           <div class="min-w-0">
             <div class="flex items-center gap-2">
@@ -308,7 +312,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 </div>
               <% end %>
               <%= if !Event.started?(@event) && !Event.finished?(@event) do %>
-                <div class="px-3 py-1 text-xs font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-green-100 text-green-800">
+                <div class="px-3 py-1 text-xs font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-primary text-primary-content">
                   {gettext("Incoming")}
                 </div>
               <% end %>
@@ -317,10 +321,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                   {gettext("Finished")}
                 </div>
               <% end %>
-              <p
-                :if={@event.lti_resource}
-                class="text-xs text-white rounded-md px-2 py-0.5 bg-gray-500 flex items-center gap-1"
-              >
+              <span :if={@event.lti_resource} class="badge badge-neutral badge-sm gap-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
@@ -333,8 +334,8 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                     clip-rule="evenodd"
                   />
                 </svg>
-                <span>LTI</span>
-              </p>
+                LTI
+              </span>
             </div>
             <div class="flex items-center gap-4 text-sm text-gray-500">
               <span class="font-medium uppercase"># {@event.code}</span>
@@ -352,7 +353,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               </span>
             </div>
           </div>
-
+          
     <!-- Actions -->
           <div class="flex items-center gap-2 ml-auto">
             <%= if @event.presentation_file.status == "done" && !Event.finished?(@event) do %>
@@ -392,7 +393,8 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 </button>
                 <!-- Dropdown Menu -->
                 <div
-                  x-cloak x-show="showJoinMenu"
+                  x-cloak
+                  x-show="showJoinMenu"
                   x-transition:enter="transition ease-out duration-100"
                   x-transition:enter-start="opacity-0 scale-95"
                   x-transition:enter-end="opacity-100 scale-100"
@@ -444,7 +446,9 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               <.link
                 :if={Event.started?(@event) && not @is_leader}
                 data-confirm={
-                  gettext("Are you sure you want to terminate this event? This action cannot be undone.")
+                  gettext(
+                    "Are you sure you want to terminate this event? This action cannot be undone."
+                  )
                 }
                 phx-value-id={@event.uuid}
                 phx-click="terminate"
@@ -464,7 +468,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
 
             <%= if @event.presentation_file.status == "progress" do %>
               <div class="flex items-center gap-2">
-                <img src="/images/loading.gif" class="h-6" />
+                <img src="/images/logo.svg" class="h-5 animate-pulse" alt="Loading" />
                 <span class="text-sm text-gray-500">{gettext("Processing...")}</span>
               </div>
             <% end %>
@@ -474,10 +478,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             <% end %>
 
             <%= if Event.finished?(@event) do %>
-              <a
-                href={~p"/events/#{@event.uuid}/stats"}
-                class="btn btn-primary btn-sm"
-              >
+              <a href={~p"/events/#{@event.uuid}/stats"} class="btn btn-primary btn-sm">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5"
@@ -490,7 +491,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 {gettext("View report")}
               </a>
             <% end %>
-
+            
     <!-- 3-dot Menu -->
             <div class="relative">
               <button
@@ -533,7 +534,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           <!-- Top Row: Thumbnail + Info + Menu -->
           <div class="flex gap-3 items-start">
             <!-- Thumbnail -->
-            <div class="shrink-0 w-28 h-24 rounded-2xl overflow-hidden bg-gray-100">
+            <div class="shrink-0 w-28 h-24 rounded-2xl overflow-hidden bg-gray-100 relative">
               <%= if @thumbnail_url do %>
                 <img src={@thumbnail_url} alt={@event.name} class="w-full h-full object-cover" />
               <% else %>
@@ -541,8 +542,15 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                   <img src="/images/logo.svg" class="h-8 opacity-30" alt="Claper" />
                 </div>
               <% end %>
+              <!-- Processing Overlay -->
+              <div
+                :if={@event.presentation_file.status == "progress"}
+                class="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center"
+              >
+                <img src="/images/logo.svg" class="h-8 animate-pulse" alt="Loading" />
+              </div>
             </div>
-
+            
     <!-- Event Info -->
             <div class="flex-1 min-w-0 py-1">
               <h3 class="font-semibold text-gray-800 text-lg leading-tight truncate">
@@ -558,7 +566,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                   </span>
                 <% end %>
                 <%= if !Event.started?(@event) && !Event.finished?(@event) do %>
-                  <span class="px-2 py-0.5 text-[10px] font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-green-100 text-green-800">
+                  <span class="px-2 py-0.5 text-[10px] font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-primary text-primary-content">
                     {gettext("Incoming")}
                   </span>
                 <% end %>
@@ -569,7 +577,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 <% end %>
               </div>
             </div>
-
+            
     <!-- 3-dot Menu -->
             <div class="relative shrink-0">
               <button
@@ -598,7 +606,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               </div>
             </div>
           </div>
-
+          
     <!-- Bottom Row: Action Buttons -->
           <div class="flex gap-2">
             <%= if @event.presentation_file.status == "done" && !Event.finished?(@event) do %>
@@ -638,7 +646,8 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 </button>
                 <!-- Dropdown Menu -->
                 <div
-                  x-cloak x-show="showJoinMenu"
+                  x-cloak
+                  x-show="showJoinMenu"
                   x-transition:enter="transition ease-out duration-100"
                   x-transition:enter-start="opacity-0 scale-95"
                   x-transition:enter-end="opacity-100 scale-100"
@@ -690,7 +699,9 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               <.link
                 :if={Event.started?(@event) && not @is_leader}
                 data-confirm={
-                  gettext("Are you sure you want to terminate this event? This action cannot be undone.")
+                  gettext(
+                    "Are you sure you want to terminate this event? This action cannot be undone."
+                  )
                 }
                 phx-value-id={@event.uuid}
                 phx-click="terminate"
@@ -710,7 +721,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
 
             <%= if @event.presentation_file.status == "progress" do %>
               <div class="flex items-center gap-2 px-3 py-2">
-                <img src="/images/loading.gif" class="h-5" />
+                <img src="/images/logo.svg" class="h-5 animate-pulse" alt="Loading" />
                 <span class="text-sm text-gray-500">{gettext("Processing...")}</span>
               </div>
             <% end %>
@@ -720,10 +731,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             <% end %>
 
             <%= if Event.finished?(@event) do %>
-              <a
-                href={~p"/events/#{@event.uuid}/stats"}
-                class="btn btn-primary w-full"
-              >
+              <a href={~p"/events/#{@event.uuid}/stats"} class="btn btn-primary w-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5"
