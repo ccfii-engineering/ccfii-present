@@ -92,25 +92,62 @@ defmodule Claper.Tasks.Converter do
   defp pdf_to_jpg(%Result{status: 0}, path, _presentation, _user_id) do
     resolution = get_resolution()
 
-    Porcelain.exec(
-      "gs",
-      [
-        "-sDEVICE=png16m",
-        "-o#{path}/%d.jpg",
-        "-r#{resolution}",
-        "-dNOPAUSE",
-        "-dBATCH",
-        "#{path}/original.pdf"
-      ]
-    )
+    result =
+      Porcelain.exec(
+        "gs",
+        [
+          "-sDEVICE=png16m",
+          "-o#{path}/%d.jpg",
+          "-r#{resolution}",
+          "-dNOPAUSE",
+          "-dBATCH",
+          "#{path}/original.pdf"
+        ]
+      )
+
+    # Generate thumbnails after full-size images
+    case result do
+      %Porcelain.Result{status: 0} -> generate_thumbnails(path)
+      _ -> result
+    end
+
+    result
   end
 
   defp pdf_to_jpg(_result, path, presentation, user_id) do
     failure(presentation, path, user_id)
   end
 
+  defp generate_thumbnails(path) do
+    thumbs_dir = Path.join(path, "thumbs")
+    File.mkdir_p!(thumbs_dir)
+
+    files = Path.wildcard("#{path}/*.jpg")
+
+    for file <- files do
+      thumb_path = Path.join(thumbs_dir, Path.basename(file))
+
+      # Generate thumbnail with 200px width, maintaining aspect ratio
+      # Using "magick" for ImageMagick v7+ compatibility
+      Porcelain.exec(
+        "magick",
+        [
+          file,
+          "-resize",
+          "200x",
+          "-quality",
+          "80",
+          thumb_path
+        ]
+      )
+    end
+
+    IO.puts("Generated #{length(files)} thumbnails in #{thumbs_dir}")
+  end
+
   defp jpg_upload(%Result{status: 0}, hash, path, presentation, user_id, is_copy) do
     files = Path.wildcard("#{path}/*.jpg")
+    thumb_files = Path.wildcard("#{path}/thumbs/*.jpg")
 
     # assign new hash to avoid cache issues
     new_hash = :erlang.phash2("#{hash}-#{System.system_time(:second)}")
@@ -129,6 +166,7 @@ defmodule Claper.Tasks.Converter do
         ])
       )
     else
+      # Upload full-size images
       for f <- files do
         IO.puts("Uploads #{f} to presentations/#{new_hash}/#{Path.basename(f)}")
 
@@ -137,6 +175,20 @@ defmodule Claper.Tasks.Converter do
         |> ExAws.S3.upload(
           get_s3_bucket(),
           "presentations/#{new_hash}/#{Path.basename(f)}",
+          acl: "public-read"
+        )
+        |> ExAws.request()
+      end
+
+      # Upload thumbnails
+      for f <- thumb_files do
+        IO.puts("Uploads thumbnail #{f} to presentations/#{new_hash}/thumbs/#{Path.basename(f)}")
+
+        f
+        |> ExAws.S3.Upload.stream_file()
+        |> ExAws.S3.upload(
+          get_s3_bucket(),
+          "presentations/#{new_hash}/thumbs/#{Path.basename(f)}",
           acl: "public-read"
         )
         |> ExAws.request()

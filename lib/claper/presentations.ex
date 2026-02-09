@@ -118,6 +118,41 @@ defmodule Claper.Presentations do
   end
 
   @doc """
+  Returns a list of thumbnail URLs for a given presentation.
+  Thumbnails are smaller versions of slides stored in a 'thumbs' subdirectory.
+  """
+  def get_slide_thumbnail_urls(nil), do: []
+
+  def get_slide_thumbnail_urls(%PresentationFile{hash: nil}), do: []
+  def get_slide_thumbnail_urls(%PresentationFile{length: nil}), do: []
+  def get_slide_thumbnail_urls(%PresentationFile{length: 0}), do: []
+
+  def get_slide_thumbnail_urls(%PresentationFile{hash: hash, length: length}) do
+    get_slide_thumbnail_urls(hash, length)
+  end
+
+  def get_slide_thumbnail_urls(hash, length) when is_binary(hash) and is_integer(length) do
+    config = Application.get_env(:claper, :presentations)
+
+    case Keyword.fetch!(config, :storage) do
+      "local" ->
+        for index <- 1..length do
+          "/uploads/#{hash}/thumbs/#{index}.jpg"
+        end
+
+      "s3" ->
+        base_url = Keyword.fetch!(config, :s3_public_url)
+
+        for index <- 1..length do
+          base_url <> "/presentations/#{hash}/thumbs/#{index}.jpg"
+        end
+
+      storage ->
+        raise "Unrecognised presentations storage value #{storage}"
+    end
+  end
+
+  @doc """
   Creates a presentation_files.
 
   ## Examples
