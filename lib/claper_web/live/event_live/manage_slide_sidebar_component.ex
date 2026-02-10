@@ -5,21 +5,14 @@ defmodule ClaperWeb.EventLive.ManageSlideSidebarComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="flex flex-col h-full bg-white">
-      <div class="px-4 py-3 border-b border-gray-200 flex items-center gap-x-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          class="w-5 h-5 text-gray-500"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M1 2.75A.75.75 0 0 1 1.75 2h16.5a.75.75 0 0 1 0 1.5H18v8.75A2.75 2.75 0 0 1 15.25 15h-1.072l.798 3.06a.75.75 0 0 1-1.452.38L13.41 18H6.59l-.114.44a.75.75 0 0 1-1.452-.38L5.823 15H4.75A2.75 2.75 0 0 1 2 12.25V3.5h-.25A.75.75 0 0 1 1 2.75Z"
-            clip-rule="evenodd"
-          />
+    <div class="flex flex-col h-full bg-gray-100 rounded-r-2xl px-4">
+      <div class="px-4 py-3 flex items-center gap-x-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 18" fill="transparent" class="w-5 h-5 text-gray-500">
+          <path d="M0.849609 0.850098H18.8496M1.84961 0.850098V10.8501C1.84961 11.3805 2.06032 11.8892 2.4354 12.2643C2.81047 12.6394 3.31918 12.8501 3.84961 12.8501H15.8496C16.38 12.8501 16.8887 12.6394 17.2638 12.2643C17.6389 11.8892 17.8496 11.3805 17.8496 10.8501V0.850098M9.84961 12.8501V16.8501M6.84961 16.8501H12.8496" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M5.84961 8.8501L8.84961 5.8501L10.8496 7.8501L13.8496 4.8501" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span class="font-semibold text-gray-700">{gettext("Content")}</span>
+
+        <span class="font-bold text-gray-700">{gettext("Content")}</span>
       </div>
       <div class="flex-1 overflow-y-auto p-3 space-y-2">
         <button
@@ -30,9 +23,9 @@ defmodule ClaperWeb.EventLive.ManageSlideSidebarComponent do
           id={"slide-thumb-#{index}"}
           phx-click="current-page"
           phx-value-page={index}
-          class={"group flex items-start gap-x-2 w-full rounded-lg p-1 transition-all hover:bg-gray-100 #{if @current_position == index, do: "bg-primary-50"}"}
+          class={"group flex items-start gap-x-1.5 w-full rounded-lg p-1 transition-all hover:bg-gray-200 #{if @current_position == index, do: "bg-primary-50"}"}
         >
-          <span class={"flex-shrink-0 w-6 text-sm font-medium #{if @current_position == index, do: "text-primary-600", else: "text-gray-500"}"}>
+          <span class={"flex-shrink-0 w-5 text-base font-semibold #{if @current_position == index, do: "text-primary-600", else: "text-gray-500"}"}>
             {index + 1}
           </span>
           <div class={"relative w-28 aspect-video rounded-md overflow-hidden border-2 transition-all #{if @current_position == index, do: "border-primary-500 shadow-md", else: "border-transparent opacity-60 group-hover:opacity-100"}"}>
