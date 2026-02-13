@@ -814,6 +814,8 @@ defmodule ClaperWeb.EventLive.Manage do
   defp apply_action(socket, :add_poll, _params) do
     socket
     |> assign(:create, "poll")
+    |> assign(:interaction_modal, true)
+    |> assign(:create_action, :new)
     |> assign(:poll, %Polls.Poll{
       poll_opts: [%Polls.PollOpt{content: gettext("Yes")}, %Polls.PollOpt{content: gettext("No")}]
     })
@@ -832,6 +834,8 @@ defmodule ClaperWeb.EventLive.Manage do
   defp apply_action(socket, :add_form, _params) do
     socket
     |> assign(:create, "form")
+    |> assign(:interaction_modal, true)
+    |> assign(:create_action, :new)
     |> assign(:form, %Forms.Form{
       fields: [
         %Forms.Field{name: gettext("Name"), type: "text"},
@@ -843,6 +847,8 @@ defmodule ClaperWeb.EventLive.Manage do
   defp apply_action(socket, :add_embed, _params) do
     socket
     |> assign(:create, "embed")
+    |> assign(:interaction_modal, true)
+    |> assign(:create_action, :new)
     |> assign(:embed, %Embeds.Embed{})
   end
 
@@ -875,6 +881,8 @@ defmodule ClaperWeb.EventLive.Manage do
   defp apply_action(socket, :add_quiz, _params) do
     socket
     |> assign(:create, "quiz")
+    |> assign(:interaction_modal, true)
+    |> assign(:create_action, :new)
     |> assign(:quiz, %Quizzes.Quiz{
       presentation_file_id: socket.assigns.event.presentation_file.id,
       quiz_questions: [
