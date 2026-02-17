@@ -7,60 +7,6 @@
   data-current-page={@state.position}
   class="h-screen flex flex-col overflow-hidden bg-gray-50"
 >
-  <!-- Product Tour Button -->
-  <div id="product-tour-btn" class="hidden fixed bottom-5 right-5 z-30">
-    <button class="close absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        class="h-4 w-4"
-      >
-        <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
-      </svg>
-    </button>
-    <button class="open text-sm text-primary-500 bg-white shadow-md border border-primary-500 rounded-md pl-2 pr-4 py-2 flex items-center justify-center space-x-2">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        class="h-5 w-5"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM8.94 6.94a.75.75 0 1 1-1.061-1.061 3 3 0 1 1 2.871 5.026v.345a.75.75 0 0 1-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 1 0 8.94 6.94ZM10 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-          clip-rule="evenodd"
-        />
-      </svg>
-      <span>{gettext("How it works ?")}</span>
-    </button>
-  </div>
-
-  <!-- Preview Popup -->
-  <div
-    :if={@preview}
-    id="preview"
-    class="h-1/3 w-4/5 md:w-2/3 lg:w-1/3 bg-gray-200 absolute bottom-5 right-5 z-50 rounded-md shadow-base transform"
-  >
-    <button phx-click="toggle-preview" class="absolute top-2 right-2 text-white">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="h-8 w-8"
-      >
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-      </svg>
-    </button>
-    <iframe
-      class="w-full h-full rounded-md pointer-events-none"
-      src={~p"/e/#{@event.code}/presenter?iframe"}
-    >
-    </iframe>
-  </div>
-
   <!-- Settings Modal (Mobile) -->
   <div
     id="settings-modal"
@@ -89,39 +35,6 @@
             clip-rule="evenodd"
           />
         </svg>
-      </button>
-      <button
-        phx-click="toggle-preview"
-        class="inline-flex items-center rounded-l-md px-5 py-1 hover:bg-secondary-50 text-base font-medium text-secondary-500 transition-all duration-500"
-      >
-        <svg
-          :if={!@preview}
-          xmlns="http://www.w3.org/2000/svg"
-          class="-ml-1 mr-2 h-5 w-5"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-        </svg>
-        <svg
-          :if={@preview}
-          xmlns="http://www.w3.org/2000/svg"
-          class="-ml-1 mr-2 h-5 w-5"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" /><path d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87" /><path d="M3 3l18 18" />
-        </svg>
-        <span :if={!@preview}>{gettext("Open preview")}</span>
-        <span :if={@preview}>{gettext("Close preview")}</span>
       </button>
       <div id="settings-modal-content" class="bg-white p-4">
         <.live_component
@@ -439,10 +352,6 @@
         id={"openPresenter-#{@event.uuid}"}
         data-url={~p"/e/#{@event.code}/presenter"}
         type="button"
-        data-tg-title={"🙌 #{gettext("Time to launch your presentation!")}"}
-        data-tg-order="4"
-        data-tg-tour={"<p>#{gettext("Click here to open the presentation window. Press <strong>F</strong> in the presentation window to enable fullscreen.")}</p>"}
-        data-tg-group="manage"
         class="hidden lg:inline-flex items-center gap-x-2 px-3 py-2.5 rounded-full text-sm font-bold btn btn-gradient border-none"
       >
         <!-- Play icon -->
@@ -520,21 +429,11 @@
   <div
     id="wrapper"
     class="flex-1 flex overflow-hidden"
-    data-next-label={gettext("Next")}
-    data-prev-label={gettext("Back")}
-    data-finish-label={gettext("Finish")}
-    data-group="manage"
-    data-btn-trigger="#product-tour-btn"
-    phx-hook="TourGuide"
   >
     <!-- Left Sidebar - Slide Thumbnails -->
     <aside
       :if={@event.presentation_file.length > 0}
       class="hidden lg:flex w-56 flex-shrink-0 bg-white overflow-hidden"
-      data-tg-order="1"
-      data-tg-title={gettext("Your slides")}
-      data-tg-tour={"<p class='mb-3'>#{gettext("Navigate through your slides by clicking on the thumbnails.")}</p>"}
-      data-tg-group="manage"
     >
       <.live_component
         id="slide-sidebar"
@@ -565,10 +464,6 @@
         <!-- Interactions Panel -->
         <div
           class="lg:w-1/3 flex-shrink-0 p-4 overflow-y-auto"
-          data-tg-order="2"
-          data-tg-title={gettext("Your interactions")}
-          data-tg-tour={"<p class='mb-3'>#{gettext("This section contains all your interactions for the current slide.")}</p>"}
-          data-tg-group="manage"
         >
           <.live_component
             id="interaction-list"
@@ -581,10 +476,6 @@
         <!-- Audience Responses Panel -->
         <div
           class="flex-1 flex flex-col overflow-hidden p-4"
-          data-tg-title={gettext("Attendees interactions")}
-          data-tg-order="3"
-          data-tg-tour={"<p class='mb-3'>#{gettext("Here you'll find all interactions from your attendees.")}</p>"}
-          data-tg-group="manage"
         >
           <ClaperWeb.EventLive.ManageAudienceResponsesComponent.render
             list_tab={@list_tab}
@@ -602,10 +493,6 @@
     <!-- Right Sidebar - Settings -->
     <aside
       class="hidden xl:flex w-80 flex-shrink-0 flex-col overflow-hidden bg-white"
-      data-tg-title={gettext("Settings")}
-      data-tg-order="4"
-      data-tg-tour={"<p class='mb-3'>#{gettext("Control presentation and attendee settings here.")}</p>"}
-      data-tg-group="manage"
     >
       <div class="flex-1 overflow-y-auto">
         <.live_component

@@ -26,7 +26,6 @@ import { Presenter } from "./presenter";
 import { Manager } from "./manager";
 import Split from "split-grid";
 import CustomHooks from "./hooks";
-import { TourGuideClient } from "@sjmc11/tourguidejs/src/Tour";
 import "./admin-charts.js";
 window.moment = moment;
 
@@ -94,53 +93,6 @@ Hooks.EmbeddedBanner = {
     if (window !== window.parent) {
       this.el.classList.remove("hidden");
     }
-  },
-};
-
-Hooks.TourGuide = {
-  mounted() {
-    this.triggerDiv = document.querySelector(this.el.dataset.btnTrigger);
-    this.btnTrigger = this.triggerDiv.querySelector(".open");
-    this.closeBtnTrigger = this.triggerDiv.querySelector(".close");
-
-    this.tour = new TourGuideClient({
-      nextLabel: this.el.dataset.nextLabel,
-      prevLabel: this.el.dataset.prevLabel,
-      finishLabel: this.el.dataset.finishLabel,
-      completeOnFinish: true,
-      rememberStep: true,
-    });
-
-    if (!this.tour.isFinished(this.el.dataset.group)) {
-      this.triggerDiv.classList.remove("hidden");
-    }
-
-    this.tour.onBeforeExit(() => {
-      this.tour.finishTour(true, this.el.dataset.group);
-    });
-
-    this.btnTrigger.addEventListener("click", () => {
-      this.startTour();
-    });
-
-    this.closeBtnTrigger.addEventListener("click", (e) => {
-      this.triggerDiv.classList.add("hidden");
-      this.tour.finishTour(true, this.el.dataset.group);
-    });
-  },
-
-  startTour() {
-    this.triggerDiv.classList.add("hidden");
-    this.tour.start(this.el.dataset.group);
-  },
-  destroyed() {
-    this.btnTrigger.removeEventListener("click", () => {
-      this.startTour();
-    });
-    this.closeBtnTrigger.removeEventListener("click", () => {
-      this.triggerDiv.classList.add("hidden");
-      this.tour.finishTour(true, this.el.dataset.group);
-    });
   },
 };
 
