@@ -49,7 +49,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           <span class="text-sm font-medium text-gray-600">{gettext("Processing...")}</span>
         </div>
       </div>
-      
+
     <!-- Status Badge -->
       <div class="absolute top-4 left-4 z-10">
         <%= if Event.started?(@event) && !Event.finished?(@event) do %>
@@ -69,7 +69,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           </div>
         <% end %>
       </div>
-      
+
     <!-- LTI Badge -->
       <div :if={@event.lti_resource} class="absolute top-4 right-4 z-10">
         <span class="badge badge-neutral gap-1">
@@ -88,7 +88,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           LTI
         </span>
       </div>
-      
+
     <!-- Sliding Bottom Panel -->
       <div
         class="absolute bottom-0 left-0 right-0 bg-white transition-transform duration-300 ease-out z-20"
@@ -105,7 +105,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 # {@event.code}
               </p>
             </div>
-            
+
     <!-- 3-dot Menu -->
             <div class="relative shrink-0">
               <button
@@ -135,7 +135,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             </div>
           </div>
         </div>
-        
+
     <!-- Action Buttons (revealed on hover) -->
         <div
           :if={@event.presentation_file.status == "done" && !Event.finished?(@event)}
@@ -222,7 +222,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                   />
                   <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
                 </svg>
-                <span class="font-medium">{gettext("Attendant Room")}</span>
+                <span class="font-medium">{gettext("Attendees Room")}</span>
               </a>
             </div>
           </div>
@@ -247,14 +247,14 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             {gettext("End Event")}
           </.link>
         </div>
-        
+
     <!-- Error Status -->
         <div :if={@event.presentation_file.status == "fail"} class="px-2 pb-2">
           <span class="text-sm text-supporting-red-500">
             {gettext("Error when processing the file")}
           </span>
         </div>
-        
+
     <!-- Finished Event Actions -->
         <div :if={Event.finished?(@event)} class="px-2 pb-2">
           <a href={~p"/events/#{@event.uuid}/stats"} class="btn btn-primary w-full">
@@ -297,7 +297,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               <img src="/images/logo.svg" class="h-6 animate-pulse" alt="Loading" />
             </div>
           </div>
-          
+
     <!-- Event Info -->
           <div class="min-w-0">
             <div class="flex items-center gap-2">
@@ -353,7 +353,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               </span>
             </div>
           </div>
-          
+
     <!-- Actions -->
           <div class="flex items-center gap-2 ml-auto">
             <%= if @event.presentation_file.status == "done" && !Event.finished?(@event) do %>
@@ -438,7 +438,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                       />
                       <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
                     </svg>
-                    <span class="font-medium">{gettext("Attendant Room")}</span>
+                    <span class="font-medium">{gettext("Attendees Room")}</span>
                   </a>
                 </div>
               </div>
@@ -491,7 +491,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 {gettext("View report")}
               </a>
             <% end %>
-            
+
     <!-- 3-dot Menu -->
             <div class="relative">
               <button
@@ -550,7 +550,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 <img src="/images/logo.svg" class="h-8 animate-pulse" alt="Loading" />
               </div>
             </div>
-            
+
     <!-- Event Info -->
             <div class="flex-1 min-w-0 py-1">
               <h3 class="font-semibold text-gray-800 text-lg leading-tight truncate">
@@ -577,7 +577,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 <% end %>
               </div>
             </div>
-            
+
     <!-- 3-dot Menu -->
             <div class="relative shrink-0">
               <button
@@ -606,7 +606,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               </div>
             </div>
           </div>
-          
+
     <!-- Bottom Row: Action Buttons -->
           <div class="flex gap-2">
             <%= if @event.presentation_file.status == "done" && !Event.finished?(@event) do %>
@@ -691,7 +691,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                       />
                       <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
                     </svg>
-                    <span class="font-medium">{gettext("Attendant Room")}</span>
+                    <span class="font-medium">{gettext("Attendees Room")}</span>
                   </a>
                 </div>
               </div>
