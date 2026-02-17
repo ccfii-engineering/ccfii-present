@@ -132,40 +132,25 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
           </div>
           <div :if={@question_count > 0} class="flex flex-col h-full">
             <div class="px-2 py-2 flex items-center gap-x-2">
-              <button
-                class="px-3 py-1 text-xs rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 flex items-center gap-x-1"
-                phx-click="sort-questions"
-                phx-value-sort="likes"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  class="w-3 h-3"
+              <span class="text-xs text-gray-500">{gettext("Sort by:")}</span>
+              <div class="tooltip tooltip-bottom" data-tip={gettext("Show newest questions first")}>
+                <button
+                  class="px-3 py-1 text-xs rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 flex items-center gap-x-1"
+                  phx-click="sort-questions"
+                  phx-value-sort="date"
                 >
-                  <path d="M2.09 15a1 1 0 0 0 1-1V8a1 1 0 1 0-2 0v6a1 1 0 0 0 1 1ZM5.765 13H4.09V8c.663 0 1.218-.466 1.556-1.037a4.02 4.02 0 0 1 1.358-1.377c.478-.292.907-.706.989-1.26V4.32a9.03 9.03 0 0 0 0-2.642c-.028-.194.048-.394.224-.479A2 2 0 0 1 11.09 3c0 .812-.08 1.605-.235 2.371a.521.521 0 0 0 .502.629h1.733c1.104 0 2.01.898 1.901 1.997a19.831 19.831 0 0 1-1.081 4.788c-.27.747-.998 1.215-1.793 1.215H9.414c-.215 0-.428-.035-.632-.103l-2.384-.794A2.002 2.002 0 0 0 5.765 13Z" />
-                </svg>
-                {gettext("Popularity")}
-              </button>
-              <button
-                class="px-3 py-1 text-xs rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 flex items-center gap-x-1"
-                phx-click="sort-questions"
-                phx-value-sort="date"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  class="w-3 h-3"
+                  {gettext("Most recent")}
+                </button>
+              </div>
+              <div class="tooltip tooltip-bottom" data-tip={gettext("Show most voted questions first")}>
+                <button
+                  class="px-3 py-1 text-xs rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 flex items-center gap-x-1"
+                  phx-click="sort-questions"
+                  phx-value-sort="likes"
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {gettext("Date")}
-              </button>
+                  {gettext("Most popular")}
+                </button>
+              </div>
             </div>
             <div
               id="question-list"
@@ -255,10 +240,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
           >
             <div :for={{id, submission} <- @streams.form_submits} id={id}>
               <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <div class="flex items-center justify-between mb-2">
-                  <span class="text-sm font-medium text-gray-900">
-                    {submission.form.title}
-                  </span>
+                <div class="flex items-center justify-end mb-2">
                   <button
                     phx-click="delete-form-submit"
                     phx-value-id={submission.id}
@@ -270,17 +252,10 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
                   </button>
                 </div>
                 <div class="flex items-start gap-x-3">
-                  <%= if submission.attendee_identifier do %>
-                    <img
-                      class="h-8 w-8 rounded-full"
-                      src={"https://api.dicebear.com/7.x/personas/svg?seed=#{submission.attendee_identifier}"}
-                    />
-                  <% else %>
-                    <img
-                      class="h-8 w-8 rounded-full"
-                      src={"https://api.dicebear.com/7.x/personas/svg?seed=#{submission.user_id}"}
-                    />
-                  <% end %>
+                  <div class="avatar avatar-placeholder shrink-0">
+                    <div class="bg-neutral text-neutral-content w-8 rounded-full">
+                    </div>
+                  </div>
                   <div class="flex-1 text-sm text-gray-600">
                     <%= for res <- submission.response do %>
                       <p>

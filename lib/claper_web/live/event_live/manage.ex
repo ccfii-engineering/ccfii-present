@@ -1,7 +1,7 @@
 defmodule ClaperWeb.EventLive.Manage do
   use ClaperWeb, :live_view
 
-  alias Claper.{Embeds, Forms, Polls, Presentations, Quizzes}
+  alias Claper.{Embeds, Forms, Polls, Quizzes}
   alias ClaperWeb.Presence
 
   @impl true
@@ -697,7 +697,7 @@ defmodule ClaperWeb.EventLive.Manage do
   end
 
   @impl true
-  def handle_event("delete-form-submit", %{"event-id" => event_id, "id" => id}, socket) do
+  def handle_event("delete-form-submit", %{"event_id" => event_id, "id" => id}, socket) do
     form = Claper.Forms.get_form_submit_by_id!(id)
     {:ok, _} = Claper.Forms.delete_form_submit(event_id, form)
 
