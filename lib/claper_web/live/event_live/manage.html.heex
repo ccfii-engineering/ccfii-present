@@ -295,6 +295,33 @@
                 </div>
               </a>
             </li>
+            <li id="option-5" role="option" tabindex="-1">
+              <a
+                data-phx-link="patch"
+                data-phx-link-state="push"
+                href={~p"/e/#{@event.code}/manage/add/transcription"}
+                class="group flex select-none rounded-xl p-3 w-full hover:bg-gray-200 cursor-pointer"
+              >
+                <div class="flex h-12 w-12 flex-none text-white items-center justify-center rounded-lg bg-linear-to-br from-primary-500 to-secondary-500">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-7 h-7"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 2m0 3a3 3 0 0 1 3 -3h0a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3h0a3 3 0 0 1 -3 -3z" /><path d="M5 10a7 7 0 0 0 14 0" /><path d="M8 21l8 0" /><path d="M12 17l0 4" />
+                  </svg>
+                </div>
+                <div class="ml-4 flex-auto text-left">
+                  <p class="font-medium text-gray-700">{gettext("Transcription")}</p>
+                  <p class="text-gray-500">
+                    {gettext("Add real-time subtitles from your microphone.")}
+                  </p>
+                </div>
+              </a>
+            </li>
           </ul>
         <% end %>
         <%= if @create=="poll" do %>
@@ -376,6 +403,26 @@
               quiz={@quiz}
               live_action={@create_action}
               position={@state.position}
+              return_to={~p"/e/#{@event.code}/manage"}
+            />
+          </div>
+        <% end %>
+
+        <%= if @create == "transcription" do %>
+          <div class="scroll-py-3 overflow-y-auto bg-gray-100 p-3">
+            <p class="text-xl font-bold">
+              {case @create_action do
+                :new -> gettext("New transcription")
+                :edit -> gettext("Edit transcription")
+              end}
+            </p>
+            <.live_component
+              module={ClaperWeb.TranscriptionLive.FormComponent}
+              id="transcription-create"
+              event_uuid={@event.uuid}
+              presentation_file={@event.presentation_file}
+              transcription_config={@transcription_config}
+              live_action={@create_action}
               return_to={~p"/e/#{@event.code}/manage"}
             />
           </div>
@@ -1124,6 +1171,83 @@
                   {gettext("Add interaction")}
                 </span>
               </button>
+            </div>
+            <!-- Global Interactions -->
+            <div :if={@transcription_config && @transcription_config.id} class="border-t border-gray-300 p-4">
+              <p class="text-xs font-semibold text-gray-500 uppercase mb-3">
+                {gettext("Global interactions")}
+              </p>
+              <div class="grid grid-cols-1 @sm:grid-cols-2 @lg:grid-cols-3 gap-4">
+                <div class="bg-white rounded-lg p-3 shadow-base transition-all flex flex-col justify-between relative">
+                  <div>
+                    <div class="flex items-center justify-between mb-2">
+                      <div class="flex items-center w-full">
+                        <div class="flex h-8 w-8 flex-none text-white items-center justify-center rounded-lg bg-linear-to-br from-primary-500 to-secondary-500 mr-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            class="w-5 h-5"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 2m0 3a3 3 0 0 1 3 -3h0a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3h0a3 3 0 0 1 -3 -3z" /><path d="M5 10a7 7 0 0 0 14 0" /><path d="M8 21l8 0" /><path d="M12 17l0 4" />
+                          </svg>
+                        </div>
+                        <span class="font-semibold">{gettext("Transcription")}</span>
+                      </div>
+                      <a
+                        class="p-2 rounded-sm text-xs font-medium text-center text-primary-500"
+                        data-phx-link="patch"
+                        data-phx-link-state="push"
+                        href={~p"/e/#{@event.code}/manage/edit/transcription/#{@transcription_config.id}"}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                    <div class="text-sm mb-4">
+                      <span :if={@transcription_config.language}>
+                        {@transcription_config.language}
+                      </span>
+                      <span :if={!@transcription_config.language}>
+                        {gettext("Auto-detect")}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="w-full">
+                    <%= if @transcription_config.enabled do %>
+                      <button
+                        phx-click="transcription-set-inactive"
+                        phx-value-id={@transcription_config.id}
+                        class="bg-supporting-red-100 text-supporting-red-800 px-2 py-2 rounded-sm text-sm font-medium w-full cursor-pointer"
+                      >
+                        {gettext("Disable")}
+                      </button>
+                    <% else %>
+                      <button
+                        phx-click="transcription-set-active"
+                        phx-value-id={@transcription_config.id}
+                        class="bg-primary-100 text-primary-800 px-2 py-2 rounded-sm text-sm font-medium w-full cursor-pointer"
+                      >
+                        {gettext("Enable")}
+                      </button>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -227,9 +227,8 @@
   <!-- TRANSCRIPTION SUBTITLES -->
   <div
     :if={
-      Claper.Presentations.PresentationState.transcription_enabled?(@state) &&
-        Claper.Presentations.PresentationState.transcription_visible?(@state) &&
-        @transcription_text != ""
+      @transcription_config && @transcription_config.enabled &&
+        @transcription_config.visibility in ["both", "presenter"] && @transcription_text != ""
     }
     class="absolute z-30 bottom-16 left-1/2 transform -translate-x-1/2 max-w-3xl w-full px-4"
   >

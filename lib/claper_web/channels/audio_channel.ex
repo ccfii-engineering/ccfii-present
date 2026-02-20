@@ -14,7 +14,13 @@ defmodule ClaperWeb.AudioChannel do
   def handle_in("audio_chunk", %{"data" => base64_audio}, socket) do
     case Base.decode64(base64_audio) do
       {:ok, audio_data} ->
-        TranscriptionWorker.push_audio(socket.assigns.event_uuid, audio_data)
+        try do
+          TranscriptionWorker.push_audio(socket.assigns.event_uuid, audio_data)
+        catch
+          kind, reason ->
+            Logger.warning("Failed to push audio: #{inspect(kind)} #{inspect(reason)}")
+        end
+
         {:noreply, socket}
 
       :error ->

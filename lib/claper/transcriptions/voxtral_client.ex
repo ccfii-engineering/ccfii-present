@@ -17,10 +17,8 @@ defmodule Claper.Transcriptions.VoxtralClient do
 
       multipart =
         [
-          {:file, audio_data,
-           {"form-data", [name: "file", filename: "audio.webm"]},
-           [content_type: "audio/webm"]},
-          {:field, "model", "voxtral-mini-latest"}
+          {"file", {audio_data, filename: "audio.webm", content_type: "audio/webm"}},
+          {"model", "voxtral-mini-latest"}
         ]
         |> maybe_add_language(language)
 
@@ -49,7 +47,7 @@ defmodule Claper.Transcriptions.VoxtralClient do
   end
 
   defp maybe_add_language(multipart, nil), do: multipart
-  defp maybe_add_language(multipart, lang), do: multipart ++ [{:field, "language", lang}]
+  defp maybe_add_language(multipart, lang), do: multipart ++ [{"language", lang}]
 
   defp get_api_key do
     Application.get_env(:claper, :transcription)[:api_key]

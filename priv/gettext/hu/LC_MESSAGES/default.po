@@ -8,8 +8,8 @@ msgstr ""
 "Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1449
-#: lib/claper_web/live/event_live/manage.html.heex:1455
+#: lib/claper_web/live/event_live/manage.html.heex:1573
+#: lib/claper_web/live/event_live/manage.html.heex:1579
 #: lib/claper_web/live/user_settings_live/show.ex:77
 #, elixir-autogen, elixir-format
 msgid "Settings"
@@ -18,7 +18,7 @@ msgstr "Beállítások"
 #: lib/claper_web/live/admin_live/user_live.html.heex:74
 #: lib/claper_web/live/admin_live/user_live.html.heex:254
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:18
-#: lib/claper_web/live/event_live/manage.ex:838
+#: lib/claper_web/live/event_live/manage.ex:936
 #: lib/claper_web/live/form_live/form_component.html.heex:32
 #: lib/claper_web/live/user_settings_live/show.html.heex:34
 #: lib/claper_web/templates/user_registration/new.html.heex:29
@@ -80,17 +80,17 @@ msgstr "Már küldtünk egy e-mailt a bejelentkezéshez, próbálja újra 5 perc
 msgid "We sent you an email at"
 msgstr "Küldtünk egy e-mailt erre a címre:"
 
-#: lib/claper_web/live/event_live/show.html.heex:437
+#: lib/claper_web/live/event_live/show.html.heex:449
 #, elixir-autogen, elixir-format
 msgid "days"
 msgstr "nap"
 
-#: lib/claper_web/live/event_live/show.html.heex:443
+#: lib/claper_web/live/event_live/show.html.heex:455
 #, elixir-autogen, elixir-format
 msgid "hours"
 msgstr "óra"
 
-#: lib/claper_web/live/event_live/show.html.heex:449
+#: lib/claper_web/live/event_live/show.html.heex:461
 #, elixir-autogen, elixir-format
 msgid "minutes"
 msgstr "perc"
@@ -103,7 +103,7 @@ msgstr "Reagáljon elsőként!"
 #: lib/claper_web/live/event_live/event_card_component.ex:111
 #: lib/claper_web/live/event_live/join.ex:41
 #: lib/claper_web/live/event_live/join.html.heex:94
-#: lib/claper_web/live/event_live/manage.html.heex:492
+#: lib/claper_web/live/event_live/manage.html.heex:539
 #: lib/claper_web/live/event_live/show.html.heex:286
 #, elixir-autogen, elixir-format
 msgid "Join"
@@ -125,7 +125,7 @@ msgstr "Kezdőlap"
 msgid "Host"
 msgstr "Host"
 
-#: lib/claper_web/live/event_live/show.html.heex:455
+#: lib/claper_web/live/event_live/show.html.heex:467
 #, elixir-autogen, elixir-format
 msgid "seconds"
 msgstr "másodperc"
@@ -152,7 +152,7 @@ msgid "Leave"
 msgstr "Kilépés"
 
 #: lib/claper_web/live/event_live/presenter.html.heex:26
-#: lib/claper_web/live/event_live/show.html.heex:464
+#: lib/claper_web/live/event_live/show.html.heex:476
 #, elixir-autogen, elixir-format
 msgid "Scan to interact in real-time"
 msgstr "Szkennelje be, hogy valós időben csatlakozhasson."
@@ -203,6 +203,7 @@ msgstr "Szerkesztés"
 #: lib/claper_web/live/form_live/form_component.html.heex:93
 #: lib/claper_web/live/poll_live/form_component.html.heex:102
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:187
+#: lib/claper_web/live/transcription_live/form_component.html.heex:58
 #, elixir-autogen, elixir-format
 msgid "Create"
 msgstr "Létrehozás"
@@ -210,7 +211,7 @@ msgstr "Létrehozás"
 #: lib/claper_web/live/embed_live/form_component.html.heex:68
 #: lib/claper_web/live/event_live/event_card_component.ex:444
 #: lib/claper_web/live/event_live/event_form_component.html.heex:67
-#: lib/claper_web/live/event_live/manage.html.heex:1397
+#: lib/claper_web/live/event_live/manage.html.heex:1521
 #: lib/claper_web/live/event_live/manageable_post_component.ex:92
 #: lib/claper_web/live/event_live/post_component.ex:70
 #: lib/claper_web/live/event_live/post_component.ex:142
@@ -218,6 +219,7 @@ msgstr "Létrehozás"
 #: lib/claper_web/live/poll_live/form_component.html.heex:107
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:123
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:193
+#: lib/claper_web/live/transcription_live/form_component.html.heex:63
 #, elixir-autogen, elixir-format
 msgid "Delete"
 msgstr "Törlés"
@@ -228,6 +230,7 @@ msgstr "Törlés"
 #: lib/claper_web/live/form_live/form_component.html.heex:94
 #: lib/claper_web/live/poll_live/form_component.html.heex:103
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:188
+#: lib/claper_web/live/transcription_live/form_component.html.heex:59
 #: lib/claper_web/live/user_settings_live/show.html.heex:38
 #: lib/claper_web/live/user_settings_live/show.html.heex:80
 #: lib/claper_web/live/user_settings_live/show.html.heex:123
@@ -343,12 +346,12 @@ msgstr "Fájl megváltoztatása"
 msgid "Presentation replaced"
 msgstr "Prezentáció lecserélve"
 
-#: lib/claper_web/live/event_live/manage.html.heex:305
+#: lib/claper_web/live/event_live/manage.html.heex:332
 #, elixir-autogen, elixir-format
 msgid "Edit poll"
 msgstr "Szavazás szerkesztése"
 
-#: lib/claper_web/live/event_live/manage.html.heex:304
+#: lib/claper_web/live/event_live/manage.html.heex:331
 #, elixir-autogen, elixir-format
 msgid "New poll"
 msgstr "Új szavazás"
@@ -369,7 +372,7 @@ msgid "Add poll to know opinion of your public."
 msgstr "Adjon hozzá egy szavazást, hogy megismerje a közönség véleményét."
 
 #: lib/claper_web/live/event_live/manage.html.heex:194
-#: lib/claper_web/live/event_live/manage.html.heex:780
+#: lib/claper_web/live/event_live/manage.html.heex:827
 #, elixir-autogen, elixir-format
 msgid "Poll"
 msgstr "Szavazás"
@@ -408,7 +411,7 @@ msgstr "A felhasználó e-mail címe"
 msgid "Changing your file will remove all interaction elements like polls associated."
 msgstr "A fájl lecserélése magával vonja az összes hozzákapcsolt interakció (pl. szavazás) törlését."
 
-#: lib/claper_web/live/event_live/manage.html.heex:1213
+#: lib/claper_web/live/event_live/manage.html.heex:1337
 #, elixir-autogen, elixir-format
 msgid "Messages from attendees will appear here."
 msgstr "A résztvevők üzenetei itt fognak megjelenni."
@@ -428,7 +431,7 @@ msgstr "Ez a szavazással együtt törli az összes beérkezett választ is. Biz
 msgid "Ask, comment..."
 msgstr "Kérdezzen, kommenteljen..."
 
-#: lib/claper_web/live/event_live/manage.html.heex:1159
+#: lib/claper_web/live/event_live/manage.html.heex:1283
 #: lib/claper_web/live/stat_live/index.html.heex:102
 #: lib/claper_web/live/stat_live/index.html.heex:180
 #, elixir-autogen, elixir-format
@@ -464,8 +467,8 @@ msgstr "A facilitátorok kezelhetik és vezethetik az interakciókat"
 msgid "If you’re having trouble with the button above, copy and paste the URL below into your web browser"
 msgstr "Ha a fenti gomb nem működik, másolja be az alábbi címet a böngészőbe"
 
-#: lib/claper_web/live/event_live/manage.html.heex:750
-#: lib/claper_web/live/event_live/manage.html.heex:1124
+#: lib/claper_web/live/event_live/manage.html.heex:797
+#: lib/claper_web/live/event_live/manage.html.heex:1171
 #, elixir-autogen, elixir-format
 msgid "Add interaction"
 msgstr "Interakció hozzáadása"
@@ -476,9 +479,9 @@ msgstr "Interakció hozzáadása"
 msgid "Blocking this user will delete all his messages and he will not be able to join again, confirm ?"
 msgstr "Ezen felhasználó blokkolásával az üzenetei törlődnek, és nem fog tudni újra csatlakozni. Biztos benne?"
 
-#: lib/claper_web/live/event_live/show.ex:51
-#: lib/claper_web/live/event_live/show.ex:206
-#: lib/claper_web/live/event_live/show.ex:221
+#: lib/claper_web/live/event_live/show.ex:64
+#: lib/claper_web/live/event_live/show.ex:224
+#: lib/claper_web/live/event_live/show.ex:239
 #, elixir-autogen, elixir-format
 msgid "You have been banned from this event"
 msgstr "Ki van tiltva erről az eseményről"
@@ -612,7 +615,7 @@ msgstr "Bejelentkezés"
 msgid "Connect to your account"
 msgstr "Lépjen be a fiókjába"
 
-#: lib/claper_web/live/event_live/show.html.heex:473
+#: lib/claper_web/live/event_live/show.html.heex:485
 #, elixir-autogen, elixir-format
 msgid "Or use the code:"
 msgstr "Vagy használja a kódot:"
@@ -676,24 +679,24 @@ msgstr "Adjon hozzá egy űrlapot, hogy adatokat gyűjthessen a közönségtől.
 msgid "Current form"
 msgstr "Jelenlegi űrlap"
 
-#: lib/claper_web/live/event_live/manage.html.heex:326
+#: lib/claper_web/live/event_live/manage.html.heex:353
 #, elixir-autogen, elixir-format
 msgid "Edit form"
 msgstr "Űrlap szerkesztése"
 
 #: lib/claper_web/live/event_live/manage.html.heex:227
-#: lib/claper_web/live/event_live/manage.html.heex:824
-#: lib/claper_web/live/event_live/manage.html.heex:1409
+#: lib/claper_web/live/event_live/manage.html.heex:871
+#: lib/claper_web/live/event_live/manage.html.heex:1533
 #, elixir-autogen, elixir-format
 msgid "Form"
 msgstr "Űrlap"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1183
+#: lib/claper_web/live/event_live/manage.html.heex:1307
 #, elixir-autogen, elixir-format
 msgid "Form submissions"
 msgstr "Beküldött űrlapok"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1382
+#: lib/claper_web/live/event_live/manage.html.heex:1506
 #, elixir-autogen, elixir-format
 msgid "Form submissions from attendees will appear here."
 msgstr "A résztvevők által beküldött űrlapok itt fognak megjelenni."
@@ -705,12 +708,12 @@ msgstr "A résztvevők által beküldött űrlapok itt fognak megjelenni."
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:74
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:254
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:24
-#: lib/claper_web/live/event_live/manage.ex:837
+#: lib/claper_web/live/event_live/manage.ex:935
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "Név"
 
-#: lib/claper_web/live/event_live/manage.html.heex:325
+#: lib/claper_web/live/event_live/manage.html.heex:352
 #, elixir-autogen, elixir-format
 msgid "New form"
 msgstr "Új űrlap"
@@ -736,7 +739,7 @@ msgstr "Küldés"
 msgid "Text"
 msgstr "Szöveg"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1402
+#: lib/claper_web/live/event_live/manage.html.heex:1526
 #, elixir-autogen, elixir-format
 msgid "This cannot be undone, confirm ?"
 msgstr "A műveletet nem lehet visszavonni. Folytatja?"
@@ -881,12 +884,12 @@ msgstr "Jelszó-visszaállítási link küldése"
 msgid "Current web content"
 msgstr "Jelenlegi internetes tartalom"
 
-#: lib/claper_web/live/event_live/manage.html.heex:347
+#: lib/claper_web/live/event_live/manage.html.heex:374
 #, elixir-autogen, elixir-format
 msgid "Edit web content"
 msgstr "Internetes tartalom szerkesztése"
 
-#: lib/claper_web/live/event_live/manage.html.heex:346
+#: lib/claper_web/live/event_live/manage.html.heex:373
 #, elixir-autogen, elixir-format
 msgid "New web content"
 msgstr "Új internetes tartalom"
@@ -908,7 +911,7 @@ msgid "Title"
 msgstr "Cím"
 
 #: lib/claper_web/live/event_live/manage.html.heex:259
-#: lib/claper_web/live/event_live/manage.html.heex:866
+#: lib/claper_web/live/event_live/manage.html.heex:913
 #, elixir-autogen, elixir-format
 msgid "Web content"
 msgstr "Internetes tartalom"
@@ -925,12 +928,12 @@ msgstr "Kitűzés"
 msgid "Pinned"
 msgstr "Kitűzve"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1175
+#: lib/claper_web/live/event_live/manage.html.heex:1299
 #, elixir-autogen, elixir-format
 msgid "Pinned messages"
 msgstr "Kitűzött üzenetek"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1336
+#: lib/claper_web/live/event_live/manage.html.heex:1460
 #, elixir-autogen, elixir-format
 msgid "Pinned messages will appear here."
 msgstr "A kitűzött üzenetek itt fognak megjelenni."
@@ -1006,7 +1009,7 @@ msgstr "Veszély"
 msgid "Delete account"
 msgstr "Fiók törlése"
 
-#: lib/claper_web/live/event_live/manage.html.heex:565
+#: lib/claper_web/live/event_live/manage.html.heex:612
 #, elixir-autogen, elixir-format
 msgid "Open presentation"
 msgstr "Prezentáció megnyitása"
@@ -1031,14 +1034,14 @@ msgstr "Hozzáférési kód"
 msgid "Animations in PPT/PPTX files are not supported, which is why we recommend exporting your presentation to PDF to ensure it displays correctly."
 msgstr "A PPT/PPTX fájlokban található animációk nem támogatottak, ezért kérjük, exportálja a prezentációt PDF formátumba a helyes megjelenítéshez."
 
-#: lib/claper_web/live/event_live/manage.html.heex:1147
+#: lib/claper_web/live/event_live/manage.html.heex:1271
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Attendees interactions"
 msgstr "Résztvevők interakciói"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:6
 #: lib/claper_web/live/event_live/index.html.heex:107
-#: lib/claper_web/live/event_live/manage.html.heex:428
+#: lib/claper_web/live/event_live/manage.html.heex:475
 #: lib/claper_web/live/event_live/quiz_component.ex:151
 #: lib/claper_web/live/event_live/quiz_component.ex:198
 #, elixir-autogen, elixir-format
@@ -1052,25 +1055,25 @@ msgstr "Facilitátorok"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:7
 #: lib/claper_web/live/event_live/index.html.heex:108
-#: lib/claper_web/live/event_live/manage.html.heex:429
+#: lib/claper_web/live/event_live/manage.html.heex:476
 #: lib/claper_web/templates/lti/registration/success.html.heex:26
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Finish"
 msgstr "Befejezés"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1149
+#: lib/claper_web/live/event_live/manage.html.heex:1273
 #, elixir-autogen, elixir-format
 msgid "Here you'll find all interactions from your attendees. You can manage messages, pinned messages, and submitted forms."
 msgstr "Itt találhatóak majd a résztvevők interakciói. Lehetőség van az üzenetek kitűzésére, illetve az üzenetek és a beérkező űrlapok kezelésére."
 
-#: lib/claper_web/live/event_live/manage.html.heex:1149
+#: lib/claper_web/live/event_live/manage.html.heex:1273
 #, elixir-autogen, elixir-format
 msgid "Identify users by their unique avatars."
 msgstr "Azonosítsa a felhasználókat egyedi profilképeik alapján."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:5
 #: lib/claper_web/live/event_live/index.html.heex:106
-#: lib/claper_web/live/event_live/manage.html.heex:427
+#: lib/claper_web/live/event_live/manage.html.heex:474
 #: lib/claper_web/live/event_live/manager_settings_component.ex:176
 #: lib/claper_web/live/event_live/quiz_component.ex:161
 #: lib/claper_web/live/event_live/quiz_component.ex:209
@@ -1083,17 +1086,17 @@ msgstr "Következő"
 msgid "Select your presentation file. Accepted formats are PDF, PPT, or PPTX. Ensure the file size does not exceed the maximum limit."
 msgstr "Válassza ki a prezentációt. Engedélyezett fájlformátumok: PDF, PPT, PPTX. Figyeljen arra, hogy a fájl mérete ne haladja meg a maximálisan feltölthető fájlméretet."
 
-#: lib/claper_web/live/event_live/manage.html.heex:545
+#: lib/claper_web/live/event_live/manage.html.heex:592
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Time to launch your presentation!"
 msgstr "Itt az idő a prezentáció elindítására!"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1451
+#: lib/claper_web/live/event_live/manage.html.heex:1575
 #, elixir-autogen, elixir-format
 msgid "Use the associated keyboard shortcuts for quick toggling of these settings."
 msgstr "Használja a kapcsolódó billentyűparancsokat a beállítások gyors váltogatásához."
 
-#: lib/claper_web/live/event_live/manage.html.heex:1451
+#: lib/claper_web/live/event_live/manage.html.heex:1575
 #, elixir-autogen, elixir-format
 msgid "You can control each setting for the presentation (showing on the big screen) and on the attendee's room."
 msgstr "Lehetősége van a beállításokat a prezentációs képernyőn és a résztvevői szobában egyenként állítani."
@@ -1194,7 +1197,7 @@ msgstr "Válassza ki a prezentációt (opcionális)"
 msgid "This code will be used by your attendees to access the event. You have the option to create a custom code."
 msgstr "A résztvevők ezt a kódot fogják használni a csatlakozáshoz. Lehetőség van egyéni kódot is létrehozni."
 
-#: lib/claper_web/live/event_live/show.ex:193
+#: lib/claper_web/live/event_live/show.ex:211
 #, elixir-autogen, elixir-format
 msgid "This event has been terminated"
 msgstr "Az esemény befejeződött"
@@ -1214,9 +1217,9 @@ msgstr "Mikor kezdődik az esemény?"
 msgid "Create your next presentation with"
 msgstr "Hozza létre következő prezentációját ezzel:"
 
-#: lib/claper_web/live/event_live/manage.ex:23
-#: lib/claper_web/live/event_live/presenter.ex:26
-#: lib/claper_web/live/event_live/show.ex:25
+#: lib/claper_web/live/event_live/manage.ex:24
+#: lib/claper_web/live/event_live/presenter.ex:27
+#: lib/claper_web/live/event_live/show.ex:38
 #, elixir-autogen, elixir-format
 msgid "Event doesn't exist"
 msgstr "Az esemény nem található"
@@ -1226,6 +1229,7 @@ msgstr "Az esemény nem található"
 msgid "Customize your account"
 msgstr "Fiók testreszabása"
 
+#: lib/claper_web/live/transcription_live/form_component.html.heex:14
 #: lib/claper_web/live/user_settings_live/show.html.heex:278
 #, elixir-autogen, elixir-format
 msgid "Language"
@@ -1246,22 +1250,22 @@ msgstr "Beállítások frissítve."
 msgid "Question"
 msgstr "Kérdés"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1167
+#: lib/claper_web/live/event_live/manage.html.heex:1291
 #, elixir-autogen, elixir-format
 msgid "Questions"
 msgstr "Kérdések"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1254
+#: lib/claper_web/live/event_live/manage.html.heex:1378
 #, elixir-autogen, elixir-format
 msgid "Questions will appear here."
 msgstr "A kérdések itt fognak megjelenni."
 
-#: lib/claper_web/live/event_live/manage.html.heex:1296
+#: lib/claper_web/live/event_live/manage.html.heex:1420
 #, elixir-autogen, elixir-format
 msgid "Sort by date"
 msgstr "Rendezés dátum szerint"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1275
+#: lib/claper_web/live/event_live/manage.html.heex:1399
 #, elixir-autogen, elixir-format
 msgid "Sort by popularity"
 msgstr "Rendezés népszerűség szerint"
@@ -1344,22 +1348,24 @@ msgid "Add Claper"
 msgstr "A Claper hozzáadása"
 
 #: lib/claper_web/live/event_live/manage.html.heex:123
-#: lib/claper_web/live/event_live/manage.html.heex:538
+#: lib/claper_web/live/event_live/manage.html.heex:585
 #, elixir-autogen, elixir-format
 msgid "Close preview"
 msgstr "Előnézet bezárása"
 
-#: lib/claper_web/live/event_live/manage.html.heex:734
+#: lib/claper_web/live/event_live/manage.html.heex:781
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Create your first interaction."
 msgstr "Készítse el első interakcióját."
 
-#: lib/claper_web/live/event_live/manage.html.heex:1093
+#: lib/claper_web/live/event_live/manage.html.heex:1140
+#: lib/claper_web/live/event_live/manage.html.heex:1237
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Disable"
 msgstr "Letiltás"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1110
+#: lib/claper_web/live/event_live/manage.html.heex:1157
+#: lib/claper_web/live/event_live/manage.html.heex:1245
 #, elixir-autogen, elixir-format
 msgid "Enable"
 msgstr "Engedélyezés"
@@ -1370,7 +1376,7 @@ msgid "Enable messages to change this option"
 msgstr "Engedélyezze az üzeneteket ezen beállítás megváltoztatásához"
 
 #: lib/claper_web/live/event_live/manage.html.heex:122
-#: lib/claper_web/live/event_live/manage.html.heex:537
+#: lib/claper_web/live/event_live/manage.html.heex:584
 #, elixir-autogen, elixir-format
 msgid "Open preview"
 msgstr "Előnézet megnyitása"
@@ -1380,7 +1386,7 @@ msgstr "Előnézet megnyitása"
 msgid "Show messages to change this option"
 msgstr "Jelenítse meg az üzeneteket a beállítás megváltoztatásához"
 
-#: lib/claper_web/live/event_live/manage.html.heex:731
+#: lib/claper_web/live/event_live/manage.html.heex:778
 #, elixir-autogen, elixir-format
 msgid "This slide does not have any interactions."
 msgstr "Nincsenek interakciók ezen a dián."
@@ -1407,7 +1413,7 @@ msgstr "Bejelentkezés ezzel: %{provider}"
 msgid "The account has been unlinked."
 msgstr "A fiók sikeresen leválasztva."
 
-#: lib/claper_web/live/event_live/manage.html.heex:707
+#: lib/claper_web/live/event_live/manage.html.heex:754
 #, elixir-autogen, elixir-format
 msgid "This section contains all your interactions."
 msgstr "Itt látható az összes interakció."
@@ -1418,12 +1424,12 @@ msgstr "Itt látható az összes interakció."
 msgid "Unlink"
 msgstr "Leválasztás"
 
-#: lib/claper_web/live/event_live/manage.html.heex:707
+#: lib/claper_web/live/event_live/manage.html.heex:754
 #, elixir-autogen, elixir-format
 msgid "You can add interactions to your presentation slides."
 msgstr "Interakciókat adhat a diáihoz."
 
-#: lib/claper_web/live/event_live/manage.html.heex:706
+#: lib/claper_web/live/event_live/manage.html.heex:753
 #, elixir-autogen, elixir-format
 msgid "Your interactions"
 msgstr "Interakciók"
@@ -1475,6 +1481,7 @@ msgid "Please enter a valid link starting with http:// or https://"
 msgstr "Adjon meg egy http:// vagy https:// előtaggal kezdődő érvényes linket"
 
 #: lib/claper/embeds/embed.ex:98
+#: lib/claper/embeds/embed.ex:122
 #, elixir-autogen, elixir-format
 msgid "Please enter valid HTML content with an iframe tag"
 msgstr "Adjon meg érvényes HTML tartalmat iframe taggel"
@@ -1497,6 +1504,7 @@ msgstr "A résztvevük az eszközükön megtekinthetik a webes tartalmat"
 #: lib/claper_web/live/embed_live/form_component.html.heex:43
 #: lib/claper_web/live/poll_live/form_component.html.heex:78
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:166
+#: lib/claper_web/live/transcription_live/form_component.html.heex:19
 #, elixir-autogen, elixir-format
 msgid "Options"
 msgstr "Beállítások"
@@ -1564,12 +1572,12 @@ msgstr "Befejezés"
 msgid "More options"
 msgstr "További lehetőségek"
 
-#: lib/claper_web/live/event_live/manage.ex:818
+#: lib/claper_web/live/event_live/manage.ex:916
 #, elixir-autogen, elixir-format
 msgid "No"
 msgstr "Nem"
 
-#: lib/claper_web/live/event_live/manage.ex:818
+#: lib/claper_web/live/event_live/manage.ex:916
 #, elixir-autogen, elixir-format
 msgid "Yes"
 msgstr "Igen"
@@ -1675,7 +1683,7 @@ msgstr "Üzenetek tiltása"
 msgid "Disable reactions"
 msgstr "Reakciók tiltása"
 
-#: lib/claper_web/live/event_live/manage.html.heex:368
+#: lib/claper_web/live/event_live/manage.html.heex:395
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Edit quiz"
 msgstr "Kvíz szerkesztése"
@@ -1708,7 +1716,7 @@ msgstr "Hogyan működik ?"
 msgid "Interaction"
 msgstr "Interakció"
 
-#: lib/claper_web/live/event_live/manage.html.heex:367
+#: lib/claper_web/live/event_live/manage.html.heex:394
 #, elixir-autogen, elixir-format
 msgid "New quiz"
 msgstr "Új kvíz"
@@ -1724,7 +1732,7 @@ msgid "Previous"
 msgstr "Előző"
 
 #: lib/claper_web/live/event_live/manage.html.heex:291
-#: lib/claper_web/live/event_live/manage.html.heex:912
+#: lib/claper_web/live/event_live/manage.html.heex:959
 #, elixir-autogen, elixir-format
 msgid "Quiz"
 msgstr "Kvíz"
@@ -1744,7 +1752,7 @@ msgstr "Kérdések áttekintése"
 msgid "See current quiz"
 msgstr "Jelenlegi kvíz megtekintése"
 
-#: lib/claper_web/live/event_live/manage.html.heex:387
+#: lib/claper_web/live/event_live/manage.html.heex:434
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Select presentation"
 msgstr "Prezentáció kiválasztása"
@@ -1887,7 +1895,7 @@ msgstr "Jelentkezzen be a folytatáshoz"
 msgid "must have at least one correct answer"
 msgstr "legalább egy helyes válasz szükséges"
 
-#: lib/claper_web/live/event_live/manage.html.heex:547
+#: lib/claper_web/live/event_live/manage.html.heex:594
 #, elixir-autogen, elixir-format
 msgid "Click here to open the presentation window. Press <strong>F</strong> in the presentation window to enable fullscreen."
 msgstr "Kattintson ide a prezentáció ablakának megnyitásához. Nyomja le a <strong>F</strong> billentyűt a teljes képernyő bekapcsolásához."
@@ -2679,3 +2687,180 @@ msgstr "Kötelező"
 #, elixir-autogen, elixir-format
 msgid "(optional)"
 msgstr "(opcionális)"
+
+#: lib/claper_web/live/event_live/manage.html.heex:320
+#, elixir-autogen, elixir-format
+msgid "Add real-time subtitles from your microphone."
+msgstr "Valós idejű feliratok hozzáadása a mikrofonjáról."
+
+#: lib/claper_web/live/transcription_live/form_component.ex:21
+#, elixir-autogen, elixir-format
+msgid "Arabic"
+msgstr "Arab"
+
+#: lib/claper_web/live/transcription_live/form_component.html.heex:28
+#, elixir-autogen, elixir-format
+msgid "Attendee only"
+msgstr "Csak résztvevő"
+
+#: lib/claper_web/live/event_live/manage.html.heex:1226
+#: lib/claper_web/live/transcription_live/form_component.ex:8
+#, elixir-autogen, elixir-format
+msgid "Auto-detect"
+msgstr "Automatikus felismerés"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:19
+#, elixir-autogen, elixir-format
+msgid "Chinese"
+msgstr "Kínai"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:26
+#, elixir-autogen, elixir-format
+msgid "Danish"
+msgstr "Dán"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:15
+#, elixir-autogen, elixir-format
+msgid "Dutch"
+msgstr "Holland"
+
+#: lib/claper_web/live/event_live/manage.html.heex:416
+#, elixir-autogen, elixir-format
+msgid "Edit transcription"
+msgstr "Átírás szerkesztése"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:9
+#, elixir-autogen, elixir-format
+msgid "English"
+msgstr "Angol"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:27
+#, elixir-autogen, elixir-format
+msgid "Finnish"
+msgstr "Finn"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:10
+#, elixir-autogen, elixir-format
+msgid "French"
+msgstr "Francia"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:11
+#, elixir-autogen, elixir-format
+msgid "German"
+msgstr "Német"
+
+#: lib/claper_web/live/event_live/manage.html.heex:1178
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Global interactions"
+msgstr "Interakciók"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:22
+#, elixir-autogen, elixir-format
+msgid "Hindi"
+msgstr "Hindi"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:13
+#, elixir-autogen, elixir-format
+msgid "Italian"
+msgstr "Olasz"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:18
+#, elixir-autogen, elixir-format
+msgid "Japanese"
+msgstr "Japán"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:20
+#, elixir-autogen, elixir-format
+msgid "Korean"
+msgstr "Koreai"
+
+#: lib/claper_web/live/transcription_live/form_component.html.heex:42
+#, elixir-autogen, elixir-format
+msgid "Loading microphones..."
+msgstr "Mikrofonok betöltése..."
+
+#: lib/claper_web/live/transcription_live/form_component.html.heex:34
+#, elixir-autogen, elixir-format
+msgid "Microphone"
+msgstr "Mikrofon"
+
+#: lib/claper_web/live/transcription_live/form_component.html.heex:46
+#, elixir-autogen, elixir-format
+msgid "Microphone selection is saved locally in your browser."
+msgstr "A mikrofon kiválasztása helyben, a böngészőben kerül mentésre."
+
+#: lib/claper_web/live/event_live/manage.html.heex:415
+#, elixir-autogen, elixir-format
+msgid "New transcription"
+msgstr "Új átírás"
+
+#: lib/claper_web/live/event_live/manager_settings_component.ex:194
+#, elixir-autogen, elixir-format
+msgid "No interaction enabled"
+msgstr "Nincs interakció engedélyezve"
+
+#: lib/claper_web/live/event_live/manager_settings_component.ex:196
+#, elixir-autogen, elixir-format
+msgid "No settings available for this interaction"
+msgstr "Nem érhetők el beállítások ehhez az interakcióhoz"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:25
+#, elixir-autogen, elixir-format
+msgid "Norwegian"
+msgstr "Norvég"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:16
+#, elixir-autogen, elixir-format
+msgid "Polish"
+msgstr "Lengyel"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:14
+#, elixir-autogen, elixir-format
+msgid "Portuguese"
+msgstr "Portugál"
+
+#: lib/claper_web/live/transcription_live/form_component.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Presenter and attendee"
+msgstr "Előadó és résztvevő"
+
+#: lib/claper_web/live/transcription_live/form_component.html.heex:27
+#, elixir-autogen, elixir-format
+msgid "Presenter only"
+msgstr "Csak előadó"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:17
+#, elixir-autogen, elixir-format
+msgid "Russian"
+msgstr "Orosz"
+
+#: lib/claper_web/live/transcription_live/form_component.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "Show subtitles on"
+msgstr "Feliratok megjelenítése"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:12
+#, elixir-autogen, elixir-format
+msgid "Spanish"
+msgstr "Spanyol"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:24
+#, elixir-autogen, elixir-format
+msgid "Swedish"
+msgstr "Svéd"
+
+#: lib/claper_web/live/transcription_live/form_component.html.heex:69
+#, elixir-autogen, elixir-format
+msgid "This will delete the transcription configuration, are you sure?"
+msgstr "Ezzel törli az átírás konfigurációját, biztosan folytatja?"
+
+#: lib/claper_web/live/event_live/manage.html.heex:318
+#: lib/claper_web/live/event_live/manage.html.heex:1197
+#, elixir-autogen, elixir-format
+msgid "Transcription"
+msgstr "Átírás"
+
+#: lib/claper_web/live/transcription_live/form_component.ex:23
+#, elixir-autogen, elixir-format
+msgid "Turkish"
+msgstr "Török"

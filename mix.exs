@@ -111,6 +111,7 @@ defmodule Claper.MixProject do
       {:joken, "~> 2.6"},
       {:jose, "~> 1.11"},
       {:req, "~> 0.5"},
+      {:websockex, "~> 0.4"},
       {:uuid, "~> 1.1"},
       {:oidcc, "~> 3.5"},
       {:oban, "~> 2.19"},

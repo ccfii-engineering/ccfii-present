@@ -698,8 +698,9 @@ Hooks.TranscriptionCapture = {
     if (this.audioCapture) return;
     const eventUuid = this.el.dataset.eventUuid;
     const audioToken = this.el.dataset.audioToken;
+    const savedDeviceId = localStorage.getItem(`mic-${eventUuid}`);
     this.audioCapture = new AudioCapture(eventUuid, audioToken);
-    this.audioCapture.start();
+    this.audioCapture.start(savedDeviceId || null);
   },
   stopCapture() {
     if (this.audioCapture) {
@@ -709,6 +710,48 @@ Hooks.TranscriptionCapture = {
   },
   destroyed() {
     this.stopCapture();
+  },
+};
+
+Hooks.MicSelector = {
+  mounted() {
+    if (!navigator.mediaDevices) {
+      console.warn("MicSelector: mediaDevices unavailable (requires HTTPS)");
+      return;
+    }
+    this.populateDevices();
+    navigator.mediaDevices.addEventListener("devicechange", () =>
+      this.populateDevices(),
+    );
+  },
+  async populateDevices() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream.getTracks().forEach((track) => track.stop());
+    } catch (e) {
+      // Permission denied - populate with what we can
+    }
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const audioInputs = devices.filter((d) => d.kind === "audioinput");
+    const select = this.el;
+    select.innerHTML = "";
+    audioInputs.forEach((device) => {
+      const opt = document.createElement("option");
+      opt.value = device.deviceId;
+      opt.textContent =
+        device.label || `Microphone ${device.deviceId.slice(0, 8)}`;
+      select.appendChild(opt);
+    });
+    const saved = localStorage.getItem(
+      `mic-${this.el.dataset.eventUuid}`,
+    );
+    if (saved) select.value = saved;
+    select.addEventListener("change", () => {
+      localStorage.setItem(
+        `mic-${this.el.dataset.eventUuid}`,
+        select.value,
+      );
+    });
   },
 };
 

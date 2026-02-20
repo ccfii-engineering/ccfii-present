@@ -6,6 +6,9 @@ defmodule Claper.Transcriptions do
   import Ecto.Query
   alias Claper.Repo
   alias Claper.Transcriptions.Transcription
+  alias Claper.Transcriptions.TranscriptionConfig
+
+  # --- Transcription (audio segments) ---
 
   def list_transcriptions(presentation_file_id) do
     from(t in Transcription,
@@ -42,5 +45,84 @@ defmodule Claper.Transcriptions do
       "event:#{event_uuid}",
       {:transcription_created, transcription}
     )
+  end
+
+  def broadcast_transcription_delta(event_uuid, text) do
+    Phoenix.PubSub.broadcast(
+      Claper.PubSub,
+      "event:#{event_uuid}",
+      {:transcription_delta, text}
+    )
+  end
+
+  # --- TranscriptionConfig ---
+
+  def get_transcription_config(presentation_file_id) do
+    Repo.get_by(TranscriptionConfig, presentation_file_id: presentation_file_id)
+  end
+
+  def get_transcription_config!(id) do
+    Repo.get!(TranscriptionConfig, id)
+  end
+
+  def create_transcription_config(attrs) do
+    %TranscriptionConfig{}
+    |> TranscriptionConfig.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_transcription_config(event_uuid, config, attrs) do
+    result =
+      config
+      |> TranscriptionConfig.changeset(attrs)
+      |> Repo.update()
+
+    case result do
+      {:ok, updated_config} ->
+        Phoenix.PubSub.broadcast(
+          Claper.PubSub,
+          "event:#{event_uuid}",
+          {:transcription_config_updated, updated_config}
+        )
+
+        {:ok, updated_config}
+
+      error ->
+        error
+    end
+  end
+
+  def delete_transcription_config(event_uuid, config) do
+    result = Repo.delete(config)
+
+    case result do
+      {:ok, deleted_config} ->
+        Phoenix.PubSub.broadcast(
+          Claper.PubSub,
+          "event:#{event_uuid}",
+          {:transcription_config_deleted, deleted_config}
+        )
+
+        {:ok, deleted_config}
+
+      error ->
+        error
+    end
+  end
+
+  def change_transcription_config(config, attrs \\ %{}) do
+    TranscriptionConfig.changeset(config, attrs)
+  end
+
+  def set_transcription_enabled(id) do
+    get_transcription_config!(id)
+    |> TranscriptionConfig.changeset(%{enabled: true})
+    |> Repo.update()
+  end
+
+  def set_transcription_disabled(id) do
+    get_transcription_config!(id)
+    |> TranscriptionConfig.changeset(%{enabled: false})
+    |> Repo.update()
   end
 end
