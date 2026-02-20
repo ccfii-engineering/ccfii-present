@@ -98,6 +98,7 @@ defmodule ClaperWeb.EventLive.Show do
       |> assign(:current_quiz_question_idx, 0)
       |> assign(:event, event)
       |> assign(:state, event.presentation_file.presentation_state)
+      |> assign(:transcription_text, "")
       |> assign(:nickname, "")
       |> stream(:posts, posts)
       |> assign(:post_count, Enum.count(posts))
@@ -349,6 +350,11 @@ defmodule ClaperWeb.EventLive.Show do
     {:noreply,
      socket
      |> push_event("global-react", %{type: type})}
+  end
+
+  @impl true
+  def handle_info({:transcription_created, transcription}, socket) do
+    {:noreply, socket |> assign(:transcription_text, transcription.text)}
   end
 
   @impl true

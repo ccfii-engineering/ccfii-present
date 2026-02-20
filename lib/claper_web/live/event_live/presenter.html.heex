@@ -224,6 +224,21 @@
       </div>
     </div>
   </div>
+  <!-- TRANSCRIPTION SUBTITLES -->
+  <div
+    :if={
+      Claper.Presentations.PresentationState.transcription_enabled?(@state) &&
+        Claper.Presentations.PresentationState.transcription_visible?(@state) &&
+        @transcription_text != ""
+    }
+    class="absolute z-30 bottom-16 left-1/2 transform -translate-x-1/2 max-w-3xl w-full px-4"
+  >
+    <div class="bg-black/80 rounded-lg px-6 py-3 text-center">
+      <p class={"#{if @iframe, do: "text-lg", else: "text-2xl"} text-white font-medium"}>
+        {@transcription_text}
+      </p>
+    </div>
+  </div>
   <!-- ONLINE BADGE -->
   <div
     :if={!@iframe && @state.show_attendee_count}

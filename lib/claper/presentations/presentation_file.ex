@@ -27,6 +27,7 @@ defmodule Claper.Presentations.PresentationFile do
     has_many :forms, Claper.Forms.Form
     has_many :embeds, Claper.Embeds.Embed
     has_many :quizzes, Claper.Quizzes.Quiz
+    has_many :transcriptions, Claper.Transcriptions.Transcription
     has_one :presentation_state, Claper.Presentations.PresentationState, on_replace: :delete
 
     timestamps()

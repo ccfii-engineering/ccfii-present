@@ -1,0 +1,25 @@
+defmodule ClaperWeb.AudioChannel do
+  use Phoenix.Channel
+
+  require Logger
+
+  alias Claper.Transcriptions.TranscriptionWorker
+
+  @impl true
+  def join("audio:" <> event_uuid, _params, socket) do
+    {:ok, assign(socket, :event_uuid, event_uuid)}
+  end
+
+  @impl true
+  def handle_in("audio_chunk", %{"data" => base64_audio}, socket) do
+    case Base.decode64(base64_audio) do
+      {:ok, audio_data} ->
+        TranscriptionWorker.push_audio(socket.assigns.event_uuid, audio_data)
+        {:noreply, socket}
+
+      :error ->
+        Logger.warning("Received invalid base64 audio data")
+        {:noreply, socket}
+    end
+  end
+end

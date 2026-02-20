@@ -431,6 +431,86 @@ defmodule ClaperWeb.EventLive.ManagerSettingsComponent do
             <div class="flex items-center space-x-2 font-semibold text-lg">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-5 h-5"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 2m0 3a3 3 0 0 1 3 -3h0a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3h0a3 3 0 0 1 -3 -3z" /><path d="M5 10a7 7 0 0 0 14 0" /><path d="M8 21l8 0" /><path d="M12 17l0 4" />
+              </svg>
+
+              <span>{gettext("Transcription")}</span>
+            </div>
+
+            <div class="flex space-x-2 items-center">
+              <ClaperWeb.Component.Input.check_button
+                key={:transcription_enabled}
+                checked={Claper.Presentations.PresentationState.transcription_enabled?(@state)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-5 h-5"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 2m0 3a3 3 0 0 1 3 -3h0a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3h0a3 3 0 0 1 -3 -3z" /><path d="M5 10a7 7 0 0 0 14 0" /><path d="M8 21l8 0" /><path d="M12 17l0 4" />
+                </svg>
+                <div>
+                  <span :if={!Claper.Presentations.PresentationState.transcription_enabled?(@state)}>
+                    {gettext("Enable transcription")}
+                  </span>
+                  <span :if={Claper.Presentations.PresentationState.transcription_enabled?(@state)}>
+                    {gettext("Disable transcription")}
+                  </span>
+                </div>
+                <div></div>
+              </ClaperWeb.Component.Input.check_button>
+            </div>
+
+            <div
+              class={"#{if !Claper.Presentations.PresentationState.transcription_enabled?(@state), do: "opacity-50"} flex space-x-2 items-center"}
+            >
+              <ClaperWeb.Component.Input.check_button
+                key={:transcription_visible}
+                checked={Claper.Presentations.PresentationState.transcription_visible?(@state)}
+                disabled={!Claper.Presentations.PresentationState.transcription_enabled?(@state)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-5 h-5"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 5h16" /><path d="M5 9h14" /><path d="M6 13h12" /><path d="M4 17h16" />
+                </svg>
+                <div>
+                  <span :if={!Claper.Presentations.PresentationState.transcription_visible?(@state)}>
+                    {gettext("Show subtitles")}
+                  </span>
+                  <span :if={Claper.Presentations.PresentationState.transcription_visible?(@state)}>
+                    {gettext("Hide subtitles")}
+                  </span>
+                </div>
+                <div></div>
+              </ClaperWeb.Component.Input.check_button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 space-y-1.5">
+            <div class="flex items-center space-x-2 font-semibold text-lg">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 class="w-5 h-5"

@@ -12,6 +12,10 @@ defmodule ClaperWeb.Endpoint do
     max_age: 24 * 60 * 60 * 30
   ]
 
+  socket "/audio", ClaperWeb.AudioSocket,
+    websocket: [timeout: 120_000],
+    longpoll: false
+
   socket "/live", Phoenix.LiveView.Socket,
     websocket: [
       connect_info: [

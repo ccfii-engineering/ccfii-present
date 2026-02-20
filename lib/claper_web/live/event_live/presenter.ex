@@ -56,6 +56,7 @@ defmodule ClaperWeb.EventLive.Presenter do
         |> assign(:pinned_posts, list_pinned_posts(socket, event.uuid))
         |> assign(:show_only_pinned, event.presentation_file.presentation_state.show_only_pinned)
         |> assign(:reacts, [])
+        |> assign(:transcription_text, "")
         |> poll_at_position
         |> form_at_position
         |> embed_at_position
@@ -366,6 +367,11 @@ defmodule ClaperWeb.EventLive.Presenter do
     )
 
     {:noreply, socket |> assign(:current_question_idx, idx)}
+  end
+
+  @impl true
+  def handle_info({:transcription_created, transcription}, socket) do
+    {:noreply, socket |> assign(:transcription_text, transcription.text)}
   end
 
   @impl true

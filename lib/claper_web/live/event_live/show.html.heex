@@ -414,6 +414,19 @@
         <img class="h-6" src="/images/icons/raisehand.svg" />
       </a>
     </div>
+    <!-- TRANSCRIPTION SUBTITLES -->
+    <div
+      :if={
+        Claper.Presentations.PresentationState.transcription_enabled?(@state) &&
+          Claper.Presentations.PresentationState.transcription_visible?(@state) &&
+          @transcription_text != ""
+      }
+      class="fixed bottom-14 left-1/2 transform -translate-x-1/2 max-w-lg w-full px-4 z-20"
+    >
+      <div class="bg-black/80 rounded-lg px-4 py-2 text-center">
+        <p class="text-sm text-white font-medium">{@transcription_text}</p>
+      </div>
+    </div>
   </div>
 <% else %>
   <div class="w-full">

@@ -194,6 +194,19 @@ config :claper,
   logout_redirect_url: logout_redirect_url,
   languages: languages
 
+mistral_api_key = get_var_from_path_or_env(config_dir, "MISTRAL_API_KEY", nil)
+
+transcription_chunk_ms =
+  get_var_from_path_or_env(config_dir, "TRANSCRIPTION_CHUNK_MS", "5000")
+  |> String.to_integer()
+
+transcription_language = get_var_from_path_or_env(config_dir, "TRANSCRIPTION_LANGUAGE", nil)
+
+config :claper, :transcription,
+  api_key: mistral_api_key,
+  chunk_ms: transcription_chunk_ms,
+  language: transcription_language
+
 config :claper, :presentations,
   max_file_size: max_file_size,
   storage: storage,

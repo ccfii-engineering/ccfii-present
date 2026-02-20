@@ -2,6 +2,7 @@ defmodule ClaperWeb.EventLive.Manage do
   use ClaperWeb, :live_view
 
   alias Claper.{Embeds, Forms, Polls, Presentations, Quizzes}
+  alias Claper.Presentations.PresentationState
   alias ClaperWeb.Presence
 
   @impl true
@@ -33,6 +34,9 @@ defmodule ClaperWeb.EventLive.Manage do
       questions = list_all_questions(socket, event.uuid)
       form_submits = list_form_submits(socket, event.presentation_file.id)
 
+      audio_token =
+        Phoenix.Token.sign(ClaperWeb.Endpoint, "audio_token", socket.assigns.current_user.id)
+
       socket =
         socket
         |> assign(:interaction_modal, false)
@@ -41,6 +45,7 @@ defmodule ClaperWeb.EventLive.Manage do
         |> assign(:event, event)
         |> assign(:sort_questions_by, "date")
         |> assign(:state, event.presentation_file.presentation_state)
+        |> assign(:audio_token, audio_token)
         |> stream(:posts, posts)
         |> stream(:questions, questions)
         |> stream(:pinned_posts, pinned_posts)
@@ -619,6 +624,49 @@ defmodule ClaperWeb.EventLive.Manage do
   @impl true
   def handle_event(
         "checked",
+        %{"key" => "transcription_enabled", "value" => value},
+        %{assigns: %{state: state, event: event}} = socket
+      ) do
+    new_settings = Map.put(state.settings || %{}, "transcription_enabled", value)
+
+    {:ok, new_state} =
+      Claper.Presentations.update_presentation_state(state, %{settings: new_settings})
+
+    if value do
+      DynamicSupervisor.start_child(
+        Claper.TranscriptionSupervisor,
+        {Claper.Transcriptions.TranscriptionWorker,
+         {event.uuid, event.presentation_file.id}}
+      )
+    else
+      Claper.Transcriptions.TranscriptionWorker.stop(event.uuid)
+    end
+
+    socket =
+      socket
+      |> assign(:state, new_state)
+      |> push_event("transcription-state", %{enabled: value})
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event(
+        "checked",
+        %{"key" => "transcription_visible", "value" => value},
+        %{assigns: %{state: state}} = socket
+      ) do
+    new_settings = Map.put(state.settings || %{}, "transcription_visible", value)
+
+    {:ok, new_state} =
+      Claper.Presentations.update_presentation_state(state, %{settings: new_settings})
+
+    {:noreply, socket |> assign(:state, new_state)}
+  end
+
+  @impl true
+  def handle_event(
+        "checked",
         %{"key" => "quiz_show_results", "value" => value},
         %{assigns: %{current_interaction: interaction}} = socket
       ) do
@@ -907,6 +955,19 @@ defmodule ClaperWeb.EventLive.Manage do
     |> assign(:interaction_modal, true)
     |> assign(:create_action, :edit)
     |> assign(:quiz, quiz)
+  end
+
+  @impl true
+  def terminate(_reason, socket) do
+    if Map.has_key?(socket.assigns, :event) do
+      event = socket.assigns.event
+
+      if PresentationState.transcription_enabled?(socket.assigns.state) do
+        Claper.Transcriptions.TranscriptionWorker.stop(event.uuid)
+      end
+    end
+
+    :ok
   end
 
   defp pin(post, socket) do

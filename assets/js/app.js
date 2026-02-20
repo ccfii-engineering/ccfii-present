@@ -24,6 +24,7 @@ import "moment/locale/lv";
 import QRCodeStyling from "qr-code-styling";
 import { Presenter } from "./presenter";
 import { Manager } from "./manager";
+import { AudioCapture } from "./audio_capture";
 import Split from "split-grid";
 import CustomHooks from "./hooks";
 import { TourGuideClient } from "@sjmc11/tourguidejs/src/Tour";
@@ -680,6 +681,35 @@ Hooks.CSVDownloader = {
       window.URL.revokeObjectURL(url);
     });
   }
+};
+
+Hooks.TranscriptionCapture = {
+  mounted() {
+    this.audioCapture = null;
+    this.handleEvent("transcription-state", ({ enabled }) => {
+      if (enabled) {
+        this.startCapture();
+      } else {
+        this.stopCapture();
+      }
+    });
+  },
+  startCapture() {
+    if (this.audioCapture) return;
+    const eventUuid = this.el.dataset.eventUuid;
+    const audioToken = this.el.dataset.audioToken;
+    this.audioCapture = new AudioCapture(eventUuid, audioToken);
+    this.audioCapture.start();
+  },
+  stopCapture() {
+    if (this.audioCapture) {
+      this.audioCapture.stop();
+      this.audioCapture = null;
+    }
+  },
+  destroyed() {
+    this.stopCapture();
+  },
 };
 
 // Merge our custom hooks with the existing hooks
