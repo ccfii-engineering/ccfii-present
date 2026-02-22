@@ -8,9 +8,12 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:14
+#: lib/claper_web/live/admin_live/settings_live.html.heex:3
 #: lib/claper_web/live/event_live/manage.html.heex:1573
 #: lib/claper_web/live/event_live/manage.html.heex:1579
 #: lib/claper_web/live/user_settings_live/show.ex:77
+#: lib/claper_web/templates/layout/admin.html.heex:284
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "Instellingen"
@@ -18,7 +21,7 @@ msgstr "Instellingen"
 #: lib/claper_web/live/admin_live/user_live.html.heex:74
 #: lib/claper_web/live/admin_live/user_live.html.heex:254
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:18
-#: lib/claper_web/live/event_live/manage.ex:936
+#: lib/claper_web/live/event_live/manage.ex:945
 #: lib/claper_web/live/form_live/form_component.html.heex:32
 #: lib/claper_web/live/user_settings_live/show.html.heex:34
 #: lib/claper_web/templates/user_registration/new.html.heex:29
@@ -559,6 +562,7 @@ msgid_plural "from %{count} peoples"
 msgstr[0] "van %{count} mensen"
 msgstr[1] "van %{count} mensen"
 
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:34
 #: lib/claper_web/live/stat_live/index.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "Event"
@@ -708,7 +712,7 @@ msgstr "Formulierinzendingen van deelnemers worden hier weergegeven."
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:74
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:254
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:24
-#: lib/claper_web/live/event_live/manage.ex:935
+#: lib/claper_web/live/event_live/manage.ex:944
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "Naam"
@@ -734,6 +738,7 @@ msgstr "Bekijk huidig formulier"
 msgid "Submit"
 msgstr "Indienen"
 
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:35
 #: lib/claper_web/live/form_live/form_component.html.heex:32
 #, elixir-autogen, elixir-format
 msgid "Text"
@@ -1229,6 +1234,7 @@ msgstr "Evenement bestaat niet"
 msgid "Customize your account"
 msgstr "Pas je account aan"
 
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:36
 #: lib/claper_web/live/transcription_live/form_component.html.heex:14
 #: lib/claper_web/live/user_settings_live/show.html.heex:278
 #, elixir-autogen, elixir-format
@@ -1276,7 +1282,7 @@ msgid "Event manager"
 msgstr "Evenementmanager"
 
 #: lib/claper_web/templates/layout/_user_menu.html.heex:19
-#: lib/claper_web/templates/layout/admin.html.heex:262
+#: lib/claper_web/templates/layout/admin.html.heex:300
 #, elixir-autogen, elixir-format
 msgid "Documentation"
 msgstr "Documentatie"
@@ -1572,12 +1578,12 @@ msgstr "Beëindigen"
 msgid "More options"
 msgstr "Meer opties"
 
-#: lib/claper_web/live/event_live/manage.ex:916
+#: lib/claper_web/live/event_live/manage.ex:925
 #, elixir-autogen, elixir-format
 msgid "No"
 msgstr "Nee"
 
-#: lib/claper_web/live/event_live/manage.ex:916
+#: lib/claper_web/live/event_live/manage.ex:925
 #, elixir-autogen, elixir-format
 msgid "Yes"
 msgstr "Ja"
@@ -2647,7 +2653,7 @@ msgstr "Aanbieder details"
 msgid "Admin"
 msgstr "Admin"
 
-#: lib/claper_web/templates/layout/admin.html.heex:285
+#: lib/claper_web/templates/layout/admin.html.heex:323
 #, elixir-autogen, elixir-format
 msgid "Back to app"
 msgstr "Terug naar app"
@@ -2693,6 +2699,7 @@ msgstr "(optioneel)"
 msgid "Add real-time subtitles from your microphone."
 msgstr "Voeg realtime ondertiteling toe vanaf uw microfoon."
 
+#: lib/claper_web/live/admin_live/settings_live.ex:97
 #: lib/claper_web/live/transcription_live/form_component.ex:21
 #, elixir-autogen, elixir-format
 msgid "Arabic"
@@ -2703,22 +2710,26 @@ msgstr "Arabisch"
 msgid "Attendee only"
 msgstr "Alleen deelnemer"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:84
 #: lib/claper_web/live/event_live/manage.html.heex:1226
 #: lib/claper_web/live/transcription_live/form_component.ex:8
 #, elixir-autogen, elixir-format
 msgid "Auto-detect"
 msgstr "Automatisch detecteren"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:95
 #: lib/claper_web/live/transcription_live/form_component.ex:19
 #, elixir-autogen, elixir-format
 msgid "Chinese"
 msgstr "Chinees"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:102
 #: lib/claper_web/live/transcription_live/form_component.ex:26
 #, elixir-autogen, elixir-format
 msgid "Danish"
 msgstr "Deens"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:91
 #: lib/claper_web/live/transcription_live/form_component.ex:15
 #, elixir-autogen, elixir-format
 msgid "Dutch"
@@ -2729,21 +2740,25 @@ msgstr "Nederlands"
 msgid "Edit transcription"
 msgstr "Transcriptie bewerken"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:85
 #: lib/claper_web/live/transcription_live/form_component.ex:9
 #, elixir-autogen, elixir-format
 msgid "English"
 msgstr "Engels"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:103
 #: lib/claper_web/live/transcription_live/form_component.ex:27
 #, elixir-autogen, elixir-format
 msgid "Finnish"
 msgstr "Fins"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:86
 #: lib/claper_web/live/transcription_live/form_component.ex:10
 #, elixir-autogen, elixir-format
 msgid "French"
 msgstr "Frans"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:87
 #: lib/claper_web/live/transcription_live/form_component.ex:11
 #, elixir-autogen, elixir-format
 msgid "German"
@@ -2754,21 +2769,25 @@ msgstr "Duits"
 msgid "Global interactions"
 msgstr "Uw interacties"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:98
 #: lib/claper_web/live/transcription_live/form_component.ex:22
 #, elixir-autogen, elixir-format
 msgid "Hindi"
 msgstr "Hindi"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:89
 #: lib/claper_web/live/transcription_live/form_component.ex:13
 #, elixir-autogen, elixir-format
 msgid "Italian"
 msgstr "Italiaans"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:94
 #: lib/claper_web/live/transcription_live/form_component.ex:18
 #, elixir-autogen, elixir-format
 msgid "Japanese"
 msgstr "Japans"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:96
 #: lib/claper_web/live/transcription_live/form_component.ex:20
 #, elixir-autogen, elixir-format
 msgid "Korean"
@@ -2804,16 +2823,19 @@ msgstr "Geen interactie ingeschakeld"
 msgid "No settings available for this interaction"
 msgstr "Geen instellingen beschikbaar voor deze interactie"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:101
 #: lib/claper_web/live/transcription_live/form_component.ex:25
 #, elixir-autogen, elixir-format
 msgid "Norwegian"
 msgstr "Noors"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:92
 #: lib/claper_web/live/transcription_live/form_component.ex:16
 #, elixir-autogen, elixir-format
 msgid "Polish"
 msgstr "Pools"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:90
 #: lib/claper_web/live/transcription_live/form_component.ex:14
 #, elixir-autogen, elixir-format
 msgid "Portuguese"
@@ -2829,6 +2851,7 @@ msgstr "Presentator en deelnemer"
 msgid "Presenter only"
 msgstr "Alleen presentator"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:93
 #: lib/claper_web/live/transcription_live/form_component.ex:17
 #, elixir-autogen, elixir-format
 msgid "Russian"
@@ -2839,11 +2862,13 @@ msgstr "Russisch"
 msgid "Show subtitles on"
 msgstr "Ondertiteling tonen op"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:88
 #: lib/claper_web/live/transcription_live/form_component.ex:12
 #, elixir-autogen, elixir-format
 msgid "Spanish"
 msgstr "Spaans"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:100
 #: lib/claper_web/live/transcription_live/form_component.ex:24
 #, elixir-autogen, elixir-format
 msgid "Swedish"
@@ -2860,7 +2885,130 @@ msgstr "Hiermee wordt de transcriptieconfiguratie verwijderd. Weet u het zeker?"
 msgid "Transcription"
 msgstr "Transcriptie"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:99
 #: lib/claper_web/live/transcription_live/form_component.ex:23
 #, elixir-autogen, elixir-format
 msgid "Turkish"
 msgstr "Turks"
+
+#: lib/claper_web/live/admin_live/settings_live.ex:69
+#, elixir-autogen, elixir-format
+msgid "API key cleared"
+msgstr "API-sleutel gewist"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:62
+#, elixir-autogen, elixir-format
+msgid "API key is configured"
+msgstr "API-sleutel is geconfigureerd"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:55
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Are you sure you want to clear the API key?"
+msgstr "Weet u zeker dat u deze gebruiker wilt verwijderen?"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:85
+#, elixir-autogen, elixir-format
+msgid "Audio Chunk Duration (ms)"
+msgstr "Duur audiofragment (ms)"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:57
+#, elixir-autogen, elixir-format
+msgid "Clear"
+msgstr "Wissen"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "Configure the Mistral API for real-time transcription features."
+msgstr "Configureer de Mistral API voor realtime transcriptiefuncties."
+
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:37
+#, elixir-autogen, elixir-format
+msgid "Date"
+msgstr "Datum"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:70
+#, elixir-autogen, elixir-format
+msgid "Default Language"
+msgstr "Standaardtaal"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:78
+#, elixir-autogen, elixir-format
+msgid "Default language for new transcription sessions. Can be overridden per event."
+msgstr "Standaardtaal voor nieuwe transcriptiesessies. Kan per evenement worden overschreven."
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:97
+#, elixir-autogen, elixir-format
+msgid "Duration of audio chunks sent to the API (default: 5000ms)."
+msgstr "Duur van audiofragmenten verzonden naar de API (standaard: 5000ms)."
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:31
+#, elixir-autogen, elixir-format
+msgid "Enable transcription feature globally"
+msgstr "Transcriptiefunctie globaal inschakelen"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:46
+#, elixir-autogen, elixir-format
+msgid "Enter your Mistral API key"
+msgstr "Voer uw Mistral API-sleutel in"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:46
+#, elixir-autogen, elixir-format
+msgid "Leave blank to keep current key"
+msgstr "Laat leeg om de huidige sleutel te behouden"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "Mistral API Key"
+msgstr "Mistral API-sleutel"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:62
+#, elixir-autogen, elixir-format
+msgid "No API key configured"
+msgstr "Geen API-sleutel geconfigureerd"
+
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:44
+#, elixir-autogen, elixir-format, fuzzy
+msgid "No transcriptions found."
+msgstr "Nieuwe transcriptie"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:104
+#, elixir-autogen, elixir-format
+msgid "Save settings"
+msgstr "Instellingen opslaan"
+
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "Search by event name or text..."
+msgstr "Zoeken op evenementnaam of tekst..."
+
+#: lib/claper_web/live/admin_live/settings_live.ex:56
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Settings saved successfully"
+msgstr "Evenementen succesvol geëxporteerd"
+
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:5
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Total transcriptions"
+msgstr "Transcriptie bewerken"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:9
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Transcription Settings"
+msgstr "Transcriptie"
+
+#: lib/claper_web/live/event_live/manage.ex:698
+#, elixir-autogen, elixir-format
+msgid "Transcription has been disabled by the administrator"
+msgstr "Transcriptie is uitgeschakeld door de beheerder"
+
+#: lib/claper_web/live/admin_live/transcription_live.ex:16
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:3
+#: lib/claper_web/templates/layout/admin.html.heex:262
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Transcriptions"
+msgstr "Transcriptie"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:32
+#, elixir-autogen, elixir-format
+msgid "When disabled, no events can use transcription."
+msgstr "Wanneer uitgeschakeld, kunnen geen evenementen transcriptie gebruiken."

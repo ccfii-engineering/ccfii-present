@@ -200,6 +200,8 @@ defmodule ClaperWeb.Router do
       live "/oidc_providers/new", OidcProviderLive, :new
       live "/oidc_providers/:id/edit", OidcProviderLive, :edit
       live "/oidc_providers/:id", OidcProviderLive, :show
+
+      live "/settings", SettingsLive, :index
     end
   end
 end

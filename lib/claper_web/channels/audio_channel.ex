@@ -1,5 +1,5 @@
 defmodule ClaperWeb.AudioChannel do
-  use Phoenix.Channel
+  use Phoenix.Channel, log_handle_in: false
 
   require Logger
 

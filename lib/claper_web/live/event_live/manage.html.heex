@@ -295,7 +295,7 @@
                 </div>
               </a>
             </li>
-            <li id="option-5" role="option" tabindex="-1">
+            <li :if={@transcription_globally_enabled} id="option-5" role="option" tabindex="-1">
               <a
                 data-phx-link="patch"
                 data-phx-link-state="push"
@@ -1173,7 +1173,7 @@
               </button>
             </div>
             <!-- Global Interactions -->
-            <div :if={@transcription_config && @transcription_config.id} class="border-t border-gray-300 p-4">
+            <div :if={@transcription_globally_enabled && @transcription_config && @transcription_config.id} class="border-t border-gray-300 p-4">
               <p class="text-xs font-semibold text-gray-500 uppercase mb-3">
                 {gettext("Global interactions")}
               </p>

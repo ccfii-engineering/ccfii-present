@@ -632,4 +632,34 @@ defmodule Claper.Admin do
       |> Map.put(:role_name, role_name)
     end)
   end
+
+  @doc """
+  Returns all transcription segments for a given event, ordered by insertion time.
+  """
+  def list_transcriptions_for_event(event_id) do
+    Claper.Transcriptions.Transcription
+    |> join(:inner, [t], pf in Claper.Presentations.PresentationFile,
+      on: t.presentation_file_id == pf.id
+    )
+    |> where([t, pf], pf.event_id == ^event_id)
+    |> order_by([t], asc: t.inserted_at)
+    |> select([t, pf], %{
+      id: t.id,
+      text: t.text,
+      language: t.language,
+      inserted_at: t.inserted_at
+    })
+    |> Repo.all()
+  end
+
+  @doc """
+  Deletes a transcription by ID.
+  """
+  def delete_transcription(id) do
+    case Repo.get(Claper.Transcriptions.Transcription, id) do
+      nil -> {:error, :not_found}
+      transcription -> Repo.delete(transcription)
+    end
+  end
+
 end

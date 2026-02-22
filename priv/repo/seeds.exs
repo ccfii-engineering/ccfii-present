@@ -68,3 +68,6 @@ if Repo.aggregate(User, :count, :id) == 0 do
     IO.puts("Warning: Admin role not found, skipping default admin user creation")
   end
 end
+
+# Seed global settings defaults
+Code.require_file("seeds/settings.exs", __DIR__)

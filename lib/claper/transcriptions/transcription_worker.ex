@@ -42,19 +42,23 @@ defmodule Claper.Transcriptions.TranscriptionWorker do
 
   @impl true
   def init({event_uuid, presentation_file_id}) do
-    Logger.info("TranscriptionWorker started for event #{event_uuid}")
+    unless Claper.Settings.transcription_globally_enabled?() do
+      Logger.info("TranscriptionWorker: transcription globally disabled, not starting")
+      {:stop, :transcription_disabled}
+    else
+      Logger.info("TranscriptionWorker started for event #{event_uuid}")
 
-    config_language =
-      case Transcriptions.get_transcription_config(presentation_file_id) do
-        %{language: lang} when is_binary(lang) and lang != "" -> lang
-        _ -> nil
-      end
+      config_language =
+        case Transcriptions.get_transcription_config(presentation_file_id) do
+          %{language: lang} when is_binary(lang) and lang != "" -> lang
+          _ -> Claper.Settings.get("transcription_default_language")
+        end
 
-    # Connect to Mistral realtime API
-    opts = [callback_pid: self()]
-    opts = if config_language, do: Keyword.put(opts, :language, config_language), else: opts
+      # Connect to Mistral realtime API
+      opts = [callback_pid: self()]
+      opts = if config_language, do: Keyword.put(opts, :language, config_language), else: opts
 
-    case MistralRealtimeClient.start_link(opts) do
+      case MistralRealtimeClient.start_link(opts) do
       {:ok, ws_pid} ->
         {:ok,
          %{
@@ -69,6 +73,7 @@ defmodule Claper.Transcriptions.TranscriptionWorker do
       {:error, reason} ->
         Logger.error("Failed to connect to Mistral realtime API: #{inspect(reason)}")
         {:stop, reason}
+      end
     end
   end
 
@@ -107,9 +112,9 @@ defmodule Claper.Transcriptions.TranscriptionWorker do
   def handle_info({:mistral_event, :done, text}, state) do
     cancel_clear_timer(state)
 
-    if text != "" and text != state.current_text do
-      save_and_broadcast(text, state)
-    end
+    # Save accumulated delta text, or fall back to the done event text
+    text_to_save = if state.current_text != "", do: state.current_text, else: text
+    save_and_broadcast(text_to_save, state)
 
     timer = Process.send_after(self(), :clear_subtitle, 3_000)
     {:noreply, %{state | current_text: "", clear_timer: timer}}

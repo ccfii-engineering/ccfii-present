@@ -63,11 +63,6 @@ defmodule Claper.Transcriptions.MistralRealtimeClient do
     session_config =
       %{"audio_format" => %{"encoding" => "pcm_s16le", "sample_rate" => 16000}}
 
-    session_config =
-      if state.language,
-        do: Map.put(session_config, "language", state.language),
-        else: session_config
-
     message = Jason.encode!(%{"type" => "session.update", "session" => session_config})
     {:reply, {:text, message}, state}
   end
@@ -136,6 +131,6 @@ defmodule Claper.Transcriptions.MistralRealtimeClient do
   end
 
   defp get_api_key do
-    Application.get_env(:claper, :transcription)[:api_key]
+    Claper.Settings.get_transcription_api_key()
   end
 end

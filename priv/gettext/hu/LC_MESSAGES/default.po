@@ -8,9 +8,12 @@ msgstr ""
 "Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:14
+#: lib/claper_web/live/admin_live/settings_live.html.heex:3
 #: lib/claper_web/live/event_live/manage.html.heex:1573
 #: lib/claper_web/live/event_live/manage.html.heex:1579
 #: lib/claper_web/live/user_settings_live/show.ex:77
+#: lib/claper_web/templates/layout/admin.html.heex:284
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "Beállítások"
@@ -18,7 +21,7 @@ msgstr "Beállítások"
 #: lib/claper_web/live/admin_live/user_live.html.heex:74
 #: lib/claper_web/live/admin_live/user_live.html.heex:254
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:18
-#: lib/claper_web/live/event_live/manage.ex:936
+#: lib/claper_web/live/event_live/manage.ex:945
 #: lib/claper_web/live/form_live/form_component.html.heex:32
 #: lib/claper_web/live/user_settings_live/show.html.heex:34
 #: lib/claper_web/templates/user_registration/new.html.heex:29
@@ -559,6 +562,7 @@ msgid_plural "from %{count} peoples"
 msgstr[0] "%{count} embertől"
 msgstr[1] ""
 
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:34
 #: lib/claper_web/live/stat_live/index.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "Event"
@@ -708,7 +712,7 @@ msgstr "A résztvevők által beküldött űrlapok itt fognak megjelenni."
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:74
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:254
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:24
-#: lib/claper_web/live/event_live/manage.ex:935
+#: lib/claper_web/live/event_live/manage.ex:944
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "Név"
@@ -734,6 +738,7 @@ msgstr "Jelenlegi űrlap megtekintése"
 msgid "Submit"
 msgstr "Küldés"
 
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:35
 #: lib/claper_web/live/form_live/form_component.html.heex:32
 #, elixir-autogen, elixir-format
 msgid "Text"
@@ -1229,6 +1234,7 @@ msgstr "Az esemény nem található"
 msgid "Customize your account"
 msgstr "Fiók testreszabása"
 
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:36
 #: lib/claper_web/live/transcription_live/form_component.html.heex:14
 #: lib/claper_web/live/user_settings_live/show.html.heex:278
 #, elixir-autogen, elixir-format
@@ -1276,7 +1282,7 @@ msgid "Event manager"
 msgstr "Eseménykezelő"
 
 #: lib/claper_web/templates/layout/_user_menu.html.heex:19
-#: lib/claper_web/templates/layout/admin.html.heex:262
+#: lib/claper_web/templates/layout/admin.html.heex:300
 #, elixir-autogen, elixir-format
 msgid "Documentation"
 msgstr "Dokumentáció"
@@ -1572,12 +1578,12 @@ msgstr "Befejezés"
 msgid "More options"
 msgstr "További lehetőségek"
 
-#: lib/claper_web/live/event_live/manage.ex:916
+#: lib/claper_web/live/event_live/manage.ex:925
 #, elixir-autogen, elixir-format
 msgid "No"
 msgstr "Nem"
 
-#: lib/claper_web/live/event_live/manage.ex:916
+#: lib/claper_web/live/event_live/manage.ex:925
 #, elixir-autogen, elixir-format
 msgid "Yes"
 msgstr "Igen"
@@ -2647,7 +2653,7 @@ msgstr "Szolgáltató"
 msgid "Admin"
 msgstr ""
 
-#: lib/claper_web/templates/layout/admin.html.heex:285
+#: lib/claper_web/templates/layout/admin.html.heex:323
 #, elixir-autogen, elixir-format
 msgid "Back to app"
 msgstr ""
@@ -2693,6 +2699,7 @@ msgstr "(opcionális)"
 msgid "Add real-time subtitles from your microphone."
 msgstr "Valós idejű feliratok hozzáadása a mikrofonjáról."
 
+#: lib/claper_web/live/admin_live/settings_live.ex:97
 #: lib/claper_web/live/transcription_live/form_component.ex:21
 #, elixir-autogen, elixir-format
 msgid "Arabic"
@@ -2703,22 +2710,26 @@ msgstr "Arab"
 msgid "Attendee only"
 msgstr "Csak résztvevő"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:84
 #: lib/claper_web/live/event_live/manage.html.heex:1226
 #: lib/claper_web/live/transcription_live/form_component.ex:8
 #, elixir-autogen, elixir-format
 msgid "Auto-detect"
 msgstr "Automatikus felismerés"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:95
 #: lib/claper_web/live/transcription_live/form_component.ex:19
 #, elixir-autogen, elixir-format
 msgid "Chinese"
 msgstr "Kínai"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:102
 #: lib/claper_web/live/transcription_live/form_component.ex:26
 #, elixir-autogen, elixir-format
 msgid "Danish"
 msgstr "Dán"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:91
 #: lib/claper_web/live/transcription_live/form_component.ex:15
 #, elixir-autogen, elixir-format
 msgid "Dutch"
@@ -2729,21 +2740,25 @@ msgstr "Holland"
 msgid "Edit transcription"
 msgstr "Átírás szerkesztése"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:85
 #: lib/claper_web/live/transcription_live/form_component.ex:9
 #, elixir-autogen, elixir-format
 msgid "English"
 msgstr "Angol"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:103
 #: lib/claper_web/live/transcription_live/form_component.ex:27
 #, elixir-autogen, elixir-format
 msgid "Finnish"
 msgstr "Finn"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:86
 #: lib/claper_web/live/transcription_live/form_component.ex:10
 #, elixir-autogen, elixir-format
 msgid "French"
 msgstr "Francia"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:87
 #: lib/claper_web/live/transcription_live/form_component.ex:11
 #, elixir-autogen, elixir-format
 msgid "German"
@@ -2754,21 +2769,25 @@ msgstr "Német"
 msgid "Global interactions"
 msgstr "Interakciók"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:98
 #: lib/claper_web/live/transcription_live/form_component.ex:22
 #, elixir-autogen, elixir-format
 msgid "Hindi"
 msgstr "Hindi"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:89
 #: lib/claper_web/live/transcription_live/form_component.ex:13
 #, elixir-autogen, elixir-format
 msgid "Italian"
 msgstr "Olasz"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:94
 #: lib/claper_web/live/transcription_live/form_component.ex:18
 #, elixir-autogen, elixir-format
 msgid "Japanese"
 msgstr "Japán"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:96
 #: lib/claper_web/live/transcription_live/form_component.ex:20
 #, elixir-autogen, elixir-format
 msgid "Korean"
@@ -2804,16 +2823,19 @@ msgstr "Nincs interakció engedélyezve"
 msgid "No settings available for this interaction"
 msgstr "Nem érhetők el beállítások ehhez az interakcióhoz"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:101
 #: lib/claper_web/live/transcription_live/form_component.ex:25
 #, elixir-autogen, elixir-format
 msgid "Norwegian"
 msgstr "Norvég"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:92
 #: lib/claper_web/live/transcription_live/form_component.ex:16
 #, elixir-autogen, elixir-format
 msgid "Polish"
 msgstr "Lengyel"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:90
 #: lib/claper_web/live/transcription_live/form_component.ex:14
 #, elixir-autogen, elixir-format
 msgid "Portuguese"
@@ -2829,6 +2851,7 @@ msgstr "Előadó és résztvevő"
 msgid "Presenter only"
 msgstr "Csak előadó"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:93
 #: lib/claper_web/live/transcription_live/form_component.ex:17
 #, elixir-autogen, elixir-format
 msgid "Russian"
@@ -2839,11 +2862,13 @@ msgstr "Orosz"
 msgid "Show subtitles on"
 msgstr "Feliratok megjelenítése"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:88
 #: lib/claper_web/live/transcription_live/form_component.ex:12
 #, elixir-autogen, elixir-format
 msgid "Spanish"
 msgstr "Spanyol"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:100
 #: lib/claper_web/live/transcription_live/form_component.ex:24
 #, elixir-autogen, elixir-format
 msgid "Swedish"
@@ -2860,7 +2885,130 @@ msgstr "Ezzel törli az átírás konfigurációját, biztosan folytatja?"
 msgid "Transcription"
 msgstr "Átírás"
 
+#: lib/claper_web/live/admin_live/settings_live.ex:99
 #: lib/claper_web/live/transcription_live/form_component.ex:23
 #, elixir-autogen, elixir-format
 msgid "Turkish"
 msgstr "Török"
+
+#: lib/claper_web/live/admin_live/settings_live.ex:69
+#, elixir-autogen, elixir-format
+msgid "API key cleared"
+msgstr "API kulcs törölve"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:62
+#, elixir-autogen, elixir-format
+msgid "API key is configured"
+msgstr "API kulcs konfigurálva"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:55
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Are you sure you want to clear the API key?"
+msgstr "Biztos benne hogy leválasztja ezt a fiókot?"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:85
+#, elixir-autogen, elixir-format
+msgid "Audio Chunk Duration (ms)"
+msgstr "Hangfájl darab időtartama (ms)"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:57
+#, elixir-autogen, elixir-format
+msgid "Clear"
+msgstr "Törlés"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "Configure the Mistral API for real-time transcription features."
+msgstr "Konfigurálja a Mistral API-t a valós idejű átírási funkciókhoz."
+
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:37
+#, elixir-autogen, elixir-format
+msgid "Date"
+msgstr "Dátum"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:70
+#, elixir-autogen, elixir-format
+msgid "Default Language"
+msgstr "Alapértelmezett nyelv"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:78
+#, elixir-autogen, elixir-format
+msgid "Default language for new transcription sessions. Can be overridden per event."
+msgstr "Alapértelmezett nyelv az új átírási munkamenetekhez. Eseményenként felülírható."
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:97
+#, elixir-autogen, elixir-format
+msgid "Duration of audio chunks sent to the API (default: 5000ms)."
+msgstr "Az API-nak küldött hangdarabok időtartama (alapértelmezett: 5000ms)."
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:31
+#, elixir-autogen, elixir-format
+msgid "Enable transcription feature globally"
+msgstr "Átírási funkció globális engedélyezése"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:46
+#, elixir-autogen, elixir-format
+msgid "Enter your Mistral API key"
+msgstr "Adja meg a Mistral API kulcsát"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:46
+#, elixir-autogen, elixir-format
+msgid "Leave blank to keep current key"
+msgstr "Hagyja üresen az aktuális kulcs megtartásához"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "Mistral API Key"
+msgstr "Mistral API kulcs"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:62
+#, elixir-autogen, elixir-format
+msgid "No API key configured"
+msgstr "Nincs API kulcs konfigurálva"
+
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:44
+#, elixir-autogen, elixir-format, fuzzy
+msgid "No transcriptions found."
+msgstr "Új átírás"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:104
+#, elixir-autogen, elixir-format
+msgid "Save settings"
+msgstr "Beállítások mentése"
+
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "Search by event name or text..."
+msgstr "Keresés eseménynév vagy szöveg alapján..."
+
+#: lib/claper_web/live/admin_live/settings_live.ex:56
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Settings saved successfully"
+msgstr "Beállítások sikeresen mentve"
+
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:5
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Total transcriptions"
+msgstr "Átírás szerkesztése"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:9
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Transcription Settings"
+msgstr "Átírás"
+
+#: lib/claper_web/live/event_live/manage.ex:698
+#, elixir-autogen, elixir-format
+msgid "Transcription has been disabled by the administrator"
+msgstr "Az átírást az adminisztrátor letiltotta"
+
+#: lib/claper_web/live/admin_live/transcription_live.ex:16
+#: lib/claper_web/live/admin_live/transcription_live.html.heex:3
+#: lib/claper_web/templates/layout/admin.html.heex:262
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Transcriptions"
+msgstr "Átírás"
+
+#: lib/claper_web/live/admin_live/settings_live.html.heex:32
+#, elixir-autogen, elixir-format
+msgid "When disabled, no events can use transcription."
+msgstr "Ha letiltva, egyetlen esemény sem használhatja az átírást."

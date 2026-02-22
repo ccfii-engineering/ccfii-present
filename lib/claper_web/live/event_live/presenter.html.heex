@@ -15,6 +15,7 @@
   data-max-page={@event.presentation_file.length}
   data-hash={@event.presentation_file.hash}
   data-current-page={@state.position}
+  data-embed-active={if @current_embed, do: "true", else: "false"}
 >
   <!-- JOIN SCREEN -->
   <div
@@ -215,27 +216,13 @@
           />
         </div>
       <% end %>
-      <div class={"#{if @current_embed, do: "hidden", else: ""} text-center"} id="slider">
+      <div class={"#{if @current_embed, do: "hidden", else: ""} text-center"} id="slider" phx-update="ignore">
         <img
           :for={src <- Presentations.get_slide_urls(@event.presentation_file)}
           src={src}
           class="max-h-screen w-auto!"
         />
       </div>
-    </div>
-  </div>
-  <!-- TRANSCRIPTION SUBTITLES -->
-  <div
-    :if={
-      @transcription_config && @transcription_config.enabled &&
-        @transcription_config.visibility in ["both", "presenter"] && @transcription_text != ""
-    }
-    class="absolute z-30 bottom-16 left-1/2 transform -translate-x-1/2 max-w-3xl w-full px-4"
-  >
-    <div class="bg-black/80 rounded-lg px-6 py-3 text-center">
-      <p class={"#{if @iframe, do: "text-lg", else: "text-2xl"} text-white font-medium"}>
-        {@transcription_text}
-      </p>
     </div>
   </div>
   <!-- ONLINE BADGE -->
@@ -251,5 +238,22 @@
         {@attendees_nb}
       </span>
     </div>
+  </div>
+</div>
+<!-- TRANSCRIPTION SUBTITLES (outside #presenter to avoid slider re-init on text updates) -->
+<div
+  id="transcription-subtitles"
+  class="fixed z-50 bottom-16 left-1/2 transform -translate-x-1/2 max-w-3xl w-full px-4"
+>
+  <div
+    :if={
+      @transcription_config && @transcription_config.enabled &&
+        @transcription_config.visibility in ["both", "presenter"] && @transcription_text != ""
+    }
+    class="bg-black/80 rounded-lg px-6 py-3 text-center"
+  >
+    <p class={"#{if @iframe, do: "text-lg", else: "text-2xl"} text-white font-medium"}>
+      {@transcription_text}
+    </p>
   </div>
 </div>

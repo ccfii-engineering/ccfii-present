@@ -40,8 +40,10 @@ defmodule ClaperWeb.EventLive.Manage do
       transcription_config =
         Transcriptions.get_transcription_config(event.presentation_file.id)
 
-      # Auto-start transcription worker if config says enabled
-      if connected?(socket) && transcription_config && transcription_config.enabled do
+      transcription_globally_enabled = Claper.Settings.transcription_globally_enabled?()
+
+      # Auto-start transcription worker if config says enabled and globally enabled
+      if connected?(socket) && transcription_globally_enabled && transcription_config && transcription_config.enabled do
         unless Claper.Transcriptions.TranscriptionWorker.running?(event.uuid) do
           DynamicSupervisor.start_child(
             Claper.TranscriptionSupervisor,
@@ -61,6 +63,7 @@ defmodule ClaperWeb.EventLive.Manage do
         |> assign(:state, event.presentation_file.presentation_state)
         |> assign(:audio_token, audio_token)
         |> assign(:transcription_config, transcription_config)
+        |> assign(:transcription_globally_enabled, transcription_globally_enabled)
         |> stream(:posts, posts)
         |> stream(:questions, questions)
         |> stream(:pinned_posts, pinned_posts)
@@ -669,25 +672,31 @@ defmodule ClaperWeb.EventLive.Manage do
   end
 
   def handle_event("transcription-set-active", %{"id" => id}, socket) do
-    {:ok, config} = Transcriptions.set_transcription_enabled(id)
-    event = socket.assigns.event
+    if Claper.Settings.transcription_globally_enabled?() do
+      {:ok, config} = Transcriptions.set_transcription_enabled(id)
+      event = socket.assigns.event
 
-    DynamicSupervisor.start_child(
-      Claper.TranscriptionSupervisor,
-      {Claper.Transcriptions.TranscriptionWorker,
-       {event.uuid, event.presentation_file.id}}
-    )
+      DynamicSupervisor.start_child(
+        Claper.TranscriptionSupervisor,
+        {Claper.Transcriptions.TranscriptionWorker,
+         {event.uuid, event.presentation_file.id}}
+      )
 
-    Phoenix.PubSub.broadcast(
-      Claper.PubSub,
-      "event:#{event.uuid}",
-      {:transcription_config_updated, config}
-    )
+      Phoenix.PubSub.broadcast(
+        Claper.PubSub,
+        "event:#{event.uuid}",
+        {:transcription_config_updated, config}
+      )
 
-    {:noreply,
-     socket
-     |> assign(:transcription_config, config)
-     |> push_event("transcription-state", %{enabled: true})}
+      {:noreply,
+       socket
+       |> assign(:transcription_config, config)
+       |> push_event("transcription-state", %{enabled: true})}
+    else
+      {:noreply,
+       socket
+       |> put_flash(:error, gettext("Transcription has been disabled by the administrator"))}
+    end
   end
 
   def handle_event("transcription-set-inactive", %{"id" => id}, socket) do

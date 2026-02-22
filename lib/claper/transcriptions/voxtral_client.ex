@@ -50,6 +50,6 @@ defmodule Claper.Transcriptions.VoxtralClient do
   defp maybe_add_language(multipart, lang), do: multipart ++ [{"language", lang}]
 
   defp get_api_key do
-    Application.get_env(:claper, :transcription)[:api_key]
+    Claper.Settings.get_transcription_api_key()
   end
 end
