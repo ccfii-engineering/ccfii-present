@@ -412,7 +412,7 @@ Hooks.Pickr = {
   },
   updated() {},
   destroyed() {
-    this.pickr.destroy();
+    if (this.pickr) this.pickr.destroy();
   },
 };
 Hooks.UpdateAttendees = {

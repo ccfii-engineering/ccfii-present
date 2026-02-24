@@ -10,6 +10,7 @@
 
 ### Fixes and improvements
 
+- Fix date picker crash when hook is destroyed before initialization
 - Fix date picker crash for unsupported browser locales
 - Fix form submission crash for anonymous attendees
 - Improve SMTP config and handling (#197)
