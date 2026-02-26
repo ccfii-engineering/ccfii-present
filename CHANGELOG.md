@@ -10,10 +10,13 @@
 
 ### Fixes and improvements
 
+- Fix date picker crash when hook is destroyed before initialization
+- Fix date picker crash for unsupported browser locales
 - Fix form submission crash for anonymous attendees
 - Improve SMTP config and handling (#197)
 - Fix presentation slides URL (#200)
 - Fix custom S3 endpoint (#199)
+- Fix quizz real time average score update and id duplication
 
 ### v.2.4.0
 
