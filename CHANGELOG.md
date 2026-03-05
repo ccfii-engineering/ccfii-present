@@ -17,6 +17,7 @@
 - Fix presentation slides URL (#200)
 - Fix custom S3 endpoint (#199)
 - Fix quizz real time average score update and id duplication
+- Fix crash when broadcasting events to leaders with unregistered emails
 
 ### v.2.4.0
 
