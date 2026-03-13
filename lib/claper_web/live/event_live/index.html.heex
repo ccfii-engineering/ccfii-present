@@ -56,8 +56,8 @@
         </:tab>
       </.tabs>
     </div>
-
-    <!-- Desktop: Full layout with tabs, view toggle, and action buttons -->
+    
+<!-- Desktop: Full layout with tabs, view toggle, and action buttons -->
     <div class="hidden lg:flex items-center justify-between gap-4">
       <!-- Left: Filter Tabs -->
       <.tabs style={:boxed}>
@@ -85,8 +85,8 @@
           {gettext("Shared with you")}
         </:tab>
       </.tabs>
-
-      <!-- Right: View Toggle & Action Buttons -->
+      
+<!-- Right: View Toggle & Action Buttons -->
       <div class="flex items-center gap-2 flex-wrap">
         <!-- View Toggle -->
         <div
@@ -131,12 +131,9 @@
             </svg>
           </button>
         </div>
-
-        <!-- Create Event Button -->
-        <.link
-          patch={~p"/events/new"}
-          class="btn btn-gradient"
-        >
+        
+<!-- Create Event Button -->
+        <.link patch={~p"/events/new"} class="btn btn-gradient">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -154,8 +151,8 @@
       </div>
     </div>
   </div>
-
-  <!-- Events Grid/List -->
+  
+<!-- Events Grid/List -->
   <div class="relative">
     <!-- Mobile: Always list view -->
     <ul role="event-list" id={"events-mobile-#{@active_tab}"} class="lg:hidden space-y-2.5">
@@ -171,11 +168,15 @@
         />
       <% end %>
     </ul>
-
-    <!-- Desktop: Grid or List based on view_mode -->
+    
+<!-- Desktop: Grid or List based on view_mode -->
     <%= if @view_mode == "grid" do %>
       <!-- Grid View -->
-      <div id="events" phx-update="replace" class="hidden lg:grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div
+        id="events"
+        phx-update="replace"
+        class="hidden lg:grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
+      >
         <% current_time = NaiveDateTime.utc_now() %>
         <%= for event <- @events do %>
           <.live_component
@@ -204,20 +205,17 @@
         <% end %>
       </ul>
     <% end %>
-
-    <!-- Load More Button -->
+    
+<!-- Load More Button -->
     <%= if @page < @total_pages do %>
       <div class="flex justify-center my-8">
-        <button
-          phx-click="load-more"
-          class="btn btn-soft btn-primary"
-        >
+        <button phx-click="load-more" class="btn btn-soft btn-primary">
           {gettext("Load more")}
         </button>
       </div>
     <% end %>
-
-    <!-- Empty State -->
+    
+<!-- Empty State -->
     <%= if Enum.count(@events) == 0 do %>
       <div class="w-full py-16 text-center">
         <svg
@@ -235,10 +233,7 @@
           />
         </svg>
         <p class="text-xl text-gray-400">{gettext("Create your first event")}</p>
-        <.link
-          patch={~p"/events/new"}
-          class="btn btn-gradient mt-4"
-        >
+        <.link patch={~p"/events/new"} class="btn btn-gradient mt-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -256,14 +251,11 @@
       </div>
     <% end %>
   </div>
-
-  <!-- Mobile Fixed Bottom Action Buttons -->
+  
+<!-- Mobile Fixed Bottom Action Buttons -->
   <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-t from-white from-70% via-white via-85% to-transparent px-4 pt-12 pb-6 z-20">
     <div class="flex flex-col gap-2.5">
-      <.link
-        patch={~p"/events/new"}
-        class="btn btn-gradient w-full"
-      >
+      <.link patch={~p"/events/new"} class="btn btn-gradient w-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5"

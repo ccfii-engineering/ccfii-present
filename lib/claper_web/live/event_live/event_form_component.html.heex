@@ -3,7 +3,14 @@
     <div class="flex items-center gap-3 flex-1 min-w-0">
       <%= if assigns[:container] == :drawer do %>
         <.link patch={~p"/events"} class="p-1 rounded-full hover:bg-gray-100 transition">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-gray-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </.link>
@@ -46,9 +53,7 @@
   </div>
 
   <%= if Map.get(@event, :presentation_file) == nil || Map.get(@event.presentation_file, :length) == 0 || Map.get(@event.presentation_file, :id) == nil do %>
-    <div
-      class="mb-3 mt-12"
-    >
+    <div class="mb-3 mt-12">
       <label class="block text-sm font-medium text-gray-700 mb-2">
         {gettext("Select your presentation (optional)")}
       </label>
@@ -261,9 +266,7 @@
         />
       </div>
 
-      <div
-        class="my-3"
-      >
+      <div class="my-3">
         <ClaperWeb.Component.Input.code
           form={f}
           key={:code}
@@ -272,11 +275,7 @@
         />
       </div>
 
-      <div
-        class="my-3"
-        phx-update="ignore"
-        id="date-picker"
-      >
+      <div class="my-3" phx-update="ignore" id="date-picker">
         <ClaperWeb.Component.Input.date
           form={f}
           key={:started_at}
@@ -289,9 +288,7 @@
     </div>
 
     <%= if @action == :edit do %>
-      <div
-        class="mt-7 mb-3"
-      >
+      <div class="mt-7 mb-3">
         <span class="text-lg block font-medium text-gray-700">
           {gettext("Facilitators can present and manage interactions")}
         </span>

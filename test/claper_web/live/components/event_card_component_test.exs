@@ -38,7 +38,7 @@ defmodule ClaperWeb.EventCardComponentTest do
       {:ok, view, _html} = live(conn, "/events")
       # Expired events are shown in the "Done" tab
       html =
-        view |> element("[phx-click='change-tab'][phx-value-tab='expired']") |> render_click()
+        view |> element(".lg\\:flex [phx-click='change-tab'][phx-value-tab='expired']") |> render_click()
 
       assert html =~ "Finished"
     end
@@ -53,7 +53,7 @@ defmodule ClaperWeb.EventCardComponentTest do
       {:ok, view, _html} = live(conn, "/events")
       # Expired events are shown in the "Done" tab
       html =
-        view |> element("[phx-click='change-tab'][phx-value-tab='expired']") |> render_click()
+        view |> element(".lg\\:flex [phx-click='change-tab'][phx-value-tab='expired']") |> render_click()
 
       assert html =~ "Finished"
     end

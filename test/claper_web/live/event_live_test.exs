@@ -40,7 +40,7 @@ defmodule ClaperWeb.EventLiveTest do
 
       {:ok, conn} =
         index_live
-        |> element(~s{a[phx-value-id=#{presentation_file.event.uuid}]})
+        |> element(~s{a[phx-click="delete"][phx-value-id=#{presentation_file.event.uuid}]})
         |> render_click()
         |> follow_redirect(conn, ~p"/events")
 
