@@ -11,66 +11,6 @@
       current_user={@current_user}
     />
   <% else %>
-    <!-- Quick Create Modal -->
-    <div
-      id="quick-create-modal"
-      class={"#{if @live_action != :quick_create, do: "hidden" } fixed z-30 inset-0 overflow-y-auto p-4 sm:p-6 md:p-24
-      transform transition-all duration-150"}
-      role="dialog"
-      aria-modal="true"
-    >
-      <div
-        phx-click="toggle-quick-create"
-        class="fixed inset-0 bg-gray-800/75 transition-opacity w-full h-full -z-10"
-        aria-hidden="true"
-      >
-      </div>
-      <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black/5 transition-all relative">
-        <button
-          phx-click="toggle-quick-create"
-          class="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-
-        <div id="modal-content" class="bg-gray-100 pt-10 pb-5 px-5">
-          <.form
-            :let={f}
-            :if={@live_action == :quick_create}
-            for={@quick_event_changeset}
-            phx-change="validate"
-            phx-submit="save"
-          >
-            <ClaperWeb.Component.Input.text
-              form={f}
-              key={:name}
-              name={gettext("Name of your event")}
-              readonly={false}
-              minlength="5"
-              maxlength="50"
-              class="h-12"
-            />
-            <button
-              type="submit"
-              phx_disable_with="Loading..."
-              class="btn btn-primary w-full mt-5"
-            >
-              {gettext("Create")}
-            </button>
-          </.form>
-        </div>
-      </div>
-    </div>
-    
 <!-- Filter Bar and Actions -->
     <div class="pt-4 lg:pt-6 pb-4 lg:pb-6">
       <!-- Mobile: Search bar + Centered tabs -->
@@ -157,7 +97,7 @@
             {gettext("Shared with you")}
           </:tab>
         </.tabs>
-        
+
 <!-- Right: View Toggle & Action Buttons -->
         <div class="flex items-center gap-2 flex-wrap">
           <!-- View Toggle -->
@@ -203,26 +143,6 @@
               </svg>
             </button>
           </div>
-          
-<!-- Quick Event Button -->
-          <button
-            phx-click="toggle-quick-create"
-            class="btn btn-outline btn-secondary"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span>{gettext("Create a quick event")}</span>
-          </button>
           
 <!-- Create Event Button -->
           <.link
@@ -352,24 +272,6 @@
 <!-- Mobile Fixed Bottom Action Buttons -->
     <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-t from-white from-70% via-white via-85% to-transparent px-4 pt-12 pb-6 z-20">
       <div class="flex flex-col gap-2.5">
-        <button
-          phx-click="toggle-quick-create"
-          class="btn btn-outline btn-secondary w-full"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <span>{gettext("Create a quick event")}</span>
-        </button>
         <.link
           href={~p"/events/new"}
           class="btn btn-gradient w-full"

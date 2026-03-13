@@ -85,14 +85,14 @@ defmodule ClaperWeb.EventLive.Manage do
   def handle_info({:post_created, post}, socket) do
     socket =
       socket
-      |> stream_insert(:posts, post)
+      |> stream_insert(:posts, post, at: 0)
       |> update(:post_count, fn post_count -> post_count + 1 end)
 
     case ClaperWeb.Helpers.body_without_links(post.body) =~ "?" do
       true ->
         {:noreply,
          socket
-         |> stream_insert(:questions, post)
+         |> stream_insert(:questions, post, at: 0)
          |> update(:question_count, fn question_count -> question_count + 1 end)
          |> push_event("scroll", %{})}
 
@@ -143,7 +143,7 @@ defmodule ClaperWeb.EventLive.Manage do
     updated_socket =
       socket
       |> stream_insert(:posts, post)
-      |> stream_insert(:pinned_posts, post)
+      |> stream_insert(:pinned_posts, post, at: 0)
       |> stream_insert(:questions, post)
       |> assign(:pinned_post_count, socket.assigns.pinned_post_count + 1)
 
@@ -454,7 +454,7 @@ defmodule ClaperWeb.EventLive.Manage do
   @impl true
   def handle_event(
         "ban",
-        %{"attendee-identifier" => attendee_identifier},
+        %{"attendee_identifier" => attendee_identifier},
         %{assigns: %{event: event}} = socket
       ) do
     Claper.Posts.delete_all_posts(:attendee_identifier, attendee_identifier, event)
@@ -471,7 +471,7 @@ defmodule ClaperWeb.EventLive.Manage do
   @impl true
   def handle_event(
         "ban",
-        %{"user-id" => user_id},
+        %{"user_id" => user_id},
         %{assigns: %{event: event}} = socket
       ) do
     Claper.Posts.delete_all_posts(:user_id, user_id, event)
@@ -946,10 +946,12 @@ defmodule ClaperWeb.EventLive.Manage do
 
   defp list_pinned_posts(_socket, event_id) do
     Claper.Posts.list_pinned_posts(event_id, [:event, :reactions])
+    |> Enum.reverse()
   end
 
   defp list_all_posts(_socket, event_id) do
     Claper.Posts.list_posts(event_id, [:event, :reactions])
+    |> Enum.reverse()
   end
 
   defp list_all_questions(_socket, event_id, sort \\ "date") do
@@ -961,6 +963,7 @@ defmodule ClaperWeb.EventLive.Manage do
 
     Claper.Posts.list_questions(event_id, [:event, :reactions], sort_atom)
     |> Enum.filter(&(ClaperWeb.Helpers.body_without_links(&1.body) =~ "?"))
+    |> Enum.reverse()
   end
 
   defp list_form_submits(_socket, presentation_file_id) do

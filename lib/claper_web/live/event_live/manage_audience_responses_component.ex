@@ -3,6 +3,11 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
   use Phoenix.Component
   use Gettext, backend: ClaperWeb.Gettext
 
+  @avatars ~w(🦊 🐙 🦉 🐸 🐼 🦋 🐬 🦈 🐢 🦎 🐝 🦩 🐧 🦦 🐨 🦁 🐯 🐻 🐰 🐮
+    🐷 🐵 🦄 🐺 🦇 🐳 🐠 🦑 🦞 🦀 🐡 🐞 🦗 🕷 🦂 🐍 🦕 🦖 🦚 🦜
+    🦢 🦩 🐓 🦃 🦆 🦅 🦔 🐿 🦫 🦨 🦡 🦝 🦥 🦘 🦙 🐫 🐘 🦏 🦛 🐊
+    🐅 🐆 🦓 🐃 🐂 🐄 🐎 🐖 🐑 🐐 🦌 🐕 🐈 🦮 🐁 🐀 🦔 🐲 🌵 🍄)
+
   def render(assigns) do
     ~H"""
     <div class="flex flex-col gap-2 border border-gray-200 rounded-2xl p-2 flex-1 overflow-hidden bg-gray-100">
@@ -97,7 +102,6 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
             id="post-list"
             class="p-2 space-y-3"
             phx-update="stream"
-            phx-hook="ScrollIntoDiv"
           >
             <.live_component
               :for={{id, post} <- @streams.posts}
@@ -156,8 +160,6 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
               id="question-list"
               class="flex-1 overflow-y-auto p-2 space-y-3"
               phx-update="stream"
-              data-use-parent="true"
-              phx-hook="ScrollIntoDiv"
             >
               <.live_component
                 :for={{id, post} <- @streams.questions}
@@ -194,7 +196,6 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
             id="pinned-post-list"
             class="p-2 space-y-3"
             phx-update="stream"
-            phx-hook="ScrollIntoDiv"
           >
             <.live_component
               :for={{id, post} <- @streams.pinned_posts}
@@ -253,7 +254,8 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
                 </div>
                 <div class="flex items-start gap-x-3">
                   <div class="avatar avatar-placeholder shrink-0">
-                    <div class="bg-neutral text-neutral-content w-8 rounded-full">
+                    <div class="text-white w-8 rounded-full" style={"background-color: #{avatar_color(submission)}"}>
+                      <span class="text-sm">{avatar_emoji(submission)}</span>
                     </div>
                   </div>
                   <div class="flex-1 text-sm text-gray-600">
@@ -272,5 +274,19 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
       </div>
     </div>
     """
+  end
+
+  defp avatar_identifier(record) do
+    "#{record.attendee_identifier || record.user_id || "default"}"
+  end
+
+  defp avatar_color(record) do
+    hue = :erlang.phash2(avatar_identifier(record), 360)
+    "hsl(#{hue}, 45%, 55%)"
+  end
+
+  defp avatar_emoji(record) do
+    index = :erlang.phash2({avatar_identifier(record), :emoji}, length(@avatars))
+    Enum.at(@avatars, index)
   end
 end

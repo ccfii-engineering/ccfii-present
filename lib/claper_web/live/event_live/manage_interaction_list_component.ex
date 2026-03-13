@@ -1,7 +1,42 @@
 defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
   use ClaperWeb, :live_component
 
+  @per_page 6
+
+  def update(assigns, socket) do
+    page = Map.get(socket.assigns, :page, 0)
+    total = length(assigns.interactions)
+    max_page = max(0, ceil(total / @per_page) - 1)
+    page = min(page, max_page)
+
+    {:ok,
+     socket
+     |> assign(assigns)
+     |> assign(page: page, per_page: @per_page)}
+  end
+
+  def handle_event("prev-page", _, socket) do
+    {:noreply, assign(socket, page: max(0, socket.assigns.page - 1))}
+  end
+
+  def handle_event("next-page", _, socket) do
+    max_page = max(0, ceil(length(socket.assigns.interactions) / @per_page) - 1)
+    {:noreply, assign(socket, page: min(max_page, socket.assigns.page + 1))}
+  end
+
+  defp paginated_interactions(interactions, page, per_page) do
+    interactions
+    |> Enum.drop(page * per_page)
+    |> Enum.take(per_page)
+  end
+
   def render(assigns) do
+    assigns =
+      assign(assigns,
+        paginated: paginated_interactions(assigns.interactions, assigns.page, assigns.per_page),
+        total_pages: max(1, ceil(length(assigns.interactions) / assigns.per_page))
+      )
+
     ~H"""
     <div class="relative flex flex-col gap-2 border border-gray-200 rounded-2xl p-2">
       <div class="flex items-center gap-2">
@@ -129,7 +164,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
         </p>
       </div>
 
-      <%= for interaction <- @interactions do %>
+      <%= for interaction <- @paginated do %>
         <div class={[
           "flex items-center gap-2 overflow-hidden pl-2 pr-3 py-2 rounded-xl w-full",
           if(interaction.enabled,
@@ -239,6 +274,32 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
           />
         </div>
       <% end %>
+
+      <div :if={@total_pages > 1} class="flex items-center justify-between pt-1">
+        <button
+          phx-click="prev-page"
+          phx-target={@myself}
+          disabled={@page == 0}
+          class="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <span class="text-xs text-gray-400">
+          {@page + 1} / {@total_pages}
+        </span>
+        <button
+          phx-click="next-page"
+          phx-target={@myself}
+          disabled={@page >= @total_pages - 1}
+          class="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
     </div>
     """
   end

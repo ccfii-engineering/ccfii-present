@@ -107,7 +107,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             </div>
 
     <!-- 3-dot Menu -->
-            <div class="relative shrink-0">
+            <div :if={not @is_leader} class="relative shrink-0">
               <button
                 phx-click-away={JS.hide(to: "#dropdown-menu-#{@event.uuid}")}
                 phx-click={JS.toggle(to: "#dropdown-menu-#{@event.uuid}")}
@@ -362,7 +362,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 <button
                   @click="showJoinMenu = !showJoinMenu"
                   @click.away="showJoinMenu = false"
-                  class="btn btn-primary btn-sm"
+                  class="btn btn-primary"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -401,7 +401,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                   x-transition:leave="transition ease-in duration-75"
                   x-transition:leave-start="opacity-100 scale-100"
                   x-transition:leave-end="opacity-0 scale-95"
-                  class="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden z-30"
+                  class="absolute top-full right-0 mt-2 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden z-30"
                 >
                   <a
                     href={~p"/e/#{@event.code}/manage"}
@@ -452,7 +452,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 }
                 phx-value-id={@event.uuid}
                 phx-click="terminate"
-                class="btn btn-outline btn-sm"
+                class="btn btn-outline"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -478,7 +478,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             <% end %>
 
             <%= if Event.finished?(@event) do %>
-              <a href={~p"/events/#{@event.uuid}/stats"} class="btn btn-primary btn-sm">
+              <a href={~p"/events/#{@event.uuid}/stats"} class="btn btn-primary">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5"
@@ -493,7 +493,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             <% end %>
 
     <!-- 3-dot Menu -->
-            <div class="relative">
+            <div :if={not @is_leader} class="relative">
               <button
                 phx-click-away={JS.hide(to: "#dropdown-menu-#{@event.uuid}")}
                 phx-click={JS.toggle(to: "#dropdown-menu-#{@event.uuid}")}
@@ -579,7 +579,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             </div>
 
     <!-- 3-dot Menu -->
-            <div class="relative shrink-0">
+            <div :if={not @is_leader} class="relative shrink-0">
               <button
                 phx-click-away={JS.hide(to: "#dropdown-menu-#{@event.uuid}")}
                 phx-click={JS.toggle(to: "#dropdown-menu-#{@event.uuid}")}

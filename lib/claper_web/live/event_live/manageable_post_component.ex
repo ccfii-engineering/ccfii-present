@@ -1,8 +1,17 @@
 defmodule ClaperWeb.EventLive.ManageablePostComponent do
   use ClaperWeb, :live_component
 
+  @avatars ~w(🦊 🐙 🦉 🐸 🐼 🦋 🐬 🦈 🐢 🦎 🐝 🦩 🐧 🦦 🐨 🦁 🐯 🐻 🐰 🐮
+    🐷 🐵 🦄 🐺 🦇 🐳 🐠 🦑 🦞 🦀 🐡 🐞 🦗 🕷 🦂 🐍 🦕 🦖 🦚 🦜
+    🦢 🦩 🐓 🦃 🦆 🦅 🦔 🐿 🦫 🦨 🦡 🦝 🦥 🦘 🦙 🐫 🐘 🦏 🦛 🐊
+    🐅 🐆 🦓 🐃 🐂 🐄 🐎 🐖 🐑 🐐 🦌 🐕 🐈 🦮 🐁 🐀 🦔 🐲 🌵 🍄)
+
   def render(assigns) do
-    assigns = assigns |> assign_new(:readonly, fn -> false end)
+    assigns =
+      assigns
+      |> assign_new(:readonly, fn -> false end)
+      |> assign(:avatar_color, avatar_color(assigns.post))
+      |> assign(:avatar_emoji, avatar_emoji(assigns.post))
 
     ~H"""
     <div id={"#{@id}"} class="flex items-end gap-2 group">
@@ -12,10 +21,8 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
           {Calendar.strftime(@post.inserted_at, "%H:%M")}
         </span>
         <div class="avatar avatar-placeholder">
-          <div class="bg-neutral text-neutral-content w-10 rounded-full">
-            <%= if @post.name do %>
-              <span class="text-sm font-medium uppercase">{String.first(@post.name)}</span>
-            <% end %>
+          <div class="text-white w-10 rounded-full" style={"background-color: #{@avatar_color}"}>
+            <span class="text-base">{@avatar_emoji}</span>
           </div>
         </div>
       </div>
@@ -193,5 +200,19 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
       </div>
     </div>
     """
+  end
+
+  defp avatar_identifier(post) do
+    "#{post.attendee_identifier || post.user_id || "default"}"
+  end
+
+  defp avatar_color(post) do
+    hue = :erlang.phash2(avatar_identifier(post), 360)
+    "hsl(#{hue}, 45%, 55%)"
+  end
+
+  defp avatar_emoji(post) do
+    index = :erlang.phash2({avatar_identifier(post), :emoji}, length(@avatars))
+    Enum.at(@avatars, index)
   end
 end
