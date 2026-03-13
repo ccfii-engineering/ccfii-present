@@ -1,6 +1,13 @@
 <div id="wrapper">
   <div class="border-b border-gray-200 py-4 flex flex-col sm:flex-row sm:items-center justify-between">
-    <div class="flex-1 min-w-0">
+    <div class="flex items-center gap-3 flex-1 min-w-0">
+      <%= if assigns[:container] == :drawer do %>
+        <.link patch={~p"/events"} class="p-1 rounded-full hover:bg-gray-100 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </.link>
+      <% end %>
       <h1 class="text-2xl font-medium leading-6 text-gray-900 sm:truncate">
         {@page_title}
       </h1>
@@ -281,87 +288,89 @@
       </div>
     </div>
 
-    <div
-      class="mt-7 mb-3"
-    >
-      <span class="text-lg block font-medium text-gray-700">
-        {gettext("Facilitators can present and manage interactions")}
-      </span>
-      <button
-        type="button"
-        phx-click="add-leader"
-        phx-target={@myself}
-        class="rounded-md bg-primary-500 hover:bg-primary-600 transition flex items-center mt-3 md:w-max text-white py-5 px-3 text-sm max-h-0"
+    <%= if @action == :edit do %>
+      <div
+        class="mt-7 mb-3"
       >
-        <svg
-          class="text-white h-6 transform"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
+        <span class="text-lg block font-medium text-gray-700">
+          {gettext("Facilitators can present and manage interactions")}
+        </span>
+        <button
+          type="button"
+          phx-click="add-leader"
+          phx-target={@myself}
+          class="rounded-md bg-primary-500 hover:bg-primary-600 transition flex items-center mt-3 md:w-max text-white py-5 px-3 text-sm max-h-0"
         >
-          <path
-            fill-rule="evenodd"
-            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        <span>{gettext("Add facilitator")}</span>
-      </button>
-    </div>
-
-    <%= inputs_for f, :leaders, fn l -> %>
-      <div class="flex items-center space-x-4 mt-2" id={l.data.temp_id || l.id}>
-        <img
-          class="h-10 w-10 rounded-full"
-          src={"https://www.gravatar.com/avatar/#{:crypto.hash(:md5, (l.data.email || "") |> String.downcase() |> String.trim() ) |> Base.encode16() |> String.downcase()}"}
-          alt=""
-        />
-
-        <%= if is_nil(l.data.temp_id) do %>
-          <div class="relative">
-            <ClaperWeb.Component.Input.text
-              form={l}
-              readonly={true}
-              placeholder={gettext("User email address")}
-              key={:email}
-              name=""
-            />
-            {hidden_input(l, :user_email, value: @current_user.email)}
-          </div>
-
-          <label
-            phx-click={JS.hide(to: "##{l.data.temp_id || l.id}")}
-            class="cursor-pointer md:ml-3 rounded-md bg-supporting-red-500 hover:bg-supporting-red-600 transition flex items-center mt-2 md:w-max text-white py-7 px-3 text-sm max-h-0"
+          <svg
+            class="text-white h-6 transform"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
           >
-            <span>{gettext("Remove")}</span>
-            {checkbox(l, :delete, class: "hidden")}
-          </label>
-        <% else %>
-          <div class="relative">
-            <ClaperWeb.Component.Input.text
-              form={l}
-              placeholder={gettext("User email address")}
-              key={:email}
-              name=""
+            <path
+              fill-rule="evenodd"
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+              clip-rule="evenodd"
             />
-          </div>
-
-          {hidden_input(l, :temp_id)}
-          {hidden_input(l, :event_id, value: @event.id)}
-          {hidden_input(l, :user_email, value: @current_user.email)}
-
-          <button
-            type="button"
-            phx-click="remove-leader"
-            phx-value-remove={l.data.temp_id}
-            phx-target={@myself}
-            class="md:ml-3 rounded-md bg-supporting-red-500 hover:bg-supporting-red-600 transition flex items-center mt-2 md:w-max text-white py-5 px-3 text-sm max-h-0"
-          >
-            <span>{gettext("Remove")}</span>
-          </button>
-        <% end %>
+          </svg>
+          <span>{gettext("Add facilitator")}</span>
+        </button>
       </div>
+
+      <%= inputs_for f, :leaders, fn l -> %>
+        <div class="flex items-center space-x-4 mt-2" id={l.data.temp_id || l.id}>
+          <img
+            class="h-10 w-10 rounded-full"
+            src={"https://www.gravatar.com/avatar/#{:crypto.hash(:md5, (l.data.email || "") |> String.downcase() |> String.trim() ) |> Base.encode16() |> String.downcase()}"}
+            alt=""
+          />
+
+          <%= if is_nil(l.data.temp_id) do %>
+            <div class="relative">
+              <ClaperWeb.Component.Input.text
+                form={l}
+                readonly={true}
+                placeholder={gettext("User email address")}
+                key={:email}
+                name=""
+              />
+              {hidden_input(l, :user_email, value: @current_user.email)}
+            </div>
+
+            <label
+              phx-click={JS.hide(to: "##{l.data.temp_id || l.id}")}
+              class="cursor-pointer md:ml-3 rounded-md bg-supporting-red-500 hover:bg-supporting-red-600 transition flex items-center mt-2 md:w-max text-white py-7 px-3 text-sm max-h-0"
+            >
+              <span>{gettext("Remove")}</span>
+              {checkbox(l, :delete, class: "hidden")}
+            </label>
+          <% else %>
+            <div class="relative">
+              <ClaperWeb.Component.Input.text
+                form={l}
+                placeholder={gettext("User email address")}
+                key={:email}
+                name=""
+              />
+            </div>
+
+            {hidden_input(l, :temp_id)}
+            {hidden_input(l, :event_id, value: @event.id)}
+            {hidden_input(l, :user_email, value: @current_user.email)}
+
+            <button
+              type="button"
+              phx-click="remove-leader"
+              phx-value-remove={l.data.temp_id}
+              phx-target={@myself}
+              class="md:ml-3 rounded-md bg-supporting-red-500 hover:bg-supporting-red-600 transition flex items-center mt-2 md:w-max text-white py-5 px-3 text-sm max-h-0"
+            >
+              <span>{gettext("Remove")}</span>
+            </button>
+          <% end %>
+        </div>
+      <% end %>
     <% end %>
   </.form>
 </div>
