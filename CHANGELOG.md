@@ -1,5 +1,9 @@
 ### v.2.5.0
 
+### Features
+
+- Add audit log (#214)
+
 ### Security
 
 - Fix stored XSS vulnerability in custom embed iframes via input sanitization with attribute whitelisting
