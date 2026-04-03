@@ -609,7 +609,7 @@ defmodule Claper.Admin do
 
     query =
       if search != "" do
-        query |> where([u], ilike(u.email, ^"%#{search}%") or ilike(u.name, ^"%#{search}%"))
+        query |> where([u], ilike(u.email, ^"%#{search}%"))
       else
         query
       end

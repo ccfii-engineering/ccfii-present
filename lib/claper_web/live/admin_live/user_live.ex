@@ -61,6 +61,12 @@ defmodule ClaperWeb.AdminLive.UserLive do
   end
 
   @impl true
+  def handle_event("search", %{"search" => search}, socket) do
+    users = search_users(search)
+    {:noreply, socket |> assign(:search, search) |> assign(:users, users)}
+  end
+
+  @impl true
   def handle_event("sort", %{"field" => field}, socket) do
     field_atom = String.to_existing_atom(field)
     current_sort = socket.assigns.current_sort

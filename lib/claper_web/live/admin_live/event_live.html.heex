@@ -2,7 +2,7 @@
   <% :index -> %>
     <div phx-hook="CSVDownloader" id="event-list">
       <div>
-        <div class="flex justify-between items-center mb-24">
+        <div class="flex justify-between items-center mb-6">
           <h1 class="text-3xl font-bold">{gettext("Events")}</h1>
           <div class="flex space-x-3">
             <%!-- <.link navigate={~p"/admin/events/new"} class="btn btn-primary btn-sm">
@@ -249,7 +249,7 @@
   <% :show -> %>
     <div>
       <div>
-        <div class="flex justify-between items-center mb-24">
+        <div class="flex justify-between items-center mb-6">
           <h1 class="text-3xl font-bold">{gettext("Event details")}</h1>
           <div class="flex gap-3">
             <.link navigate={~p"/admin/events"} class="btn btn-outline btn-sm">
