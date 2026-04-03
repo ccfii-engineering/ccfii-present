@@ -1,5 +1,5 @@
-<div id="wrapper">
-  <div class="border-b border-gray-200 py-4 flex flex-col sm:flex-row sm:items-center justify-between">
+<div id="wrapper" class={if assigns[:container] == :drawer, do: "flex flex-col h-full", else: ""}>
+  <div class={["py-4 flex flex-col sm:flex-row sm:items-center justify-between", if(assigns[:container] != :drawer, do: "border-b border-gray-200")]}>
     <div class="flex items-center gap-3 flex-1 min-w-0">
       <%= if assigns[:container] == :drawer do %>
         <.link patch={~p"/events"} class="p-1 rounded-full hover:bg-gray-100 transition">
@@ -19,39 +19,42 @@
         {@page_title}
       </h1>
     </div>
-    <div class="flex mt-4 space-x-5 sm:mt-0">
-      <%= if (@uploads.presentation_file.entries |> Enum.at(0, %{}) |> Map.get(:progress, 0) == 0 || @uploads.presentation_file.entries |> Enum.at(0, %{}) |> Map.get(:progress, 0) == 100) && @changeset.valid? do %>
-        <button
-          type="submit"
-          form="event-form"
-          phx_disable_with="Loading..."
-          class="btn btn-primary w-full lg:w-auto"
-        >
-          {case @action do
-            :edit -> gettext("Save")
-            :new -> gettext("Create")
-          end}
-        </button>
-      <% else %>
-        <div class="btn btn-primary btn-disabled opacity-25 cursor-default w-full lg:w-auto">
-          {case @action do
-            :edit -> gettext("Save")
-            :new -> gettext("Create")
-          end}
-        </div>
-      <% end %>
-      <%= if @action == :edit && !@event.expired_at do %>
-        {link(gettext("Delete"),
-          to: "#",
-          phx_click: "delete",
-          phx_value_id: @event.uuid,
-          data: [confirm: gettext("Are you sure?")],
-          class: "btn btn-error w-full lg:w-auto"
-        )}
-      <% end %>
-    </div>
+    <%= if assigns[:container] != :drawer do %>
+      <div class="flex mt-4 space-x-5 sm:mt-0">
+        <%= if (@uploads.presentation_file.entries |> Enum.at(0, %{}) |> Map.get(:progress, 0) == 0 || @uploads.presentation_file.entries |> Enum.at(0, %{}) |> Map.get(:progress, 0) == 100) && @changeset.valid? do %>
+          <button
+            type="submit"
+            form="event-form"
+            phx_disable_with="Loading..."
+            class="btn btn-primary w-full lg:w-auto"
+          >
+            {case @action do
+              :edit -> gettext("Save")
+              :new -> gettext("Create")
+            end}
+          </button>
+        <% else %>
+          <div class="btn btn-primary btn-disabled opacity-25 cursor-default w-full lg:w-auto">
+            {case @action do
+              :edit -> gettext("Save")
+              :new -> gettext("Create")
+            end}
+          </div>
+        <% end %>
+        <%= if @action == :edit && !@event.expired_at do %>
+          {link(gettext("Delete"),
+            to: "#",
+            phx_click: "delete",
+            phx_value_id: @event.uuid,
+            data: [confirm: gettext("Are you sure?")],
+            class: "btn btn-error w-full lg:w-auto"
+          )}
+        <% end %>
+      </div>
+    <% end %>
   </div>
 
+  <div class={if assigns[:container] == :drawer, do: "p-2 flex-1 overflow-y-auto", else: ""}>
   <%= if Map.get(@event, :presentation_file) == nil || Map.get(@event.presentation_file, :length) == 0 || Map.get(@event.presentation_file, :id) == nil do %>
     <div class="mb-3 mt-12">
       <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -370,4 +373,39 @@
       <% end %>
     <% end %>
   </.form>
+  </div>
+
+  <%= if assigns[:container] == :drawer do %>
+    <div class="pt-4 mt-auto flex space-x-5">
+      <%= if (@uploads.presentation_file.entries |> Enum.at(0, %{}) |> Map.get(:progress, 0) == 0 || @uploads.presentation_file.entries |> Enum.at(0, %{}) |> Map.get(:progress, 0) == 100) && @changeset.valid? do %>
+        <button
+          type="submit"
+          form="event-form"
+          phx_disable_with="Loading..."
+          class="btn btn-primary w-full"
+        >
+          {case @action do
+            :edit -> gettext("Save")
+            :new -> gettext("Create")
+          end}
+        </button>
+      <% else %>
+        <div class="btn btn-primary btn-disabled opacity-25 cursor-default w-full">
+          {case @action do
+            :edit -> gettext("Save")
+            :new -> gettext("Create")
+          end}
+        </div>
+      <% end %>
+      <%= if @action == :edit && !@event.expired_at do %>
+        {link(gettext("Delete"),
+          to: "#",
+          phx_click: "delete",
+          phx_value_id: @event.uuid,
+          data: [confirm: gettext("Are you sure?")],
+          class: "btn btn-error w-full"
+        )}
+      <% end %>
+    </div>
+  <% end %>
 </div>

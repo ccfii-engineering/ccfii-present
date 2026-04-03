@@ -92,7 +92,7 @@
         <div
           id="view-mode-toggle"
           phx-hook="ViewModePreference"
-          class="flex items-center gap-1 bg-white border border-gray-200 rounded-full p-1"
+          class="flex items-center gap-1 bg-white border border-gray-200 rounded-full p-1 h-12"
         >
           <button
             phx-click="change-view"
@@ -155,7 +155,7 @@
 <!-- Events Grid/List -->
   <div class="relative">
     <!-- Mobile: Always list view -->
-    <ul role="event-list" id={"events-mobile-#{@active_tab}"} class="lg:hidden space-y-2.5">
+    <div role="event-list" id={"events-mobile-#{@active_tab}"} class="lg:hidden space-y-2.5">
       <% current_time = NaiveDateTime.utc_now() %>
       <%= for event <- @events do %>
         <.live_component
@@ -167,7 +167,7 @@
           view_mode="mobile"
         />
       <% end %>
-    </ul>
+    </div>
     
 <!-- Desktop: Grid or List based on view_mode -->
     <%= if @view_mode == "grid" do %>
@@ -191,7 +191,7 @@
       </div>
     <% else %>
       <!-- List View -->
-      <ul role="event-list" id="events" phx-update="replace" class="hidden lg:block space-y-4">
+      <div role="event-list" id="events" phx-update="replace" class="hidden lg:block space-y-4">
         <% current_time = NaiveDateTime.utc_now() %>
         <%= for event <- @events do %>
           <.live_component
@@ -203,7 +203,7 @@
             view_mode={@view_mode}
           />
         <% end %>
-      </ul>
+      </div>
     <% end %>
     
 <!-- Load More Button -->
@@ -284,12 +284,12 @@
 <!-- Sliding Drawer Panel -->
 <div
   id="drawer-panel"
-  class={"fixed top-0 right-0 h-full w-full lg:w-[480px] bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto #{if @live_action in [:new, :edit], do: "translate-x-0", else: "translate-x-full"}"}
+  class={"fixed top-0 right-0 h-full w-full lg:w-[480px] bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out overflow-hidden #{if @live_action in [:new, :edit], do: "translate-x-0", else: "translate-x-full"}"}
   phx-window-keydown={if @live_action in [:new, :edit], do: JS.patch(~p"/events")}
   phx-key="Escape"
 >
   <%= if @live_action in [:new, :edit] do %>
-    <div class="p-6">
+    <div class="p-6 flex flex-col h-full">
       <.live_component
         module={ClaperWeb.EventLive.EventFormComponent}
         id="event-create"

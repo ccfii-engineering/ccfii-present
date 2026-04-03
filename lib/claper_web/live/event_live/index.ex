@@ -174,7 +174,7 @@ defmodule ClaperWeb.EventLive.Index do
     code = for _ <- 1..5, into: "", do: <<Enum.random(~c"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")>>
 
     socket
-    |> assign(:page_title, gettext("Create"))
+    |> assign(:page_title, gettext("New presentation"))
     |> assign(:event, %Event{
       started_at: NaiveDateTime.utc_now(),
       code: code,

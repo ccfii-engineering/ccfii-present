@@ -9,7 +9,11 @@
 }
 
 @utility btn {
-  @apply rounded-full !font-display text-small-body;
+  @apply rounded-full !font-display text-body h-12;
+  &:where(.btn-circle) {
+    aspect-ratio: 1;
+    height: var(--size);
+  }
 }
 
 @utility btn-gradient {
@@ -29,6 +33,10 @@
   @apply rounded-full focus:outline-none focus-within:outline-none focus:border-2 focus-within:border-2 !font-display text-small-body transition-all;
 }
 
+@utility dropdown-content {
+  @apply border border-gray-200 !font-display !font-bold;
+}
+
 @layer base {
   *,
   ::after,
@@ -42,10 +50,6 @@
   [role="button"] {
     cursor: pointer;
   }
-}
-
-* {
-  font-family: var(--font-family-sans);
 }
 
 [x-cloak] { display: none !important; }

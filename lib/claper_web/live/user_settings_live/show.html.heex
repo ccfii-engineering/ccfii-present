@@ -14,7 +14,7 @@
           for={@email_changeset}
           phx-submit="save"
           id="update_email"
-          class="mt-5 md:flex md:items-end"
+          class="mt-5"
         >
           {hidden_input(f, :action, name: "action", value: "update_email")}
 
@@ -27,8 +27,7 @@
 
           {submit(gettext("Save"),
             phx_disable_with: "Saving...",
-            class:
-              "mt-2 w-full h-14 inline-flex transition-all items-center justify-center px-4 py-2 shadow-sm font-medium rounded-md text-white bg-black hover:bg-primary-500 md:mt-0 md:ml-3 md:w-auto md:text-sm"
+            class: "btn btn-primary w-full mt-4"
           )}
         </.form>
       </div>
@@ -50,27 +49,28 @@
           for={@password_changeset}
           phx-submit="save"
           id="update_password"
-          class="mt-5 md:flex md:items-end gap-x-2"
+          class="mt-5 space-y-4"
         >
           {hidden_input(f, :action, name: "action", value: "update_password")}
 
-          <ClaperWeb.Component.Input.password
-            form={f}
-            key={:current_password}
-            name={gettext("Current password")}
-            required="true"
-          />
-          <ClaperWeb.Component.Input.password
-            form={f}
-            key={:password}
-            name={gettext("New password")}
-            required="true"
-          />
+          <div class="md:flex md:items-end gap-x-2">
+            <ClaperWeb.Component.Input.password
+              form={f}
+              key={:current_password}
+              name={gettext("Current password")}
+              required="true"
+            />
+            <ClaperWeb.Component.Input.password
+              form={f}
+              key={:password}
+              name={gettext("New password")}
+              required="true"
+            />
+          </div>
 
           {submit(gettext("Save"),
             phx_disable_with: "Saving...",
-            class:
-              "mt-2 w-full h-14 inline-flex transition-all items-center justify-center px-4 py-2 shadow-sm font-medium rounded-md text-white bg-black hover:bg-primary-500 md:mt-0 md:ml-3 md:w-auto md:text-sm"
+            class: "btn btn-primary w-full"
           )}
         </.form>
       </div>
@@ -92,28 +92,29 @@
           for={@password_changeset}
           phx-submit="save"
           id="set_password"
-          class="mt-5 md:flex md:items-end gap-x-2"
+          class="mt-5 space-y-4"
         >
           {hidden_input(f, :action, name: "action", value: "set_password")}
 
-          <ClaperWeb.Component.Input.password
-            form={f}
-            key={:password}
-            name={gettext("New password")}
-            required="true"
-          />
+          <div class="md:flex md:items-end gap-x-2">
+            <ClaperWeb.Component.Input.password
+              form={f}
+              key={:password}
+              name={gettext("New password")}
+              required="true"
+            />
 
-          <ClaperWeb.Component.Input.password
-            form={f}
-            key={:password_confirmation}
-            name={gettext("Confirm password")}
-            required="true"
-          />
+            <ClaperWeb.Component.Input.password
+              form={f}
+              key={:password_confirmation}
+              name={gettext("Confirm password")}
+              required="true"
+            />
+          </div>
 
           {submit(gettext("Save"),
             phx_disable_with: "Saving...",
-            class:
-              "mt-2 w-full h-14 inline-flex transition-all items-center justify-center px-4 py-2 shadow-sm font-medium rounded-md text-white bg-black hover:bg-primary-500 md:mt-0 md:ml-3 md:w-auto md:text-sm"
+            class: "btn btn-primary w-full"
           )}
         </.form>
       </div>

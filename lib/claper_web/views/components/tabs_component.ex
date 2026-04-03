@@ -157,7 +157,7 @@ defmodule ClaperWeb.Component.Tabs do
   end
 
   defp tab_state_classes(:boxed, true) do
-    "text-white bg-primary-500 font-bold"
+    "text-white bg-primary-500 font-semibold"
   end
 
   defp tab_state_classes(:boxed, false) do
