@@ -3,6 +3,19 @@ defmodule Claper.Accounts.User do
 
   import Ecto.Changeset
 
+  @derive {
+    Flop.Schema,
+    max_limit: 100,
+    default_limit: 20,
+    pagination_types: [:page],
+    filterable: [:email, :role_id],
+    sortable: [:email, :role_id, :confirmed_at, :inserted_at],
+    default_order: %{
+      order_by: [:inserted_at],
+      order_directions: [:desc]
+    }
+  }
+
   @type t :: %__MODULE__{
           id: integer(),
           uuid: Ecto.UUID.t(),

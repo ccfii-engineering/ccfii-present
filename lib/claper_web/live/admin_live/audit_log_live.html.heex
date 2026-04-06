@@ -1,49 +1,22 @@
-<h1 class="text-3xl font-bold mb-24">{@page_title}</h1>
+<h1 class="text-3xl font-bold mb-6">{@page_title}</h1>
 
 <%= if @live_action == :index do %>
-  <div class="flex flex-col sm:flex-row items-stretch gap-3 @container/controls">
-    <.form
-      for={@form}
-      class="grow flex flex-col sm:flex-row gap-3 sm:[&>div]:basis-[250px]"
-      phx-change="filter-logs"
-    >
-      <Flop.Phoenix.filter_fields :let={i} form={@form} fields={@fields}>
-        <ClaperWeb.CoreComponents.input field={i.field} label={i.label} type={i.type} {i.rest} />
-      </Flop.Phoenix.filter_fields>
-    </.form>
-    <Flop.Phoenix.pagination
-      meta={@meta}
-      path={~p"/admin/audit_logs"}
-      class="flex [&>ul]:mr-3 justify-end"
-      page_list_attrs={[class: "hidden @4xl/controls:flex"]}
-      page_list_item_attrs={[
-        class:
-          "grid place-content-stretch min-h-10 min-w-10 border-t border-r border-b border-gray-300 first:border-l first:rounded-l-full last:rounded-r-full first:[&>*]:rounded-l-full last:[&>*]:rounded-r-full text-gray-500 bg-white [&>*]:grid [&>*]:place-content-center"
-      ]}
-      page_link_attrs={[
-        class: "hover:text-black hover:bg-gray-200"
-      ]}
-      current_page_link_attrs={[
-        class: "pointer-events-none font-bold text-black"
-      ]}
-    >
-      <:previous attrs={[
-        class:
-          "order-1 border border-gray-300 rounded-l-full h-10 p-5 bg-white flex items-center justify-center aria-disabled:text-gray-300 hover:not-aria-disabled:bg-gray-200"
-      ]}>
-        {gettext("Previous")}
-      </:previous>
-      <:next attrs={[
-        class:
-          "order-2 border-t border-r border-b border-gray-300 rounded-r-full h-10 p-5 bg-white flex items-center justify-center aria-disabled:text-gray-300 hover:not-aria-disabled:bg-gray-200"
-      ]}>
-        {gettext("Next")}
-      </:next>
-      <:ellipsis>
-        <span aria-hidden="true" class="text-gray-300">•••</span>
-      </:ellipsis>
-    </Flop.Phoenix.pagination>
-  </div>
+  <.form
+    for={@form}
+    class="flex flex-col sm:flex-row gap-3 sm:[&>div]:basis-[250px]"
+    phx-change="filter-logs"
+  >
+    <Flop.Phoenix.filter_fields :let={i} form={@form} fields={@fields}>
+      <ClaperWeb.CoreComponents.input
+        field={i.field}
+        label={i.label}
+        type={i.type}
+        phx-debounce="300"
+        {i.rest}
+      />
+    </Flop.Phoenix.filter_fields>
+  </.form>
+
   <Flop.Phoenix.table
     items={@logs}
     meta={@meta}
@@ -91,6 +64,10 @@
       </.link>
     </:action>
   </Flop.Phoenix.table>
+
+  <div class="flex justify-end mt-4">
+    <ClaperWeb.CoreComponents.pagination meta={@meta} path={~p"/admin/audit_logs"} />
+  </div>
 <% end %>
 
 <%= if @live_action == :show do %>

@@ -5,6 +5,8 @@ defmodule Claper.Audit.Log do
   @derive {
     Flop.Schema,
     max_limit: 100,
+    default_limit: 20,
+    pagination_types: [:page],
     filterable: [:action, :user_email],
     sortable: [:inserted_at, :action],
     default_order: %{

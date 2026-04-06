@@ -191,7 +191,7 @@ defmodule ClaperWeb.EventLive.Index do
   defp load_events(socket) do
     params = %{
       "page" => socket.assigns.page,
-      "page_size" => 5,
+      "page_size" => 6,
       "search" => socket.assigns.search_query
     }
 

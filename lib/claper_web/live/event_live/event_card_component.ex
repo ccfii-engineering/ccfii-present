@@ -22,10 +22,14 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
     Presentations.get_first_slide_url(event.presentation_file)
   end
 
+  defp dom_id(component_id, suffix) do
+    "#{component_id}-#{suffix}"
+  end
+
   defp render_grid_card(assigns) do
     ~H"""
     <div
-      id={"event-#{@event.uuid}"}
+      id={dom_id(@id, "card")}
       class="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-200 h-96"
       x-data="{showActions: false, showJoinMenu: false}"
       @mouseenter="showActions = true"
@@ -49,7 +53,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           <span class="text-sm font-medium text-gray-600">{gettext("Processing...")}</span>
         </div>
       </div>
-
+      
     <!-- Status Badge -->
       <div class="absolute top-4 left-4 z-10">
         <%= if Event.started?(@event) && !Event.finished?(@event) do %>
@@ -69,7 +73,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           </div>
         <% end %>
       </div>
-
+      
     <!-- LTI Badge -->
       <div :if={@event.lti_resource} class="absolute top-4 right-4 z-10">
         <span class="badge badge-neutral gap-1">
@@ -88,7 +92,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           LTI
         </span>
       </div>
-
+      
     <!-- Sliding Bottom Panel -->
       <div
         class="absolute bottom-0 left-0 right-0 bg-white transition-transform duration-300 ease-out z-20"
@@ -105,12 +109,12 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 # {@event.code}
               </p>
             </div>
-
+            
     <!-- 3-dot Menu -->
             <div :if={not @is_leader} class="relative shrink-0">
               <button
-                phx-click-away={JS.hide(to: "#dropdown-menu-#{@event.uuid}")}
-                phx-click={JS.toggle(to: "#dropdown-menu-#{@event.uuid}")}
+                phx-click-away={JS.hide(to: "##{dom_id(@id, "dropdown-menu")}")}
+                phx-click={JS.toggle(to: "##{dom_id(@id, "dropdown-menu")}")}
                 phx-target={@myself}
                 class="p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
               >
@@ -126,7 +130,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 </svg>
               </button>
               <div
-                id={"dropdown-menu-#{@event.uuid}"}
+                id={dom_id(@id, "dropdown-menu")}
                 phx-hook="Dropdown"
                 class="hidden absolute right-0 bottom-full mb-2 w-52 dropdown-content menu bg-base-100 rounded-box shadow-lg z-30"
               >
@@ -135,7 +139,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             </div>
           </div>
         </div>
-
+        
     <!-- Action Buttons (revealed on hover) -->
         <div
           :if={@event.presentation_file.status == "done" && !Event.finished?(@event)}
@@ -247,14 +251,14 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             {gettext("End Event")}
           </.link>
         </div>
-
+        
     <!-- Error Status -->
         <div :if={@event.presentation_file.status == "fail"} class="px-2 pb-2">
           <span class="text-sm text-supporting-red-500">
             {gettext("Error when processing the file")}
           </span>
         </div>
-
+        
     <!-- Finished Event Actions -->
         <div :if={Event.finished?(@event)} class="px-2 pb-2">
           <a href={~p"/events/#{@event.uuid}/stats"} class="btn btn-primary w-full">
@@ -277,7 +281,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
 
   defp render_list_card(assigns) do
     ~H"""
-    <div class="w-full" id={"event-#{@event.uuid}"} x-data="{showJoinMenu: false}">
+    <div class="w-full" id={dom_id(@id, "card")} x-data="{showJoinMenu: false}">
       <div class="bg-white rounded-2xl border border-gray-200 hover:shadow-lg transition-shadow duration-200">
         <div class="p-4 flex items-center gap-4">
           <!-- Thumbnail -->
@@ -297,7 +301,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               <img src="/images/logo.svg" class="h-6 animate-pulse" alt="Loading" />
             </div>
           </div>
-
+          
     <!-- Event Info -->
           <div class="min-w-0">
             <div class="flex items-center gap-2">
@@ -341,19 +345,19 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               <span class="font-medium uppercase"># {@event.code}</span>
               <span
                 :if={!Event.finished?(@event) && !Event.started?(@event)}
-                id={"event-date-#{@event.uuid}"}
+                id={dom_id(@id, "event-date")}
                 phx-update="ignore"
               >
                 {gettext("Starting on")}
                 <span x-text={"moment.utc('#{@event.started_at}').local().format('lll')"}></span>
               </span>
-              <span :if={Event.finished?(@event)} id={"event-date-#{@event.uuid}"} phx-update="ignore">
+              <span :if={Event.finished?(@event)} id={dom_id(@id, "event-date")} phx-update="ignore">
                 {gettext("Finished on")}
                 <span x-text={"moment.utc('#{@event.expired_at}').local().format('lll')"}></span>
               </span>
             </div>
           </div>
-
+          
     <!-- Actions -->
           <div class="flex items-center gap-2 ml-auto">
             <%= if @event.presentation_file.status == "done" && !Event.finished?(@event) do %>
@@ -491,12 +495,12 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 {gettext("View report")}
               </a>
             <% end %>
-
+            
     <!-- 3-dot Menu -->
             <div :if={not @is_leader} class="relative">
               <button
-                phx-click-away={JS.hide(to: "#dropdown-menu-#{@event.uuid}")}
-                phx-click={JS.toggle(to: "#dropdown-menu-#{@event.uuid}")}
+                phx-click-away={JS.hide(to: "##{dom_id(@id, "dropdown-menu")}")}
+                phx-click={JS.toggle(to: "##{dom_id(@id, "dropdown-menu")}")}
                 phx-target={@myself}
                 class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
               >
@@ -512,7 +516,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 </svg>
               </button>
               <div
-                id={"dropdown-menu-#{@event.uuid}"}
+                id={dom_id(@id, "dropdown-menu")}
                 phx-hook="Dropdown"
                 class="hidden absolute right-0 top-10 w-52 dropdown-content menu bg-base-100 rounded-box shadow-lg z-30"
               >
@@ -528,7 +532,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
 
   defp render_mobile_card(assigns) do
     ~H"""
-    <div class="w-full" id={"event-#{@event.uuid}"} x-data="{showJoinMenu: false}">
+    <div class="w-full" id={dom_id(@id, "card")} x-data="{showJoinMenu: false}">
       <div class="bg-white rounded-3xl border border-gray-200 p-2">
         <div class="flex flex-col gap-2">
           <!-- Top Row: Thumbnail + Info + Menu -->
@@ -550,7 +554,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 <img src="/images/logo.svg" class="h-8 animate-pulse" alt="Loading" />
               </div>
             </div>
-
+            
     <!-- Event Info -->
             <div class="flex-1 min-w-0 py-1">
               <h3 class="font-semibold text-gray-800 text-lg leading-tight truncate">
@@ -577,12 +581,12 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 <% end %>
               </div>
             </div>
-
+            
     <!-- 3-dot Menu -->
             <div :if={not @is_leader} class="relative shrink-0">
               <button
-                phx-click-away={JS.hide(to: "#dropdown-menu-#{@event.uuid}")}
-                phx-click={JS.toggle(to: "#dropdown-menu-#{@event.uuid}")}
+                phx-click-away={JS.hide(to: "##{dom_id(@id, "dropdown-menu")}")}
+                phx-click={JS.toggle(to: "##{dom_id(@id, "dropdown-menu")}")}
                 phx-target={@myself}
                 class="p-1.5 text-gray-400 hover:text-gray-600"
               >
@@ -598,7 +602,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
                 </svg>
               </button>
               <div
-                id={"dropdown-menu-#{@event.uuid}"}
+                id={dom_id(@id, "dropdown-menu")}
                 phx-hook="Dropdown"
                 class="hidden absolute right-0 top-8 w-52 dropdown-content menu bg-base-100 rounded-box shadow-lg z-30"
               >
@@ -606,7 +610,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               </div>
             </div>
           </div>
-
+          
     <!-- Bottom Row: Action Buttons -->
           <div class="flex gap-2">
             <%= if @event.presentation_file.status == "done" && !Event.finished?(@event) do %>
@@ -756,8 +760,16 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
     <ul class="w-full">
       <%= if !Event.finished?(@event) && not @is_leader do %>
         <li>
-          <.link patch={~p"/events/#{@event.uuid}/edit"} class="flex items-center gap-3 w-full px-3 py-2 hover:bg-gray-50">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <.link
+            patch={~p"/events/#{@event.uuid}/edit"}
+            class="flex items-center gap-3 w-full px-3 py-2 hover:bg-gray-50"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
               <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
               <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
             </svg>
@@ -765,8 +777,17 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
           </.link>
         </li>
         <li>
-          <button phx-value-id={@event.uuid} phx-click="duplicate" class="flex items-center gap-3 w-full px-3 py-2 hover:bg-gray-50">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <button
+            phx-value-id={@event.uuid}
+            phx-click="duplicate"
+            class="flex items-center gap-3 w-full px-3 py-2 hover:bg-gray-50"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
               <path d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z" />
               <path d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z" />
             </svg>
@@ -777,8 +798,17 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
 
       <%= if Event.finished?(@event) && not @is_leader do %>
         <li>
-          <button phx-value-id={@event.uuid} phx-click="duplicate" class="flex items-center gap-3 w-full px-3 py-2 hover:bg-gray-50">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <button
+            phx-value-id={@event.uuid}
+            phx-click="duplicate"
+            class="flex items-center gap-3 w-full px-3 py-2 hover:bg-gray-50"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
               <path d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z" />
               <path d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z" />
             </svg>
@@ -796,8 +826,17 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             }
             class="flex items-center gap-3 w-full px-3 py-2 hover:bg-gray-50 text-error"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-5 h-5">
-              <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z"
+                clip-rule="evenodd"
+              />
             </svg>
             {gettext("Delete")}
           </.link>
