@@ -38,7 +38,11 @@
           """
         ]}
       >
-        <:col :let={user} label={gettext("Email")} field={:email}>{user.email}</:col>
+        <:col :let={user} label={gettext("Email")} field={:email}>
+          <.link navigate={~p"/admin/users/#{user}"} class="link font-bold">
+            {user.email}
+          </.link>
+        </:col>
         <:col :let={user} label={gettext("Role")} field={:role_id}>
           {if user.role, do: user.role.name, else: gettext("No role")}
         </:col>
@@ -54,13 +58,6 @@
         </:col>
         <:action :let={user} tbody_td_attrs={[class: "text-right"]}>
           <div class="flex justify-end gap-2">
-            <.link
-              navigate={~p"/admin/users/#{user}"}
-              class="btn btn-link btn-sm"
-              title={gettext("View user")}
-            >
-              <ClaperWeb.Icons.eye />
-            </.link>
             <.link
               navigate={~p"/admin/users/#{user}/edit"}
               class="btn btn-link btn-sm text-primary"

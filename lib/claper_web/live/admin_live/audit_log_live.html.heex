@@ -36,7 +36,11 @@
       """
     ]}
   >
-    <:col :let={log} label={gettext("ID")} field={:id}>{log.id}</:col>
+    <:col :let={log} label={gettext("ID")} field={:id}>
+      <.link patch={~p"/admin/audit_logs/#{log}"} class="link font-bold">
+        {log.id}
+      </.link>
+    </:col>
     <:col :let={log} label={gettext("Action")} field={:action}>
       <span class="badge badge-outline">{log.action}</span>
     </:col>
@@ -54,15 +58,6 @@
     >
       {format_metadata(log.metadata)}
     </:col>
-    <:action :let={log} tbody_td_attrs={[class: "text-right"]}>
-      <.link
-        patch={~p"/admin/audit_logs/#{log}"}
-        class="btn btn-link btn-sm"
-        aria-label={gettext("View details for log #%{id}", id: log.id)}
-      >
-        <ClaperWeb.Icons.eye />
-      </.link>
-    </:action>
   </Flop.Phoenix.table>
 
   <div class="flex justify-end mt-4">
