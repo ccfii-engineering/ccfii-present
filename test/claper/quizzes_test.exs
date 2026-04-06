@@ -196,6 +196,27 @@ defmodule Claper.QuizzesTest do
       assert length(responses) == 1
     end
 
+    test "get_quiz_for_event/3 returns quiz when it belongs to the event" do
+      presentation_file = presentation_file_fixture()
+      quiz = quiz_fixture(%{presentation_file: presentation_file})
+
+      fetched_quiz = Quizzes.get_quiz_for_event(quiz.id, presentation_file.event_id)
+      assert fetched_quiz.id == quiz.id
+    end
+
+    test "get_quiz_for_event/3 returns nil when quiz belongs to a different event" do
+      presentation_file_a = presentation_file_fixture()
+      presentation_file_b = presentation_file_fixture()
+      quiz = quiz_fixture(%{presentation_file: presentation_file_a})
+
+      assert is_nil(Quizzes.get_quiz_for_event(quiz.id, presentation_file_b.event_id))
+    end
+
+    test "get_quiz_for_event/3 returns nil for nonexistent quiz id" do
+      presentation_file = presentation_file_fixture()
+      assert is_nil(Quizzes.get_quiz_for_event(-1, presentation_file.event_id))
+    end
+
     test "submit_quiz/4 with user and duplicate opts deduplicates by id" do
       quiz = quiz_fixture()
       user = user_fixture()

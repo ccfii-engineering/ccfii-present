@@ -17,10 +17,14 @@ defmodule ClaperWeb.FormLive.FormComponent do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    form = Forms.get_form!(id)
-    {:ok, _} = Forms.delete_form(socket.assigns.event_uuid, form)
+    case Forms.get_form_for_event(id, socket.assigns.presentation_file.event_id) do
+      nil ->
+        {:noreply, socket}
 
-    {:noreply, socket |> push_navigate(to: socket.assigns.return_to)}
+      form ->
+        {:ok, _} = Forms.delete_form(socket.assigns.event_uuid, form)
+        {:noreply, socket |> push_navigate(to: socket.assigns.return_to)}
+    end
   end
 
   @impl true

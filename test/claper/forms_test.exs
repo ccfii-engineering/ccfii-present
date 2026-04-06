@@ -102,10 +102,63 @@ defmodule Claper.FormsTest do
       form = form_fixture(%{presentation_file_id: presentation_file.id})
       assert %Ecto.Changeset{} = Forms.change_form(form)
     end
+
+    test "get_form_for_event/3 returns form when it belongs to the event" do
+      presentation_file = presentation_file_fixture()
+      form = form_fixture(%{presentation_file_id: presentation_file.id})
+
+      fetched_form = Forms.get_form_for_event(form.id, presentation_file.event_id)
+      assert fetched_form.id == form.id
+    end
+
+    test "get_form_for_event/3 returns nil when form belongs to a different event" do
+      presentation_file_a = presentation_file_fixture()
+      presentation_file_b = presentation_file_fixture()
+      form = form_fixture(%{presentation_file_id: presentation_file_a.id})
+
+      assert is_nil(Forms.get_form_for_event(form.id, presentation_file_b.event_id))
+    end
+
+    test "get_form_for_event/3 returns nil for nonexistent form id" do
+      presentation_file = presentation_file_fixture()
+      assert is_nil(Forms.get_form_for_event(-1, presentation_file.event_id))
+    end
   end
 
   describe "form_submits" do
-    import Claper.{FormsFixtures, PresentationsFixtures}
+    import Claper.{FormsFixtures, PresentationsFixtures, AccountsFixtures}
+
+    test "get_form_submit_for_event/2 returns form submit when it belongs to the event" do
+      presentation_file = presentation_file_fixture()
+      form = form_fixture(%{presentation_file_id: presentation_file.id})
+      user = user_fixture()
+
+      {:ok, form_submit} =
+        Forms.create_form_submit(%{
+          form_id: form.id,
+          user_id: user.id,
+          response: %{"Name" => "Test"}
+        })
+
+      fetched = Forms.get_form_submit_for_event(form_submit.id, presentation_file.event_id)
+      assert fetched.id == form_submit.id
+    end
+
+    test "get_form_submit_for_event/2 returns nil when form submit belongs to a different event" do
+      presentation_file_a = presentation_file_fixture()
+      presentation_file_b = presentation_file_fixture()
+      form = form_fixture(%{presentation_file_id: presentation_file_a.id})
+      user = user_fixture()
+
+      {:ok, form_submit} =
+        Forms.create_form_submit(%{
+          form_id: form.id,
+          user_id: user.id,
+          response: %{"Name" => "Test"}
+        })
+
+      assert is_nil(Forms.get_form_submit_for_event(form_submit.id, presentation_file_b.event_id))
+    end
 
     test "get_form_submit/2 returns the form_submit with given id and user id" do
       form_submit = form_submit_fixture()

@@ -106,6 +106,27 @@ defmodule Claper.PollsTest do
       poll = poll_fixture(%{presentation_file_id: presentation_file.id})
       assert %Ecto.Changeset{} = Polls.change_poll(poll)
     end
+
+    test "get_poll_for_event/2 returns poll when it belongs to the event" do
+      presentation_file = presentation_file_fixture()
+      poll = poll_fixture(%{presentation_file_id: presentation_file.id})
+
+      fetched_poll = Polls.get_poll_for_event(poll.id, presentation_file.event_id)
+      assert fetched_poll.id == poll.id
+    end
+
+    test "get_poll_for_event/2 returns nil when poll belongs to a different event" do
+      presentation_file_a = presentation_file_fixture()
+      presentation_file_b = presentation_file_fixture()
+      poll = poll_fixture(%{presentation_file_id: presentation_file_a.id})
+
+      assert is_nil(Polls.get_poll_for_event(poll.id, presentation_file_b.event_id))
+    end
+
+    test "get_poll_for_event/2 returns nil for nonexistent poll id" do
+      presentation_file = presentation_file_fixture()
+      assert is_nil(Polls.get_poll_for_event(-1, presentation_file.event_id))
+    end
   end
 
   describe "poll_opts" do

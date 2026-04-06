@@ -9,6 +9,7 @@
 - Fix stored XSS vulnerability in custom embed iframes via input sanitization with attribute whitelisting
 - Fix XSS vulnerability in URL link formatting by escaping user-submitted URLs
 - Fix IDOR on form export endpoint by adding authorization check
+- Fix cross-event IDOR on polls, quizzes, forms, embeds, and posts by enforcing event-scoped resource access in context layer
 - Fix atom exhaustion DoS by replacing `String.to_atom/1` on user input with explicit whitelists (8 locations)
 - Add rate limiting on authentication endpoints using Hammer 7.0
 

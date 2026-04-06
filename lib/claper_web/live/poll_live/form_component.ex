@@ -17,10 +17,14 @@ defmodule ClaperWeb.PollLive.FormComponent do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    poll = Polls.get_poll!(id)
-    {:ok, _} = Polls.delete_poll(socket.assigns.event_uuid, poll)
+    case Polls.get_poll_for_event(id, socket.assigns.presentation_file.event_id) do
+      nil ->
+        {:noreply, socket}
 
-    {:noreply, socket |> push_navigate(to: socket.assigns.return_to)}
+      poll ->
+        {:ok, _} = Polls.delete_poll(socket.assigns.event_uuid, poll)
+        {:noreply, socket |> push_navigate(to: socket.assigns.return_to)}
+    end
   end
 
   @impl true

@@ -71,6 +71,23 @@ defmodule Claper.Quizzes do
   end
 
   @doc """
+  Gets a single quiz scoped to the given event.
+
+  Returns `nil` if the quiz does not exist or does not belong to the event.
+  """
+  def get_quiz_for_event(id, event_id, preload \\ []) do
+    from(q in Quiz,
+      join: pf in assoc(q, :presentation_file),
+      where: q.id == ^id and pf.event_id == ^event_id
+    )
+    |> Repo.one()
+    |> case do
+      nil -> nil
+      quiz -> quiz |> Repo.preload(preload) |> set_percentages()
+    end
+  end
+
+  @doc """
   Gets a single quiz for a given position.
 
   ## Examples
