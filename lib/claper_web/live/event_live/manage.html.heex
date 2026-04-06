@@ -322,7 +322,7 @@
         id={"openPresenter-#{@event.uuid}"}
         data-url={~p"/e/#{@event.code}/presenter"}
         type="button"
-        class="hidden lg:inline-flex items-center gap-x-2 px-3 py-2.5 rounded-full text-sm font-bold btn btn-gradient border-none"
+        class="hidden lg:inline-flex btn btn-gradient"
       >
         <!-- Play icon -->
         <svg
@@ -342,7 +342,7 @@
       <a
         href={~p"/e/#{@event.code}"}
         target="_blank"
-        class="hidden sm:flex items-center gap-x-1 bg-gray-100 border border-gray-100 rounded-full px-3 py-2.5 hover:bg-gray-200 transition cursor-pointer"
+        class="hidden sm:flex btn btn-tertiary"
       >
         <!-- User icon -->
         <svg
