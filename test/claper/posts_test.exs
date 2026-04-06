@@ -52,6 +52,27 @@ defmodule Claper.PostsTest do
       assert {:ok, %Post{}} = Posts.delete_post(post)
       assert_raise Ecto.NoResultsError, fn -> Posts.get_post!(post.uuid) end
     end
+
+    test "get_post_for_event/3 returns post when it belongs to the event" do
+      event = event_fixture()
+      post = post_fixture(%{event: event}, [:event])
+
+      fetched_post = Posts.get_post_for_event(post.uuid, event.id, [:event])
+      assert fetched_post.id == post.id
+    end
+
+    test "get_post_for_event/3 returns nil when post belongs to a different event" do
+      event_a = event_fixture()
+      event_b = event_fixture()
+      post = post_fixture(%{event: event_a})
+
+      assert is_nil(Posts.get_post_for_event(post.uuid, event_b.id))
+    end
+
+    test "get_post_for_event/3 returns nil for nonexistent post uuid" do
+      event = event_fixture()
+      assert is_nil(Posts.get_post_for_event(Ecto.UUID.generate(), event.id))
+    end
   end
 
   describe "reactions" do

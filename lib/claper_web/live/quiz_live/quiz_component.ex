@@ -17,10 +17,17 @@ defmodule ClaperWeb.QuizLive.QuizComponent do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    quiz = Quizzes.get_quiz!(id, [:quiz_questions, quiz_questions: :quiz_question_opts])
-    {:ok, _} = Quizzes.delete_quiz(socket.assigns.event.uuid, quiz)
+    case Quizzes.get_quiz_for_event(id, socket.assigns.event.id, [
+           :quiz_questions,
+           quiz_questions: :quiz_question_opts
+         ]) do
+      nil ->
+        {:noreply, socket}
 
-    {:noreply, socket |> push_navigate(to: socket.assigns.return_to)}
+      quiz ->
+        {:ok, _} = Quizzes.delete_quiz(socket.assigns.event.uuid, quiz)
+        {:noreply, socket |> push_navigate(to: socket.assigns.return_to)}
+    end
   end
 
   @impl true

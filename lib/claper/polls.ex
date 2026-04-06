@@ -73,6 +73,34 @@ defmodule Claper.Polls do
       |> set_percentages()
 
   @doc """
+  Gets a single poll scoped to the given event.
+
+  Returns `nil` if the poll does not exist or does not belong to the event.
+  """
+  def get_poll_for_event(id, event_id) do
+    from(p in Poll,
+      join: pf in assoc(p, :presentation_file),
+      where: p.id == ^id and pf.event_id == ^event_id
+    )
+    |> Repo.one()
+    |> case do
+      nil ->
+        nil
+
+      poll ->
+        poll
+        |> Repo.preload(
+          poll_opts:
+            from(
+              o in PollOpt,
+              order_by: [asc: o.id]
+            )
+        )
+        |> set_percentages()
+    end
+  end
+
+  @doc """
   Gets a single poll for a given position.
 
   ## Examples

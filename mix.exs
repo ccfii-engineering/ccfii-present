@@ -115,6 +115,9 @@ defmodule Claper.MixProject do
       {:oidcc, "~> 3.5"},
       {:oban, "~> 2.19"},
       {:hammer, "~> 7.0"},
+      {:flop, "~> 0.26"},
+      {:flop_phoenix, "~> 0.25"},
+      {:remote_ip, "~> 1.2"},
       {:tailwind, "~> 0.3", runtime: Mix.env() == :dev}
     ]
   end

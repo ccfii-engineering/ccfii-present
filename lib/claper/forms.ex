@@ -62,6 +62,23 @@ defmodule Claper.Forms do
     do: Repo.get!(Form, id) |> Repo.preload(preload)
 
   @doc """
+  Gets a single form scoped to the given event.
+
+  Returns `nil` if the form does not exist or does not belong to the event.
+  """
+  def get_form_for_event(id, event_id, preload \\ []) do
+    from(f in Form,
+      join: pf in assoc(f, :presentation_file),
+      where: f.id == ^id and pf.event_id == ^event_id
+    )
+    |> Repo.one()
+    |> case do
+      nil -> nil
+      form -> Repo.preload(form, preload)
+    end
+  end
+
+  @doc """
   Gets a single form for a given position.
 
   ## Examples
@@ -279,6 +296,20 @@ defmodule Claper.Forms do
   """
   def get_form_submit_by_id!(id, preload \\ []),
     do: Repo.get_by!(FormSubmit, id: id) |> Repo.preload(preload)
+
+  @doc """
+  Gets a single FormSubmit scoped to the given event.
+
+  Returns `nil` if the FormSubmit does not exist or does not belong to the event.
+  """
+  def get_form_submit_for_event(id, event_id) do
+    from(fs in FormSubmit,
+      join: f in assoc(fs, :form),
+      join: pf in assoc(f, :presentation_file),
+      where: fs.id == ^id and pf.event_id == ^event_id
+    )
+    |> Repo.one()
+  end
 
   @doc """
   Creates or update a FormSubmit.

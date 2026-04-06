@@ -245,7 +245,6 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
                   <button
                     phx-click="delete-form-submit"
                     phx-value-id={submission.id}
-                    phx-value-event_id={@event.uuid}
                     data-confirm={gettext("This cannot be undone, confirm ?")}
                     class="text-xs text-red-500 hover:text-red-700"
                   >

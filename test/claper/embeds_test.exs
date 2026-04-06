@@ -138,5 +138,26 @@ defmodule Claper.EmbedsTest do
       embed = embed_fixture(%{presentation_file_id: presentation_file.id})
       assert %Ecto.Changeset{} = Embeds.change_embed(embed)
     end
+
+    test "get_embed_for_event/3 returns embed when it belongs to the event" do
+      presentation_file = presentation_file_fixture()
+      embed = embed_fixture(%{presentation_file_id: presentation_file.id})
+
+      fetched_embed = Embeds.get_embed_for_event(embed.id, presentation_file.event_id)
+      assert fetched_embed.id == embed.id
+    end
+
+    test "get_embed_for_event/3 returns nil when embed belongs to a different event" do
+      presentation_file_a = presentation_file_fixture()
+      presentation_file_b = presentation_file_fixture()
+      embed = embed_fixture(%{presentation_file_id: presentation_file_a.id})
+
+      assert is_nil(Embeds.get_embed_for_event(embed.id, presentation_file_b.event_id))
+    end
+
+    test "get_embed_for_event/3 returns nil for nonexistent embed id" do
+      presentation_file = presentation_file_fixture()
+      assert is_nil(Embeds.get_embed_for_event(-1, presentation_file.event_id))
+    end
   end
 end

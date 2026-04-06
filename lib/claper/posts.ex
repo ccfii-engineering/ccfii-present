@@ -121,6 +121,22 @@ defmodule Claper.Posts do
   def get_post!(id, preload \\ []), do: Repo.get_by!(Post, uuid: id) |> Repo.preload(preload)
 
   @doc """
+  Gets a single post scoped to the given event.
+
+  Returns `nil` if the post does not exist or does not belong to the event.
+  """
+  def get_post_for_event(uuid, event_id, preload \\ []) do
+    from(p in Post,
+      where: p.uuid == ^uuid and p.event_id == ^event_id
+    )
+    |> Repo.one()
+    |> case do
+      nil -> nil
+      post -> Repo.preload(post, preload)
+    end
+  end
+
+  @doc """
   Creates a post.
 
   ## Examples
