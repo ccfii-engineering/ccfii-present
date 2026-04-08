@@ -75,6 +75,59 @@ defmodule Claper.AuditTest do
       assert log.resource_id == 123
     end
 
+    test "list_logs_for_user/2 scopes to a single user, descending by timestamp" do
+      user = user_fixture()
+      other = user_fixture()
+
+      _other_log = log_fixture(%{user_id: other.id, action: "other.action"})
+
+      older =
+        log_fixture(%{
+          user_id: user.id,
+          action: "user.first"
+        })
+
+      newer =
+        log_fixture(%{
+          user_id: user.id,
+          action: "user.second"
+        })
+
+      # Force a deterministic order even when the inserts share a timestamp.
+      {1, _} =
+        Claper.Repo.update_all(
+          Ecto.Query.from(l in Log, where: l.id == ^older.id),
+          set: [inserted_at: ~N[2026-01-01 10:00:00]]
+        )
+
+      {1, _} =
+        Claper.Repo.update_all(
+          Ecto.Query.from(l in Log, where: l.id == ^newer.id),
+          set: [inserted_at: ~N[2026-01-02 10:00:00]]
+        )
+
+      {logs, meta} = Audit.list_logs_for_user(user)
+
+      ids = Enum.map(logs, & &1.id)
+      assert ids == [newer.id, older.id]
+      assert Enum.all?(logs, &(&1.user_id == user.id))
+      assert meta.total_count == 2
+    end
+
+    test "list_logs_for_user/2 accepts a user id and paginates" do
+      user = user_fixture()
+
+      for index <- 1..3 do
+        log_fixture(%{user_id: user.id, action: "user.action.#{index}"})
+      end
+
+      {logs, meta} = Audit.list_logs_for_user(user.id, %{"page" => 1, "page_size" => 2})
+
+      assert length(logs) == 2
+      assert meta.total_count == 3
+      assert meta.total_pages == 2
+    end
+
     test "list_action_types/0 returns distinct action types" do
       log_fixture(%{action: "user.login"})
       log_fixture(%{action: "user.login"})

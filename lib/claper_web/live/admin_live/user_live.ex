@@ -1,9 +1,12 @@
 defmodule ClaperWeb.AdminLive.UserLive do
   use ClaperWeb, :live_view
 
+  import ClaperWeb.AdminLive.DetailComponents
+
   alias Claper.Admin
   alias Claper.Accounts
   alias Claper.Accounts.User
+  alias Claper.Audit
 
   @impl true
   def mount(_params, session, socket) do
@@ -52,10 +55,15 @@ defmodule ClaperWeb.AdminLive.UserLive do
     |> assign(:user, Accounts.get_user!(id) |> Claper.Repo.preload(:role))
   end
 
-  defp apply_action(socket, :show, %{"id" => id}) do
+  defp apply_action(socket, :show, %{"id" => id} = params) do
+    user = Accounts.get_user!(id) |> Claper.Repo.preload(:role)
+    {audit_logs, audit_meta} = Audit.list_logs_for_user(user, params)
+
     socket
     |> assign(:page_title, gettext("User details"))
-    |> assign(:user, Accounts.get_user!(id) |> Claper.Repo.preload(:role))
+    |> assign(:user, user)
+    |> assign(:audit_logs, audit_logs)
+    |> assign(:audit_meta, audit_meta)
   end
 
   @impl true
@@ -75,5 +83,12 @@ defmodule ClaperWeb.AdminLive.UserLive do
     to = Flop.Phoenix.build_path(~p"/admin/users", flop)
 
     {:noreply, push_patch(socket, to: to)}
+  end
+
+  defp format_audit_metadata(nil), do: empty_value()
+  defp format_audit_metadata(metadata) when map_size(metadata) == 0, do: empty_value()
+
+  defp format_audit_metadata(metadata) do
+    Enum.map_join(metadata, ", ", fn {k, v} -> "#{k}: #{v}" end)
   end
 end

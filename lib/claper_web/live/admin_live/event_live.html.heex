@@ -106,59 +106,48 @@
       </div>
 
       <div class="mt-6">
-        <div class="card bg-base-100 shadow-xl">
-          <div class="card-body">
-            <h2 class="card-title">{@event.name}</h2>
-            <p class="text-base-content/70 uppercase">#{@event.code}</p>
-            <div class="divider"></div>
-            <dl class="space-y-4">
-              <div class="grid grid-cols-3 gap-4">
-                <dt class="font-medium">{gettext("Name")}</dt>
-                <dd class="col-span-2">{@event.name}</dd>
-              </div>
-              <div class="grid grid-cols-3 gap-4">
-                <dt class="font-medium">{gettext("Owner")}</dt>
-                <dd class="col-span-2">
-                  {if @event.user, do: @event.user.email, else: gettext("No owner")}
-                </dd>
-              </div>
-              <div class="grid grid-cols-3 gap-4">
-                <dt class="font-medium">{gettext("Started At")}</dt>
-                <dd class="col-span-2">
-                  {if @event.started_at,
-                    do: Calendar.strftime(@event.started_at, "%Y-%m-%d %H:%M"),
-                    else: gettext("Not started")}
-                </dd>
-              </div>
-              <div class="grid grid-cols-3 gap-4">
-                <dt class="font-medium">{gettext("Expired At")}</dt>
-                <dd class="col-span-2">
-                  {if @event.expired_at,
-                    do: Calendar.strftime(@event.expired_at, "%Y-%m-%d %H:%M"),
-                    else: gettext("Not expired")}
-                </dd>
-              </div>
-              <div class="grid grid-cols-3 gap-4">
-                <dt class="font-medium">{gettext("Audience Peak")}</dt>
-                <dd class="col-span-2">
-                  {@event.audience_peak || 0} {gettext("attendees")}
-                </dd>
-              </div>
-              <div class="grid grid-cols-3 gap-4">
-                <dt class="font-medium">{gettext("Created At")}</dt>
-                <dd class="col-span-2">
-                  {Calendar.strftime(@event.inserted_at, "%Y-%m-%d %H:%M")}
-                </dd>
-              </div>
-              <div class="grid grid-cols-3 gap-4">
-                <dt class="font-medium">{gettext("Last Updated")}</dt>
-                <dd class="col-span-2">
-                  {Calendar.strftime(@event.updated_at, "%Y-%m-%d %H:%M")}
-                </dd>
-              </div>
-            </dl>
-          </div>
-        </div>
+        <.detail_card>
+          <.detail_row label={gettext("Name")}>
+            {@event.name}
+          </.detail_row>
+          <.detail_row label={gettext("Owner")}>
+            <%= if @event.user do %>
+              <span class="space-x-2">
+                <a href={"mailto:#{@event.user.email}"} class="link link-primary">
+                  {@event.user.email}
+                </a>
+                <.link
+                  navigate={~p"/admin/users/#{@event.user}"}
+                  class="link link-primary *:inline"
+                  aria-label={gettext("View profile for %{email}", email: @event.user.email)}
+                >
+                  <ClaperWeb.Icons.eye />
+                </.link>
+              </span>
+            <% else %>
+              {gettext("No owner")}
+            <% end %>
+          </.detail_row>
+          <.detail_row label={gettext("Started At")}>
+            {if @event.started_at,
+              do: format_admin_timestamp(@event.started_at),
+              else: gettext("Not started")}
+          </.detail_row>
+          <.detail_row label={gettext("Expired At")}>
+            {if @event.expired_at,
+              do: format_admin_timestamp(@event.expired_at),
+              else: gettext("Not expired")}
+          </.detail_row>
+          <.detail_row label={gettext("Audience Peak")}>
+            {@event.audience_peak || 0} {gettext("attendees")}
+          </.detail_row>
+          <.detail_row label={gettext("Created At")}>
+            {format_admin_timestamp(@event.inserted_at)}
+          </.detail_row>
+          <.detail_row label={gettext("Last Updated")}>
+            {format_admin_timestamp(@event.updated_at)}
+          </.detail_row>
+        </.detail_card>
       </div>
     </div>
   <% :new -> %>

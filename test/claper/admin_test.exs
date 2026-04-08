@@ -2,6 +2,8 @@ defmodule Claper.AdminTest do
   use Claper.DataCase
 
   alias Claper.Admin
+  alias Claper.Accounts.User
+  alias Claper.Repo
 
   import Claper.AccountsFixtures
   import Claper.EventsFixtures
@@ -88,6 +90,35 @@ defmodule Claper.AdminTest do
         |> Enum.map(& &1.id)
 
       assert Enum.map(page_1_events ++ page_2_events, & &1.id) == expected_event_ids
+    end
+  end
+
+  describe "get_growth_metrics/0" do
+    test "returns numeric negative growth for users when the current month declines" do
+      now = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
+      thirty_days_ago = NaiveDateTime.add(now, -(30 * 24 * 60 * 60), :second)
+      forty_five_days_ago = NaiveDateTime.add(now, -(45 * 24 * 60 * 60), :second)
+
+      previous_users =
+        for index <- 1..2 do
+          user_fixture(%{email: "growth-previous-#{index}@example.com"})
+        end
+
+      current_user = user_fixture(%{email: "growth-current@example.com"})
+
+      Repo.update_all(
+        from(u in User, where: u.id in ^Enum.map(previous_users, & &1.id)),
+        set: [inserted_at: forty_five_days_ago, updated_at: forty_five_days_ago]
+      )
+
+      Repo.update_all(
+        from(u in User, where: u.id == ^current_user.id),
+        set: [inserted_at: thirty_days_ago, updated_at: thirty_days_ago]
+      )
+
+      assert %{users_growth: users_growth} = Admin.get_growth_metrics()
+      assert is_float(users_growth)
+      assert users_growth < 0
     end
   end
 end

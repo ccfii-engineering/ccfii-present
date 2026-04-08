@@ -48,7 +48,7 @@
       {get_in(log.user.email) || "—"}
     </:col>
     <:col :let={log} label={gettext("Timestamp")} field={:inserted_at}>
-      {format_timestamp(log.inserted_at)}
+      {format_admin_timestamp(log.inserted_at)}
     </:col>
     <:col
       :let={log}
@@ -66,76 +66,51 @@
 <% end %>
 
 <%= if @live_action == :show do %>
-  <dl class="card card-body bg-base-100 shadow-xl grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-5">
-    <div class="col-span-full grid grid-cols-subgrid gap-y-1 items-baseline">
-      <dt class="font-medium sm:text-right">{gettext("ID")}</dt>
-      <dd class="bg-base-200 p-3 rounded-lg inset-shadow-sm overflow-x-auto">
-        {@log.id}
-      </dd>
-    </div>
-    <div class="col-span-full grid grid-cols-subgrid gap-y-1 items-baseline">
-      <dt class="font-medium sm:text-right">{gettext("Action")}</dt>
-      <dd class="bg-base-200 p-3 rounded-lg inset-shadow-sm overflow-x-auto">
-        <span class="badge badge-outline">{@log.action}</span>
-      </dd>
-    </div>
-    <div class="col-span-full grid grid-cols-subgrid gap-y-1 items-baseline">
-      <dt class="font-medium sm:text-right">{gettext("User")}</dt>
-      <dd class="bg-base-200 p-3 rounded-lg inset-shadow-sm overflow-x-auto">
-        <%= if @log.user do %>
-          <span class="space-x-2">
-            <a href={"mailto:#{@log.user.email}"} class="link link-primary">{@log.user.email}</a>
-            <.link
-              navigate={~p"/admin/users/#{@log.user}"}
-              class="link link-primary *:inline"
-              aria-label={gettext("View profile for %{email}", email: @log.user.email)}
-            >
-              <ClaperWeb.Icons.eye />
-            </.link>
-          </span>
-        <% else %>
-          —
-        <% end %>
-      </dd>
-    </div>
-    <div class="col-span-full grid grid-cols-subgrid gap-y-1 items-baseline">
-      <dt class="font-medium sm:text-right">{gettext("Timestamp")}</dt>
-      <dd class="bg-base-200 p-3 rounded-lg inset-shadow-sm overflow-x-auto">
-        {format_timestamp(@log.inserted_at)}
-      </dd>
-    </div>
-    <%= if @log.resource_type do %>
-      <div class="col-span-full grid grid-cols-subgrid gap-y-1 items-baseline">
-        <dt class="font-medium sm:text-right">{gettext("Resource Type")}</dt>
-        <dd class="bg-base-200 p-3 rounded-lg inset-shadow-sm overflow-x-auto">
-          {@log.resource_type}
-        </dd>
-      </div>
-    <% end %>
-    <%= if @log.resource_id do %>
-      <div class="col-span-full grid grid-cols-subgrid gap-y-1 items-baseline">
-        <dt class="font-medium sm:text-right">{gettext("Resource ID")}</dt>
-        <dd class="bg-base-200 p-3 rounded-lg inset-shadow-sm overflow-x-auto">
-          {@log.resource_id}
-        </dd>
-      </div>
-    <% end %>
-    <div class="col-span-full grid grid-cols-subgrid gap-y-1 items-baseline">
-      <dt class="font-medium sm:text-right">{gettext("Metadata")}</dt>
-      <dd class="bg-base-200 p-3 rounded-lg inset-shadow-sm overflow-x-auto">
-        <%= if @log.metadata && map_size(@log.metadata) > 0 do %>
-          <dl class="space-y-2 min-w-min">
-            <%= for {key, value} <- @log.metadata do %>
-              <div class="ml-5 -indent-5">
-                <dt class="inline font-medium">{key}:</dt>
-                <dd class="inline">{value}</dd>
-              </div>
-            <% end %>
-          </dl>
-        <% else %>
-          —
-        <% end %>
-      </dd>
-    </div>
-  </dl>
+  <.detail_card>
+    <.detail_row label={gettext("ID")}>
+      {@log.id}
+    </.detail_row>
+    <.detail_row label={gettext("Action")}>
+      <span class="badge badge-outline">{@log.action}</span>
+    </.detail_row>
+    <.detail_row label={gettext("User")}>
+      <%= if @log.user do %>
+        <span class="space-x-2">
+          <a href={"mailto:#{@log.user.email}"} class="link link-primary">{@log.user.email}</a>
+          <.link
+            navigate={~p"/admin/users/#{@log.user}"}
+            class="link link-primary *:inline"
+            aria-label={gettext("View profile for %{email}", email: @log.user.email)}
+          >
+            <ClaperWeb.Icons.eye />
+          </.link>
+        </span>
+      <% else %>
+        {empty_value()}
+      <% end %>
+    </.detail_row>
+    <.detail_row label={gettext("Timestamp")}>
+      {format_admin_timestamp(@log.inserted_at)}
+    </.detail_row>
+    <.detail_row label={gettext("Resource Type")} show={!is_nil(@log.resource_type)}>
+      {@log.resource_type}
+    </.detail_row>
+    <.detail_row label={gettext("Resource ID")} show={!is_nil(@log.resource_id)}>
+      {@log.resource_id}
+    </.detail_row>
+    <.detail_row label={gettext("Metadata")}>
+      <%= if @log.metadata && map_size(@log.metadata) > 0 do %>
+        <dl class="space-y-2 min-w-min">
+          <%= for {key, value} <- @log.metadata do %>
+            <div class="ml-5 -indent-5">
+              <dt class="inline font-medium">{key}:</dt>
+              <dd class="inline">{value}</dd>
+            </div>
+          <% end %>
+        </dl>
+      <% else %>
+        {empty_value()}
+      <% end %>
+    </.detail_row>
+  </.detail_card>
 <% end %>
