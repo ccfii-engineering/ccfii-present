@@ -27,6 +27,33 @@ defmodule ClaperWeb.EventLive.ManageAttendeesOptionsComponent do
 
       <div class="space-y-2 px-1">
         <.toggle_row
+          label={if @state.chat_enabled, do: gettext("Disable messages"), else: gettext("Enable messages")}
+          checked={@state.chat_enabled}
+          key={:chat_enabled}
+          shortcut={if @create == nil, do: "A", else: nil}
+          show_shortcut={@show_shortcut}
+        >
+          <:icon>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 3.958 1 5.307v5.386c0 1.349.993 2.552 2.43 2.783 1.3.209 2.622.351 3.963.42a.75.75 0 0 1 .407.164l2.641 2.112a.75.75 0 0 0 1.184-.51l.311-2.476a.75.75 0 0 1 .663-.653c1.484-.183 2.928-.456 4.32-.814.658-.169 1.081-.8 1.081-1.49V5.307c0-1.349-.993-2.552-2.43-2.783A42.078 42.078 0 0 0 10 2ZM6.75 8a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5h-6.5Zm0-3a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5h-6.5Z" clip-rule="evenodd" />
+            </svg>
+          </:icon>
+        </.toggle_row>
+        <.toggle_row
+          label={if @state.anonymous_chat_enabled, do: gettext("Reject anonymous messages"), else: gettext("Allow anonymous messages")}
+          checked={@state.anonymous_chat_enabled}
+          key={:anonymous_chat_enabled}
+          shortcut={if @create == nil, do: "S", else: nil}
+          disabled={!@state.chat_enabled}
+          show_shortcut={@show_shortcut}
+        >
+          <:icon>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+              <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+            </svg>
+          </:icon>
+        </.toggle_row>
+        <.toggle_row
           label={if @state.message_reaction_enabled, do: gettext("Disable reactions"), else: gettext("Enable reactions")}
           checked={@state.message_reaction_enabled}
           key={:message_reaction_enabled}
