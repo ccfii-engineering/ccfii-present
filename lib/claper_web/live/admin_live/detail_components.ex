@@ -20,7 +20,7 @@ defmodule ClaperWeb.AdminLive.DetailComponents do
 
   def detail_card(assigns) do
     ~H"""
-    <dl class="card card-body bg-base-100 shadow-xl grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-5">
+    <dl class="card card-body bg-base-100 shadow-md grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-5">
       {render_slot(@inner_block)}
     </dl>
     """

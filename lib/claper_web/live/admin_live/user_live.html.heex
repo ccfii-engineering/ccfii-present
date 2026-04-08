@@ -25,7 +25,7 @@
         path={~p"/admin/users"}
         opts={[
           container: true,
-          container_attrs: [class: "card bg-base-100 shadow-xl overflow-x-auto my-5"],
+          container_attrs: [class: "card bg-base-100 shadow-md overflow-x-auto my-5"],
           no_results_content: ~H"""
           <p class="text-center py-10">{gettext("No users found")}</p>
           """,
@@ -135,7 +135,7 @@
           path={~p"/admin/users/#{@user}"}
           opts={[
             container: true,
-            container_attrs: [class: "card bg-base-100 shadow-xl overflow-x-auto"],
+            container_attrs: [class: "card bg-base-100 shadow-md overflow-x-auto"],
             no_results_content: ~H"""
             <p class="text-center py-10">{gettext("No audit logs for this user.")}</p>
             """,
@@ -185,7 +185,7 @@
       </div>
 
       <div class="mt-6">
-        <div class="card bg-base-100 shadow-xl">
+        <div class="card bg-base-100 shadow-md">
           <div class="card-body">
             <.live_component
               module={ClaperWeb.AdminLive.UserLive.FormComponent}
@@ -208,7 +208,7 @@
       </div>
 
       <div class="mt-6">
-        <div class="card bg-base-100 shadow-xl">
+        <div class="card bg-base-100 shadow-md">
           <div class="card-body">
             <.live_component
               module={ClaperWeb.AdminLive.UserLive.FormComponent}

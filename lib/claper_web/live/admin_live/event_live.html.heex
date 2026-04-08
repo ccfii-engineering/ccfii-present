@@ -25,7 +25,7 @@
         path={~p"/admin/events"}
         opts={[
           container: true,
-          container_attrs: [class: "card bg-base-100 shadow-xl overflow-x-auto my-5"],
+          container_attrs: [class: "card bg-base-100 shadow-md overflow-x-auto my-5"],
           no_results_content: ~H"""
           <p class="text-center py-10">{gettext("No events found")}</p>
           """,
@@ -159,7 +159,7 @@
       </div>
 
       <div class="mt-6">
-        <div class="card bg-base-100 shadow-xl">
+        <div class="card bg-base-100 shadow-md">
           <div class="card-body">
             <.live_component
               module={ClaperWeb.AdminLive.EventLive.FormComponent}
@@ -182,7 +182,7 @@
       </div>
 
       <div class="mt-6">
-        <div class="card bg-base-100 shadow-xl">
+        <div class="card bg-base-100 shadow-md">
           <div class="card-body">
             <.live_component
               module={ClaperWeb.AdminLive.EventLive.FormComponent}
