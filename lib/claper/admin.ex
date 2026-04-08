@@ -306,9 +306,8 @@ defmodule Claper.Admin do
         0.0
 
       previous > 0 ->
-        :erlang.float_to_binary(((current - previous) / previous * 100) |> Float.round(1),
-          decimals: 1
-        )
+        ((current - previous) / previous * 100)
+        |> Float.round(1)
 
       true ->
         0.0
