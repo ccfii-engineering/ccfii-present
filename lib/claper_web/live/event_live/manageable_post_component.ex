@@ -146,7 +146,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
             <!-- Watermark icons -->
             <div
               :if={is_question || @post.pinned}
-              class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-3 opacity-60 pointer-events-none select-none"
+              class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-3 opacity-100 pointer-events-none select-none"
             >
               <svg
                 :if={@post.pinned}

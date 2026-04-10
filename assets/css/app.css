@@ -54,6 +54,19 @@
 
 [x-cloak] { display: none !important; }
 
+/*
+ The manager screen uses its own full-height scrolling containers. DaisyUI's
+ root scrollbar gutter for open modals adds an unnecessary right-side gutter
+ there, which shifts the layout when a modal opens.
+ */
+:root:has(#manager .manage-modal.modal-open) {
+  scrollbar-gutter: auto;
+}
+
+#manager .manage-modal.modal-open {
+  scrollbar-gutter: auto;
+}
+
 /* Alerts and form errors used by phx.new */
 .alert {
   padding: 15px;

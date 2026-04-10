@@ -75,7 +75,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
       </ul>
 
       <!-- Tab Content -->
-      <div class="flex-1 overflow-y-auto">
+      <div class="flex-1 overflow-y-auto overflow-x-hidden">
         <%= if @list_tab == :posts do %>
           <div
             :if={@post_count == 0}
@@ -158,7 +158,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
             </div>
             <div
               id="question-list"
-              class="flex-1 overflow-y-auto p-2 space-y-3"
+              class="flex-1 overflow-y-auto overflow-x-hidden p-2 space-y-3"
               phx-update="stream"
             >
               <.live_component
