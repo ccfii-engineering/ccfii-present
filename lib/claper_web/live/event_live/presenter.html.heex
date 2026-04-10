@@ -224,13 +224,21 @@
       </div>
     </div>
   </div>
-  <!-- ONLINE BADGE -->
+  <div
+    :if={!@iframe}
+    id="reacts"
+    phx-hook="GlobalReacts"
+    data-class-name="h-24"
+    class="fixed right-5 bottom-5 z-30 w-24 pointer-events-none"
+    phx-update="ignore"
+  >
+  </div>
+  
+<!-- ONLINE BADGE -->
   <div
     :if={!@iframe && @state.show_attendee_count}
     class="absolute z-20 bottom-5 right-5 px-4 pt-3 pb-1 rounded-md bg-black shadow-md text-white flex-1"
   >
-    <div id="reacts" phx-hook="GlobalReacts" data-class-name="h-24" phx-update="ignore"></div>
-
     <div class="inline-flex justify-between items-center text-white text-2xl">
       <img src="/images/icons/online-users.svg" class="h-12 mr-2" />
       <span id="counter" phx-hook="UpdateAttendees" phx-update="ignore">
