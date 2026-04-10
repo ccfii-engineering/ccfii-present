@@ -1,5 +1,5 @@
 <div id="wrapper" class={if assigns[:container] == :drawer, do: "flex flex-col h-full", else: ""}>
-  <div class={["py-4 flex flex-col sm:flex-row sm:items-center justify-between", if(assigns[:container] != :drawer, do: "border-b border-gray-200")]}>
+  <div class={["py-4 flex flex-col sm:flex-row sm:items-center justify-between flex-shrink-0", if(assigns[:container] != :drawer, do: "border-b border-gray-200")]}>
     <div class="flex items-center gap-3 flex-1 min-w-0">
       <%= if assigns[:container] == :drawer do %>
         <.link patch={~p"/events"} class="p-1 rounded-full hover:bg-gray-100 transition">
@@ -376,7 +376,7 @@
   </div>
 
   <%= if assigns[:container] == :drawer do %>
-    <div class="pt-4 mt-auto flex space-x-5">
+    <div class="pt-4 mt-auto flex-shrink-0 flex flex-col gap-3">
       <%= if (@uploads.presentation_file.entries |> Enum.at(0, %{}) |> Map.get(:progress, 0) == 0 || @uploads.presentation_file.entries |> Enum.at(0, %{}) |> Map.get(:progress, 0) == 100) && @changeset.valid? do %>
         <button
           type="submit"
