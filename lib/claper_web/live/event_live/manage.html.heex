@@ -15,7 +15,7 @@
     aria-modal="true"
   >
     <div class="modal-box max-w-xl">
-      <button phx-click={toggle_settings_modal()} class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+      <button phx-click="toggle-settings-modal" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
         &times;
       </button>
       <div id="settings-modal-content">
@@ -29,7 +29,7 @@
         />
       </div>
     </div>
-    <div class="modal-backdrop" phx-click={toggle_settings_modal()}>
+    <div class="modal-backdrop" phx-click="toggle-settings-modal">
       <button>close</button>
     </div>
   </div>
@@ -378,7 +378,7 @@
         </svg>
       </a>
       <!-- Mobile settings button -->
-      <button phx-click={toggle_settings_modal()} class="lg:hidden p-2 rounded-full hover:bg-gray-100">
+      <button phx-click="toggle-settings-modal" class="lg:hidden p-2 rounded-full hover:bg-gray-100">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"

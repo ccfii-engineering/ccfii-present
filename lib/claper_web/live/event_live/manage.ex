@@ -864,17 +864,13 @@ defmodule ClaperWeb.EventLive.Manage do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  def handle_event("toggle-settings-modal", _params, socket) do
+    {:noreply, update(socket, :settings_modal, &(!&1))}
   end
 
-  def toggle_settings_modal(js \\ %JS{}) do
-    js
-    |> JS.toggle(
-      to: "#settings-modal",
-      out: "animate__animated animate__fadeOut",
-      in: "animate__animated animate__fadeIn"
-    )
+  @impl true
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
   defp apply_action(socket, :show, _params) do
