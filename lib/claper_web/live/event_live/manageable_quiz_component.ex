@@ -29,7 +29,7 @@ defmodule ClaperWeb.EventLive.ManageableQuizComponent do
     ~H"""
     <div
       id={"#{@id}"}
-      class={"#{if @quiz.show_results, do: "opacity-100", else: "opacity-0"} h-full w-full flex flex-col justify-center bg-black/90 absolute z-30 left-1/2 top-1/2 transform -translate-y-1/2 -translate-x-1/2 p-10 transition-opacity"}
+      class={"#{if @quiz.show_results, do: "opacity-100", else: "opacity-0 pointer-events-none"} h-full w-full flex flex-col justify-center bg-black/90 absolute z-30 left-1/2 top-1/2 transform -translate-y-1/2 -translate-x-1/2 p-10 transition-opacity"}
     >
       <div class="w-full md:w-1/2 mx-auto h-full">
         <p class={"#{if @iframe, do: "text-xl mb-12", else: "text-5xl mb-24"} text-white font-bold text-center"}>

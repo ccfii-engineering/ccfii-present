@@ -148,6 +148,13 @@ Hooks.Split = {
       return;
     }
 
+    if (this.columnSplit) {
+      this.columnSplit.destroy();
+    }
+    if (this.rowSplit) {
+      this.rowSplit.destroy();
+    }
+
     this.mounted();
   },
   destroyed() {

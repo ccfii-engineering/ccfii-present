@@ -19,7 +19,7 @@
   <!-- JOIN SCREEN -->
   <div
     id="joinScreen"
-    class={"#{if @state.join_screen_visible, do: "opacity-100 z-40", else: "opacity-0"} h-full w-full flex flex-col justify-center bg-black absolute transition-opacity"}
+    class={"#{if @state.join_screen_visible, do: "opacity-100 z-40", else: "opacity-0 pointer-events-none"} h-full w-full flex flex-col justify-center bg-black absolute transition-opacity"}
   >
     <div class="h-full bg-white text-black text-center flex flex-col items-center justify-center">
       <span class="font-semibold mb-10 sm:text-3xl md:text-4xl lg:text-6xl">
@@ -46,7 +46,7 @@
   <%= if @current_poll do %>
     <div
       id="poll"
-      class={"#{if @state.poll_visible, do: "opacity-100", else: "opacity-0"} h-full w-full flex flex-col justify-center bg-black/90 absolute z-30 left-1/2 top-1/2 transform -translate-y-1/2 -translate-x-1/2 p-10 transition-opacity"}
+      class={"#{if @state.poll_visible, do: "opacity-100", else: "opacity-0 pointer-events-none"} h-full w-full flex flex-col justify-center bg-black/90 absolute z-30 left-1/2 top-1/2 transform -translate-y-1/2 -translate-x-1/2 p-10 transition-opacity"}
     >
       <div class="w-full md:w-1/2 mx-auto h-full">
         <p class={"#{if @iframe, do: "text-xl mb-12", else: "text-5xl mb-24"} text-white font-bold  text-center"}>
