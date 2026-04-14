@@ -67,34 +67,6 @@
   scrollbar-gutter: auto;
 }
 
-/* Alerts and form errors used by phx.new */
-.alert {
-  padding: 15px;
-  margin-bottom: 20px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-}
-.alert-info {
-  color: var(--color-primary-700);
-  background-color: var(--color-primary-100);
-  border-color: var(--color-primary-200);
-}
-.alert-warning {
-  color: var(--color-supporting-yellow-700);
-  background-color: var(--color-supporting-yellow-50);
-  border-color: var(--color-supporting-yellow-100);
-}
-.alert-danger {
-  color: var(--color-supporting-red-700);
-  background-color: var(--color-supporting-red-100);
-  border-color: var(--color-supporting-red-200);
-}
-.alert p {
-  margin-bottom: 0;
-}
-.alert:empty {
-  display: none;
-}
 .invalid-feedback {
   color: var(--color-supporting-red-700);
   display: block;
