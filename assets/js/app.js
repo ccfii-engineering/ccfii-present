@@ -459,32 +459,6 @@ Hooks.GlobalReacts = {
     });
   },
 };
-Hooks.JoinEvent = {
-  mounted() {
-    const loading = document.getElementById("loading");
-    const submit = document.getElementById("submit");
-    const input = document.getElementById("input");
-
-    submit.addEventListener("click", (e) => {
-      if (input.value.length > 0) {
-        submit.style.display = "none";
-        loading.style.display = "block";
-      }
-    });
-  },
-  destroyed() {
-    const loading = document.getElementById("loading");
-    const submit = document.getElementById("submit");
-    const input = document.getElementById("input");
-
-    submit.removeEventListener("click", (e) => {
-      if (input.value.length > 0) {
-        submit.style.display = "none";
-        loading.style.display = "block";
-      }
-    });
-  },
-};
 Hooks.WelcomeEarly = {
   mounted() {
     if (localStorage.getItem("welcome-early") !== "false") {

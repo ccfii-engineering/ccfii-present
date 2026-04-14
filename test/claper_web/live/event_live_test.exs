@@ -61,4 +61,19 @@ defmodule ClaperWeb.EventLiveTest do
       assert html =~ presentation_file.event.name
     end
   end
+
+  describe "Join" do
+    test "renders the join page", %{conn: conn} do
+      {:ok, join_live, html} = live(conn, ~p"/")
+
+      assert html =~ "Join the event"
+      assert html =~ "Event code"
+      assert html =~ "Are you a presenter?"
+      assert html =~ "Start creating for free"
+      refute html =~ "Turn your slides into conversations"
+
+      assert has_element?(join_live, "#form")
+      assert has_element?(join_live, "#input[placeholder='ABCD1234']")
+    end
+  end
 end
