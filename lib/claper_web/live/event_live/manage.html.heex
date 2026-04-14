@@ -379,11 +379,16 @@
           id="attendees-count"
           phx-update="ignore"
           phx-hook="UpdateAttendees"
+          data-label-id="attendees-label"
+          data-singular={gettext("attendee")}
+          data-plural={gettext("attendees")}
           class="text-gray-700"
         >
           {@attendees_nb}
         </span>
-        <span class="text-gray-700">{gettext("attendees")}</span>
+        <span id="attendees-label" class="text-gray-700">
+          {if @attendees_nb > 1, do: gettext("attendees"), else: gettext("attendee")}
+        </span>
         <!-- Arrow icon -->
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -37,7 +37,7 @@ defmodule ClaperWeb.EventLive.Manage do
         socket
         |> assign(:interaction_modal, false)
         |> assign(:settings_modal, false)
-        |> assign(:attendees_nb, 1)
+        |> assign(:attendees_nb, 0)
         |> assign(:event, event)
         |> assign(:sort_questions_by, "date")
         |> assign(:state, event.presentation_file.presentation_state)

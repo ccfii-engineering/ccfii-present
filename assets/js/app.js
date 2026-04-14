@@ -378,6 +378,13 @@ Hooks.UpdateAttendees = {
   mounted() {
     this.handleEvent("update-attendees", ({ count }) => {
       this.el.textContent = count;
+
+      const labelId = this.el.dataset.labelId;
+      const label = labelId ? document.getElementById(labelId) : null;
+
+      if (label) {
+        label.textContent = count > 1 ? this.el.dataset.plural : this.el.dataset.singular;
+      }
     });
   },
 };
