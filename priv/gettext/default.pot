@@ -2850,11 +2850,6 @@ msgstr ""
 msgid "Set a new password below, then use it the next time you log in."
 msgstr ""
 
-#: lib/claper_web/templates/user_session/new.html.heex:43
-#, elixir-autogen, elixir-format
-msgid "Sign in to manage your sessions, audiences, and presentation flow."
-msgstr ""
-
 #: lib/claper_web/templates/user_session/new.html.heex:18
 #, elixir-autogen, elixir-format
 msgid "Step back into the room with everything ready to launch."
@@ -2888,4 +2883,9 @@ msgstr ""
 #: lib/claper_web/templates/user_registration/new.html.heex:93
 #, elixir-autogen, elixir-format
 msgid "Use at least 6 characters and enter the same password twice."
+msgstr ""
+
+#: lib/claper_web/templates/user_session/new.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "Sign in to manage your presentations."
 msgstr ""
