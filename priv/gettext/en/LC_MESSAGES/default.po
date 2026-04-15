@@ -1208,7 +1208,7 @@ msgstr ""
 #: lib/claper_web/live/user_settings_live/show.ex:68
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:15
 #, elixir-autogen, elixir-format
-msgid "Set a new password"
+msgid "Almost there"
 msgstr ""
 
 #: lib/claper_web/live/user_settings_live/show.ex:71
@@ -2722,7 +2722,7 @@ msgstr ""
 
 #: lib/claper_web/templates/user_registration/new.html.heex:21
 #, elixir-autogen, elixir-format
-msgid "Build polls, questions, and shared feedback into your sessions from the very first slide."
+msgid "Thousands of presenters already use Claper to engage their audience in real time."
 msgstr ""
 
 #: lib/claper_web/templates/user_registration/new.html.heex:115
@@ -2732,7 +2732,7 @@ msgstr ""
 
 #: lib/claper_web/templates/user_registration/new.html.heex:15
 #, elixir-autogen, elixir-format
-msgid "Create interactive moments"
+msgid "Join 6,000+ speakers"
 msgstr ""
 
 #: lib/claper_web/templates/user_registration/new.html.heex:108
@@ -2748,12 +2748,12 @@ msgstr ""
 
 #: lib/claper_web/templates/user_registration/new.html.heex:44
 #, elixir-autogen, elixir-format
-msgid "Set up your Claper account and get ready to invite your audience into the session."
+msgid "Upload a presentation, add live interactions, and share a code with your audience."
 msgstr ""
 
 #: lib/claper_web/templates/user_registration/new.html.heex:41
 #, elixir-autogen, elixir-format
-msgid "Start building more engaging presentations."
+msgid "Create your account."
 msgstr ""
 
 #: lib/claper_web/templates/user_registration/new.html.heex:117
@@ -2763,7 +2763,7 @@ msgstr ""
 
 #: lib/claper_web/templates/user_registration/new.html.heex:18
 #, elixir-autogen, elixir-format
-msgid "Turn every presentation into a live conversation."
+msgid "Make your presentations stand out with live audience interaction."
 msgstr ""
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:74
@@ -2784,7 +2784,7 @@ msgstr ""
 
 #: lib/claper_web/templates/user_session/new.html.heex:21
 #, elixir-autogen, elixir-format
-msgid "Access your presentations, manage audience interactions, and guide each moment live."
+msgid "Open your dashboard, launch a session, and let your audience interact in real time."
 msgstr ""
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:97
@@ -2795,7 +2795,7 @@ msgstr ""
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:18
 #, elixir-autogen, elixir-format
-msgid "Choose a fresh password and head back into your event flow."
+msgid "Pick a new password and get back to presenting."
 msgstr ""
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:41
@@ -2815,7 +2815,7 @@ msgstr ""
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:18
 #, elixir-autogen, elixir-format
-msgid "Get back to your sessions without losing momentum."
+msgid "Your sessions and audience data are right where you left them."
 msgstr ""
 
 #: lib/claper_web/templates/user_session/new.html.heex:104
@@ -2825,12 +2825,12 @@ msgstr ""
 
 #: lib/claper_web/templates/user_session/new.html.heex:15
 #, elixir-autogen, elixir-format
-msgid "Pick up where your session starts"
+msgid "Your audience is waiting"
 msgstr ""
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:15
 #, elixir-autogen, elixir-format
-msgid "Recover access"
+msgid "Get back on stage"
 msgstr ""
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:76
@@ -2850,7 +2850,7 @@ msgstr ""
 
 #: lib/claper_web/templates/user_session/new.html.heex:18
 #, elixir-autogen, elixir-format
-msgid "Step back into the room with everything ready to launch."
+msgid "Run live polls, Q&A, and reactions right from your slides."
 msgstr ""
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:86
@@ -2860,17 +2860,17 @@ msgstr ""
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:21
 #, elixir-autogen, elixir-format
-msgid "Use a secure password that is easy for you to keep and hard for anyone else to guess."
+msgid "Choose something secure that you'll remember, then you're all set."
 msgstr ""
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:21
 #, elixir-autogen, elixir-format
-msgid "We'll send you a secure link so you can choose a new password and return to presenting quickly."
+msgid "We'll send a reset link so you can set a new password and get back to presenting."
 msgstr ""
 
 #: lib/claper_web/templates/user_session/new.html.heex:40
 #, elixir-autogen, elixir-format
-msgid "Welcome back to your Claper workspace."
+msgid "Welcome back."
 msgstr ""
 
 #: lib/claper_web/templates/user_registration/new.html.heex:87
@@ -2885,7 +2885,7 @@ msgstr ""
 
 #: lib/claper_web/templates/user_session/new.html.heex:43
 #, elixir-autogen, elixir-format
-msgid "Sign in to manage your presentations."
+msgid "Sign in to launch or manage your interactive sessions."
 msgstr ""
 
 #: lib/claper_web/live/event_live/manage.ex:336

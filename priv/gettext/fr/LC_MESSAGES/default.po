@@ -1212,8 +1212,8 @@ msgstr "Confirmer le nouveau mot de passe"
 #: lib/claper_web/live/user_settings_live/show.ex:68
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:15
 #, elixir-autogen, elixir-format
-msgid "Set a new password"
-msgstr "Définir un nouveau mot de passe"
+msgid "Almost there"
+msgstr "Presque terminé"
 
 #: lib/claper_web/live/user_settings_live/show.ex:71
 #, elixir-autogen, elixir-format
@@ -2591,12 +2591,12 @@ msgstr "Salle des participants"
 #: lib/claper_web/live/user_settings_live/show.html.heex:268
 #, elixir-autogen, elixir-format
 msgid "External accounts connected to your profile"
-msgstr ""
+msgstr "Comptes externes connectés à votre profil"
 
 #: lib/claper_web/live/event_live/manage_interaction_list_component.ex:136
 #, elixir-autogen, elixir-format
 msgid "More"
-msgstr ""
+msgstr "Plus"
 
 #: lib/claper_web/live/event_live/index.ex:177
 #, elixir-autogen, elixir-format
@@ -2618,28 +2618,28 @@ msgstr "Actions"
 #: lib/claper_web/live/admin_live/audit_log_live.ex:52
 #, elixir-autogen, elixir-format
 msgid "Audit Log Details"
-msgstr ""
+msgstr "Détails du journal d'audit"
 
 #: lib/claper_web/live/admin_live/audit_log_live.ex:26
 #: lib/claper_web/live/admin_live/user_live.html.heex:130
 #: lib/claper_web/templates/layout/admin.html.heex:136
 #, elixir-autogen, elixir-format
 msgid "Audit Logs"
-msgstr ""
+msgstr "Journaux d'audit"
 
 #: lib/claper_web/live/admin_live/audit_log_live.html.heex:39
 #: lib/claper_web/live/admin_live/audit_log_live.html.heex:70
 #: lib/claper_web/live/admin_live/user_live.html.heex:151
 #, elixir-autogen, elixir-format
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: lib/claper_web/live/admin_live/audit_log_live.html.heex:55
 #: lib/claper_web/live/admin_live/audit_log_live.html.heex:101
 #: lib/claper_web/live/admin_live/user_live.html.heex:164
 #, elixir-autogen, elixir-format
 msgid "Metadata"
-msgstr ""
+msgstr "Métadonnées"
 
 #: lib/claper_web/live/admin_live/audit_log_live.html.heex:28
 #, elixir-autogen, elixir-format, fuzzy
@@ -2649,7 +2649,7 @@ msgstr "Afficher les résultats"
 #: lib/claper_web/live/admin_live/audit_log_live.html.heex:98
 #, elixir-autogen, elixir-format
 msgid "Resource ID"
-msgstr ""
+msgstr "ID de la ressource"
 
 #: lib/claper_web/live/admin_live/audit_log_live.html.heex:95
 #, elixir-autogen, elixir-format, fuzzy
@@ -2662,19 +2662,19 @@ msgstr "Type de réponse"
 #: lib/claper_web/live/event_live/manage.ex:1070
 #, elixir-autogen, elixir-format
 msgid "Resource not found"
-msgstr ""
+msgstr "Ressource introuvable"
 
 #: lib/claper_web/live/admin_live/audit_log_live.ex:35
 #, elixir-autogen, elixir-format
 msgid "Search by user email"
-msgstr ""
+msgstr "Rechercher par e-mail de l'utilisateur"
 
 #: lib/claper_web/live/admin_live/audit_log_live.html.heex:50
 #: lib/claper_web/live/admin_live/audit_log_live.html.heex:92
 #: lib/claper_web/live/admin_live/user_live.html.heex:159
 #, elixir-autogen, elixir-format
 msgid "Timestamp"
-msgstr ""
+msgstr "Horodatage"
 
 #: lib/claper_web/live/admin_live/audit_log_live.html.heex:47
 #: lib/claper_web/live/admin_live/audit_log_live.html.heex:76
@@ -2686,7 +2686,7 @@ msgstr "Utilisateurs"
 #: lib/claper_web/live/admin_live/event_live.html.heex:122
 #, elixir-autogen, elixir-format
 msgid "View profile for %{email}"
-msgstr ""
+msgstr "Voir le profil de %{email}"
 
 #: lib/claper_web/components/core_components.ex:74
 #, elixir-autogen, elixir-format, fuzzy
@@ -2701,12 +2701,12 @@ msgstr "Suivant"
 #: lib/claper_web/live/admin_live/user_live.html.heex:140
 #, elixir-autogen, elixir-format
 msgid "No audit logs for this user."
-msgstr ""
+msgstr "Aucun journal d'audit pour cet utilisateur."
 
 #: lib/claper_web/components/core_components.ex:524
 #, elixir-autogen, elixir-format
 msgid "Page %{current} of %{total}"
-msgstr ""
+msgstr "Page %{current} sur %{total}"
 
 #: lib/claper_web/components/core_components.ex:533
 #, elixir-autogen, elixir-format, fuzzy
@@ -2716,28 +2716,28 @@ msgstr "Précédent"
 #: lib/claper_web/templates/user_registration/new.html.heex:106
 #, elixir-autogen, elixir-format
 msgid "Already have an account?"
-msgstr ""
+msgstr "Vous avez déjà un compte ?"
 
 #: lib/claper_web/templates/user_registration/new.html.heex:77
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:69
 #, elixir-autogen, elixir-format
 msgid "At least 6 characters"
-msgstr ""
+msgstr "Au moins 6 caractères"
 
 #: lib/claper_web/templates/user_registration/new.html.heex:21
 #, elixir-autogen, elixir-format
-msgid "Build polls, questions, and shared feedback into your sessions from the very first slide."
-msgstr ""
+msgid "Thousands of presenters already use Claper to engage their audience in real time."
+msgstr "Des milliers de présentateurs utilisent déjà Claper pour engager leur audience en temps réel."
 
 #: lib/claper_web/templates/user_registration/new.html.heex:115
 #, elixir-autogen, elixir-format
 msgid "By creating an account, you agree to our"
-msgstr ""
+msgstr "En créant un compte, vous acceptez nos"
 
 #: lib/claper_web/templates/user_registration/new.html.heex:15
 #, elixir-autogen, elixir-format
-msgid "Create interactive moments"
-msgstr ""
+msgid "Join 6,000+ speakers"
+msgstr "Rejoignez plus de 6 000 intervenants"
 
 #: lib/claper_web/templates/user_registration/new.html.heex:108
 #: lib/claper_web/templates/user_session/new.html.heex:37
@@ -2748,48 +2748,48 @@ msgstr "Connexion"
 #: lib/claper_web/templates/user_registration/new.html.heex:125
 #, elixir-autogen, elixir-format
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Politique de confidentialité"
 
 #: lib/claper_web/templates/user_registration/new.html.heex:44
 #, elixir-autogen, elixir-format
-msgid "Set up your Claper account and get ready to invite your audience into the session."
-msgstr ""
+msgid "Upload a presentation, add live interactions, and share a code with your audience."
+msgstr "Importez une présentation, ajoutez des interactions en direct et partagez un code avec votre audience."
 
 #: lib/claper_web/templates/user_registration/new.html.heex:41
 #, elixir-autogen, elixir-format
-msgid "Start building more engaging presentations."
-msgstr ""
+msgid "Create your account."
+msgstr "Créez votre compte."
 
 #: lib/claper_web/templates/user_registration/new.html.heex:117
 #, elixir-autogen, elixir-format
 msgid "Terms of Service"
-msgstr ""
+msgstr "Conditions d'utilisation"
 
 #: lib/claper_web/templates/user_registration/new.html.heex:18
 #, elixir-autogen, elixir-format
-msgid "Turn every presentation into a live conversation."
-msgstr ""
+msgid "Make your presentations stand out with live audience interaction."
+msgstr "Démarquez vos présentations grâce à l'interaction en direct avec votre audience."
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:74
 #, elixir-autogen, elixir-format
 msgid "Use at least 6 characters so your account is ready to go."
-msgstr ""
+msgstr "Utilisez au moins 6 caractères pour que votre compte soit prêt."
 
 #: lib/claper_web/templates/user_registration/new.html.heex:123
 #, elixir-autogen, elixir-format
 msgid "and"
-msgstr ""
+msgstr "et"
 
 #: lib/claper_web/templates/user_registration/new.html.heex:64
 #: lib/claper_web/templates/user_reset_password/new.html.heex:62
 #, elixir-autogen, elixir-format
 msgid "you@example.com"
-msgstr ""
+msgstr "you@example.com"
 
 #: lib/claper_web/templates/user_session/new.html.heex:21
 #, elixir-autogen, elixir-format
-msgid "Access your presentations, manage audience interactions, and guide each moment live."
-msgstr ""
+msgid "Open your dashboard, launch a session, and let your audience interact in real time."
+msgstr "Ouvrez votre tableau de bord, lancez une session et laissez votre audience interagir en temps réel."
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:97
 #: lib/claper_web/templates/user_reset_password/new.html.heex:78
@@ -2799,18 +2799,18 @@ msgstr "Retour à la connexion"
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:18
 #, elixir-autogen, elixir-format
-msgid "Choose a fresh password and head back into your event flow."
-msgstr ""
+msgid "Pick a new password and get back to presenting."
+msgstr "Choisissez un nouveau mot de passe et reprenez vos présentations."
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:41
 #, elixir-autogen, elixir-format
 msgid "Choose your new password"
-msgstr ""
+msgstr "Choisissez votre nouveau mot de passe"
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "Enter your email address and we'll send reset instructions right away."
-msgstr ""
+msgstr "Entrez votre adresse e-mail et nous vous enverrons les instructions de réinitialisation immédiatement."
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:38
 #, elixir-autogen, elixir-format, fuzzy
@@ -2819,28 +2819,28 @@ msgstr "Mot de passe oublié ?"
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:18
 #, elixir-autogen, elixir-format
-msgid "Get back to your sessions without losing momentum."
-msgstr ""
+msgid "Your sessions and audience data are right where you left them."
+msgstr "Vos sessions et données d'audience sont exactement là où vous les avez laissées."
 
 #: lib/claper_web/templates/user_session/new.html.heex:104
 #, elixir-autogen, elixir-format
 msgid "Need a new account?"
-msgstr ""
+msgstr "Besoin d'un nouveau compte ?"
 
 #: lib/claper_web/templates/user_session/new.html.heex:15
 #, elixir-autogen, elixir-format
-msgid "Pick up where your session starts"
-msgstr ""
+msgid "Your audience is waiting"
+msgstr "Votre audience vous attend"
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:15
 #, elixir-autogen, elixir-format
-msgid "Recover access"
-msgstr ""
+msgid "Get back on stage"
+msgstr "Remontez sur scène"
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:76
 #, elixir-autogen, elixir-format
 msgid "Remembered it?"
-msgstr ""
+msgstr "Vous vous en souvenez ?"
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:84
 #, elixir-autogen, elixir-format, fuzzy
@@ -2850,32 +2850,32 @@ msgstr "Changer votre email"
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "Set a new password below, then use it the next time you log in."
-msgstr ""
+msgstr "Définissez un nouveau mot de passe ci-dessous, puis utilisez-le lors de votre prochaine connexion."
 
 #: lib/claper_web/templates/user_session/new.html.heex:18
 #, elixir-autogen, elixir-format
-msgid "Step back into the room with everything ready to launch."
-msgstr ""
+msgid "Run live polls, Q&A, and reactions right from your slides."
+msgstr "Lancez des sondages, des questions et des réactions en direct depuis vos diapositives."
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:86
 #, elixir-autogen, elixir-format
 msgid "Still new here?"
-msgstr ""
+msgstr "Encore nouveau ici ?"
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:21
 #, elixir-autogen, elixir-format
-msgid "Use a secure password that is easy for you to keep and hard for anyone else to guess."
-msgstr ""
+msgid "Choose something secure that you'll remember, then you're all set."
+msgstr "Choisissez quelque chose de sûr dont vous vous souviendrez, et c'est parti."
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:21
 #, elixir-autogen, elixir-format
-msgid "We'll send you a secure link so you can choose a new password and return to presenting quickly."
-msgstr ""
+msgid "We'll send a reset link so you can set a new password and get back to presenting."
+msgstr "Nous vous enverrons un lien pour définir un nouveau mot de passe et reprendre vos présentations."
 
 #: lib/claper_web/templates/user_session/new.html.heex:40
 #, elixir-autogen, elixir-format
-msgid "Welcome back to your Claper workspace."
-msgstr ""
+msgid "Welcome back."
+msgstr "Bon retour."
 
 #: lib/claper_web/templates/user_registration/new.html.heex:87
 #, elixir-autogen, elixir-format, fuzzy
@@ -2885,63 +2885,63 @@ msgstr "Changer votre email"
 #: lib/claper_web/templates/user_registration/new.html.heex:93
 #, elixir-autogen, elixir-format
 msgid "Use at least 6 characters and enter the same password twice."
-msgstr ""
+msgstr "Utilisez au moins 6 caractères et entrez le même mot de passe deux fois."
 
 #: lib/claper_web/templates/user_session/new.html.heex:43
 #, elixir-autogen, elixir-format
-msgid "Sign in to manage your presentations."
-msgstr ""
+msgid "Sign in to launch or manage your interactive sessions."
+msgstr "Connectez-vous pour lancer ou gérer vos sessions interactives."
 
 #: lib/claper_web/live/event_live/manage.ex:336
 #, elixir-autogen, elixir-format
 msgid "Could not regenerate thumbnails"
-msgstr ""
+msgstr "Impossible de régénérer les miniatures"
 
 #: lib/claper_web/live/event_live/manage.ex:403
 #, elixir-autogen, elixir-format
 msgid "Could not start thumbnail regeneration"
-msgstr ""
+msgstr "Impossible de démarrer la régénération des miniatures"
 
 #: lib/claper_web/live/event_live/manage_slide_preview_component.ex:64
 #: lib/claper_web/live/event_live/manage_slide_sidebar_component.ex:52
 #, elixir-autogen, elixir-format
 msgid "No thumbnails are available"
-msgstr ""
+msgstr "Aucune miniature disponible"
 
 #: lib/claper_web/live/event_live/manage_slide_preview_component.ex:72
 #: lib/claper_web/live/event_live/manage_slide_sidebar_component.ex:59
 #, elixir-autogen, elixir-format
 msgid "No thumbnails are available. Regenerate them?"
-msgstr ""
+msgstr "Aucune miniature disponible. Les régénérer ?"
 
 #: lib/claper_web/live/event_live/manage_slide_preview_component.ex:66
 #, elixir-autogen, elixir-format
 msgid "Regenerate them to restore the presentation preview sidebar."
-msgstr ""
+msgstr "Régénérez-les pour restaurer la barre latérale d'aperçu de la présentation."
 
 #: lib/claper_web/live/event_live/manage_slide_sidebar_component.ex:54
 #, elixir-autogen, elixir-format
 msgid "Regenerate them to restore the slide sidebar preview."
-msgstr ""
+msgstr "Régénérez-les pour restaurer l'aperçu de la barre latérale des diapositives."
 
 #: lib/claper_web/live/event_live/manage_slide_preview_component.ex:78
 #: lib/claper_web/live/event_live/manage_slide_sidebar_component.ex:65
 #, elixir-autogen, elixir-format
 msgid "Regenerate thumbnails"
-msgstr ""
+msgstr "Régénérer les miniatures"
 
 #: lib/claper_web/live/event_live/manage_slide_preview_component.ex:77
 #: lib/claper_web/live/event_live/manage_slide_sidebar_component.ex:64
 #, elixir-autogen, elixir-format
 msgid "Regenerating..."
-msgstr ""
+msgstr "Régénération en cours..."
 
 #: lib/claper_web/live/event_live/manage.ex:400
 #, elixir-autogen, elixir-format
 msgid "Thumbnail regeneration started"
-msgstr ""
+msgstr "Régénération des miniatures lancée"
 
 #: lib/claper_web/live/event_live/manage.ex:325
 #, elixir-autogen, elixir-format
 msgid "Thumbnails regenerated successfully"
-msgstr ""
+msgstr "Miniatures régénérées avec succès"
