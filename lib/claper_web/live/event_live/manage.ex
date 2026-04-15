@@ -1,8 +1,15 @@
 defmodule ClaperWeb.EventLive.Manage do
   use ClaperWeb, :live_view
 
-  alias Claper.{Embeds, Forms, Polls, Quizzes}
+  alias Claper.{Embeds, Events, Forms, Polls, Presentations, Quizzes}
+  alias Claper.Workers.PresentationThumbnails
   alias ClaperWeb.Presence
+
+  @event_preload [
+    :user,
+    :lti_resource,
+    presentation_file: [:polls, :presentation_state]
+  ]
 
   @impl true
   def mount(%{"code" => code}, session, socket) do
@@ -10,12 +17,7 @@ defmodule ClaperWeb.EventLive.Manage do
       Gettext.put_locale(ClaperWeb.Gettext, locale)
     end
 
-    event =
-      Claper.Events.get_event_with_code(code, [
-        :user,
-        :lti_resource,
-        presentation_file: [:polls, :presentation_state]
-      ])
+    event = Events.get_event_with_code(code, @event_preload)
 
     if is_nil(event) || not leader?(socket, event) do
       {:ok,
@@ -25,7 +27,8 @@ defmodule ClaperWeb.EventLive.Manage do
     else
       if connected?(socket) do
         Claper.Events.Event.subscribe(event.uuid)
-        Claper.Presentations.subscribe(event.presentation_file.id)
+        Presentations.subscribe(event.presentation_file.id)
+        Events.subscribe_user_events(socket.assigns.current_user.id)
       end
 
       posts = list_all_posts(socket, event.uuid)
@@ -59,6 +62,12 @@ defmodule ClaperWeb.EventLive.Manage do
         |> assign(:create, nil)
         |> assign(:list_tab, :posts)
         |> assign(:create_action, :new)
+        |> assign(
+          :missing_slide_thumbnails,
+          Presentations.missing_slide_thumbnails?(event.presentation_file)
+        )
+        |> assign(:thumbnail_cache_bust, thumbnail_cache_bust())
+        |> assign(:thumbnail_regeneration_in_progress, false)
         |> push_event("page-manage", %{
           current_page: event.presentation_file.presentation_state.position,
           timeout: 500
@@ -297,6 +306,37 @@ defmodule ClaperWeb.EventLive.Manage do
   end
 
   @impl true
+  def handle_info(
+        {:presentation_file_process_done, %{id: presentation_file_id}},
+        %{assigns: %{event: %{presentation_file: %{id: presentation_file_id}}}} = socket
+      ) do
+    {:noreply, refresh_event(socket)}
+  end
+
+  @impl true
+  def handle_info(
+        {:presentation_file_thumbnails_regenerated, presentation_file_id},
+        %{assigns: %{event: %{presentation_file: %{id: presentation_file_id}}}} = socket
+      ) do
+    {:noreply,
+     socket
+     |> refresh_event()
+     |> assign(:thumbnail_regeneration_in_progress, false)
+     |> put_flash(:info, gettext("Thumbnails regenerated successfully"))}
+  end
+
+  @impl true
+  def handle_info(
+        {:presentation_file_thumbnail_regeneration_failed, presentation_file_id},
+        %{assigns: %{event: %{presentation_file: %{id: presentation_file_id}}}} = socket
+      ) do
+    {:noreply,
+     socket
+     |> assign(:thumbnail_regeneration_in_progress, false)
+     |> put_flash(:error, gettext("Could not regenerate thumbnails"))}
+  end
+
+  @impl true
   def handle_info(_, socket) do
     {:noreply, socket}
   end
@@ -327,6 +367,41 @@ defmodule ClaperWeb.EventLive.Manage do
      socket
      |> assign(:state, new_state)
      |> interactions_at_position(page)}
+  end
+
+  @impl true
+  def handle_event(
+        "regenerate-thumbnails",
+        _params,
+        %{assigns: %{missing_slide_thumbnails: false}} = socket
+      ) do
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event(
+        "regenerate-thumbnails",
+        _params,
+        %{assigns: %{thumbnail_regeneration_in_progress: true}} = socket
+      ) do
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("regenerate-thumbnails", _params, socket) do
+    presentation_file_id = socket.assigns.event.presentation_file.id
+    user_id = socket.assigns.current_user.id
+
+    case PresentationThumbnails.create(presentation_file_id, user_id) |> Oban.insert() do
+      {:ok, _job} ->
+        {:noreply,
+         socket
+         |> assign(:thumbnail_regeneration_in_progress, true)
+         |> put_flash(:info, gettext("Thumbnail regeneration started"))}
+
+      {:error, _changeset} ->
+        {:noreply, socket |> put_flash(:error, gettext("Could not start thumbnail regeneration"))}
+    end
   end
 
   def handle_event("poll-set-active", %{"id" => id}, socket) do
@@ -1061,5 +1136,22 @@ defmodule ClaperWeb.EventLive.Manage do
 
   defp list_form_submits(_socket, presentation_file_id) do
     Claper.Forms.list_form_submits(presentation_file_id, [:form])
+  end
+
+  defp refresh_event(%{assigns: %{event: event}} = socket) do
+    refreshed_event = Events.get_event_with_code(event.code, @event_preload)
+
+    socket
+    |> assign(:event, refreshed_event)
+    |> assign(:state, refreshed_event.presentation_file.presentation_state)
+    |> assign(
+      :missing_slide_thumbnails,
+      Presentations.missing_slide_thumbnails?(refreshed_event.presentation_file)
+    )
+    |> assign(:thumbnail_cache_bust, thumbnail_cache_bust())
+  end
+
+  defp thumbnail_cache_bust do
+    System.system_time(:second)
   end
 end

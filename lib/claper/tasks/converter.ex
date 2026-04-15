@@ -5,6 +5,7 @@ defmodule Claper.Tasks.Converter do
   """
 
   alias Claper.Events
+  alias Claper.Presentations.PresentationFile
   alias Porcelain.Result
 
   @doc """
@@ -64,6 +65,27 @@ defmodule Claper.Tasks.Converter do
     end
   end
 
+  @doc """
+  Regenerates thumbnails for an already converted presentation.
+  """
+  def regenerate_thumbnails(%PresentationFile{hash: nil}), do: {:error, :missing_hash}
+  def regenerate_thumbnails(%PresentationFile{length: nil}), do: {:error, :missing_length}
+  def regenerate_thumbnails(%PresentationFile{length: 0}), do: {:error, :missing_length}
+
+  def regenerate_thumbnails(%PresentationFile{hash: hash, length: length}) do
+    case get_presentation_storage() do
+      "local" ->
+        path = Path.join([get_presentation_storage_dir(), "uploads", hash])
+        generate_thumbnails(path)
+
+      "s3" ->
+        regenerate_s3_thumbnails(hash, length)
+
+      storage ->
+        raise "Unrecognised presentations storage value #{storage}"
+    end
+  end
+
   defp file_to_pdf(:ppt, path, file) do
     Porcelain.exec(
       get_libreoffice_binary(),
@@ -112,13 +134,16 @@ defmodule Claper.Tasks.Converter do
         ]
       )
 
-    # Generate thumbnails after full-size images
     case result do
-      %Porcelain.Result{status: 0} -> generate_thumbnails(path)
-      _ -> result
-    end
+      %Porcelain.Result{status: 0} ->
+        case generate_thumbnails(path) do
+          :ok -> result
+          _ -> %Porcelain.Result{status: 1}
+        end
 
-    result
+      _ ->
+        result
+    end
   end
 
   defp pdf_to_jpg(_result, path, presentation, user_id) do
@@ -127,29 +152,42 @@ defmodule Claper.Tasks.Converter do
 
   defp generate_thumbnails(path) do
     thumbs_dir = Path.join(path, "thumbs")
+    File.rm_rf!(thumbs_dir)
     File.mkdir_p!(thumbs_dir)
 
     files = Path.wildcard("#{path}/*.jpg")
 
-    for file <- files do
-      thumb_path = Path.join(thumbs_dir, Path.basename(file))
+    if Enum.empty?(files) do
+      {:error, :missing_slides}
+    else
+      result =
+        Enum.reduce_while(files, :ok, fn file, _acc ->
+          thumb_path = Path.join(thumbs_dir, Path.basename(file))
 
-      # Generate thumbnail with 200px width, maintaining aspect ratio
-      # Using "magick" for ImageMagick v7+ compatibility
-      Porcelain.exec(
-        "magick",
-        [
-          file,
-          "-resize",
-          "200x",
-          "-quality",
-          "80",
-          thumb_path
-        ]
-      )
+          # Generate thumbnail with 200px width, maintaining aspect ratio
+          # Using "magick" for ImageMagick v7+ compatibility
+          case Porcelain.exec(
+                 "magick",
+                 [
+                   file,
+                   "-resize",
+                   "200x",
+                   "-quality",
+                   "80",
+                   thumb_path
+                 ]
+               ) do
+            %Porcelain.Result{status: 0} -> {:cont, :ok}
+            error -> {:halt, {:error, error}}
+          end
+        end)
+
+      if result == :ok do
+        IO.puts("Generated #{length(files)} thumbnails in #{thumbs_dir}")
+      end
+
+      result
     end
-
-    IO.puts("Generated #{length(files)} thumbnails in #{thumbs_dir}")
   end
 
   defp jpg_upload(%Result{status: 0}, hash, path, presentation, user_id, is_copy) do
@@ -258,5 +296,56 @@ defmodule Claper.Tasks.Converter do
       {:unix, :darwin} -> "soffice"
       _ -> "libreoffice"
     end
+  end
+
+  defp regenerate_s3_thumbnails(hash, length) do
+    path =
+      Path.join(System.tmp_dir!(), "claper-thumbs-#{hash}-#{System.unique_integer([:positive])}")
+
+    File.mkdir_p!(path)
+
+    with :ok <- download_s3_slides(path, hash, length),
+         :ok <- generate_thumbnails(path),
+         :ok <- upload_s3_thumbnails(path, hash) do
+      File.rm_rf!(path)
+      :ok
+    else
+      error ->
+        File.rm_rf!(path)
+        error
+    end
+  end
+
+  defp download_s3_slides(path, hash, length) do
+    Enum.reduce_while(1..length, :ok, fn index, _acc ->
+      key = "presentations/#{hash}/#{index}.jpg"
+
+      case ExAws.S3.get_object(get_s3_bucket(), key) |> ExAws.request() do
+        {:ok, %{body: body}} ->
+          file_path = Path.join(path, "#{index}.jpg")
+          File.write!(file_path, body, [:binary])
+          {:cont, :ok}
+
+        error ->
+          {:halt, {:error, error}}
+      end
+    end)
+  end
+
+  defp upload_s3_thumbnails(path, hash) do
+    path
+    |> Path.join("thumbs/*.jpg")
+    |> Path.wildcard()
+    |> Enum.reduce_while(:ok, fn file, _acc ->
+      key = "presentations/#{hash}/thumbs/#{Path.basename(file)}"
+
+      case file
+           |> ExAws.S3.Upload.stream_file()
+           |> ExAws.S3.upload(get_s3_bucket(), key, acl: "public-read")
+           |> ExAws.request() do
+        {:ok, _response} -> {:cont, :ok}
+        error -> {:halt, {:error, error}}
+      end
+    end)
   end
 end

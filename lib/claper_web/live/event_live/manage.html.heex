@@ -428,7 +428,7 @@
   <div id="wrapper" class="flex-1 flex overflow-hidden">
     <!-- Left Sidebar - Slide Thumbnails -->
     <aside
-      :if={@event.presentation_file.length > 0}
+      :if={@event.presentation_file.length > 0 and not @missing_slide_thumbnails}
       class="hidden lg:flex w-56 flex-shrink-0 bg-white overflow-hidden"
     >
       <.live_component
@@ -436,6 +436,7 @@
         module={ClaperWeb.EventLive.ManageSlideSidebarComponent}
         presentation_file={@event.presentation_file}
         current_position={@state.position}
+        thumbnail_cache_bust={@thumbnail_cache_bust}
       />
     </aside>
     
@@ -449,6 +450,8 @@
           presentation_file={@event.presentation_file}
           current_position={@state.position}
           total_slides={@event.presentation_file.length}
+          missing_slide_thumbnails={@missing_slide_thumbnails}
+          thumbnail_regeneration_in_progress={@thumbnail_regeneration_in_progress}
         />
       </div>
       

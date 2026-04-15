@@ -62,6 +62,28 @@ defmodule ClaperWeb.EventLiveTest do
     end
   end
 
+  describe "Manage" do
+    setup [:register_and_log_in_user, :create_event]
+
+    test "prompts to regenerate missing thumbnails and starts regeneration", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      Oban.Testing.with_testing_mode(:manual, fn ->
+        {:ok, manage_live, html} = live(conn, ~p"/e/#{presentation_file.event.code}/manage")
+
+        assert html =~ "No thumbnails are available"
+        assert html =~ "Regenerate thumbnails"
+
+        manage_live
+        |> element(~s{button[phx-click="regenerate-thumbnails"]})
+        |> render_click()
+
+        assert render(manage_live) =~ "Thumbnail regeneration started"
+      end)
+    end
+  end
+
   describe "Join" do
     test "renders the join page", %{conn: conn} do
       {:ok, join_live, html} = live(conn, ~p"/")

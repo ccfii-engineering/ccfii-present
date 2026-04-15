@@ -157,6 +157,19 @@ defmodule Claper.Presentations do
   end
 
   @doc """
+  Returns true when a presentation has slides but no generated thumbnails.
+  """
+  def missing_slide_thumbnails?(nil), do: false
+
+  def missing_slide_thumbnails?(%PresentationFile{hash: nil}), do: false
+  def missing_slide_thumbnails?(%PresentationFile{length: nil}), do: false
+  def missing_slide_thumbnails?(%PresentationFile{length: 0}), do: false
+
+  def missing_slide_thumbnails?(%PresentationFile{hash: hash}) do
+    not slide_thumbnails_available?(hash)
+  end
+
+  @doc """
   Creates a presentation_files.
 
   ## Examples
@@ -245,5 +258,45 @@ defmodule Claper.Presentations do
     )
 
     {:ok, state}
+  end
+
+  defp slide_thumbnails_available?(hash) when is_binary(hash) do
+    config = Application.get_env(:claper, :presentations)
+
+    case Keyword.fetch!(config, :storage) do
+      "local" ->
+        thumbnails_glob(hash)
+        |> Path.wildcard()
+        |> Enum.any?()
+
+      "s3" ->
+        ExAws.S3.list_objects(get_s3_bucket(), prefix: "presentations/#{hash}/thumbs/")
+        |> ExAws.stream!()
+        |> Enum.take(1)
+        |> Enum.any?()
+
+      storage ->
+        raise "Unrecognised presentations storage value #{storage}"
+    end
+  rescue
+    _ -> false
+  end
+
+  defp thumbnails_glob(hash) do
+    Path.join([
+      get_presentation_storage_dir(),
+      "uploads",
+      hash,
+      "thumbs",
+      "*.jpg"
+    ])
+  end
+
+  defp get_presentation_storage_dir do
+    Application.get_env(:claper, :storage_dir)
+  end
+
+  defp get_s3_bucket do
+    Application.get_env(:claper, :presentations) |> Keyword.get(:s3_bucket)
   end
 end

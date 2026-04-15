@@ -55,6 +55,30 @@ defmodule ClaperWeb.EventLive.ManageSlidePreviewComponent do
           <span class="font-normal">{@current_position + 1}/ {@total_slides}</span>
         </div>
       </div>
+      <div
+        :if={@missing_slide_thumbnails}
+        class="mx-4 mb-2 rounded-xl border border-dashed border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900"
+      >
+        <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p class="font-semibold">{gettext("No thumbnails are available")}</p>
+            <p class="mt-1 text-xs text-amber-800">
+              {gettext("Regenerate them to restore the presentation preview sidebar.")}
+            </p>
+          </div>
+          <button
+            phx-click="regenerate-thumbnails"
+            type="button"
+            data-confirm={gettext("No thumbnails are available. Regenerate them?")}
+            disabled={@thumbnail_regeneration_in_progress}
+            class="btn btn-sm btn-warning"
+          >
+            {if @thumbnail_regeneration_in_progress,
+              do: gettext("Regenerating..."),
+              else: gettext("Regenerate thumbnails")}
+          </button>
+        </div>
+      </div>
       <div class="flex-1 flex items-center justify-center gap-x-4 px-4 py-2 overflow-hidden">
         <div class="flex-shrink-0">
           <button

@@ -4,6 +4,13 @@ defmodule ClaperWeb.EventLive.ManageSlideSidebarComponent do
   alias Claper.Presentations
 
   def render(assigns) do
+    thumbnail_urls =
+      assigns.presentation_file
+      |> Presentations.get_slide_thumbnail_urls()
+      |> Enum.map(&append_cache_bust(&1, assigns.thumbnail_cache_bust))
+
+    assigns = assign(assigns, :thumbnail_urls, thumbnail_urls)
+
     ~H"""
     <div class="flex flex-col h-full bg-gray-100 rounded-r-2xl px-4">
       <div class="px-4 py-3 flex items-center gap-x-2">
@@ -35,10 +42,7 @@ defmodule ClaperWeb.EventLive.ManageSlideSidebarComponent do
       </div>
       <div class="flex-1 overflow-y-auto p-3 space-y-2">
         <button
-          :for={
-            {src, index} <-
-              Presentations.get_slide_thumbnail_urls(@presentation_file) |> Enum.with_index(0)
-          }
+          :for={{src, index} <- @thumbnail_urls |> Enum.with_index(0)}
           id={"slide-thumb-#{index}"}
           phx-click="current-page"
           phx-value-page={index}
@@ -61,4 +65,7 @@ defmodule ClaperWeb.EventLive.ManageSlideSidebarComponent do
     </div>
     """
   end
+
+  defp append_cache_bust(url, nil), do: url
+  defp append_cache_bust(url, cache_bust), do: "#{url}?v=#{cache_bust}"
 end

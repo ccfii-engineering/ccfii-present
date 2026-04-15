@@ -40,6 +40,28 @@ defmodule Claper.PresentationsTest do
       assert presentation_file.hash == "4567"
       assert presentation_file.length == 43
     end
+
+    test "missing_slide_thumbnails?/1 returns true when thumbnails are missing" do
+      storage_dir = unique_storage_dir()
+      put_local_storage_config(storage_dir)
+
+      presentation_file = presentation_file_fixture(%{hash: "missing-thumbs", length: 2})
+
+      assert Presentations.missing_slide_thumbnails?(presentation_file)
+    end
+
+    test "missing_slide_thumbnails?/1 returns false when thumbnails exist" do
+      storage_dir = unique_storage_dir()
+      put_local_storage_config(storage_dir)
+
+      presentation_file = presentation_file_fixture(%{hash: "existing-thumbs", length: 2})
+
+      thumbs_dir = Path.join([storage_dir, "uploads", presentation_file.hash, "thumbs"])
+      File.mkdir_p!(thumbs_dir)
+      File.write!(Path.join(thumbs_dir, "1.jpg"), "thumb")
+
+      refute Presentations.missing_slide_thumbnails?(presentation_file)
+    end
   end
 
   describe "presentation_states" do
@@ -60,5 +82,28 @@ defmodule Claper.PresentationsTest do
       assert {:ok, %PresentationState{}} =
                Presentations.update_presentation_state(presentation_state, update_attrs)
     end
+  end
+
+  defp put_local_storage_config(storage_dir) do
+    previous_storage_dir = Application.get_env(:claper, :storage_dir)
+    previous_presentations = Application.get_env(:claper, :presentations)
+
+    Application.put_env(:claper, :storage_dir, storage_dir)
+
+    Application.put_env(
+      :claper,
+      :presentations,
+      Keyword.merge(previous_presentations || [], storage: "local")
+    )
+
+    on_exit(fn ->
+      File.rm_rf!(storage_dir)
+      Application.put_env(:claper, :storage_dir, previous_storage_dir)
+      Application.put_env(:claper, :presentations, previous_presentations)
+    end)
+  end
+
+  defp unique_storage_dir do
+    Path.join(System.tmp_dir!(), "claper-test-#{System.unique_integer([:positive])}")
   end
 end

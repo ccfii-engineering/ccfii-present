@@ -16,7 +16,7 @@ msgstr "Configuración"
 #: lib/claper_web/live/admin_live/user_live.html.heex:41
 #: lib/claper_web/live/admin_live/user_live.html.heex:104
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:18
-#: lib/claper_web/live/event_live/manage.ex:914
+#: lib/claper_web/live/event_live/manage.ex:989
 #: lib/claper_web/live/form_live/form_component.html.heex:32
 #: lib/claper_web/live/user_settings_live/show.html.heex:18
 #: lib/claper_web/templates/user_registration/new.html.heex:63
@@ -685,7 +685,7 @@ msgstr "Formulario"
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:74
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:234
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:24
-#: lib/claper_web/live/event_live/manage.ex:913
+#: lib/claper_web/live/event_live/manage.ex:988
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "Nombre"
@@ -1061,7 +1061,7 @@ msgstr "¿Cuándo empezará tu evento?"
 msgid "Create your next presentation with"
 msgstr "Crea tu siguiente presentación con"
 
-#: lib/claper_web/live/event_live/manage.ex:23
+#: lib/claper_web/live/event_live/manage.ex:25
 #: lib/claper_web/live/event_live/presenter.ex:26
 #: lib/claper_web/live/event_live/show.ex:38
 #, elixir-autogen, elixir-format
@@ -1326,12 +1326,12 @@ msgstr "Recargue la página a la que está intentando acceder (no vuelva a envia
 msgid "Try logging in again"
 msgstr "Intente iniciar sesión de nuevo"
 
-#: lib/claper_web/live/event_live/manage.ex:886
+#: lib/claper_web/live/event_live/manage.ex:961
 #, elixir-autogen, elixir-format
 msgid "No"
 msgstr "No"
 
-#: lib/claper_web/live/event_live/manage.ex:886
+#: lib/claper_web/live/event_live/manage.ex:961
 #, elixir-autogen, elixir-format
 msgid "Yes"
 msgstr "Sí"
@@ -2413,7 +2413,7 @@ msgstr "Asistentes"
 msgid "Audience Responses"
 msgstr "Respuestas de la audiencia"
 
-#: lib/claper_web/live/event_live/manage_slide_sidebar_component.ex:34
+#: lib/claper_web/live/event_live/manage_slide_sidebar_component.ex:45
 #, elixir-autogen, elixir-format
 msgid "Content"
 msgstr "Contenido"
@@ -2518,7 +2518,7 @@ msgstr "Sin interacciones en esta diapositiva"
 msgid "No settings available for this interaction"
 msgstr "Sin ajustes disponibles para esta interacción"
 
-#: lib/claper_web/live/event_live/manage_slide_preview_component.ex:107
+#: lib/claper_web/live/event_live/manage_slide_preview_component.ex:131
 #, elixir-autogen, elixir-format
 msgid "No slide available"
 msgstr "Sin diapositiva disponible"
@@ -2652,10 +2652,10 @@ msgstr ""
 msgid "Resource Type"
 msgstr "Tipo de Respuesta"
 
-#: lib/claper_web/live/event_live/manage.ex:894
-#: lib/claper_web/live/event_live/manage.ex:937
-#: lib/claper_web/live/event_live/manage.ex:953
-#: lib/claper_web/live/event_live/manage.ex:995
+#: lib/claper_web/live/event_live/manage.ex:969
+#: lib/claper_web/live/event_live/manage.ex:1012
+#: lib/claper_web/live/event_live/manage.ex:1028
+#: lib/claper_web/live/event_live/manage.ex:1070
 #, elixir-autogen, elixir-format
 msgid "Resource not found"
 msgstr ""
@@ -2886,4 +2886,58 @@ msgstr ""
 #: lib/claper_web/templates/user_session/new.html.heex:43
 #, elixir-autogen, elixir-format
 msgid "Sign in to manage your presentations."
+msgstr ""
+
+#: lib/claper_web/live/event_live/manage.ex:336
+#, elixir-autogen, elixir-format
+msgid "Could not regenerate thumbnails"
+msgstr ""
+
+#: lib/claper_web/live/event_live/manage.ex:403
+#, elixir-autogen, elixir-format
+msgid "Could not start thumbnail regeneration"
+msgstr ""
+
+#: lib/claper_web/live/event_live/manage_slide_preview_component.ex:64
+#: lib/claper_web/live/event_live/manage_slide_sidebar_component.ex:52
+#, elixir-autogen, elixir-format
+msgid "No thumbnails are available"
+msgstr ""
+
+#: lib/claper_web/live/event_live/manage_slide_preview_component.ex:72
+#: lib/claper_web/live/event_live/manage_slide_sidebar_component.ex:59
+#, elixir-autogen, elixir-format
+msgid "No thumbnails are available. Regenerate them?"
+msgstr ""
+
+#: lib/claper_web/live/event_live/manage_slide_preview_component.ex:66
+#, elixir-autogen, elixir-format
+msgid "Regenerate them to restore the presentation preview sidebar."
+msgstr ""
+
+#: lib/claper_web/live/event_live/manage_slide_sidebar_component.ex:54
+#, elixir-autogen, elixir-format
+msgid "Regenerate them to restore the slide sidebar preview."
+msgstr ""
+
+#: lib/claper_web/live/event_live/manage_slide_preview_component.ex:78
+#: lib/claper_web/live/event_live/manage_slide_sidebar_component.ex:65
+#, elixir-autogen, elixir-format
+msgid "Regenerate thumbnails"
+msgstr ""
+
+#: lib/claper_web/live/event_live/manage_slide_preview_component.ex:77
+#: lib/claper_web/live/event_live/manage_slide_sidebar_component.ex:64
+#, elixir-autogen, elixir-format
+msgid "Regenerating..."
+msgstr ""
+
+#: lib/claper_web/live/event_live/manage.ex:400
+#, elixir-autogen, elixir-format
+msgid "Thumbnail regeneration started"
+msgstr ""
+
+#: lib/claper_web/live/event_live/manage.ex:325
+#, elixir-autogen, elixir-format
+msgid "Thumbnails regenerated successfully"
 msgstr ""
