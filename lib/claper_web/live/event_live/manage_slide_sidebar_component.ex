@@ -7,9 +7,28 @@ defmodule ClaperWeb.EventLive.ManageSlideSidebarComponent do
     ~H"""
     <div class="flex flex-col h-full bg-gray-100 rounded-r-2xl px-4">
       <div class="px-4 py-3 flex items-center gap-x-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 18" fill="none" class="shrink-0">
-          <path d="M0.849609 0.850098H18.8496M1.84961 0.850098V10.8501C1.84961 11.3805 2.06032 11.8892 2.4354 12.2643C2.81047 12.6394 3.31918 12.8501 3.84961 12.8501H15.8496C16.38 12.8501 16.8887 12.6394 17.2638 12.2643C17.6389 11.8892 17.8496 11.3805 17.8496 10.8501V0.850098M9.84961 12.8501V16.8501M6.84961 16.8501H12.8496" stroke="#140553" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M5.84961 8.8501L8.84961 5.8501L10.8496 7.8501L13.8496 4.8501" stroke="#140553" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 20 18"
+          fill="none"
+          class="shrink-0"
+        >
+          <path
+            d="M0.849609 0.850098H18.8496M1.84961 0.850098V10.8501C1.84961 11.3805 2.06032 11.8892 2.4354 12.2643C2.81047 12.6394 3.31918 12.8501 3.84961 12.8501H15.8496C16.38 12.8501 16.8887 12.6394 17.2638 12.2643C17.6389 11.8892 17.8496 11.3805 17.8496 10.8501V0.850098M9.84961 12.8501V16.8501M6.84961 16.8501H12.8496"
+            stroke="#140553"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M5.84961 8.8501L8.84961 5.8501L10.8496 7.8501L13.8496 4.8501"
+            stroke="#140553"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
 
         <span class="font-bold text-sm text-[#140553]">{gettext("Content")}</span>

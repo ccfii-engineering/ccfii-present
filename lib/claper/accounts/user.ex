@@ -55,6 +55,7 @@ defmodule Claper.Accounts.User do
     user
     |> cast(attrs, [:email, :confirmed_at, :password, :is_randomized_password, :role_id])
     |> validate_email()
+    |> validate_confirmation(:password)
     |> validate_password(opts)
     |> foreign_key_constraint(:role_id)
   end

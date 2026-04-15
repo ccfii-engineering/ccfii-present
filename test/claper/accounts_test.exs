@@ -84,6 +84,17 @@ defmodule Claper.AccountsTest do
       assert changeset.valid?
       assert get_change(changeset, :email) == email
     end
+
+    test "validates password confirmation" do
+      changeset =
+        Accounts.change_user_registration(
+          %User{},
+          valid_user_attributes(password_confirmation: "does not match")
+        )
+
+      refute changeset.valid?
+      assert "does not match confirmation" in errors_on(changeset).password_confirmation
+    end
   end
 
   describe "change_user_email/2" do

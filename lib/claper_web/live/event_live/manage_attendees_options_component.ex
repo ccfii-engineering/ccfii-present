@@ -27,20 +27,35 @@ defmodule ClaperWeb.EventLive.ManageAttendeesOptionsComponent do
 
       <div class="space-y-2 px-1">
         <.toggle_row
-          label={if @state.chat_enabled, do: gettext("Disable messages"), else: gettext("Enable messages")}
+          label={
+            if @state.chat_enabled, do: gettext("Disable messages"), else: gettext("Enable messages")
+          }
           checked={@state.chat_enabled}
           key={:chat_enabled}
           shortcut={if @create == nil, do: "A", else: nil}
           show_shortcut={@show_shortcut}
         >
           <:icon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-              <path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 3.958 1 5.307v5.386c0 1.349.993 2.552 2.43 2.783 1.3.209 2.622.351 3.963.42a.75.75 0 0 1 .407.164l2.641 2.112a.75.75 0 0 0 1.184-.51l.311-2.476a.75.75 0 0 1 .663-.653c1.484-.183 2.928-.456 4.32-.814.658-.169 1.081-.8 1.081-1.49V5.307c0-1.349-.993-2.552-2.43-2.783A42.078 42.078 0 0 0 10 2ZM6.75 8a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5h-6.5Zm0-3a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5h-6.5Z" clip-rule="evenodd" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 3.958 1 5.307v5.386c0 1.349.993 2.552 2.43 2.783 1.3.209 2.622.351 3.963.42a.75.75 0 0 1 .407.164l2.641 2.112a.75.75 0 0 0 1.184-.51l.311-2.476a.75.75 0 0 1 .663-.653c1.484-.183 2.928-.456 4.32-.814.658-.169 1.081-.8 1.081-1.49V5.307c0-1.349-.993-2.552-2.43-2.783A42.078 42.078 0 0 0 10 2ZM6.75 8a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5h-6.5Zm0-3a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5h-6.5Z"
+                clip-rule="evenodd"
+              />
             </svg>
           </:icon>
         </.toggle_row>
         <.toggle_row
-          label={if @state.anonymous_chat_enabled, do: gettext("Reject anonymous messages"), else: gettext("Allow anonymous messages")}
+          label={
+            if @state.anonymous_chat_enabled,
+              do: gettext("Reject anonymous messages"),
+              else: gettext("Allow anonymous messages")
+          }
           checked={@state.anonymous_chat_enabled}
           key={:anonymous_chat_enabled}
           shortcut={if @create == nil, do: "S", else: nil}
@@ -48,20 +63,34 @@ defmodule ClaperWeb.EventLive.ManageAttendeesOptionsComponent do
           show_shortcut={@show_shortcut}
         >
           <:icon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
               <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
             </svg>
           </:icon>
         </.toggle_row>
         <.toggle_row
-          label={if @state.message_reaction_enabled, do: gettext("Disable reactions"), else: gettext("Enable reactions")}
+          label={
+            if @state.message_reaction_enabled,
+              do: gettext("Disable reactions"),
+              else: gettext("Enable reactions")
+          }
           checked={@state.message_reaction_enabled}
           key={:message_reaction_enabled}
           shortcut={if @create == nil, do: "D", else: nil}
           show_shortcut={@show_shortcut}
         >
           <:icon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
               <path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.723.723 0 0 1-.692 0h-.002Z" />
             </svg>
           </:icon>
@@ -84,7 +113,10 @@ defmodule ClaperWeb.EventLive.ManageAttendeesOptionsComponent do
     <div class={[
       "flex items-center gap-2 rounded-full pl-2 pr-3 py-2 overflow-hidden transition-colors",
       if(@disabled, do: "opacity-50"),
-      if(@checked, do: "bg-[#f3defa] border-b-2 border-primary", else: "bg-white border border-gray-200")
+      if(@checked,
+        do: "bg-[#f3defa] border-b-2 border-primary",
+        else: "bg-white border border-gray-200"
+      )
     ]}>
       <div class={[
         "flex items-center justify-center w-8 h-8 rounded-full shrink-0",
@@ -108,7 +140,9 @@ defmodule ClaperWeb.EventLive.ManageAttendeesOptionsComponent do
           role="switch"
           aria-checked={@checked}
           phx-key={@shortcut}
-          phx-window-keydown={if @shortcut && not @disabled, do: ClaperWeb.Component.Input.checked(@checked, @key)}
+          phx-window-keydown={
+            if @shortcut && not @disabled, do: ClaperWeb.Component.Input.checked(@checked, @key)
+          }
         >
           <span class={"pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out #{if @checked, do: "translate-x-5", else: "translate-x-0"}"}>
           </span>

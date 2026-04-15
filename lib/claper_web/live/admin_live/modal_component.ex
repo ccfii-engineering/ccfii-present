@@ -44,12 +44,7 @@ defmodule ClaperWeb.AdminLive.ModalComponent do
 
         <div class="modal-action">
           <%= if @cancel_action do %>
-            <button
-              type="button"
-              phx-click="hide"
-              phx-target={@myself}
-              class="btn btn-ghost"
-            >
+            <button type="button" phx-click="hide" phx-target={@myself} class="btn btn-ghost">
               {@cancel_action}
             </button>
           <% end %>

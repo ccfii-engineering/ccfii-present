@@ -9,13 +9,7 @@
       return_to={~p"/users/settings"}
     >
       <div>
-        <.form
-          :let={f}
-          for={@email_changeset}
-          phx-submit="save"
-          id="update_email"
-          class="mt-5"
-        >
+        <.form :let={f} for={@email_changeset} phx-submit="save" id="update_email" class="mt-5">
           {hidden_input(f, :action, name: "action", value: "update_email")}
 
           <ClaperWeb.Component.Input.email
@@ -167,7 +161,10 @@
           </.link>
         </div>
         <!-- Password -->
-        <div :if={!@is_external_user} class="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-xl">
+        <div
+          :if={!@is_external_user}
+          class="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-xl"
+        >
           <div>
             <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
               {gettext("Password")}
@@ -183,8 +180,8 @@
         </div>
       </div>
     </div>
-
-    <!-- Preferences Card -->
+    
+<!-- Preferences Card -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
       <div class="flex items-center gap-3 mb-6">
         <div class="p-2 bg-primary-50 rounded-xl">
@@ -245,8 +242,8 @@
         </.form>
       </div>
     </div>
-
-    <!-- Linked Accounts Card -->
+    
+<!-- Linked Accounts Card -->
     <div :if={@is_external_user} class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
       <div class="flex items-center gap-3 mb-6">
         <div class="p-2 bg-primary-50 rounded-xl">
@@ -280,7 +277,10 @@
               <img src="/images/icons/openid.png" class="w-5" />
               <div>
                 <p class="text-sm font-medium text-gray-900">{account.provider}</p>
-                <p :if={account.organization} class="text-xs text-gray-500 flex items-center gap-1">
+                <p
+                  :if={account.organization}
+                  class="text-xs text-gray-500 flex items-center gap-1"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 16 16"
@@ -330,8 +330,8 @@
         <% end %>
       </div>
     </div>
-
-    <!-- Danger Zone Card -->
+    
+<!-- Danger Zone Card -->
     <div :if={!@is_external_user} class="bg-white rounded-2xl shadow-sm border border-red-100 p-6">
       <div class="flex items-center gap-3 mb-6">
         <div class="p-2 bg-red-50 rounded-xl">
@@ -360,14 +360,17 @@
 
       <div class="py-3 px-4 bg-red-50 rounded-xl">
         <p class="text-sm font-medium text-gray-900">{gettext("Delete account")}</p>
-        <p class="text-xs text-gray-500 mt-1">{gettext("All your events and files will be permanently deleted, are you sure?")}</p>
+        <p class="text-xs text-gray-500 mt-1">
+          {gettext("All your events and files will be permanently deleted, are you sure?")}
+        </p>
         <div class="mt-4">
           {link(gettext("Delete account"),
             to: ~p"/users/register/delete",
             method: :delete,
             "data-confirm":
               gettext("All your events and files will be permanently deleted, are you sure?"),
-            class: "block w-full text-center text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition-colors rounded-xl py-3"
+            class:
+              "block w-full text-center text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition-colors rounded-xl py-3"
           )}
         </div>
       </div>

@@ -1,0 +1,118 @@
+defmodule ClaperWeb.UserRegistrationControllerTest do
+  use ClaperWeb.ConnCase, async: false
+
+  import Claper.AccountsFixtures
+
+  alias Claper.Accounts
+
+  setup do
+    enable_account_creation = Application.get_env(:claper, :enable_account_creation)
+    email_confirmation = Application.get_env(:claper, :email_confirmation)
+
+    on_exit(fn ->
+      Application.put_env(:claper, :enable_account_creation, enable_account_creation)
+      Application.put_env(:claper, :email_confirmation, email_confirmation)
+    end)
+
+    :ok
+  end
+
+  describe "GET /users/register" do
+    test "renders the registration page when account creation is enabled", %{conn: conn} do
+      Application.put_env(:claper, :enable_account_creation, true)
+
+      conn = get(conn, ~p"/users/register")
+      response = html_response(conn, 200)
+
+      assert response =~ "action=\"/users/register\""
+      assert response =~ "name=\"user[email]\""
+      assert response =~ "name=\"user[password]\""
+      assert response =~ "name=\"user[password_confirmation]\""
+      assert response =~ "/users/log_in"
+    end
+
+    test "redirects to the home page when account creation is disabled", %{conn: conn} do
+      Application.put_env(:claper, :enable_account_creation, false)
+
+      conn = get(conn, ~p"/users/register")
+
+      assert redirected_to(conn) == "/"
+      assert Phoenix.Flash.get(conn.assigns.flash, :error) =~ "Account creation is disabled"
+    end
+
+    test "redirects authenticated users away from registration", %{conn: conn} do
+      Application.put_env(:claper, :enable_account_creation, true)
+      user = confirmed_user_fixture()
+
+      conn = conn |> log_in_user(user) |> get(~p"/users/register")
+
+      assert redirected_to(conn) == "/events"
+    end
+  end
+
+  describe "POST /users/register" do
+    test "re-renders the page with errors for invalid data", %{conn: conn} do
+      Application.put_env(:claper, :enable_account_creation, true)
+
+      conn =
+        post(conn, ~p"/users/register", %{
+          "user" => %{
+            "email" => "with spaces",
+            "password" => "123456",
+            "password_confirmation" => "654321"
+          }
+        })
+
+      response = html_response(conn, 200)
+
+      assert response =~ "Oops, check that all fields are filled in correctly."
+      assert response =~ "must have the @ sign and no spaces"
+      assert response =~ "does not match confirmation"
+    end
+
+    test "creates and logs in the user when email confirmation is disabled", %{conn: conn} do
+      Application.put_env(:claper, :enable_account_creation, true)
+      Application.put_env(:claper, :email_confirmation, false)
+
+      email = unique_user_email()
+
+      conn =
+        post(conn, ~p"/users/register", %{
+          "user" => %{
+            "email" => email,
+            "password" => valid_user_password(),
+            "password_confirmation" => valid_user_password()
+          }
+        })
+
+      assert redirected_to(conn) == "/events"
+      assert get_session(conn, :user_token)
+      assert Accounts.get_user_by_email(email)
+    end
+
+    test "creates the user and redirects to confirmation when email confirmation is enabled", %{
+      conn: conn
+    } do
+      Application.put_env(:claper, :enable_account_creation, true)
+      Application.put_env(:claper, :email_confirmation, true)
+
+      email = unique_user_email()
+
+      conn =
+        post(conn, ~p"/users/register", %{
+          "user" => %{
+            "email" => email,
+            "password" => valid_user_password(),
+            "password_confirmation" => valid_user_password()
+          }
+        })
+
+      assert redirected_to(conn) == "/users/register/confirm"
+      refute get_session(conn, :user_token)
+
+      user = Accounts.get_user_by_email(email)
+      assert user
+      refute user.confirmed_at
+    end
+  end
+end

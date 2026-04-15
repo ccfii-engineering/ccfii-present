@@ -29,13 +29,9 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
         </svg>
         <span class="font-bold text-sm text-[#140553]">{gettext("Audience Responses")}</span>
       </div>
-
-      <!-- Tabs -->
-      <ul
-        id="menu"
-        phx-update="replace"
-        class="flex items-center gap-x-1 overflow-x-auto"
-      >
+      
+    <!-- Tabs -->
+      <ul id="menu" phx-update="replace" class="flex items-center gap-x-1 overflow-x-auto">
         <li>
           <button
             phx-click="list-tab"
@@ -73,8 +69,8 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
           </button>
         </li>
       </ul>
-
-      <!-- Tab Content -->
+      
+    <!-- Tab Content -->
       <div class="flex-1 overflow-y-auto overflow-x-hidden">
         <%= if @list_tab == :posts do %>
           <div
@@ -97,12 +93,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
             </svg>
             <p class="text-sm">{gettext("Messages from attendees will appear here.")}</p>
           </div>
-          <div
-            :if={@post_count > 0}
-            id="post-list"
-            class="p-2 space-y-3"
-            phx-update="stream"
-          >
+          <div :if={@post_count > 0} id="post-list" class="p-2 space-y-3" phx-update="stream">
             <.live_component
               :for={{id, post} <- @streams.posts}
               module={ClaperWeb.EventLive.ManageablePostComponent}
@@ -146,7 +137,10 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
                   {gettext("Most recent")}
                 </button>
               </div>
-              <div class="tooltip tooltip-bottom" data-tip={gettext("Show most voted questions first")}>
+              <div
+                class="tooltip tooltip-bottom"
+                data-tip={gettext("Show most voted questions first")}
+              >
                 <button
                   class="px-3 py-1 text-xs rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 flex items-center gap-x-1"
                   phx-click="sort-questions"
@@ -253,7 +247,10 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
                 </div>
                 <div class="flex items-start gap-x-3">
                   <div class="avatar avatar-placeholder shrink-0">
-                    <div class="text-white w-8 rounded-full" style={"background-color: #{avatar_color(submission)}"}>
+                    <div
+                      class="text-white w-8 rounded-full"
+                      style={"background-color: #{avatar_color(submission)}"}
+                    >
                       <span class="text-sm">{avatar_emoji(submission)}</span>
                     </div>
                   </div>

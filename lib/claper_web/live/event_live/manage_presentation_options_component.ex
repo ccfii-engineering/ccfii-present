@@ -29,16 +29,29 @@ defmodule ClaperWeb.EventLive.ManagePresentationOptionsComponent do
 
       <div class="space-y-2 px-1">
         <.toggle_row
-          label={if @state.join_screen_visible, do: gettext("Hide instructions to join"), else: gettext("Show instructions to join")}
+          label={
+            if @state.join_screen_visible,
+              do: gettext("Hide instructions to join"),
+              else: gettext("Show instructions to join")
+          }
           checked={@state.join_screen_visible}
           key={:join_screen_visible}
           shortcut={if @create == nil, do: "Q", else: nil}
           show_shortcut={@show_shortcut}
         >
           <:icon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
               <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-              <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
+              <path
+                fill-rule="evenodd"
+                d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
+                clip-rule="evenodd"
+              />
             </svg>
           </:icon>
         </.toggle_row>
@@ -50,13 +63,26 @@ defmodule ClaperWeb.EventLive.ManagePresentationOptionsComponent do
           show_shortcut={@show_shortcut}
         >
           <:icon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-              <path fill-rule="evenodd" d="M10 3c-4.31 0-8 3.033-8 7 0 2.024.978 3.825 2.499 5.085a3.478 3.478 0 0 1-.522 1.756.75.75 0 0 0 .584 1.143 5.976 5.976 0 0 0 3.936-1.108c.487.082.99.124 1.503.124 4.31 0 8-3.033 8-7s-3.69-7-8-7Z" clip-rule="evenodd" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 3c-4.31 0-8 3.033-8 7 0 2.024.978 3.825 2.499 5.085a3.478 3.478 0 0 1-.522 1.756.75.75 0 0 0 .584 1.143 5.976 5.976 0 0 0 3.936-1.108c.487.082.99.124 1.503.124 4.31 0 8-3.033 8-7s-3.69-7-8-7Z"
+                clip-rule="evenodd"
+              />
             </svg>
           </:icon>
         </.toggle_row>
         <.toggle_row
-          label={if @state.show_only_pinned, do: gettext("Show all messages"), else: gettext("Show only pinned messages")}
+          label={
+            if @state.show_only_pinned,
+              do: gettext("Show all messages"),
+              else: gettext("Show only pinned messages")
+          }
           checked={@state.show_only_pinned}
           key={:show_only_pinned}
           shortcut={if @create == nil, do: "E", else: nil}
@@ -79,14 +105,23 @@ defmodule ClaperWeb.EventLive.ManagePresentationOptionsComponent do
           </:icon>
         </.toggle_row>
         <.toggle_row
-          label={if @state.show_attendee_count, do: gettext("Hide attendee count"), else: gettext("Show attendee count")}
+          label={
+            if @state.show_attendee_count,
+              do: gettext("Hide attendee count"),
+              else: gettext("Show attendee count")
+          }
           checked={@state.show_attendee_count}
           key={:show_attendee_count}
           shortcut={if @create == nil, do: "R", else: nil}
           show_shortcut={@show_shortcut}
         >
           <:icon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
               <path d="M7 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM14.5 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM1.615 16.428a1.224 1.224 0 0 1-.569-1.175 6.002 6.002 0 0 1 11.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 0 1 7 18a9.953 9.953 0 0 1-5.385-1.572ZM14.5 16h-.106c.07-.297.088-.611.048-.933a7.47 7.47 0 0 0-1.588-3.755 4.502 4.502 0 0 1 5.874 2.636.818.818 0 0 1-.36.98A7.465 7.465 0 0 1 14.5 16Z" />
             </svg>
           </:icon>
@@ -109,7 +144,10 @@ defmodule ClaperWeb.EventLive.ManagePresentationOptionsComponent do
     <div class={[
       "flex items-center gap-2 rounded-full pl-2 pr-3 py-2 overflow-hidden transition-colors",
       if(@disabled, do: "opacity-50"),
-      if(@checked, do: "bg-[#f3defa] border-b-2 border-primary", else: "bg-white border border-gray-200")
+      if(@checked,
+        do: "bg-[#f3defa] border-b-2 border-primary",
+        else: "bg-white border border-gray-200"
+      )
     ]}>
       <div class={[
         "flex items-center justify-center w-8 h-8 rounded-full shrink-0",
@@ -133,7 +171,9 @@ defmodule ClaperWeb.EventLive.ManagePresentationOptionsComponent do
           role="switch"
           aria-checked={@checked}
           phx-key={@shortcut}
-          phx-window-keydown={if @shortcut && not @disabled, do: ClaperWeb.Component.Input.checked(@checked, @key)}
+          phx-window-keydown={
+            if @shortcut && not @disabled, do: ClaperWeb.Component.Input.checked(@checked, @key)
+          }
         >
           <span class={"pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out #{if @checked, do: "translate-x-5", else: "translate-x-0"}"}>
           </span>

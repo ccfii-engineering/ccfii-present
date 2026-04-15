@@ -1,5 +1,8 @@
 <div id="wrapper" class={if assigns[:container] == :drawer, do: "flex flex-col h-full", else: ""}>
-  <div class={["py-4 flex flex-col sm:flex-row sm:items-center justify-between flex-shrink-0", if(assigns[:container] != :drawer, do: "border-b border-gray-200")]}>
+  <div class={[
+    "py-4 flex flex-col sm:flex-row sm:items-center justify-between flex-shrink-0",
+    if(assigns[:container] != :drawer, do: "border-b border-gray-200")
+  ]}>
     <div class="flex items-center gap-3 flex-1 min-w-0">
       <%= if assigns[:container] == :drawer do %>
         <.link patch={~p"/events"} class="p-1 rounded-full hover:bg-gray-100 transition">
@@ -55,58 +58,98 @@
   </div>
 
   <div class={if assigns[:container] == :drawer, do: "p-2 flex-1 overflow-y-auto", else: ""}>
-  <%= if Map.get(@event, :presentation_file) == nil || Map.get(@event.presentation_file, :length) == 0 || Map.get(@event.presentation_file, :id) == nil do %>
-    <div class="mb-3 mt-12">
-      <label class="block text-sm font-medium text-gray-700 mb-2">
-        {gettext("Select your presentation (optional)")}
-      </label>
-      <div class="max-w-lg flex flex-col justify-center items-center px-6 pt-5 pb-6 border-2 bg-white shadow-base border-gray-300 border-dashed rounded-md">
-        <%= if @uploads.presentation_file.entries |> Enum.at(0, %{}) |> Map.get(:progress, 0) < 100 do %>
-          <div class="space-y-1 text-center" phx-drop-target={@uploads.presentation_file.ref}>
-            <svg
-              class="mx-auto h-12 w-12 text-gray-400"
-              stroke="currentColor"
-              fill="none"
-              viewBox="0 0 48 48"
-              aria-hidden="true"
-            >
-              <path
-                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            <div class="flex text-sm text-gray-600">
-              <label class="relative cursor-pointer bg-white rounded-md font-medium text-primary-600">
-                <form
-                  id="file-form"
-                  phx-change="validate-file"
-                  phx-submit="save-file"
-                  phx-target={@myself}
-                >
-                  <span>{gettext("Upload a file")}</span>
-                  <.live_file_input upload={@uploads.presentation_file} class="sr-only" />
-                </form>
-              </label>
-              <p class="pl-1">{gettext("or drag and drop")}</p>
-            </div>
-            <p class="text-xs text-gray-500">
-              {gettext("PDF, PPT, PPTX up to %{size} MB", size: @max_file_size)}
-            </p>
-            <%= for entry <- @uploads.presentation_file.entries do %>
-              <progress id="file" max="100" value={entry.progress}>
-                {entry.progress}
-              </progress>
-              <%= for err <- upload_errors(@uploads.presentation_file, entry) do %>
-                <p class="text-red-500 text-sm px-4 py-2 border border-red-600 rounded-md my-3">
-                  {error_to_string(err)}
-                </p>
+    <%= if Map.get(@event, :presentation_file) == nil || Map.get(@event.presentation_file, :length) == 0 || Map.get(@event.presentation_file, :id) == nil do %>
+      <div class="mb-3 mt-12">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          {gettext("Select your presentation (optional)")}
+        </label>
+        <div class="max-w-lg flex flex-col justify-center items-center px-6 pt-5 pb-6 border-2 bg-white shadow-base border-gray-300 border-dashed rounded-md">
+          <%= if @uploads.presentation_file.entries |> Enum.at(0, %{}) |> Map.get(:progress, 0) < 100 do %>
+            <div class="space-y-1 text-center" phx-drop-target={@uploads.presentation_file.ref}>
+              <svg
+                class="mx-auto h-12 w-12 text-gray-400"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 48 48"
+                aria-hidden="true"
+              >
+                <path
+                  d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <div class="flex text-sm text-gray-600">
+                <label class="relative cursor-pointer bg-white rounded-md font-medium text-primary-600">
+                  <form
+                    id="file-form"
+                    phx-change="validate-file"
+                    phx-submit="save-file"
+                    phx-target={@myself}
+                  >
+                    <span>{gettext("Upload a file")}</span>
+                    <.live_file_input upload={@uploads.presentation_file} class="sr-only" />
+                  </form>
+                </label>
+                <p class="pl-1">{gettext("or drag and drop")}</p>
+              </div>
+              <p class="text-xs text-gray-500">
+                {gettext("PDF, PPT, PPTX up to %{size} MB", size: @max_file_size)}
+              </p>
+              <%= for entry <- @uploads.presentation_file.entries do %>
+                <progress id="file" max="100" value={entry.progress}>
+                  {entry.progress}
+                </progress>
+                <%= for err <- upload_errors(@uploads.presentation_file, entry) do %>
+                  <p class="text-red-500 text-sm px-4 py-2 border border-red-600 rounded-md my-3">
+                    {error_to_string(err)}
+                  </p>
+                <% end %>
               <% end %>
+            </div>
+          <% else %>
+            <%= for entry <- @uploads.presentation_file.entries do %>
+              <div class="flex space-x-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 text-supporting-green-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <p class="text-gray-700">{gettext("Presentation uploaded")}</p>
+              </div>
+              <p class="text-xs text-gray-400">{entry.client_name}</p>
+              <p>
+                <a
+                  href="#"
+                  phx-click="remove-file"
+                  phx-value-ref={entry.ref}
+                  phx-target={@myself}
+                  class="text-red-500 text-sm"
+                >
+                  {gettext("Remove")}
+                </a>
+              </p>
             <% end %>
-          </div>
-        <% else %>
-          <%= for entry <- @uploads.presentation_file.entries do %>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <div class="mt-12 mb-3">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          {gettext("Select your presentation")}
+        </label>
+        <div class="max-w-lg flex flex-col justify-center items-center px-6 pt-5 pb-6 border-2 bg-white shadow-base border-gray-300 border-dashed rounded-md">
+          <%= if @uploads.presentation_file.entries |> Enum.at(0, %{}) |> Map.get(:progress, 0) < 100 do %>
             <div class="flex space-x-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -122,257 +165,217 @@
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              <p class="text-gray-700">{gettext("Presentation uploaded")}</p>
+              <p class="text-gray-700">{gettext("Presentation attached")}</p>
             </div>
-            <p class="text-xs text-gray-400">{entry.client_name}</p>
-            <p>
-              <a
-                href="#"
-                phx-click="remove-file"
-                phx-value-ref={entry.ref}
-                phx-target={@myself}
-                class="text-red-500 text-sm"
+            <div class="flex flex-col space-y-3 items-center">
+              <label class="text-primary-500 text-sm">
+                <form
+                  id="file-form"
+                  phx-change="validate-file"
+                  phx-submit="save-file"
+                  phx-target={@myself}
+                >
+                  <span>{gettext("Change file")}</span>
+                  <.live_file_input upload={@uploads.presentation_file} class="sr-only" />
+                </form>
+              </label>
+              <%= for entry <- @uploads.presentation_file.entries do %>
+                <progress id="file" max="100" value={entry.progress}>
+                  {entry.progress}
+                </progress>
+                <%= for err <- upload_errors(@uploads.presentation_file, entry) do %>
+                  <p class="text-red-500 text-sm px-4 py-2 border border-red-600 rounded-md my-3">
+                    {error_to_string(err)}
+                  </p>
+                <% end %>
+              <% end %>
+              <p class="text-supporting-red-500 text-sm italic text-center hidden">
+                {gettext(
+                  "Changing your file will remove all interaction elements like polls associated."
+                )}
+              </p>
+            </div>
+          <% else %>
+            <div class="flex space-x-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-supporting-green-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                {gettext("Remove")}
-              </a>
-            </p>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-  <% else %>
-    <div class="mt-12 mb-3">
-      <label class="block text-sm font-medium text-gray-700 mb-2">
-        {gettext("Select your presentation")}
-      </label>
-      <div class="max-w-lg flex flex-col justify-center items-center px-6 pt-5 pb-6 border-2 bg-white shadow-base border-gray-300 border-dashed rounded-md">
-        <%= if @uploads.presentation_file.entries |> Enum.at(0, %{}) |> Map.get(:progress, 0) < 100 do %>
-          <div class="flex space-x-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 text-supporting-green-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            <p class="text-gray-700">{gettext("Presentation attached")}</p>
-          </div>
-          <div class="flex flex-col space-y-3 items-center">
-            <label class="text-primary-500 text-sm">
-              <form
-                id="file-form"
-                phx-change="validate-file"
-                phx-submit="save-file"
-                phx-target={@myself}
-              >
-                <span>{gettext("Change file")}</span>
-                <.live_file_input upload={@uploads.presentation_file} class="sr-only" />
-              </form>
-            </label>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              <p class="text-gray-700">{gettext("Presentation replaced")}</p>
+            </div>
+
             <%= for entry <- @uploads.presentation_file.entries do %>
-              <progress id="file" max="100" value={entry.progress}>
-                {entry.progress}
-              </progress>
+              <p class="text-xs text-gray-400">{entry.client_name}</p>
+              <div :if={entry.progress < 100}>
+                <progress id="file" max="100" value={entry.progress}>
+                  {entry.progress}
+                </progress>
+              </div>
               <%= for err <- upload_errors(@uploads.presentation_file, entry) do %>
                 <p class="text-red-500 text-sm px-4 py-2 border border-red-600 rounded-md my-3">
                   {error_to_string(err)}
                 </p>
               <% end %>
+              <p>
+                <a
+                  href="#"
+                  phx-click="remove-file"
+                  phx-value-ref={entry.ref}
+                  phx-target={@myself}
+                  class="text-red-500 text-sm"
+                >
+                  {gettext("Remove")}
+                </a>
+              </p>
             <% end %>
-            <p class="text-supporting-red-500 text-sm italic text-center hidden">
-              {gettext(
-                "Changing your file will remove all interaction elements like polls associated."
-              )}
-            </p>
-          </div>
-        <% else %>
-          <div class="flex space-x-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 text-supporting-green-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            <p class="text-gray-700">{gettext("Presentation replaced")}</p>
-          </div>
+          <% end %>
 
           <%= for entry <- @uploads.presentation_file.entries do %>
-            <p class="text-xs text-gray-400">{entry.client_name}</p>
-            <div :if={entry.progress < 100}>
-              <progress id="file" max="100" value={entry.progress}>
-                {entry.progress}
-              </progress>
-            </div>
             <%= for err <- upload_errors(@uploads.presentation_file, entry) do %>
               <p class="text-red-500 text-sm px-4 py-2 border border-red-600 rounded-md my-3">
                 {error_to_string(err)}
               </p>
             <% end %>
-            <p>
-              <a
-                href="#"
-                phx-click="remove-file"
-                phx-value-ref={entry.ref}
-                phx-target={@myself}
-                class="text-red-500 text-sm"
-              >
-                {gettext("Remove")}
-              </a>
-            </p>
-          <% end %>
-        <% end %>
-
-        <%= for entry <- @uploads.presentation_file.entries do %>
-          <%= for err <- upload_errors(@uploads.presentation_file, entry) do %>
-            <p class="text-red-500 text-sm px-4 py-2 border border-red-600 rounded-md my-3">
-              {error_to_string(err)}
-            </p>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-
-  <.form
-    :let={f}
-    for={@changeset}
-    id="event-form"
-    phx-target={@myself}
-    phx-change="validate"
-    phx-submit="save"
-  >
-    <div class="relative">
-      <div class="my-3">
-        <ClaperWeb.Component.Input.text
-          form={f}
-          key={:name}
-          name={gettext("Name of your event")}
-          autofocus="true"
-          required="true"
-          minlength="5"
-          maxlength="50"
-        />
-      </div>
-
-      <div class="my-3">
-        <ClaperWeb.Component.Input.code
-          form={f}
-          key={:code}
-          name={gettext("Code")}
-          required="true"
-        />
-      </div>
-
-      <div class="my-3" phx-update="ignore" id="date-picker">
-        <ClaperWeb.Component.Input.date
-          form={f}
-          key={:started_at}
-          name={gettext("When your event will start?")}
-          required="true"
-          from={Date.add(Date.utc_today(), -1)}
-          to={Date.add(Date.utc_today(), 365)}
-        />
-      </div>
-    </div>
-
-    <%= if @action == :edit do %>
-      <div class="mt-7 mb-3">
-        <span class="text-lg block font-medium text-gray-700">
-          {gettext("Facilitators can present and manage interactions")}
-        </span>
-        <button
-          type="button"
-          phx-click="add-leader"
-          phx-target={@myself}
-          class="rounded-md bg-primary-500 hover:bg-primary-600 transition flex items-center mt-3 md:w-max text-white py-5 px-3 text-sm max-h-0"
-        >
-          <svg
-            class="text-white h-6 transform"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <span>{gettext("Add facilitator")}</span>
-        </button>
-      </div>
-
-      <%= inputs_for f, :leaders, fn l -> %>
-        <div class="flex items-center space-x-4 mt-2" id={l.data.temp_id || l.id}>
-          <img
-            class="h-10 w-10 rounded-full"
-            src={"https://www.gravatar.com/avatar/#{:crypto.hash(:md5, (l.data.email || "") |> String.downcase() |> String.trim() ) |> Base.encode16() |> String.downcase()}"}
-            alt=""
-          />
-
-          <%= if is_nil(l.data.temp_id) do %>
-            <div class="relative">
-              <ClaperWeb.Component.Input.text
-                form={l}
-                readonly={true}
-                placeholder={gettext("User email address")}
-                key={:email}
-                name=""
-              />
-              {hidden_input(l, :user_email, value: @current_user.email)}
-            </div>
-
-            <label
-              phx-click={JS.hide(to: "##{l.data.temp_id || l.id}")}
-              class="cursor-pointer md:ml-3 rounded-md bg-supporting-red-500 hover:bg-supporting-red-600 transition flex items-center mt-2 md:w-max text-white py-7 px-3 text-sm max-h-0"
-            >
-              <span>{gettext("Remove")}</span>
-              {checkbox(l, :delete, class: "hidden")}
-            </label>
-          <% else %>
-            <div class="relative">
-              <ClaperWeb.Component.Input.text
-                form={l}
-                placeholder={gettext("User email address")}
-                key={:email}
-                name=""
-              />
-            </div>
-
-            {hidden_input(l, :temp_id)}
-            {hidden_input(l, :event_id, value: @event.id)}
-            {hidden_input(l, :user_email, value: @current_user.email)}
-
-            <button
-              type="button"
-              phx-click="remove-leader"
-              phx-value-remove={l.data.temp_id}
-              phx-target={@myself}
-              class="md:ml-3 rounded-md bg-supporting-red-500 hover:bg-supporting-red-600 transition flex items-center mt-2 md:w-max text-white py-5 px-3 text-sm max-h-0"
-            >
-              <span>{gettext("Remove")}</span>
-            </button>
           <% end %>
         </div>
-      <% end %>
+      </div>
     <% end %>
-  </.form>
+
+    <.form
+      :let={f}
+      for={@changeset}
+      id="event-form"
+      phx-target={@myself}
+      phx-change="validate"
+      phx-submit="save"
+    >
+      <div class="relative">
+        <div class="my-3">
+          <ClaperWeb.Component.Input.text
+            form={f}
+            key={:name}
+            name={gettext("Name of your event")}
+            autofocus="true"
+            required="true"
+            minlength="5"
+            maxlength="50"
+          />
+        </div>
+
+        <div class="my-3">
+          <ClaperWeb.Component.Input.code
+            form={f}
+            key={:code}
+            name={gettext("Code")}
+            required="true"
+          />
+        </div>
+
+        <div class="my-3" phx-update="ignore" id="date-picker">
+          <ClaperWeb.Component.Input.date
+            form={f}
+            key={:started_at}
+            name={gettext("When your event will start?")}
+            required="true"
+            from={Date.add(Date.utc_today(), -1)}
+            to={Date.add(Date.utc_today(), 365)}
+          />
+        </div>
+      </div>
+
+      <%= if @action == :edit do %>
+        <div class="mt-7 mb-3">
+          <span class="text-lg block font-medium text-gray-700">
+            {gettext("Facilitators can present and manage interactions")}
+          </span>
+          <button
+            type="button"
+            phx-click="add-leader"
+            phx-target={@myself}
+            class="rounded-md bg-primary-500 hover:bg-primary-600 transition flex items-center mt-3 md:w-max text-white py-5 px-3 text-sm max-h-0"
+          >
+            <svg
+              class="text-white h-6 transform"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span>{gettext("Add facilitator")}</span>
+          </button>
+        </div>
+
+        <%= inputs_for f, :leaders, fn l -> %>
+          <div class="flex items-center space-x-4 mt-2" id={l.data.temp_id || l.id}>
+            <img
+              class="h-10 w-10 rounded-full"
+              src={"https://www.gravatar.com/avatar/#{:crypto.hash(:md5, (l.data.email || "") |> String.downcase() |> String.trim() ) |> Base.encode16() |> String.downcase()}"}
+              alt=""
+            />
+
+            <%= if is_nil(l.data.temp_id) do %>
+              <div class="relative">
+                <ClaperWeb.Component.Input.text
+                  form={l}
+                  readonly={true}
+                  placeholder={gettext("User email address")}
+                  key={:email}
+                  name=""
+                />
+                {hidden_input(l, :user_email, value: @current_user.email)}
+              </div>
+
+              <label
+                phx-click={JS.hide(to: "##{l.data.temp_id || l.id}")}
+                class="cursor-pointer md:ml-3 rounded-md bg-supporting-red-500 hover:bg-supporting-red-600 transition flex items-center mt-2 md:w-max text-white py-7 px-3 text-sm max-h-0"
+              >
+                <span>{gettext("Remove")}</span>
+                {checkbox(l, :delete, class: "hidden")}
+              </label>
+            <% else %>
+              <div class="relative">
+                <ClaperWeb.Component.Input.text
+                  form={l}
+                  placeholder={gettext("User email address")}
+                  key={:email}
+                  name=""
+                />
+              </div>
+
+              {hidden_input(l, :temp_id)}
+              {hidden_input(l, :event_id, value: @event.id)}
+              {hidden_input(l, :user_email, value: @current_user.email)}
+
+              <button
+                type="button"
+                phx-click="remove-leader"
+                phx-value-remove={l.data.temp_id}
+                phx-target={@myself}
+                class="md:ml-3 rounded-md bg-supporting-red-500 hover:bg-supporting-red-600 transition flex items-center mt-2 md:w-max text-white py-5 px-3 text-sm max-h-0"
+              >
+                <span>{gettext("Remove")}</span>
+              </button>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </.form>
   </div>
 
   <%= if assigns[:container] == :drawer do %>

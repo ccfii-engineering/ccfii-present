@@ -8,18 +8,28 @@ defmodule Claper.AccountsFixtures do
   def valid_user_password, do: "hello world!"
 
   def valid_user_attributes(attrs \\ %{}) do
-    Enum.into(attrs, %{
+    attrs = Enum.into(attrs, %{})
+    password = Map.get(attrs, :password, valid_user_password())
+
+    attrs
+    |> Enum.into(%{
       email: unique_user_email(),
-      password: valid_user_password(),
+      password: password,
       confirmed_at: NaiveDateTime.utc_now()
     })
+    |> Map.put_new(:password_confirmation, password)
   end
 
   def no_valid_user_attributes(attrs \\ %{}) do
-    Enum.into(attrs, %{
+    attrs = Enum.into(attrs, %{})
+    password = Map.get(attrs, :password, valid_user_password())
+
+    attrs
+    |> Enum.into(%{
       email: unique_user_email(),
-      password: valid_user_password()
+      password: password
     })
+    |> Map.put_new(:password_confirmation, password)
   end
 
   def user_fixture(attrs \\ %{}) do
