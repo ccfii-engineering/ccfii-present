@@ -111,23 +111,31 @@
                 )}
               </p>
 
-              <p class="text-xs leading-6 text-gray-500">
-                {gettext("By creating an account, you agree to our")}
-                {" "}
-                {link(gettext("Terms of Service"),
-                  to: ~p"/tos",
-                  class:
-                    "text-gray-300 underline decoration-gray-500 underline-offset-2 hover:text-white"
-                )}
-                {" "}
-                {gettext("and")}
-                {" "}
-                {link(gettext("Privacy Policy"),
-                  to: ~p"/privacy",
-                  class:
-                    "text-gray-300 underline decoration-gray-500 underline-offset-2 hover:text-white"
-                )} .
-              </p>
+              <% terms_url = Application.get_env(:claper, :terms_url) %>
+              <% privacy_url = Application.get_env(:claper, :privacy_url) %>
+              <%= if terms_url && privacy_url do %>
+                <p class="text-xs leading-6 text-gray-500">
+                  {gettext("By creating an account, you agree to our")}
+                  {" "}
+                  {link(gettext("Terms of Service"),
+                    to: terms_url,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    class:
+                      "text-gray-300 underline decoration-gray-500 underline-offset-2 hover:text-white"
+                  )}
+                  {" "}
+                  {gettext("and")}
+                  {" "}
+                  {link(gettext("Privacy Policy"),
+                    to: privacy_url,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    class:
+                      "text-gray-300 underline decoration-gray-500 underline-offset-2 hover:text-white"
+                  )} .
+                </p>
+              <% end %>
             </div>
           </div>
         </div>

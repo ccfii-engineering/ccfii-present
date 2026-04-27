@@ -8,10 +8,14 @@ defmodule ClaperWeb.UserRegistrationControllerTest do
   setup do
     enable_account_creation = Application.get_env(:claper, :enable_account_creation)
     email_confirmation = Application.get_env(:claper, :email_confirmation)
+    terms_url = Application.get_env(:claper, :terms_url)
+    privacy_url = Application.get_env(:claper, :privacy_url)
 
     on_exit(fn ->
       Application.put_env(:claper, :enable_account_creation, enable_account_creation)
       Application.put_env(:claper, :email_confirmation, email_confirmation)
+      Application.put_env(:claper, :terms_url, terms_url)
+      Application.put_env(:claper, :privacy_url, privacy_url)
     end)
 
     :ok
@@ -47,6 +51,56 @@ defmodule ClaperWeb.UserRegistrationControllerTest do
       conn = conn |> log_in_user(user) |> get(~p"/users/register")
 
       assert redirected_to(conn) == "/events"
+    end
+
+    test "shows the legal notice when both TERMS_URL and PRIVACY_URL are configured", %{
+      conn: conn
+    } do
+      Application.put_env(:claper, :enable_account_creation, true)
+      Application.put_env(:claper, :terms_url, "https://example.com/terms")
+      Application.put_env(:claper, :privacy_url, "https://example.com/privacy")
+
+      conn = get(conn, ~p"/users/register")
+      response = html_response(conn, 200)
+
+      assert response =~ "By creating an account"
+      assert response =~ "https://example.com/terms"
+      assert response =~ "https://example.com/privacy"
+    end
+
+    test "hides the legal notice when only TERMS_URL is configured", %{conn: conn} do
+      Application.put_env(:claper, :enable_account_creation, true)
+      Application.put_env(:claper, :terms_url, "https://example.com/terms")
+      Application.put_env(:claper, :privacy_url, nil)
+
+      conn = get(conn, ~p"/users/register")
+      response = html_response(conn, 200)
+
+      refute response =~ "By creating an account"
+      refute response =~ "https://example.com/terms"
+    end
+
+    test "hides the legal notice when only PRIVACY_URL is configured", %{conn: conn} do
+      Application.put_env(:claper, :enable_account_creation, true)
+      Application.put_env(:claper, :terms_url, nil)
+      Application.put_env(:claper, :privacy_url, "https://example.com/privacy")
+
+      conn = get(conn, ~p"/users/register")
+      response = html_response(conn, 200)
+
+      refute response =~ "By creating an account"
+      refute response =~ "https://example.com/privacy"
+    end
+
+    test "hides the legal notice when neither URL is configured", %{conn: conn} do
+      Application.put_env(:claper, :enable_account_creation, true)
+      Application.put_env(:claper, :terms_url, nil)
+      Application.put_env(:claper, :privacy_url, nil)
+
+      conn = get(conn, ~p"/users/register")
+      response = html_response(conn, 200)
+
+      refute response =~ "By creating an account"
     end
   end
 
