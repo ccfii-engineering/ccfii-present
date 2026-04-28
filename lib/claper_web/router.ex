@@ -95,6 +95,8 @@ defmodule ClaperWeb.Router do
       live("/e/:code/manage/edit/embed/:id", EventLive.Manage, :edit_embed)
       live("/e/:code/manage/add/quiz", EventLive.Manage, :add_quiz)
       live("/e/:code/manage/edit/quiz/:id", EventLive.Manage, :edit_quiz)
+      live("/e/:code/manage/add/transcription", EventLive.Manage, :add_transcription)
+      live("/e/:code/manage/edit/transcription/:id", EventLive.Manage, :edit_transcription)
     end
   end
 
@@ -201,6 +203,8 @@ defmodule ClaperWeb.Router do
 
       live "/audit_logs", AuditLogLive, :index
       live "/audit_logs/:id", AuditLogLive, :show
+
+      live "/settings", SettingsLive, :index
     end
   end
 end

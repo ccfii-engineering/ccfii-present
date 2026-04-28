@@ -54,9 +54,13 @@ defmodule ClaperWeb.AdminLive.EventLive do
   end
 
   defp apply_action(socket, :show, %{"id" => id}) do
+    event = Claper.Events.get_event!(id, [:user])
+    transcriptions = Admin.list_transcriptions_for_event(id)
+
     socket
     |> assign(:page_title, gettext("Event details"))
-    |> assign(:event, Claper.Events.get_event!(id, [:user]))
+    |> assign(:event, event)
+    |> assign(:transcriptions, transcriptions)
   end
 
   @impl true
@@ -76,5 +80,42 @@ defmodule ClaperWeb.AdminLive.EventLive do
     to = Flop.Phoenix.build_path(~p"/admin/events", flop)
 
     {:noreply, push_patch(socket, to: to)}
+  end
+
+  @impl true
+  def handle_event("delete_transcription", %{"id" => id}, socket) do
+    id = String.to_integer(id)
+
+    case Admin.delete_transcription(id) do
+      {:ok, _} ->
+        transcriptions = Admin.list_transcriptions_for_event(socket.assigns.event.id)
+
+        {:noreply,
+         socket
+         |> put_flash(:info, gettext("Transcription deleted"))
+         |> assign(:transcriptions, transcriptions)}
+
+      {:error, _} ->
+        {:noreply, put_flash(socket, :error, gettext("Could not delete transcription"))}
+    end
+  end
+
+  @impl true
+  def handle_event("export_transcriptions", _params, socket) do
+    event = socket.assigns.event
+    transcriptions = socket.assigns.transcriptions
+
+    content =
+      transcriptions
+      |> Enum.map(fn t ->
+        "[#{Calendar.strftime(t.inserted_at, "%Y-%m-%d %H:%M:%S")}] #{t.text}"
+      end)
+      |> Enum.join("\n")
+
+    {:noreply,
+     push_event(socket, "download_csv", %{
+       filename: "transcription-#{event.code}.txt",
+       content: content
+     })}
   end
 end

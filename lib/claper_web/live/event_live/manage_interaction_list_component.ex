@@ -227,8 +227,107 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
                 />
               </svg>
             </.popup_item>
+            <.popup_item
+              :if={@transcription_globally_enabled}
+              patch={transcription_patch(@event_code, @transcription_config)}
+              title={
+                if transcription_persisted?(@transcription_config),
+                  do: gettext("Edit transcription"),
+                  else: gettext("Add transcription")
+              }
+              description={gettext("Live transcribe presenter audio for your audience.")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"
+                />
+              </svg>
+            </.popup_item>
           </div>
         </div>
+      </div>
+
+      <div
+        :if={@transcription_globally_enabled and transcription_persisted?(@transcription_config)}
+        class={[
+          "flex items-center gap-2 overflow-hidden pl-2 pr-3 py-2 rounded-xl w-full",
+          if(@transcription_config.enabled,
+            do: "bg-gray-100 border-b-2 border-accent",
+            else: "bg-white border border-gray-200"
+          )
+        ]}
+      >
+        <div class={[
+          "flex items-center justify-center rounded-full w-[42px] h-[41px] shrink-0",
+          if(@transcription_config.enabled, do: "bg-white", else: "bg-gray-100")
+        ]}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 text-gray-700"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"
+            />
+          </svg>
+        </div>
+
+        <div class="flex-1 min-w-0">
+          <p class="font-bold text-sm text-gray-800 leading-snug truncate">
+            {gettext("Transcription")}
+          </p>
+          <p class="text-xs text-gray-500 leading-tight truncate">
+            {transcription_subtitle(@transcription_config)}
+          </p>
+        </div>
+
+        <.link
+          patch={~p"/e/#{@event_code}/manage/edit/transcription/#{@transcription_config.id}"}
+          class="flex items-center justify-center rounded-full w-[42px] h-[41px] shrink-0 border border-[#140553] text-[#140553]"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <path
+              d="M3.33301 17.4998H16.6663M4.72134 10.989C4.36602 11.3451 4.16643 11.8276 4.16634 12.3306V14.9998H6.85217C7.35551 14.9998 7.83801 14.7998 8.19384 14.4431L16.1105 6.52229C16.4657 6.16612 16.6652 5.68364 16.6652 5.18063C16.6652 4.67761 16.4657 4.19513 16.1105 3.83896L15.3288 3.05563C15.1526 2.87925 14.9432 2.73935 14.7129 2.64393C14.4825 2.54851 14.2355 2.49943 13.9862 2.49951C13.7368 2.49959 13.4899 2.54882 13.2596 2.64438C13.0292 2.73995 12.82 2.87998 12.6438 3.05646L4.72134 10.989Z"
+              stroke="#140553"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </.link>
+
+        <input
+          type="checkbox"
+          class="toggle toggle-sm shrink-0 bg-gray-200 border-gray-300 [--tglbg:white] checked:bg-white checked:border-accent checked:[--tglbg:var(--color-accent)]"
+          checked={@transcription_config.enabled}
+          phx-click={
+            if(@transcription_config.enabled,
+              do: "transcription-set-inactive",
+              else: "transcription-set-active"
+            )
+          }
+          phx-value-id={@transcription_config.id}
+        />
       </div>
 
       <div
@@ -441,6 +540,24 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
   defp toggle_event(%Claper.Quizzes.Quiz{enabled: true}), do: "quiz-set-inactive"
   defp toggle_event(%Claper.Quizzes.Quiz{enabled: false}), do: "quiz-set-active"
   defp toggle_event(_), do: ""
+
+  defp transcription_patch(event_code, %Claper.Transcriptions.TranscriptionConfig{id: id})
+       when not is_nil(id),
+       do: ~p"/e/#{event_code}/manage/edit/transcription/#{id}"
+
+  defp transcription_patch(event_code, _),
+    do: ~p"/e/#{event_code}/manage/add/transcription"
+
+  defp transcription_subtitle(%Claper.Transcriptions.TranscriptionConfig{enabled: true}),
+    do: gettext("Live")
+
+  defp transcription_subtitle(_), do: gettext("Disabled")
+
+  defp transcription_persisted?(%Claper.Transcriptions.TranscriptionConfig{id: id})
+       when not is_nil(id),
+       do: true
+
+  defp transcription_persisted?(_), do: false
 
   defp action_button(assigns) do
     ~H"""

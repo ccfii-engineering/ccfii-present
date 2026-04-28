@@ -2,7 +2,7 @@ defmodule ClaperWeb.EventLive.Show do
   alias Claper.Interactions
   use ClaperWeb, :live_view
 
-  alias Claper.{Posts, Polls, Forms, Quizzes, Stats}
+  alias Claper.{Posts, Polls, Forms, Quizzes, Stats, Transcriptions}
   alias ClaperWeb.Presence
 
   on_mount(ClaperWeb.AttendeeLiveAuth)
@@ -98,6 +98,11 @@ defmodule ClaperWeb.EventLive.Show do
       |> assign(:current_quiz_question_idx, 0)
       |> assign(:event, event)
       |> assign(:state, event.presentation_file.presentation_state)
+      |> assign(:transcription_text, "")
+      |> assign(
+        :transcription_config,
+        Transcriptions.get_transcription_config(event.presentation_file.id)
+      )
       |> assign(:nickname, "")
       |> stream(:posts, posts)
       |> assign(:post_count, Enum.count(posts))
@@ -349,6 +354,26 @@ defmodule ClaperWeb.EventLive.Show do
     {:noreply,
      socket
      |> push_event("global-react", %{type: type})}
+  end
+
+  @impl true
+  def handle_info({:transcription_created, transcription}, socket) do
+    {:noreply, socket |> assign(:transcription_text, transcription.text)}
+  end
+
+  @impl true
+  def handle_info({:transcription_delta, text}, socket) do
+    {:noreply, socket |> assign(:transcription_text, text)}
+  end
+
+  @impl true
+  def handle_info({:transcription_config_updated, config}, socket) do
+    {:noreply, socket |> assign(:transcription_config, config)}
+  end
+
+  @impl true
+  def handle_info({:transcription_config_deleted, _config}, socket) do
+    {:noreply, socket |> assign(:transcription_config, nil)}
   end
 
   @impl true

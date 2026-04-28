@@ -177,6 +177,33 @@
                 </div>
               </a>
             </li>
+            <li :if={@transcription_globally_enabled} id="option-5" role="option" tabindex="-1">
+              <a
+                data-phx-link="patch"
+                data-phx-link-state="push"
+                href={~p"/e/#{@event.code}/manage/add/transcription"}
+                class="group flex select-none rounded-xl p-3 w-full hover:bg-gray-200 cursor-pointer"
+              >
+                <div class="flex h-12 w-12 flex-none text-white items-center justify-center rounded-lg bg-linear-to-br from-primary-500 to-secondary-500">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-7 h-7"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 2m0 3a3 3 0 0 1 3 -3h0a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3h0a3 3 0 0 1 -3 -3z" /><path d="M5 10a7 7 0 0 0 14 0" /><path d="M8 21l8 0" /><path d="M12 17l0 4" />
+                  </svg>
+                </div>
+                <div class="ml-4 flex-auto text-left">
+                  <p class="font-medium text-gray-700">{gettext("Transcription")}</p>
+                  <p class="text-gray-500">
+                    {gettext("Add real-time subtitles from your microphone.")}
+                  </p>
+                </div>
+              </a>
+            </li>
           </ul>
         <% end %>
         <%= if @create=="poll" do %>
@@ -259,6 +286,26 @@
             />
           </div>
         <% end %>
+        <%= if @create == "transcription" do %>
+          <div class="scroll-py-3 overflow-y-auto bg-gray-100 p-3">
+            <p class="text-xl font-bold">
+              {case @create_action do
+                :new -> gettext("New transcription")
+                :edit -> gettext("Edit transcription")
+              end}
+            </p>
+            <.live_component
+              module={ClaperWeb.TranscriptionLive.FormComponent}
+              id="transcription-create"
+              event_uuid={@event.uuid}
+              presentation_file={@event.presentation_file}
+              transcription_config={@transcription_config}
+              live_action={@create_action}
+              return_to={~p"/e/#{@event.code}/manage"}
+            />
+          </div>
+        <% end %>
+
         <%= if @create == "import" do %>
           <div class="scroll-py-3 overflow-y-auto bg-gray-100 p-3">
             <p class="text-xl font-bold">{gettext("Select presentation")}</p>
@@ -464,6 +511,8 @@
             module={ClaperWeb.EventLive.ManageInteractionListComponent}
             interactions={@interactions}
             event_code={@event.code}
+            transcription_config={@transcription_config}
+            transcription_globally_enabled={@transcription_globally_enabled}
           />
         </div>
         
@@ -495,4 +544,11 @@
       </div>
     </aside>
   </div>
+  <div
+    id="transcription-capture"
+    phx-hook="TranscriptionCapture"
+    class="hidden"
+    data-event-uuid={@event.uuid}
+    data-audio-token={@audio_token}
+  />
 </div>
