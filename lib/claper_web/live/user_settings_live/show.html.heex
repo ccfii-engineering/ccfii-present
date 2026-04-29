@@ -117,261 +117,268 @@
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <!-- Personal Information Card -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="p-2 bg-primary-50 rounded-xl">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            class="w-5 h-5 text-primary-500"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-              clip-rule="evenodd"
-            />
-          </svg>
+    <div class="card bg-base-100 shadow-md">
+      <div class="card-body">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="p-2 bg-primary/10 rounded-xl">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="w-5 h-5 text-primary"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-base-content">
+              {gettext("Personal informations")}
+            </h3>
+            <p class="text-sm text-base-content/60">
+              {gettext("Your personal informations to access your account")}
+            </p>
+          </div>
         </div>
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900">
-            {gettext("Personal informations")}
-          </h3>
-          <p class="text-sm text-gray-500">
-            {gettext("Your personal informations to access your account")}
-          </p>
-        </div>
-      </div>
 
-      <div class="space-y-4">
-        <!-- Email -->
-        <div class="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-xl">
-          <div>
-            <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
-              {gettext("Email address")}
-            </p>
-            <p class="mt-1 text-sm font-medium text-gray-900">{@current_user.email}</p>
+        <div class="space-y-4">
+          <!-- Email -->
+          <div class="flex items-center justify-between py-3 px-4 bg-base-200 rounded-xl">
+            <div>
+              <p class="text-xs font-medium text-base-content/60 uppercase tracking-wide">
+                {gettext("Email address")}
+              </p>
+              <p class="mt-1 text-sm font-medium text-base-content">{@current_user.email}</p>
+            </div>
+            <.link
+              :if={!@is_external_user}
+              patch={~p"/users/settings/edit/email"}
+              class="btn btn-link btn-sm text-primary"
+            >
+              {gettext("Change")}
+            </.link>
           </div>
-          <.link
+          <!-- Password -->
+          <div
             :if={!@is_external_user}
-            patch={~p"/users/settings/edit/email"}
-            class="text-sm font-medium text-primary-500 hover:text-primary-600 transition-colors"
+            class="flex items-center justify-between py-3 px-4 bg-base-200 rounded-xl"
           >
-            {gettext("Change")}
-          </.link>
-        </div>
-        <!-- Password -->
-        <div
-          :if={!@is_external_user}
-          class="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-xl"
-        >
-          <div>
-            <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
-              {gettext("Password")}
-            </p>
-            <p class="mt-1 text-sm font-medium text-gray-900">••••••••</p>
+            <div>
+              <p class="text-xs font-medium text-base-content/60 uppercase tracking-wide">
+                {gettext("Password")}
+              </p>
+              <p class="mt-1 text-sm font-medium text-base-content">••••••••</p>
+            </div>
+            <.link
+              patch={~p"/users/settings/edit/password"}
+              class="btn btn-link btn-sm text-primary"
+            >
+              {gettext("Change")}
+            </.link>
           </div>
-          <.link
-            patch={~p"/users/settings/edit/password"}
-            class="text-sm font-medium text-primary-500 hover:text-primary-600 transition-colors"
-          >
-            {gettext("Change")}
-          </.link>
         </div>
       </div>
     </div>
     
 <!-- Preferences Card -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="p-2 bg-primary-50 rounded-xl">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            class="w-5 h-5 text-primary-500"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 0 0-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 0 0-2.282.819l-.922 1.597a1.875 1.875 0 0 0 .432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 0 0 0 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 0 0-.432 2.385l.922 1.597a1.875 1.875 0 0 0 2.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 0 0 2.28-.819l.923-1.597a1.875 1.875 0 0 0-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 7.614 0 0 0 0-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 0 0-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 0 0-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 0 0-1.85-1.567h-1.843ZM12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z"
-              clip-rule="evenodd"
-            />
-          </svg>
+    <div class="card bg-base-100 shadow-md">
+      <div class="card-body">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="p-2 bg-primary/10 rounded-xl">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="w-5 h-5 text-primary"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 0 0-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 0 0-2.282.819l-.922 1.597a1.875 1.875 0 0 0 .432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 0 0 0 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 0 0-.432 2.385l.922 1.597a1.875 1.875 0 0 0 2.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 0 0 2.28-.819l.923-1.597a1.875 1.875 0 0 0-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 7.614 0 0 0 0-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 0 0-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 0 0-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 0 0-1.85-1.567h-1.843ZM12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-base-content">
+              {gettext("Preferences")}
+            </h3>
+            <p class="text-sm text-base-content/60">
+              {gettext("Customize your account")}
+            </p>
+          </div>
         </div>
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900">
-            {gettext("Preferences")}
-          </h3>
-          <p class="text-sm text-gray-500">
-            {gettext("Customize your account")}
-          </p>
-        </div>
-      </div>
 
-      <div class="py-3 px-4 bg-gray-50 rounded-xl">
-        <.form :let={f} for={@preferences_changeset} phx-change="save">
-          {hidden_input(f, :action, name: "action", value: "update_preferences")}
-          <ClaperWeb.Component.Input.select
-            form={f}
-            fieldClass="w-auto! bg-white"
-            labelClass="text-xs font-medium text-gray-500 uppercase tracking-wide"
-            array={
-              [
-                {"Deutsch", "de"},
-                {"English", "en"},
-                {"Español", "es"},
-                {"Français", "fr"},
-                {"Hungarian", "hu"},
-                {"Italiano", "it"},
-                {"Latvian", "lv"},
-                {"Nederlands", "nl"}
-              ]
-              |> Enum.filter(fn {_name, code} ->
-                code in Application.get_env(:claper, :languages, [
-                  "en",
-                  "fr",
-                  "es",
-                  "it",
-                  "de"
-                ])
-              end)
-            }
-            key={:locale}
-            name={gettext("Language")}
-          />
-        </.form>
+        <div class="py-3 px-4 bg-base-200 rounded-xl">
+          <.form :let={f} for={@preferences_changeset} phx-change="save">
+            {hidden_input(f, :action, name: "action", value: "update_preferences")}
+            <ClaperWeb.Component.Input.select
+              form={f}
+              fieldClass="w-auto! bg-base-100"
+              labelClass="text-xs font-medium text-base-content/60 uppercase tracking-wide"
+              array={
+                [
+                  {"Deutsch", "de"},
+                  {"English", "en"},
+                  {"Español", "es"},
+                  {"Français", "fr"},
+                  {"Hungarian", "hu"},
+                  {"Italiano", "it"},
+                  {"Latvian", "lv"},
+                  {"Nederlands", "nl"}
+                ]
+                |> Enum.filter(fn {_name, code} ->
+                  code in Application.get_env(:claper, :languages, [
+                    "en",
+                    "fr",
+                    "es",
+                    "it",
+                    "de"
+                  ])
+                end)
+              }
+              key={:locale}
+              name={gettext("Language")}
+            />
+          </.form>
+        </div>
       </div>
     </div>
     
 <!-- Linked Accounts Card -->
-    <div :if={@is_external_user} class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="p-2 bg-primary-50 rounded-xl">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            class="w-5 h-5 text-primary-500"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M19.902 4.098a3.75 3.75 0 0 0-5.304 0l-4.5 4.5a3.75 3.75 0 0 0 1.035 6.037.75.75 0 0 1-.646 1.353 5.25 5.25 0 0 1-1.449-8.45l4.5-4.5a5.25 5.25 0 1 1 7.424 7.424l-1.757 1.757a.75.75 0 1 1-1.06-1.06l1.757-1.757a3.75 3.75 0 0 0 0-5.304Zm-7.389 4.267a.75.75 0 0 1 1-.353 5.25 5.25 0 0 1 1.449 8.45l-4.5 4.5a5.25 5.25 0 1 1-7.424-7.424l1.757-1.757a.75.75 0 1 1 1.06 1.06l-1.757 1.757a3.75 3.75 0 1 0 5.304 5.304l4.5-4.5a3.75 3.75 0 0 0-1.035-6.037.75.75 0 0 1-.353-1Z"
-              clip-rule="evenodd"
-            />
-          </svg>
+    <div :if={@is_external_user} class="card bg-base-100 shadow-md">
+      <div class="card-body">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="p-2 bg-primary/10 rounded-xl">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="w-5 h-5 text-primary"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M19.902 4.098a3.75 3.75 0 0 0-5.304 0l-4.5 4.5a3.75 3.75 0 0 0 1.035 6.037.75.75 0 0 1-.646 1.353 5.25 5.25 0 0 1-1.449-8.45l4.5-4.5a5.25 5.25 0 1 1 7.424 7.424l-1.757 1.757a.75.75 0 1 1-1.06-1.06l1.757-1.757a3.75 3.75 0 0 0 0-5.304Zm-7.389 4.267a.75.75 0 0 1 1-.353 5.25 5.25 0 0 1 1.449 8.45l-4.5 4.5a5.25 5.25 0 1 1-7.424-7.424l1.757-1.757a.75.75 0 1 1 1.06 1.06l-1.757 1.757a3.75 3.75 0 1 0 5.304 5.304l4.5-4.5a3.75 3.75 0 0 0-1.035-6.037.75.75 0 0 1-.353-1Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-base-content">
+              {gettext("Accounts linked")}
+            </h3>
+            <p class="text-sm text-base-content/60">
+              {gettext("External accounts connected to your profile")}
+            </p>
+          </div>
         </div>
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900">
-            {gettext("Accounts linked")}
-          </h3>
-          <p class="text-sm text-gray-500">
-            {gettext("External accounts connected to your profile")}
-          </p>
-        </div>
-      </div>
 
-      <div class="space-y-3">
-        <%= for account <- @oidc_accounts do %>
-          <div class="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-xl">
-            <div class="flex items-center gap-3">
-              <img src="/images/icons/openid.png" class="w-5" />
-              <div>
-                <p class="text-sm font-medium text-gray-900">{account.provider}</p>
-                <p
-                  :if={account.organization}
-                  class="text-xs text-gray-500 flex items-center gap-1"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    class="h-3"
+        <div class="space-y-3">
+          <%= for account <- @oidc_accounts do %>
+            <div class="flex items-center justify-between py-3 px-4 bg-base-200 rounded-xl">
+              <div class="flex items-center gap-3">
+                <img src="/images/icons/openid.png" class="w-5" />
+                <div>
+                  <p class="text-sm font-medium text-base-content">{account.provider}</p>
+                  <p
+                    :if={account.organization}
+                    class="text-xs text-base-content/60 flex items-center gap-1"
                   >
-                    <path
-                      fill-rule="evenodd"
-                      d="M1.75 2a.75.75 0 0 0 0 1.5H2v9h-.25a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 .75-.75v-1.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5c0 .414.336.75.75.75h.5a.75.75 0 0 0 .75-.75V3.5h.25a.75.75 0 0 0 0-1.5h-7.5ZM3.5 5.5A.5.5 0 0 1 4 5h.5a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-.5Zm.5 2a.5.5 0 0 0-.5.5v.5A.5.5 0 0 0 4 9h.5a.5.5 0 0 0 .5-.5V8a.5.5 0 0 0-.5-.5H4Zm2-2a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-.5.5h-.5A.5.5 0 0 1 6 6v-.5Zm.5 2A.5.5 0 0 0 6 8v.5a.5.5 0 0 0 .5.5H7a.5.5 0 0 0 .5-.5V8a.5.5 0 0 0-.5-.5h-.5ZM11.5 6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.75a.75.75 0 0 0 0-1.5H14v-5h.25a.75.75 0 0 0 0-1.5H11.5Zm.5 1.5h.5a.5.5 0 0 1 .5.5v.5a.5.5 0 0 1-.5.5H12a.5.5 0 0 1-.5-.5V8a.5.5 0 0 1 .5-.5Zm0 2.5a.5.5 0 0 0-.5.5v.5a.5.5 0 0 0 .5.5h.5a.5.5 0 0 0 .5-.5v-.5a.5.5 0 0 0-.5-.5H12Z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                  {account.organization}
-                </p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      class="h-3"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M1.75 2a.75.75 0 0 0 0 1.5H2v9h-.25a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 .75-.75v-1.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5c0 .414.336.75.75.75h.5a.75.75 0 0 0 .75-.75V3.5h.25a.75.75 0 0 0 0-1.5h-7.5ZM3.5 5.5A.5.5 0 0 1 4 5h.5a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-.5Zm.5 2a.5.5 0 0 0-.5.5v.5A.5.5 0 0 0 4 9h.5a.5.5 0 0 0 .5-.5V8a.5.5 0 0 0-.5-.5H4Zm2-2a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-.5.5h-.5A.5.5 0 0 1 6 6v-.5Zm.5 2A.5.5 0 0 0 6 8v.5a.5.5 0 0 0 .5.5H7a.5.5 0 0 0 .5-.5V8a.5.5 0 0 0-.5-.5h-.5ZM11.5 6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.75a.75.75 0 0 0 0-1.5H14v-5h.25a.75.75 0 0 0 0-1.5H11.5Zm.5 1.5h.5a.5.5 0 0 1 .5.5v.5a.5.5 0 0 1-.5.5H12a.5.5 0 0 1-.5-.5V8a.5.5 0 0 1 .5-.5Zm0 2.5a.5.5 0 0 0-.5.5v.5a.5.5 0 0 0 .5.5h.5a.5.5 0 0 0 .5-.5v-.5a.5.5 0 0 0-.5-.5H12Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    {account.organization}
+                  </p>
+                </div>
               </div>
+              <button
+                :if={@allow_unlink_external_provider}
+                phx-click="unlink"
+                phx-value-issuer={account.issuer}
+                data-confirm={gettext("Are you sure you want to unlink this account?")}
+                class="btn btn-link btn-sm text-error"
+              >
+                {gettext("Unlink")}
+              </button>
             </div>
-            <button
-              :if={@allow_unlink_external_provider}
-              phx-click="unlink"
-              phx-value-issuer={account.issuer}
-              data-confirm={gettext("Are you sure you want to unlink this account?")}
-              class="text-sm font-medium text-red-500 hover:text-red-600 transition-colors"
-            >
-              {gettext("Unlink")}
-            </button>
-          </div>
-        <% end %>
-        <%= for account <- @lti_accounts do %>
-          <div class="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-xl">
-            <div class="flex items-center gap-3">
-              <img src="/images/icons/lms.png" class="w-8" />
-              <div>
-                <p class="text-sm font-medium text-gray-900">LMS</p>
-                <p class="text-xs text-gray-500">#{account.registration_id}</p>
+          <% end %>
+          <%= for account <- @lti_accounts do %>
+            <div class="flex items-center justify-between py-3 px-4 bg-base-200 rounded-xl">
+              <div class="flex items-center gap-3">
+                <img src="/images/icons/lms.png" class="w-8" />
+                <div>
+                  <p class="text-sm font-medium text-base-content">LMS</p>
+                  <p class="text-xs text-base-content/60">#{account.registration_id}</p>
+                </div>
               </div>
+              <button
+                :if={@allow_unlink_external_provider}
+                phx-click="unlink"
+                phx-value-registration_id={account.registration_id}
+                data-confirm={gettext("Are you sure you want to unlink this account?")}
+                class="btn btn-link btn-sm text-error"
+              >
+                {gettext("Unlink")}
+              </button>
             </div>
-            <button
-              :if={@allow_unlink_external_provider}
-              phx-click="unlink"
-              phx-value-registration_id={account.registration_id}
-              data-confirm={gettext("Are you sure you want to unlink this account?")}
-              class="text-sm font-medium text-red-500 hover:text-red-600 transition-colors"
-            >
-              {gettext("Unlink")}
-            </button>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
     
 <!-- Danger Zone Card -->
-    <div :if={!@is_external_user} class="bg-white rounded-2xl shadow-sm border border-red-100 p-6">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="p-2 bg-red-50 rounded-xl">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            class="w-5 h-5 text-red-500"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
-              clip-rule="evenodd"
-            />
-          </svg>
+    <div :if={!@is_external_user} class="card bg-base-100 shadow-md border border-error/20">
+      <div class="card-body">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="p-2 bg-error/10 rounded-xl">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="w-5 h-5 text-error"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-base-content">
+              {gettext("Danger zone")}
+            </h3>
+            <p class="text-sm text-base-content/60">
+              {gettext("Be careful, these actions are irreversible")}
+            </p>
+          </div>
         </div>
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900">
-            {gettext("Danger zone")}
-          </h3>
-          <p class="text-sm text-gray-500">
-            {gettext("Be careful, these actions are irreversible")}
-          </p>
-        </div>
-      </div>
 
-      <div class="py-3 px-4 bg-red-50 rounded-xl">
-        <p class="text-sm font-medium text-gray-900">{gettext("Delete account")}</p>
-        <p class="text-xs text-gray-500 mt-1">
-          {gettext("All your events and files will be permanently deleted, are you sure?")}
-        </p>
-        <div class="mt-4">
-          {link(gettext("Delete account"),
-            to: ~p"/users/register/delete",
-            method: :delete,
-            "data-confirm":
-              gettext("All your events and files will be permanently deleted, are you sure?"),
-            class:
-              "block w-full text-center text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition-colors rounded-xl py-3"
-          )}
+        <div class="py-3 px-4 bg-error/10 rounded-xl">
+          <p class="text-sm font-medium text-base-content">{gettext("Delete account")}</p>
+          <p class="text-xs text-base-content/60 mt-1">
+            {gettext("All your events and files will be permanently deleted, are you sure?")}
+          </p>
+          <div class="mt-4">
+            {link(gettext("Delete account"),
+              to: ~p"/users/register/delete",
+              method: :delete,
+              "data-confirm":
+                gettext("All your events and files will be permanently deleted, are you sure?"),
+              class: "btn btn-error w-full"
+            )}
+          </div>
         </div>
       </div>
     </div>

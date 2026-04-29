@@ -7,7 +7,7 @@
 <div class="card bg-base-100 shadow-xl">
   <div class="card-body">
     <h2 class="card-title">{gettext("Transcription Settings")}</h2>
-    <p class="text-sm text-gray-500 mb-4">
+    <p class="text-sm text-base-content/60 mb-4">
       {gettext("Configure the Mistral API for real-time transcription features.")}
     </p>
 
@@ -27,7 +27,7 @@
             <span class="label-text font-medium">
               {gettext("Enable transcription feature globally")}
             </span>
-            <p class="text-xs text-gray-500">
+            <p class="text-xs text-base-content/60">
               {gettext("When disabled, no events can use transcription.")}
             </p>
           </div>
@@ -81,7 +81,7 @@
           <% end %>
         </select>
         <label class="label">
-          <span class="label-text-alt text-gray-500">
+          <span class="label-text-alt text-base-content/60">
             {gettext(
               "Default language for new transcription sessions. Can be overridden per event."
             )}
