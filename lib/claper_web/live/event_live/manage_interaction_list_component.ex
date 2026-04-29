@@ -230,12 +230,14 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
             <.popup_item
               :if={@transcription_globally_enabled}
               patch={transcription_patch(@event_code, @transcription_config)}
-              title={
+              disabled={transcription_persisted?(@transcription_config)}
+              badge={gettext("Global")}
+              title={gettext("Transcription")}
+              description={
                 if transcription_persisted?(@transcription_config),
-                  do: gettext("Edit transcription"),
-                  else: gettext("Add transcription")
+                  do: gettext("Already added to this presentation."),
+                  else: gettext("Live transcribe presenter audio for your audience.")
               }
-              description={gettext("Live transcribe presenter audio for your audience.")}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -287,9 +289,12 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
         </div>
 
         <div class="flex-1 min-w-0">
-          <p class="font-bold text-sm text-gray-800 leading-snug truncate">
-            {gettext("Transcription")}
-          </p>
+          <div class="flex items-center gap-2">
+            <p class="font-bold text-sm text-gray-800 leading-snug truncate">
+              {gettext("Transcription")}
+            </p>
+            <span class="badge badge-sm badge-soft badge-primary">{gettext("Global")}</span>
+          </div>
           <p class="text-xs text-gray-500 leading-tight truncate">
             {transcription_subtitle(@transcription_config)}
           </p>
@@ -574,19 +579,45 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
   end
 
   defp popup_item(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:disabled, fn -> false end)
+      |> assign_new(:badge, fn -> nil end)
+
     ~H"""
-    <.link
-      patch={@patch}
-      class="flex items-center gap-3 p-2 rounded-xl transition-colors hover:bg-primary-50"
-    >
-      <div class="flex items-center justify-center w-9 h-9 rounded-full bg-primary-50 text-primary-500 shrink-0">
-        {render_slot(@inner_block)}
+    <%= if @disabled do %>
+      <div
+        class="flex items-center gap-3 p-2 rounded-xl opacity-50 cursor-not-allowed"
+        aria-disabled="true"
+      >
+        <div class="flex items-center justify-center w-9 h-9 rounded-full bg-primary-50 text-primary-500 shrink-0">
+          {render_slot(@inner_block)}
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <p class="font-bold text-sm text-gray-900 leading-snug">{@title}</p>
+            <span :if={@badge} class="badge badge-sm badge-soft badge-primary">{@badge}</span>
+          </div>
+          <p class="text-xs text-gray-500 leading-tight">{@description}</p>
+        </div>
       </div>
-      <div class="min-w-0">
-        <p class="font-bold text-sm text-gray-900 leading-snug">{@title}</p>
-        <p class="text-xs text-gray-500 leading-tight">{@description}</p>
-      </div>
-    </.link>
+    <% else %>
+      <.link
+        patch={@patch}
+        class="flex items-center gap-3 p-2 rounded-xl transition-colors hover:bg-primary-50"
+      >
+        <div class="flex items-center justify-center w-9 h-9 rounded-full bg-primary-50 text-primary-500 shrink-0">
+          {render_slot(@inner_block)}
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <p class="font-bold text-sm text-gray-900 leading-snug">{@title}</p>
+            <span :if={@badge} class="badge badge-sm badge-soft badge-primary">{@badge}</span>
+          </div>
+          <p class="text-xs text-gray-500 leading-tight">{@description}</p>
+        </div>
+      </.link>
+    <% end %>
     """
   end
 end
