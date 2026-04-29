@@ -24,6 +24,7 @@
 - Fix quizz real time average score update and id duplication
 - Fix crash when broadcasting events to leaders with unregistered emails
 - Fix OIDC compatibility with providers like Authelia and Microsoft Entra ID (#216) (#143) (#195)
+- Fix manager and presenter views while presentation conversion has no slide count yet
 
 ### v.2.4.0
 

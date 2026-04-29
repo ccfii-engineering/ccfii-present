@@ -3,7 +3,7 @@
   x-data={"{date:
   moment.utc('#{@event.expired_at}').local().format('lll')}"}
   phx-hook="Manager"
-  data-max-page={@event.presentation_file.length}
+  data-max-page={@event.presentation_file.length || 0}
   data-current-page={@state.position}
 >
   <div id="product-tour-btn" class="hidden fixed bottom-5 right-5 z-30">
@@ -617,7 +617,7 @@
               </svg>
             </button>
             <button
-              :if={@state.position < @event.presentation_file.length - 1}
+              :if={@state.position < (@event.presentation_file.length || 0) - 1}
               phx-click="current-page"
               phx-value-page={@state.position + 1}
               class="flex items-center justify-center px-2 py-1 text-white bg-primary-500 hover:bg-primary-600 rounded-md my-5 mx-auto text-xs"
@@ -636,7 +636,7 @@
               </svg>
             </button>
             <button
-              :if={@state.position >= @event.presentation_file.length - 1}
+              :if={@state.position >= (@event.presentation_file.length || 0) - 1}
               class="flex opacity-50 items-center justify-center px-2 py-1 text-white bg-primary-500 hover:bg-primary-600 rounded-md my-5 mx-auto text-xs"
             >
               <svg
@@ -658,14 +658,14 @@
     </div>
 
     <div
-      phx-hook={"#{if @event.presentation_file.length > 0, do: "Split", else: ""}"}
+      phx-hook={"#{if (@event.presentation_file.length || 0) > 0, do: "Split", else: ""}"}
       data-type="row"
       data-gutter=".gutter"
       id="base-layout"
-      class={"#{if @event.presentation_file.length > 0, do: "md:grid grid-rows-[0.3fr_10px_1fr] overflow-y-auto", else: ""}"}
+      class={"#{if (@event.presentation_file.length || 0) > 0, do: "md:grid grid-rows-[0.3fr_10px_1fr] overflow-y-auto", else: ""}"}
     >
       <div
-        :if={@event.presentation_file.length > 0}
+        :if={(@event.presentation_file.length || 0) > 0}
         id="slides-layout"
         class="flex overflow-x-auto w-full md:h-full"
       >
@@ -687,7 +687,7 @@
         </button>
       </div>
       <div
-        :if={@event.presentation_file.length > 0}
+        :if={(@event.presentation_file.length || 0) > 0}
         class="hidden md:block gutter col-span-full cursor-row-resize z-20 row-2 bg-gray-50 text-center text-gray-300 text-sm leading-3"
       >
         •••
@@ -727,10 +727,10 @@
               </svg>
 
               <p class="text-lg">
-                <span :if={@event.presentation_file.length > 0}>
+                <span :if={(@event.presentation_file.length || 0) > 0}>
                   {gettext("This slide does not have any interactions.")}
                 </span>
-                <span :if={@event.presentation_file.length == 0}>
+                <span :if={(@event.presentation_file.length || 0) == 0}>
                   {gettext("Create your first interaction.")}
                 </span>
               </p>
