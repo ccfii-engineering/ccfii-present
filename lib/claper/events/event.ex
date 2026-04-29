@@ -58,19 +58,28 @@ defmodule Claper.Events.Event do
     |> cast(attrs, [:name, :code, :user_id, :started_at, :expired_at])
     |> cast_assoc(:presentation_file)
     |> cast_assoc(:leaders)
+    |> downcase_code
     |> validate_required([:name, :code, :started_at, :user_id])
     |> validate_length(:code, min: 5, max: 10)
     |> validate_length(:name, min: 5, max: 50)
-    |> downcase_code
     |> put_change(:uuid, Ecto.UUID.generate())
   end
 
   def downcase_code(changeset) do
-    update_change(
-      changeset,
-      :code,
-      &(&1 |> String.downcase() |> String.split(~r"[^\w\d]", trim: true) |> List.first())
-    )
+    case fetch_change(changeset, :code) do
+      {:ok, nil} ->
+        changeset
+
+      {:ok, code} ->
+        put_change(
+          changeset,
+          :code,
+          code |> String.downcase() |> String.split(~r"[^\w\d]", trim: true) |> List.first()
+        )
+
+      :error ->
+        changeset
+    end
   end
 
   def update_changeset(event, attrs) do
@@ -78,10 +87,10 @@ defmodule Claper.Events.Event do
     |> cast(attrs, [:name, :code, :started_at, :expired_at, :audience_peak, :user_id])
     |> cast_assoc(:presentation_file)
     |> cast_assoc(:leaders)
+    |> downcase_code
     |> validate_required([:name, :code, :started_at, :user_id])
     |> validate_length(:code, min: 5, max: 10)
     |> validate_length(:name, min: 5, max: 50)
-    |> downcase_code
   end
 
   def restart_changeset(event) do

@@ -366,6 +366,9 @@ defmodule Claper.Events do
     end
   end
 
+  defp validate_unique_event(%Ecto.Changeset{changes: %{code: nil}} = changeset),
+    do: {:ok, changeset}
+
   defp validate_unique_event(%Ecto.Changeset{changes: %{code: code} = _changes} = event) do
     case get_event_with_code(code) do
       %Event{} -> {:error, Ecto.Changeset.add_error(event, :code, "Already exists")}

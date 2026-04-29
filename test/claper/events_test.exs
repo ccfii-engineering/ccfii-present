@@ -452,6 +452,16 @@ defmodule Claper.EventsTest do
       assert event == Events.get_event!(event.uuid)
     end
 
+    test "update_event/2 with code that normalizes to nil returns error changeset" do
+      event = event_fixture()
+
+      assert {:error, %Ecto.Changeset{} = changeset} =
+               Events.update_event(event, %{code: "------"})
+
+      assert %{code: ["can't be blank"]} = errors_on(changeset)
+      assert event == Events.get_event!(event.uuid)
+    end
+
     test "change_event/1 returns a event changeset" do
       event = event_fixture()
       assert %Ecto.Changeset{} = Events.change_event(event)
