@@ -61,7 +61,7 @@ defmodule ClaperWeb.EventLive.FormComponent do
                       form={f}
                       labelClass="text-white"
                       fieldClass="bg-gray-700 text-white"
-                      key={safe_field_atom(field.name)}
+                      key={field_key(field.name)}
                       name={field.name}
                       required={field.required}
                       value={
@@ -75,7 +75,7 @@ defmodule ClaperWeb.EventLive.FormComponent do
                       form={f}
                       labelClass="text-white"
                       fieldClass="bg-gray-700 text-white"
-                      key={safe_field_atom(field.name)}
+                      key={field_key(field.name)}
                       name={field.name}
                       required={field.required}
                       value={
@@ -176,13 +176,12 @@ defmodule ClaperWeb.EventLive.FormComponent do
     end
   end
 
-  defp safe_field_atom(name) when is_binary(name) do
-    String.to_existing_atom(name)
-  rescue
-    ArgumentError ->
-      if Regex.match?(~r/^[\w]{1,100}$/, name),
-        do: String.to_atom(name),
-        else: :invalid_field
+  defp field_key(name) when is_binary(name) do
+    try do
+      String.to_existing_atom(name)
+    rescue
+      ArgumentError -> String.to_atom(name)
+    end
   end
 
   def toggle_form(js \\ %JS{}) do
