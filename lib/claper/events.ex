@@ -265,6 +265,7 @@ defmodule Claper.Events do
       left_join: a in ActivityLeader,
       on: e.id == a.event_id,
       where: e.uuid == ^uuid and (u.id == ^user.id or a.email == ^user.email),
+      distinct: true,
       select: e
     )
     |> Repo.one!()

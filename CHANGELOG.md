@@ -25,6 +25,7 @@
 - Fix crash when broadcasting events to leaders with unregistered emails
 - Fix OIDC compatibility with providers like Authelia and Microsoft Entra ID (#216) (#143) (#195)
 - Fix manager and presenter views while presentation conversion has no slide count yet
+- Fix crash on event manager pages when an event has multiple activity leaders
 
 ### v.2.4.0
 
