@@ -71,6 +71,23 @@ defmodule Claper.Quizzes do
   end
 
   @doc """
+  Gets a single quiz scoped to the given event.
+
+  Returns `nil` if the quiz does not exist or does not belong to the event.
+  """
+  def get_quiz_for_event(id, event_id, preload \\ []) do
+    from(q in Quiz,
+      join: pf in assoc(q, :presentation_file),
+      where: q.id == ^id and pf.event_id == ^event_id
+    )
+    |> Repo.one()
+    |> case do
+      nil -> nil
+      quiz -> quiz |> Repo.preload(preload) |> set_percentages()
+    end
+  end
+
+  @doc """
   Gets a single quiz for a given position.
 
   ## Examples
@@ -299,8 +316,8 @@ defmodule Claper.Quizzes do
   #   end
   # end
 
-  def submit_quiz(%User{} = user, quiz_opts, quiz_id) do
-    quiz_opts = Enum.with_index(quiz_opts)
+  def submit_quiz(%User{} = user, event_uuid, quiz_opts, quiz_id) do
+    quiz_opts = quiz_opts |> Enum.uniq_by(& &1.id) |> Enum.with_index()
 
     case Enum.reduce(quiz_opts, Ecto.Multi.new(), fn {opt, index}, multi ->
            unique_key = "#{opt.id}_#{user.id + index}"
@@ -323,12 +340,15 @@ defmodule Claper.Quizzes do
       {:ok, _} ->
         quiz = get_quiz!(quiz_id, [:quiz_questions, quiz_questions: :quiz_question_opts])
         Lti13.QuizScoreReporter.report_quiz_score(quiz, user.id)
+        broadcast({:ok, quiz, event_uuid}, :quiz_updated)
         {:ok, quiz}
     end
   end
 
-  def submit_quiz(attendee_identifier, quiz_opts, quiz_id)
+  def submit_quiz(attendee_identifier, event_uuid, quiz_opts, quiz_id)
       when is_binary(attendee_identifier) and is_list(quiz_opts) do
+    quiz_opts = Enum.uniq_by(quiz_opts, & &1.id)
+
     case Enum.reduce(quiz_opts, Ecto.Multi.new(), fn opt, multi ->
            multi
            |> Ecto.Multi.update(
@@ -348,6 +368,7 @@ defmodule Claper.Quizzes do
          |> Repo.transact() do
       {:ok, _} ->
         quiz = get_quiz!(quiz_id, [:quiz_questions, quiz_questions: :quiz_question_opts])
+        broadcast({:ok, quiz, event_uuid}, :quiz_updated)
         {:ok, quiz}
     end
   end
@@ -475,7 +496,7 @@ defmodule Claper.Quizzes do
 
       n ->
         avg = Enum.sum(scores) / n
-        if avg == trunc(avg), do: trunc(avg), else: avg
+        if avg == trunc(avg), do: trunc(avg), else: Float.round(avg, 1)
     end
   end
 

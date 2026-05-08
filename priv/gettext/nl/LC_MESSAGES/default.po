@@ -8,8 +8,8 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1449
-#: lib/claper_web/live/event_live/manage.html.heex:1455
+#: lib/claper_web/live/event_live/manage.html.heex:1448
+#: lib/claper_web/live/event_live/manage.html.heex:1454
 #: lib/claper_web/live/user_settings_live/show.ex:77
 #, elixir-autogen, elixir-format
 msgid "Settings"
@@ -18,7 +18,7 @@ msgstr "Instellingen"
 #: lib/claper_web/live/admin_live/user_live.html.heex:74
 #: lib/claper_web/live/admin_live/user_live.html.heex:254
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:18
-#: lib/claper_web/live/event_live/manage.ex:838
+#: lib/claper_web/live/event_live/manage.ex:920
 #: lib/claper_web/live/form_live/form_component.html.heex:32
 #: lib/claper_web/live/user_settings_live/show.html.heex:34
 #: lib/claper_web/templates/user_registration/new.html.heex:29
@@ -111,7 +111,7 @@ msgstr "Meedoen"
 
 #: lib/claper_web/live/admin_live/dashboard_live.ex:22
 #: lib/claper_web/live/admin_live/dashboard_live.html.heex:3
-#: lib/claper_web/live/event_live/index.ex:223
+#: lib/claper_web/live/event_live/index.ex:228
 #: lib/claper_web/live/event_live/join.html.heex:31
 #: lib/claper_web/live/event_live/join.html.heex:54
 #: lib/claper_web/templates/layout/admin.html.heex:198
@@ -198,7 +198,7 @@ msgstr "Bewerken"
 #: lib/claper_web/live/embed_live/form_component.html.heex:63
 #: lib/claper_web/live/event_live/event_form_component.html.heex:55
 #: lib/claper_web/live/event_live/event_form_component.html.heex:62
-#: lib/claper_web/live/event_live/index.ex:213
+#: lib/claper_web/live/event_live/index.ex:218
 #: lib/claper_web/live/event_live/index.html.heex:94
 #: lib/claper_web/live/form_live/form_component.html.heex:93
 #: lib/claper_web/live/poll_live/form_component.html.heex:102
@@ -476,9 +476,9 @@ msgstr "Voeg interactie toe"
 msgid "Blocking this user will delete all his messages and he will not be able to join again, confirm ?"
 msgstr "Als je deze gebruiker blokkeert, worden al zijn berichten verwijderd en kan hij niet meer deelnemen. Bevestigen ?"
 
-#: lib/claper_web/live/event_live/show.ex:51
-#: lib/claper_web/live/event_live/show.ex:206
-#: lib/claper_web/live/event_live/show.ex:221
+#: lib/claper_web/live/event_live/show.ex:64
+#: lib/claper_web/live/event_live/show.ex:219
+#: lib/claper_web/live/event_live/show.ex:234
 #, elixir-autogen, elixir-format
 msgid "You have been banned from this event"
 msgstr "Je bent uitgesloten van dit evenement"
@@ -683,7 +683,7 @@ msgstr "Formulier bewerken"
 
 #: lib/claper_web/live/event_live/manage.html.heex:227
 #: lib/claper_web/live/event_live/manage.html.heex:824
-#: lib/claper_web/live/event_live/manage.html.heex:1409
+#: lib/claper_web/live/event_live/manage.html.heex:1408
 #, elixir-autogen, elixir-format
 msgid "Form"
 msgstr "Formulier"
@@ -705,7 +705,7 @@ msgstr "Formulierinzendingen van deelnemers worden hier weergegeven."
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:74
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:254
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:24
-#: lib/claper_web/live/event_live/manage.ex:837
+#: lib/claper_web/live/event_live/manage.ex:919
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "Naam"
@@ -736,7 +736,7 @@ msgstr "Indienen"
 msgid "Text"
 msgstr "Tekst"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1402
+#: lib/claper_web/live/event_live/manage.html.heex:1401
 #, elixir-autogen, elixir-format
 msgid "This cannot be undone, confirm ?"
 msgstr "Dit kan niet ongedaan worden gemaakt. Bevestigen ?"
@@ -1068,6 +1068,7 @@ msgstr "Hier vind je alle interacties van je bezoekers. Je kunt berichten, vastg
 msgid "Identify users by their unique avatars."
 msgstr "Identificeer gebruikers aan de hand van hun unieke avatars."
 
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:40
 #: lib/claper_web/live/event_live/event_form_component.html.heex:5
 #: lib/claper_web/live/event_live/index.html.heex:106
 #: lib/claper_web/live/event_live/manage.html.heex:427
@@ -1088,12 +1089,12 @@ msgstr "Selecteer het Presentatie. Geaccepteerde formaten zijn PDF, PPT of PPTX.
 msgid "Time to launch your presentation!"
 msgstr "Tijd om je presentatie te starten!"
 
-#: lib/claper_web/live/event_live/manage.html.heex:1451
+#: lib/claper_web/live/event_live/manage.html.heex:1450
 #, elixir-autogen, elixir-format
 msgid "Use the associated keyboard shortcuts for quick toggling of these settings."
 msgstr "Gebruik de bijbehorende sneltoetsen om snel tussen deze instellingen te schakelen."
 
-#: lib/claper_web/live/event_live/manage.html.heex:1451
+#: lib/claper_web/live/event_live/manage.html.heex:1450
 #, elixir-autogen, elixir-format
 msgid "You can control each setting for the presentation (showing on the big screen) and on the attendee's room."
 msgstr "Je kunt elke instelling voor de presentatie (weergave op het grote scherm) en in de ruimte van de deelnemer beheren."
@@ -1194,7 +1195,7 @@ msgstr "Selecteer de presentatie (optioneel)"
 msgid "This code will be used by your attendees to access the event. You have the option to create a custom code."
 msgstr "Deze code wordt door je bezoekers gebruikt om toegang te krijgen tot het evenement. Je hebt de mogelijkheid om een aangepaste code aan te maken."
 
-#: lib/claper_web/live/event_live/show.ex:193
+#: lib/claper_web/live/event_live/show.ex:206
 #, elixir-autogen, elixir-format
 msgid "This event has been terminated"
 msgstr "Dit evenement is gestopt"
@@ -1214,9 +1215,10 @@ msgstr "Wanneer begint het evenement?"
 msgid "Create your next presentation with"
 msgstr "Maak je volgende presentatie met"
 
+#: lib/claper_web/live/event_live/index.ex:210
 #: lib/claper_web/live/event_live/manage.ex:23
 #: lib/claper_web/live/event_live/presenter.ex:26
-#: lib/claper_web/live/event_live/show.ex:25
+#: lib/claper_web/live/event_live/show.ex:38
 #, elixir-autogen, elixir-format
 msgid "Event doesn't exist"
 msgstr "Evenement bestaat niet"
@@ -1272,7 +1274,7 @@ msgid "Event manager"
 msgstr "Evenementmanager"
 
 #: lib/claper_web/templates/layout/_user_menu.html.heex:19
-#: lib/claper_web/templates/layout/admin.html.heex:262
+#: lib/claper_web/templates/layout/admin.html.heex:278
 #, elixir-autogen, elixir-format
 msgid "Documentation"
 msgstr "Documentatie"
@@ -1475,6 +1477,7 @@ msgid "Please enter a valid link starting with http:// or https://"
 msgstr "Voer een geldige link in die begint met http:// of https://"
 
 #: lib/claper/embeds/embed.ex:98
+#: lib/claper/embeds/embed.ex:122
 #, elixir-autogen, elixir-format
 msgid "Please enter valid HTML content with an iframe tag"
 msgstr "Voer geldige HTML-inhoud in met een iframe-tag"
@@ -1564,12 +1567,12 @@ msgstr "Beëindigen"
 msgid "More options"
 msgstr "Meer opties"
 
-#: lib/claper_web/live/event_live/manage.ex:818
+#: lib/claper_web/live/event_live/manage.ex:894
 #, elixir-autogen, elixir-format
 msgid "No"
 msgstr "Nee"
 
-#: lib/claper_web/live/event_live/manage.ex:818
+#: lib/claper_web/live/event_live/manage.ex:894
 #, elixir-autogen, elixir-format
 msgid "Yes"
 msgstr "Ja"
@@ -1649,7 +1652,7 @@ msgstr "Antwoord %{index}"
 msgid "Attendees"
 msgstr "Deelnemers"
 
-#: lib/claper_web/live/event_live/manageable_quiz_component.ex:29
+#: lib/claper_web/live/event_live/manageable_quiz_component.ex:46
 #: lib/claper_web/live/stat_live/index.html.heex:426
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Average score"
@@ -1718,6 +1721,7 @@ msgstr "Nieuwe quiz"
 msgid "Presentation"
 msgstr "Presentatie"
 
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:34
 #: lib/claper_web/live/event_live/manager_settings_component.ex:168
 #, elixir-autogen, elixir-format
 msgid "Previous"
@@ -1932,6 +1936,7 @@ msgstr "Een unieke naam om deze OIDC-aanbieder te identificeren"
 msgid "Account is confirmed and active"
 msgstr "Account is bevestigd en actief"
 
+#: lib/claper_web/components/core_components.ex:368
 #: lib/claper_web/live/admin_live/event_live.html.heex:126
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:108
 #: lib/claper_web/live/admin_live/user_live.html.heex:111
@@ -2639,7 +2644,7 @@ msgstr "Aanbieder details"
 msgid "Admin"
 msgstr "Admin"
 
-#: lib/claper_web/templates/layout/admin.html.heex:285
+#: lib/claper_web/templates/layout/admin.html.heex:301
 #, elixir-autogen, elixir-format
 msgid "Back to app"
 msgstr "Terug naar app"
@@ -2679,3 +2684,92 @@ msgstr "Verplicht"
 #, elixir-autogen, elixir-format
 msgid "(optional)"
 msgstr "(optioneel)"
+
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:67
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:105
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Action"
+msgstr "Actie"
+
+#: lib/claper_web/live/admin_live/audit_log_live.ex:39
+#, elixir-autogen, elixir-format, fuzzy
+msgid "All actions"
+msgstr "Alle acties"
+
+#: lib/claper_web/live/admin_live/audit_log_live.ex:50
+#, elixir-autogen, elixir-format
+msgid "Audit Log Details"
+msgstr "Details auditlogboek"
+
+#: lib/claper_web/live/admin_live/audit_log_live.ex:24
+#: lib/claper_web/templates/layout/admin.html.heex:246
+#, elixir-autogen, elixir-format
+msgid "Audit Logs"
+msgstr "Auditlogboeken"
+
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:66
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:99
+#, elixir-autogen, elixir-format
+msgid "ID"
+msgstr "ID"
+
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:78
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:152
+#, elixir-autogen, elixir-format
+msgid "Metadata"
+msgstr "Metadata"
+
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:55
+#, elixir-autogen, elixir-format, fuzzy
+msgid "No results."
+msgstr "Geen resultaten."
+
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:145
+#, elixir-autogen, elixir-format
+msgid "Resource ID"
+msgstr "Resource-ID"
+
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:137
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Resource Type"
+msgstr "Resourcetype"
+
+#: lib/claper_web/live/admin_live/audit_log_live.ex:33
+#, elixir-autogen, elixir-format
+msgid "Search by user email"
+msgstr "Zoeken op e-mail"
+
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:73
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:130
+#, elixir-autogen, elixir-format
+msgid "Timestamp"
+msgstr "Tijdstempel"
+
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:70
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:111
+#, elixir-autogen, elixir-format, fuzzy
+msgid "User"
+msgstr "Gebruiker"
+
+#: lib/claper_web/components/core_components.ex:74
+#, elixir-autogen, elixir-format, fuzzy
+msgid "close"
+msgstr "sluiten"
+
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:88
+#, elixir-autogen, elixir-format
+msgid "View details for log #%{id}"
+msgstr "Bekijk details voor logboek #%{id}"
+
+#: lib/claper_web/live/admin_live/audit_log_live.html.heex:119
+#, elixir-autogen, elixir-format
+msgid "View profile for %{email}"
+msgstr "Bekijk profiel voor %{email}"
+
+#: lib/claper_web/live/event_live/manage.ex:902
+#: lib/claper_web/live/event_live/manage.ex:941
+#: lib/claper_web/live/event_live/manage.ex:957
+#: lib/claper_web/live/event_live/manage.ex:997
+#, elixir-autogen, elixir-format
+msgid "Resource not found"
+msgstr "Bron niet gevonden"

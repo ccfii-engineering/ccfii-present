@@ -1,3 +1,32 @@
+### v.2.5.0
+
+### Features
+
+- Add audit log (#214)
+
+### Security
+
+- Fix stored XSS vulnerability in custom embed iframes via input sanitization with attribute whitelisting
+- Fix XSS vulnerability in URL link formatting by escaping user-submitted URLs
+- Fix IDOR on form export endpoint by adding authorization check
+- Fix cross-event IDOR on polls, quizzes, forms, embeds, and posts by enforcing event-scoped resource access in context layer
+- Fix atom exhaustion DoS by replacing `String.to_atom/1` on user input with explicit whitelists (8 locations)
+- Add rate limiting on authentication endpoints using Hammer 7.0
+
+### Fixes and improvements
+
+- Fix date picker crash when hook is destroyed before initialization
+- Fix date picker crash for unsupported browser locales
+- Fix form submission crash for anonymous attendees
+- Improve SMTP config and handling (#197)
+- Fix presentation slides URL (#200)
+- Fix custom S3 endpoint (#199)
+- Fix quizz real time average score update and id duplication
+- Fix crash when broadcasting events to leaders with unregistered emails
+- Fix OIDC compatibility with providers like Authelia and Microsoft Entra ID (#216) (#143) (#195)
+- Fix manager and presenter views while presentation conversion has no slide count yet
+- Fix crash on event manager pages when an event has multiple activity leaders
+
 ### v.2.4.0
 
 ### ⚠️ Breaking changes 

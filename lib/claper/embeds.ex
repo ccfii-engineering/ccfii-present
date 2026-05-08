@@ -60,6 +60,23 @@ defmodule Claper.Embeds do
     do: Repo.get!(Embed, id) |> Repo.preload(preload)
 
   @doc """
+  Gets a single embed scoped to the given event.
+
+  Returns `nil` if the embed does not exist or does not belong to the event.
+  """
+  def get_embed_for_event(id, event_id, preload \\ []) do
+    from(e in Embed,
+      join: pf in assoc(e, :presentation_file),
+      where: e.id == ^id and pf.event_id == ^event_id
+    )
+    |> Repo.one()
+    |> case do
+      nil -> nil
+      embed -> Repo.preload(embed, preload)
+    end
+  end
+
+  @doc """
   Gets a single embed for a given position.
 
   ## Examples

@@ -24,10 +24,14 @@ defmodule ClaperWeb.EmbedLive.FormComponent do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    embed = Embeds.get_embed!(id)
-    {:ok, _} = Embeds.delete_embed(socket.assigns.event_uuid, embed)
+    case Embeds.get_embed_for_event(id, socket.assigns.presentation_file.event_id) do
+      nil ->
+        {:noreply, socket}
 
-    {:noreply, socket |> push_navigate(to: socket.assigns.return_to)}
+      embed ->
+        {:ok, _} = Embeds.delete_embed(socket.assigns.event_uuid, embed)
+        {:noreply, socket |> push_navigate(to: socket.assigns.return_to)}
+    end
   end
 
   @impl true

@@ -8,16 +8,23 @@ defmodule ClaperWeb.Helpers.CSVExporterTest do
   alias Claper.Accounts.Role
   alias Claper.Repo
 
+  defp role_fixture(name) do
+    Repo.get_by(Role, name: name) || Repo.insert!(%Role{name: name})
+  end
+
+  defp unique_email(prefix) do
+    "#{prefix}-#{System.unique_integer([:positive])}@example.com"
+  end
+
   describe "export_users_to_csv/1" do
     setup do
-      # Create roles
-      {:ok, user_role} = Repo.insert(%Role{name: "user"})
-      {:ok, admin_role} = Repo.insert(%Role{name: "admin"})
+      user_role = role_fixture("user")
+      admin_role = role_fixture("admin")
 
       # Create users
       {:ok, user1} =
         Repo.insert(%User{
-          email: "user1@example.com",
+          email: unique_email("user1"),
           uuid: Ecto.UUID.generate(),
           role_id: user_role.id,
           inserted_at: ~N[2023-01-01 10:00:00],
@@ -27,7 +34,7 @@ defmodule ClaperWeb.Helpers.CSVExporterTest do
 
       {:ok, user2} =
         Repo.insert(%User{
-          email: "admin@example.com",
+          email: unique_email("admin"),
           uuid: Ecto.UUID.generate(),
           role_id: admin_role.id,
           inserted_at: ~N[2023-01-02 10:00:00],
@@ -54,10 +61,10 @@ defmodule ClaperWeb.Helpers.CSVExporterTest do
       assert header =~ "Created At"
 
       # Check data rows
-      assert Enum.at(lines, 1) =~ "user1@example.com"
+      assert Enum.at(lines, 1) =~ "@example.com"
       assert Enum.at(lines, 1) =~ "user"
 
-      assert Enum.at(lines, 2) =~ "admin@example.com"
+      assert Enum.at(lines, 2) =~ "@example.com"
       assert Enum.at(lines, 2) =~ "admin"
     end
 

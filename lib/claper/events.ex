@@ -265,6 +265,7 @@ defmodule Claper.Events do
       left_join: a in ActivityLeader,
       on: e.id == a.event_id,
       where: e.uuid == ^uuid and (u.id == ^user.id or a.email == ^user.email),
+      distinct: true,
       select: e
     )
     |> Repo.one!()
@@ -366,6 +367,9 @@ defmodule Claper.Events do
     end
   end
 
+  defp validate_unique_event(%Ecto.Changeset{changes: %{code: nil}} = changeset),
+    do: {:ok, changeset}
+
   defp validate_unique_event(%Ecto.Changeset{changes: %{code: code} = _changes} = event) do
     case get_event_with_code(code) do
       %Event{} -> {:error, Ecto.Changeset.add_error(event, :code, "Already exists")}
@@ -419,8 +423,9 @@ defmodule Claper.Events do
               _ -> false
             end)
 
-          for %{"email" => leader_email} <- deleted_leaders do
-            leader = Accounts.get_user_by_email(leader_email)
+          for %{"email" => leader_email} <- deleted_leaders,
+              leader = Accounts.get_user_by_email(leader_email),
+              not is_nil(leader) do
             broadcast_user_events(leader.id, {:updated, event})
           end
 
@@ -764,8 +769,10 @@ defmodule Claper.Events do
   """
   def delete_event(%Event{} = event) do
     leaders =
-      for %{email: email} <- get_activity_leaders_for_event(event.id) do
-        Accounts.get_user_by_email(email)
+      for %{email: email} <- get_activity_leaders_for_event(event.id),
+          leader = Accounts.get_user_by_email(email),
+          not is_nil(leader) do
+        leader
       end
 
     with {:ok, event} <- Repo.delete(event) do
@@ -896,8 +903,9 @@ defmodule Claper.Events do
     event = Repo.preload(event, [:leaders])
     broadcast_user_events(event.user_id, message)
 
-    for %{email: leader_email} <- event.leaders do
-      leader = Accounts.get_user_by_email(leader_email)
+    for %{email: leader_email} <- event.leaders,
+        leader = Accounts.get_user_by_email(leader_email),
+        not is_nil(leader) do
       broadcast_user_events(leader.id, message)
     end
   end

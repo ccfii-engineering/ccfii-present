@@ -113,14 +113,15 @@ defmodule Claper.QuizzesTest do
       assert length(new_question.quiz_question_opts) == 2
     end
 
-    test "submit_quiz/3 with user records responses and updates counts" do
+    test "submit_quiz/4 with user records responses and updates counts" do
       quiz = quiz_fixture()
       user = user_fixture()
+      event_uuid = Ecto.UUID.generate()
       question = List.first(quiz.quiz_questions)
       option = List.first(question.quiz_question_opts)
 
       assert {:ok, updated_quiz} =
-               Quizzes.submit_quiz(user, [option], quiz.id)
+               Quizzes.submit_quiz(user, event_uuid, [option], quiz.id)
 
       updated_option =
         updated_quiz.quiz_questions
@@ -131,14 +132,15 @@ defmodule Claper.QuizzesTest do
       assert updated_option.response_count == 1
     end
 
-    test "submit_quiz/3 with attendee_identifier records responses" do
+    test "submit_quiz/4 with attendee_identifier records responses" do
       quiz = quiz_fixture()
+      event_uuid = Ecto.UUID.generate()
       question = List.first(quiz.quiz_questions)
       option = List.first(question.quiz_question_opts)
       attendee_id = "test-attendee"
 
       assert {:ok, _updated_quiz} =
-               Quizzes.submit_quiz(attendee_id, [option], quiz.id)
+               Quizzes.submit_quiz(attendee_id, event_uuid, [option], quiz.id)
 
       responses = Quizzes.get_quiz_responses(attendee_id, quiz.id)
       assert length(responses) == 1
@@ -151,7 +153,7 @@ defmodule Claper.QuizzesTest do
       correct_option = Enum.find(question.quiz_question_opts, & &1.is_correct)
 
       # Submit correct answer
-      {:ok, _} = Quizzes.submit_quiz(user, [correct_option], quiz.id)
+      {:ok, _} = Quizzes.submit_quiz(user, Ecto.UUID.generate(), [correct_option], quiz.id)
       assert {1, 1} = Quizzes.calculate_user_score(user.id, quiz.id)
     end
 
@@ -174,6 +176,59 @@ defmodule Claper.QuizzesTest do
       quiz = quiz_fixture(%{enabled: true})
       assert {:ok, updated_quiz} = Quizzes.set_disabled(quiz.id)
       refute updated_quiz.enabled
+    end
+
+    test "submit_quiz/4 with duplicate opts deduplicates by id" do
+      quiz = quiz_fixture()
+      event_uuid = Ecto.UUID.generate()
+      question = List.first(quiz.quiz_questions)
+      option = List.first(question.quiz_question_opts)
+      attendee_id = "test-attendee-dedup"
+
+      # Simulate the bug: same opt appears twice (e.g. due to stale struct comparison)
+      duplicate_opts = [option, %{option | response_count: option.response_count + 1}]
+
+      assert {:ok, _updated_quiz} =
+               Quizzes.submit_quiz(attendee_id, event_uuid, duplicate_opts, quiz.id)
+
+      # Should only create one response despite duplicate opts
+      responses = Quizzes.get_quiz_responses(attendee_id, quiz.id)
+      assert length(responses) == 1
+    end
+
+    test "get_quiz_for_event/3 returns quiz when it belongs to the event" do
+      presentation_file = presentation_file_fixture()
+      quiz = quiz_fixture(%{presentation_file: presentation_file})
+
+      fetched_quiz = Quizzes.get_quiz_for_event(quiz.id, presentation_file.event_id)
+      assert fetched_quiz.id == quiz.id
+    end
+
+    test "get_quiz_for_event/3 returns nil when quiz belongs to a different event" do
+      presentation_file_a = presentation_file_fixture()
+      presentation_file_b = presentation_file_fixture()
+      quiz = quiz_fixture(%{presentation_file: presentation_file_a})
+
+      assert is_nil(Quizzes.get_quiz_for_event(quiz.id, presentation_file_b.event_id))
+    end
+
+    test "get_quiz_for_event/3 returns nil for nonexistent quiz id" do
+      presentation_file = presentation_file_fixture()
+      assert is_nil(Quizzes.get_quiz_for_event(-1, presentation_file.event_id))
+    end
+
+    test "submit_quiz/4 with user and duplicate opts deduplicates by id" do
+      quiz = quiz_fixture()
+      user = user_fixture()
+      event_uuid = Ecto.UUID.generate()
+      question = List.first(quiz.quiz_questions)
+      option = List.first(question.quiz_question_opts)
+
+      # Simulate the bug: same opt appears twice with different response_count
+      duplicate_opts = [option, %{option | response_count: option.response_count + 1}]
+
+      assert {:ok, _updated_quiz} =
+               Quizzes.submit_quiz(user, event_uuid, duplicate_opts, quiz.id)
     end
   end
 end

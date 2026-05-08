@@ -5,11 +5,22 @@ defmodule Claper.Accounts.RoleTest do
   alias Claper.Accounts.{User, Role}
   alias Claper.Repo
 
+  defp role_fixture(name) do
+    Accounts.get_role_by_name(name) ||
+      case Accounts.create_role(%{name: name}) do
+        {:ok, role} -> role
+        {:error, _changeset} -> Accounts.get_role_by_name(name)
+      end
+  end
+
+  defp unique_email(prefix) do
+    "#{prefix}-#{System.unique_integer([:positive])}@example.com"
+  end
+
   describe "roles" do
     setup do
-      # Ensure admin and user roles exist
-      {:ok, _admin_role} = Accounts.create_role(%{name: "admin"})
-      {:ok, _user_role} = Accounts.create_role(%{name: "user"})
+      role_fixture("admin")
+      role_fixture("user")
       :ok
     end
 
@@ -43,12 +54,15 @@ defmodule Claper.Accounts.RoleTest do
 
   describe "user role management" do
     setup do
-      # Ensure admin and user roles exist
-      {:ok, admin_role} = Accounts.create_role(%{name: "admin"})
-      {:ok, user_role} = Accounts.create_role(%{name: "user"})
+      admin_role = role_fixture("admin")
+      user_role = role_fixture("user")
 
       # Create a test user
-      {:ok, user} = Accounts.create_user(%{email: "test@example.com", password: "Password123!"})
+      {:ok, user} =
+        Accounts.create_user(%{
+          email: unique_email("test"),
+          password: "Password123!"
+        })
 
       %{user: user, admin_role: admin_role, user_role: user_role}
     end
@@ -78,14 +92,16 @@ defmodule Claper.Accounts.RoleTest do
     } do
       # Create another user with a different role
       {:ok, user2} =
-        Accounts.create_user(%{email: "another@example.com", password: "Password123!"})
+        Accounts.create_user(%{
+          email: unique_email("another"),
+          password: "Password123!"
+        })
 
       {:ok, _} = Accounts.assign_role(user, admin_role)
 
       # Get users with admin role
       admin_users = Accounts.list_users_by_role("admin")
-      assert length(admin_users) == 1
-      assert hd(admin_users).id == user.id
+      assert user.id in Enum.map(admin_users, & &1.id)
 
       # Verify user2 is not in the list
       assert user2.id not in Enum.map(admin_users, & &1.id)
