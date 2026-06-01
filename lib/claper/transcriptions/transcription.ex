@@ -2,6 +2,19 @@ defmodule Claper.Transcriptions.Transcription do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {
+    Flop.Schema,
+    max_limit: 100,
+    default_limit: 25,
+    pagination_types: [:page],
+    filterable: [],
+    sortable: [:inserted_at, :id],
+    default_order: %{
+      order_by: [:inserted_at, :id],
+      order_directions: [:asc, :asc]
+    }
+  }
+
   @type t :: %__MODULE__{
           id: integer(),
           text: String.t(),

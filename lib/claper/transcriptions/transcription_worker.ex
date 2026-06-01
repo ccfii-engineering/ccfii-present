@@ -137,7 +137,7 @@ defmodule Claper.Transcriptions.TranscriptionWorker do
   @impl true
   def handle_info({:mistral_event, :language, lang}, state) do
     Logger.info("TranscriptionWorker: detected language #{lang} for event #{state.event_uuid}")
-    {:noreply, state}
+    {:noreply, %{state | language: lang}}
   end
 
   @impl true
@@ -184,6 +184,7 @@ defmodule Claper.Transcriptions.TranscriptionWorker do
   defp save_and_broadcast(text, state) when is_binary(text) and text != "" do
     case Transcriptions.create_transcription(%{
            text: text,
+           language: state.language,
            presentation_file_id: state.presentation_file_id
          }) do
       {:ok, transcription} ->

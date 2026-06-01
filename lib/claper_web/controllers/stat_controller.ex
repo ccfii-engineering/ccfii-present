@@ -5,7 +5,7 @@ defmodule ClaperWeb.StatController do
   """
   use ClaperWeb, :controller
 
-  alias Claper.{Forms, Events, Polls, Presentations, Quizzes}
+  alias Claper.{Forms, Events, Polls, Presentations, Quizzes, Transcriptions}
 
   @doc """
   Exports form submissions as a CSV file.
@@ -57,6 +57,31 @@ defmodule ClaperWeb.StatController do
         content = format_messages_for_export(event.posts)
 
         export_as_csv(conn, headers, content, "messages-#{sanitize(event.name)}")
+
+      :unauthorized ->
+        send_resp(conn, 403, "Forbidden")
+    end
+  end
+
+  @doc """
+  Exports all transcriptions from an event as a CSV file.
+  Requires user to be either an event leader or the event owner.
+  """
+  def export_transcriptions(%{assigns: %{current_user: current_user}} = conn, %{
+        "event_id" => event_id
+      }) do
+    event = Events.get_event!(event_id, [:presentation_file])
+
+    case authorize_event_access(current_user, event) do
+      :ok ->
+        headers = ["Timestamp (UTC)", "Language", "Text"]
+
+        content =
+          event.presentation_file.id
+          |> Transcriptions.list_transcriptions()
+          |> format_transcriptions_for_export()
+
+        export_as_csv(conn, headers, content, "transcriptions-#{sanitize(event.name)}")
 
       :unauthorized ->
         send_resp(conn, 403, "Forbidden")
@@ -222,6 +247,17 @@ defmodule ClaperWeb.StatController do
         post.pinned,
         post.position + 1,
         post.inserted_at
+      ]
+    end)
+  end
+
+  defp format_transcriptions_for_export(transcriptions) do
+    transcriptions
+    |> Enum.map(fn transcription ->
+      [
+        Calendar.strftime(transcription.inserted_at, "%Y-%m-%d %H:%M:%S"),
+        transcription.language || "N/A",
+        transcription.text
       ]
     end)
   end

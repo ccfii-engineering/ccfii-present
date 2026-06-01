@@ -31,9 +31,8 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
     <div
       id={dom_id(@id, "card")}
       class="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-200 h-96"
-      x-data="{showActions: false, showJoinMenu: false}"
-      @mouseenter="showActions = true"
-      @mouseleave="showActions = false; showJoinMenu = false"
+      x-data="{showJoinMenu: false}"
+      @mouseleave="showJoinMenu = false"
     >
       <!-- Full-height Thumbnail Area -->
       <div class="absolute inset-0">
@@ -94,10 +93,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
       </div>
       
     <!-- Sliding Bottom Panel -->
-      <div
-        class="absolute bottom-0 left-0 right-0 bg-white transition-transform duration-300 ease-out z-20"
-        x-bind:class="showActions ? 'translate-y-0' : 'translate-y-14'"
-      >
+      <div class="absolute bottom-0 left-0 right-0 bg-white transition-transform duration-300 ease-out z-20 translate-y-14 group-hover:translate-y-0 group-focus-within:translate-y-0">
         <!-- Card Body (Title, Code, Menu) -->
         <div class="p-2 border-t border-gray-200">
           <div class="flex items-start justify-between gap-4">

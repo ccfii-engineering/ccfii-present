@@ -60,8 +60,7 @@ defmodule Claper.Transcriptions.MistralRealtimeClient do
 
   @impl true
   def handle_info(:send_session_update, state) do
-    session_config =
-      %{"audio_format" => %{"encoding" => "pcm_s16le", "sample_rate" => 16000}}
+    session_config = %{"audio_format" => %{"encoding" => "pcm_s16le", "sample_rate" => 16000}}
 
     message = Jason.encode!(%{"type" => "session.update", "session" => session_config})
     {:reply, {:text, message}, state}
@@ -97,7 +96,9 @@ defmodule Claper.Transcriptions.MistralRealtimeClient do
         send(state.callback_pid, {:mistral_event, :done, text})
         {:ok, state}
 
-      {:ok, %{"type" => "transcription.language", "audioLanguage" => lang}} ->
+      {:ok, %{"type" => "transcription.language"} = event} ->
+        lang = Map.get(event, "audioLanguage") || Map.get(event, "language")
+
         Logger.info("MistralRealtimeClient: detected language #{lang}")
         send(state.callback_pid, {:mistral_event, :language, lang})
         {:ok, state}
@@ -109,7 +110,10 @@ defmodule Claper.Transcriptions.MistralRealtimeClient do
         {:ok, state}
 
       {:ok, event} ->
-        Logger.info("MistralRealtimeClient: unhandled event type #{inspect(event["type"])} payload=#{inspect(event)}")
+        Logger.info(
+          "MistralRealtimeClient: unhandled event type #{inspect(event["type"])} payload=#{inspect(event)}"
+        )
+
         {:ok, state}
 
       {:error, reason} ->

@@ -84,6 +84,79 @@ defmodule ClaperWeb.EventLiveTest do
     end
   end
 
+  describe "Stats" do
+    setup [:register_and_log_in_user, :create_event]
+
+    test "hides interaction tabs that have no content", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      {:ok, _stats_live, html} = live(conn, ~p"/events/#{presentation_file.event.uuid}/stats")
+
+      refute html =~ ~s(phx-value-tab="messages")
+      refute html =~ ~s(phx-value-tab="polls")
+      refute html =~ ~s(phx-value-tab="forms")
+      refute html =~ ~s(phx-value-tab="web_content")
+      refute html =~ ~s(phx-value-tab="quizzes")
+      refute html =~ ~s(phx-value-tab="transcriptions")
+    end
+
+    test "displays transcriptions in report", %{conn: conn, presentation_file: presentation_file} do
+      {:ok, _transcription} =
+        Claper.Transcriptions.create_transcription(%{
+          presentation_file_id: presentation_file.id,
+          language: "en",
+          text: "Welcome to the event"
+        })
+
+      {:ok, stats_live, _html} = live(conn, ~p"/events/#{presentation_file.event.uuid}/stats")
+
+      html =
+        stats_live
+        |> element(~s{button[phx-value-tab="transcriptions"]})
+        |> render_click()
+
+      assert html =~ "Transcriptions"
+      assert html =~ "Welcome to the event"
+      assert html =~ "UTC"
+    end
+
+    test "loads more transcriptions in report", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      for index <- 1..26 do
+        {:ok, _transcription} =
+          Claper.Transcriptions.create_transcription(%{
+            presentation_file_id: presentation_file.id,
+            language: "en",
+            text: "Transcript segment #{index}"
+          })
+      end
+
+      {:ok, stats_live, _html} = live(conn, ~p"/events/#{presentation_file.event.uuid}/stats")
+
+      html =
+        stats_live
+        |> element(~s{button[phx-value-tab="transcriptions"]})
+        |> render_click()
+
+      assert html =~ "Transcriptions"
+      assert html =~ "Transcript segment 1"
+      refute html =~ "Transcript segment 26"
+      assert html =~ "Load more"
+
+      html =
+        stats_live
+        |> element(~s{button[phx-click="load_more_transcriptions"]})
+        |> render_click()
+
+      assert html =~ "Transcript segment 1"
+      assert html =~ "Transcript segment 26"
+      refute html =~ "Load more"
+    end
+  end
+
   describe "Join" do
     test "renders the join page", %{conn: conn} do
       {:ok, join_live, html} = live(conn, ~p"/")

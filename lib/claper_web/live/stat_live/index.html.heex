@@ -170,9 +170,10 @@
       {gettext("Interactions")}
     </h3>
 
-    <div class="border-b border-gray-200">
+    <div class="border-b border-gray-200 overflow-x-auto overflow-y-hidden pb-px">
       <nav class="-mb-px flex space-x-8" aria-label="Tabs">
         <button
+          :if={:messages in @available_tabs}
           phx-click="change_tab"
           phx-value-tab="messages"
           class={"whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm #{if @current_tab == :messages, do: "border-primary-500 text-primary-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"}"}
@@ -180,6 +181,7 @@
           {gettext("Messages")}
         </button>
         <button
+          :if={:polls in @available_tabs}
           phx-click="change_tab"
           phx-value-tab="polls"
           class={"whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm #{if @current_tab == :polls, do: "border-primary-500 text-primary-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"}"}
@@ -187,6 +189,7 @@
           {gettext("Polls")}
         </button>
         <button
+          :if={:forms in @available_tabs}
           phx-click="change_tab"
           phx-value-tab="forms"
           class={"whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm #{if @current_tab == :forms, do: "border-primary-500 text-primary-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"}"}
@@ -194,6 +197,7 @@
           {gettext("Forms")}
         </button>
         <button
+          :if={:web_content in @available_tabs}
           phx-click="change_tab"
           phx-value-tab="web_content"
           class={"whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm #{if @current_tab == :web_content, do: "border-primary-500 text-primary-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"}"}
@@ -201,11 +205,20 @@
           {gettext("Web Content")}
         </button>
         <button
+          :if={:quizzes in @available_tabs}
           phx-click="change_tab"
           phx-value-tab="quizzes"
           class={"whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm #{if @current_tab == :quizzes, do: "border-primary-500 text-primary-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"}"}
         >
           {gettext("Quizzes")}
+        </button>
+        <button
+          :if={:transcriptions in @available_tabs}
+          phx-click="change_tab"
+          phx-value-tab="transcriptions"
+          class={"whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm #{if @current_tab == :transcriptions, do: "border-primary-500 text-primary-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"}"}
+        >
+          {gettext("Transcriptions")}
         </button>
       </nav>
     </div>
@@ -474,6 +487,75 @@
               </div>
             <% else %>
               <p class="italic text-gray-500">{gettext("No quiz has been created")}</p>
+            <% end %>
+          </div>
+        <% :transcriptions -> %>
+          <div>
+            <%= if length(@transcriptions) > 0 do %>
+              <div class="flex justify-start mb-4">
+                <%= link to: ~p"/export/#{@event.uuid}/transcriptions", class: "text-sm text-white bg-primary-500 hover:bg-primary-600 rounded-md px-3 py-1 flex items-center gap-1", method: :post, target: "_blank" do %>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-5 h-5"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M9 15h6" /><path d="M12.5 17.5l2.5 -2.5l-2.5 -2.5" />
+                  </svg>
+                  <span>{gettext("Export")} (CSV)</span>
+                <% end %>
+              </div>
+
+              <div class="py-2">
+                <div class="relative space-y-4 before:absolute before:left-3 before:top-2 before:h-[calc(100%-1rem)] before:w-px before:bg-gray-200 sm:before:left-4">
+                  <%= for transcription <- @transcriptions do %>
+                    <article class="relative pl-10 sm:pl-12">
+                      <div class="absolute left-0 top-1.5 flex h-7 w-7 items-center justify-center rounded-full border border-primary-100 bg-primary-50 text-primary-600 sm:h-8 sm:w-8">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          class="h-4 w-4"
+                        >
+                          <path d="M10 3.75a.75.75 0 0 1 .75.75v5.19l3.03 1.75a.75.75 0 1 1-.75 1.3l-3.4-1.96A.75.75 0 0 1 9.25 10V4.5a.75.75 0 0 1 .75-.75Z" />
+                          <path
+                            fill-rule="evenodd"
+                            d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm0-1.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13Z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <div class="border-b border-gray-200 pb-4 last:border-b-0 last:pb-0">
+                        <div class="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                          <time class="text-xs font-medium uppercase tracking-wide text-gray-500">
+                            {Calendar.strftime(transcription.inserted_at, "%Y-%m-%d %H:%M:%S")}
+                            <span class="normal-case tracking-normal text-gray-400">UTC</span>
+                          </time>
+                        </div>
+                        <p class="text-sm leading-6 text-gray-800">
+                          {transcription.text}
+                        </p>
+                      </div>
+                    </article>
+                  <% end %>
+                </div>
+              </div>
+
+              <div :if={@transcriptions_meta.has_next_page?} class="mt-6 flex justify-center">
+                <button
+                  type="button"
+                  phx-click="load_more_transcriptions"
+                  class="btn btn-outline btn-sm"
+                >
+                  {gettext("Load more")}
+                </button>
+              </div>
+            <% else %>
+              <p class="italic text-gray-500">{gettext("No transcriptions found")}</p>
             <% end %>
           </div>
       <% end %>

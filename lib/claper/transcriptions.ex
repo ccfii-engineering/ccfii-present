@@ -18,6 +18,15 @@ defmodule Claper.Transcriptions do
     |> Repo.all()
   end
 
+  def list_transcriptions_paginated(presentation_file_id, params \\ %{}) do
+    query =
+      from(t in Transcription,
+        where: t.presentation_file_id == ^presentation_file_id
+      )
+
+    Flop.validate_and_run!(query, params, for: Transcription, replace_invalid_params: true)
+  end
+
   def get_recent_transcriptions(presentation_file_id, limit \\ 5) do
     from(t in Transcription,
       where: t.presentation_file_id == ^presentation_file_id,

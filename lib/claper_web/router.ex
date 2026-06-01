@@ -67,6 +67,7 @@ defmodule ClaperWeb.Router do
       post "/export/quizzes/:quiz_id", StatController, :export_quiz
       post "/export/quizzes/:quiz_id/qti", StatController, :export_quiz_qti
       post "/export/:event_id/messages", StatController, :export_all_messages
+      post "/export/:event_id/transcriptions", StatController, :export_transcriptions
 
       live("/events", EventLive.Index, :index)
       live("/events/new", EventLive.Index, :new)
