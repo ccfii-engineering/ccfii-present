@@ -2,7 +2,7 @@ defmodule ClaperWeb.EventLiveTest do
   use ClaperWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import Claper.{PresentationsFixtures}
+  import Claper.{FormsFixtures, PresentationsFixtures}
 
   @update_attrs %{name: "some updated name"}
 
@@ -154,6 +154,30 @@ defmodule ClaperWeb.EventLiveTest do
       assert html =~ "Transcript segment 1"
       assert html =~ "Transcript segment 26"
       refute html =~ "Load more"
+    end
+
+    test "displays emoji avatars for form submissions in report", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      form = form_fixture(%{presentation_file_id: presentation_file.id})
+
+      {:ok, _form_submit} =
+        Claper.Forms.create_form_submit(%{
+          form_id: form.id,
+          attendee_identifier: "attendee-1",
+          response: %{"Name" => "Ada"}
+        })
+
+      {:ok, stats_live, _html} = live(conn, ~p"/events/#{presentation_file.event.uuid}/stats")
+
+      html =
+        stats_live
+        |> element(~s{button[phx-value-tab="forms"]})
+        |> render_click()
+
+      assert html =~ "Ada"
+      assert html =~ "avatar avatar-placeholder"
     end
   end
 

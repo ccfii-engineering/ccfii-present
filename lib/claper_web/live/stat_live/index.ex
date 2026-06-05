@@ -4,6 +4,10 @@ defmodule ClaperWeb.StatLive.Index do
   alias Claper.{Events, Transcriptions}
 
   @transcriptions_page_size 25
+  @avatars ~w(🦊 🐙 🦉 🐸 🐼 🦋 🐬 🦈 🐢 🦎 🐝 🦩 🐧 🦦 🐨 🦁 🐯 🐻 🐰 🐮
+    🐷 🐵 🦄 🐺 🦇 🐳 🐠 🦑 🦞 🦀 🐡 🐞 🦗 🕷 🦂 🐍 🦕 🦖 🦚 🦜
+    🦢 🦩 🐓 🦃 🦆 🦅 🦔 🐿 🦫 🦨 🦡 🦝 🦥 🦘 🦙 🐫 🐘 🦏 🦛 🐊
+    🐅 🐆 🦓 🐃 🐂 🐄 🐎 🐖 🐑 🐐 🦌 🐕 🐈 🦮 🐁 🐀 🦔 🐲 🌵 🍄)
 
   on_mount(ClaperWeb.UserLiveAuth)
 
@@ -208,5 +212,19 @@ defmodule ClaperWeb.StatLive.Index do
 
   defp list_posts(_socket, event_id) do
     Claper.Posts.list_posts(event_id, [:event, :reactions])
+  end
+
+  defp avatar_identifier(record) do
+    "#{record.attendee_identifier || record.user_id || "default"}"
+  end
+
+  defp avatar_color(record) do
+    hue = :erlang.phash2(avatar_identifier(record), 360)
+    "hsl(#{hue}, 45%, 55%)"
+  end
+
+  defp avatar_emoji(record) do
+    index = :erlang.phash2({avatar_identifier(record), :emoji}, length(@avatars))
+    Enum.at(@avatars, index)
   end
 end

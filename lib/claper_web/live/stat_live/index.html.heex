@@ -324,17 +324,14 @@
                     <div id={"#{fs.id}-form"}>
                       <div class="px-4 pb-2 pt-3 rounded-b-lg rounded-tr-lg bg-white relative shadow-md text-black break-all mt-4">
                         <div class="flex space-x-3 items-center">
-                          <%= if fs.attendee_identifier do %>
-                            <img
-                              class="h-8 w-8"
-                              src={"https://api.dicebear.com/7.x/personas/svg?seed=#{fs.attendee_identifier}.svg"}
-                            />
-                          <% else %>
-                            <img
-                              class="h-8 w-8"
-                              src={"https://api.dicebear.com/7.x/personas/svg?seed=#{fs.user_id}.svg"}
-                            />
-                          <% end %>
+                          <div class="avatar avatar-placeholder shrink-0">
+                            <div
+                              class="text-white w-8 rounded-full"
+                              style={"background-color: #{avatar_color(fs)}"}
+                            >
+                              <span class="text-sm">{avatar_emoji(fs)}</span>
+                            </div>
+                          </div>
 
                           <div>
                             <%= for res <- fs.response do %>

@@ -49,11 +49,7 @@
     </div>
 
     <div class="flex space-x-3">
-      <button
-        type="submit"
-        phx_disable_with="Loading..."
-        class="btn btn-primary w-full lg:w-auto"
-      >
+      <button type="submit" phx_disable_with="Loading..." class="btn btn-primary w-full lg:w-auto">
         {case @live_action do
           :new -> gettext("Create")
           :edit -> gettext("Save")
