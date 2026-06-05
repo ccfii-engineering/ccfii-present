@@ -1,5 +1,10 @@
 ## v.2.5.2
 
+### Fixes and improvements
+
+- Add Swedish translation (#228)
+- Add PageUp and PageDown support for slide navigation (#227)
+
 ## v.2.5.1
 
 ### Security
