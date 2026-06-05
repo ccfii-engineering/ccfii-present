@@ -168,6 +168,11 @@ defmodule ClaperWeb.EventLive.Index do
       |> assign(:page_title, gettext("Edit"))
       |> assign(:event, event)
     end
+  rescue
+    Ecto.NoResultsError ->
+      socket
+      |> put_flash(:error, gettext("Event doesn't exist"))
+      |> redirect(to: ~p"/events")
   end
 
   defp apply_action(socket, :new, _params) do

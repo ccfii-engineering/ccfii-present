@@ -12,7 +12,7 @@
 <div
   id="presenter"
   phx-hook="Presenter"
-  data-max-page={@event.presentation_file.length}
+  data-max-page={@event.presentation_file.length || 0}
   data-hash={@event.presentation_file.hash}
   data-current-page={@state.position}
   data-embed-active={if @current_embed, do: "true", else: "false"}
@@ -90,7 +90,7 @@
   <!-- MESSAGES -->
   <div
     id="slider-wrapper"
-    class={"w-full min-h-screen grid #{if (@state.chat_visible && @event.presentation_file.length > 0) || (@current_embed && @event.presentation_file.length == 0), do: "grid-cols-[1fr_10px_1fr]", else: "grid-cols-[1fr]"} items-center justify-center relative bg-black"}
+    class={"w-full min-h-screen grid #{if (@state.chat_visible && (@event.presentation_file.length || 0) > 0) || (@current_embed && (@event.presentation_file.length || 0) == 0), do: "grid-cols-[1fr_10px_1fr]", else: "grid-cols-[1fr]"} items-center justify-center relative bg-black"}
     phx-hook="Split"
     data-type="column"
     data-gutter=".gutter-1"
@@ -198,7 +198,7 @@
       <% end %>
     </div>
     <div
-      class={"gutter-1 row-span-full cursor-col-resize col-2 text-center text-sm leading-3 text-white #{if (!@state.chat_visible && @event.presentation_file.length > 0) || (!@current_embed && @event.presentation_file.length == 0), do: "hidden"}"}
+      class={"gutter-1 row-span-full cursor-col-resize col-2 text-center text-sm leading-3 text-white #{if (!@state.chat_visible && (@event.presentation_file.length || 0) > 0) || (!@current_embed && (@event.presentation_file.length || 0) == 0), do: "hidden"}"}
       style="writing-mode: vertical-rl"
     >
       •••

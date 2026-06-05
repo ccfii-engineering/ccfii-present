@@ -293,6 +293,7 @@ defmodule Claper.Events do
       left_join: a in ActivityLeader,
       on: e.id == a.event_id,
       where: e.uuid == ^uuid and (u.id == ^user.id or a.email == ^user.email),
+      distinct: true,
       select: e
     )
     |> Repo.one!()
@@ -393,6 +394,9 @@ defmodule Claper.Events do
         {:error, %{changeset | action: :insert}}
     end
   end
+
+  defp validate_unique_event(%Ecto.Changeset{changes: %{code: nil}} = changeset),
+    do: {:ok, changeset}
 
   defp validate_unique_event(%Ecto.Changeset{changes: %{code: code} = _changes} = event) do
     case get_event_with_code(code) do

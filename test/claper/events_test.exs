@@ -232,6 +232,16 @@ defmodule Claper.EventsTest do
       assert Events.get_managed_event!(context.alice, event.uuid) == event
     end
 
+    test "get_managed_event!/3 does not duplicate when an event has multiple leaders",
+         context do
+      event = Enum.at(context.carol_active_events, 1)
+      activity_leader_fixture(%{event: event, email: "extra-leader-1@example.com"})
+      activity_leader_fixture(%{event: event, email: "extra-leader-2@example.com"})
+
+      assert Events.get_managed_event!(context.carol, event.uuid) == event
+      assert Events.get_managed_event!(context.alice, event.uuid) == event
+    end
+
     test "get_user_event!/3 gets event by owner, raises if not", context do
       event = Enum.at(context.alice_active_events, 0)
       assert Events.get_user_event!(context.alice.id, event.uuid) == event
@@ -449,6 +459,16 @@ defmodule Claper.EventsTest do
       assert {:error, %Ecto.Changeset{}} = Events.update_event(event, %{user_id: nil})
       assert {:error, %Ecto.Changeset{}} = Events.update_event(event, %{started_at: nil})
 
+      assert event == Events.get_event!(event.uuid)
+    end
+
+    test "update_event/2 with code that normalizes to nil returns error changeset" do
+      event = event_fixture()
+
+      assert {:error, %Ecto.Changeset{} = changeset} =
+               Events.update_event(event, %{code: "------"})
+
+      assert %{code: ["can't be blank"]} = errors_on(changeset)
       assert event == Events.get_event!(event.uuid)
     end
 

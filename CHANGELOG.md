@@ -1,4 +1,21 @@
-### v.2.5.0
+## v.2.5.2
+
+### Fixes and improvements
+
+- Add Swedish translation (#228)
+- Add PageUp and PageDown support for slide navigation (#227)
+
+## v.2.5.1
+
+### Security
+
+- Update JS dependencies with high CVE
+
+### Fixes and improvements
+
+- Fix form submissions losing values when field names contain spaces or non-word characters
+
+## v.2.5.0
 
 ### Features
 
@@ -24,8 +41,10 @@
 - Fix quizz real time average score update and id duplication
 - Fix crash when broadcasting events to leaders with unregistered emails
 - Fix OIDC compatibility with providers like Authelia and Microsoft Entra ID (#216) (#143) (#195)
+- Fix manager and presenter views while presentation conversion has no slide count yet
+- Fix crash on event manager pages when an event has multiple activity leaders
 
-### v.2.4.0
+## v.2.4.0
 
 ### ⚠️ Breaking changes 
 
@@ -57,7 +76,7 @@
 - Fix italian translation (#179)
 - Fix random poll choices (#184)
 
-### v.2.3.2
+## v.2.3.2
 
 ### Fixes and improvements
 
@@ -69,7 +88,7 @@
 - Fix event code length validation (min: 5, max: 10)
 - Fix presentation upload progress when editing an event
 
-### v.2.3.1
+## v.2.3.1
 
 ### Fixes and improvements
 
@@ -80,7 +99,7 @@
 - Add option to force login to submit quizzes
 - Fix url with question mark being flagged as a question
 
-### v.2.3.0
+## v.2.3.0
 
 ### Features
 

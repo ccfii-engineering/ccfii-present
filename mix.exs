@@ -1,7 +1,7 @@
 defmodule Claper.MixProject do
   use Mix.Project
 
-  @version "2.5.0"
+  @version "2.5.2"
 
   def project do
     [
