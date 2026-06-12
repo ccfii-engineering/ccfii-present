@@ -428,65 +428,92 @@
     </div>
   </div>
 <% else %>
-  <div class="w-full">
-    <div class="flex bg-black h-screen">
-      <div class="flex items-center text-center lg:text-left justify-center lg:justify-start lg:px-12 w-full lg:w-1/2">
-        <div class="w-full mx-12 lg:w-auto lg:mx-0">
-          <h1 class="py-5 text-5xl font-semibold text-white md:text-6xl">{@event.name}</h1>
+  <div class="ticket-stage">
+    <div class="ticket" id="waiting-ticket" phx-hook="TicketTilt">
+      <div class="texture"></div>
+      <div class="glare"></div>
+      <div class="edge-text">{@event.name} · {@event.name} · {@event.name}</div>
 
-          <h2
-            x-data={"{date: moment.utc('#{@event.started_at}').local().format('LLLL')}"}
-            class="py-5 text-2xl text-gray-300 md:text-4xl"
-            x-text="date.charAt(0).toUpperCase() + date.slice(1)"
-          >
-          </h2>
+      <div class="ticket-body">
+        <span class="eyebrow">
+          <span class="dot"></span>{gettext("Live interactive event")}
+        </span>
 
-          <div class="text-white flex justify-between items-center mt-12">
-            <div class="flex flex-col items-center mr-10">
-              <span class="text-5xl font-bold">
-                {if @remaining_days < 10, do: "0"}{@remaining_days}
-              </span>
-              <span class="text-gray-400">{gettext("days")}</span>
+        <h1 class="event-title">{@event.name}</h1>
+
+        <p
+          class="event-date"
+          x-data={"{date: moment.utc('#{@event.started_at}').local().format('LLLL')}"}
+          x-text="date.charAt(0).toUpperCase() + date.slice(1)"
+        >
+        </p>
+
+        <div class="cd-row">
+          <div class="cd-cell">
+            <div class="cd-num">{if @remaining_days < 10, do: "0"}{@remaining_days}</div>
+            <div class="cd-label">{gettext("days")}</div>
+          </div>
+          <div class="cd-sep">:</div>
+          <div class="cd-cell">
+            <div class="cd-num">{if @remaining_hours < 10, do: "0"}{@remaining_hours}</div>
+            <div class="cd-label">{gettext("hours")}</div>
+          </div>
+          <div class="cd-sep">:</div>
+          <div class="cd-cell">
+            <div class="cd-num">
+              {if @remaining_minutes < 10, do: "0"}{@remaining_minutes}
             </div>
-            <div class="flex flex-col items-center mr-10">
-              <span class="text-5xl font-bold">
-                {if @remaining_hours < 10, do: "0"}{@remaining_hours}
-              </span>
-              <span class="text-gray-400">{gettext("hours")}</span>
+            <div class="cd-label">{gettext("minutes")}</div>
+          </div>
+          <div class="cd-sep">:</div>
+          <div class="cd-cell">
+            <div class="cd-num">
+              {if @remaining_seconds < 10, do: "0"}{@remaining_seconds}
             </div>
-            <div class="flex flex-col items-center mr-10">
-              <span class="text-5xl font-bold">
-                {if @remaining_minutes < 10, do: "0"}{@remaining_minutes}
-              </span>
-              <span class="text-gray-400">{gettext("minutes")}</span>
-            </div>
-            <div class="flex flex-col items-center">
-              <span class="text-5xl font-bold">
-                {if @remaining_seconds < 10, do: "0"}{@remaining_seconds}
-              </span>
-              <span class="text-gray-400">{gettext("seconds")}</span>
-            </div>
+            <div class="cd-label">{gettext("seconds")}</div>
+          </div>
+        </div>
+
+        <div class="ticket-meta">
+          <div class="meta-item">
+            <span class="meta-k">{gettext("Admit")}</span>
+            <span class="meta-v">{gettext("Unlimited")}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-k">{gettext("Session")}</span>
+            <span class="meta-v">{@event.code}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-k">{gettext("No.")}</span>
+            <span class="meta-v">CLP-{Calendar.strftime(@event.started_at, "%m%d-%y")}</span>
           </div>
         </div>
       </div>
-      <div class="hidden lg:block lg:w-1/2">
-        <div class="h-full object-cover bg-primary">
-          <div class="h-full bg-black/50 text-white text-center flex flex-col items-center justify-center">
-            <span class="text-4xl font-semibold mb-10">
-              {gettext("Scan to interact in real-time")}
-            </span>
-            <div
-              phx-hook="QRCode"
-              id="qr"
-              phx-update="ignore"
-              class="rounded-lg mx-auto bg-black h-64 w-64 p-12 flex items-center justify-center mb-14"
-            >
-            </div>
-            <span class="text-4xl font-semibold mb-10">{gettext("Or use the code:")}</span>
-            <span class="text-5xl font-semibold mb-10">#{String.upcase(@event.code)}</span>
+
+      <div class="perf">
+        <div class="notch-bottom"></div>
+      </div>
+
+      <div class="ticket-stub">
+        <div class="stub-head">{gettext("Scan to interact in real-time")}</div>
+        <div class="qr-frame">
+          <div
+            phx-hook="QRCode"
+            data-code={@event.code}
+            data-size="188"
+            id="qr"
+            phx-update="ignore"
+          >
           </div>
         </div>
+        <div class="code-label">{gettext("Or use the code:")}</div>
+        <div class="code-chip">{@event.code}</div>
       </div>
     </div>
+
+    <a href="https://claper.co" target="_blank" class="powered-by">
+      <span>{gettext("Powered by")}</span>
+      <img src="/images/logo-large.svg" alt="Claper" />
+    </a>
   </div>
 <% end %>

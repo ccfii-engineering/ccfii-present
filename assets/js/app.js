@@ -509,17 +509,19 @@ Hooks.QRCode = {
         "/e/" +
         this.el.dataset.code
       : window.location.href;
-    this.el.style.width = document.documentElement.clientWidth * 0.27 + "px";
-    this.el.style.height = document.documentElement.clientWidth * 0.27 + "px";
+    var size = this.el.dataset.dynamic
+      ? document.documentElement.clientWidth * 0.25
+      : parseInt(this.el.dataset.size || "240", 10);
+
+    if (this.el.dataset.dynamic) {
+      this.el.style.width = document.documentElement.clientWidth * 0.27 + "px";
+      this.el.style.height = document.documentElement.clientWidth * 0.27 + "px";
+    }
 
     if (this.qrCode == null) {
       this.qrCode = new QRCodeStyling({
-        width: this.el.dataset.dynamic
-          ? document.documentElement.clientWidth * 0.25
-          : 240,
-        height: this.el.dataset.dynamic
-          ? document.documentElement.clientWidth * 0.25
-          : 240,
+        width: size,
+        height: size,
         margin: 0,
         data: url,
         cornersSquareOptions: {
@@ -541,12 +543,8 @@ Hooks.QRCode = {
       this.qrCode.append(this.el);
     } else {
       this.qrCode.update({
-        width: this.el.dataset.dynamic
-          ? document.documentElement.clientWidth * 0.25
-          : 240,
-        height: this.el.dataset.dynamic
-          ? document.documentElement.clientWidth * 0.25
-          : 240,
+        width: size,
+        height: size,
       });
     }
   },
@@ -562,6 +560,63 @@ Hooks.QRCode = {
   },
   updated() {},
   destroyed() {},
+};
+
+Hooks.TicketTilt = {
+  // Writes tilt/glare values as CSS vars on <html> rather than inline
+  // styles on the ticket: the countdown patches this subtree every
+  // second and morphdom would wipe inline styles mid-animation.
+  mounted() {
+    if (
+      !window.matchMedia("(pointer: fine)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
+    this.root = document.documentElement;
+    this.frame = null;
+
+    this.onMove = (e) => {
+      this.lastEvent = e;
+      if (this.frame) return;
+      this.frame = requestAnimationFrame(() => {
+        this.frame = null;
+        const r = this.el.getBoundingClientRect();
+        const x = this.lastEvent.clientX - r.left;
+        const y = this.lastEvent.clientY - r.top;
+        const px = x / r.width - 0.5;
+        const py = y / r.height - 0.5;
+        this.root.style.setProperty("--tilt-ry", (px * 10).toFixed(2) + "deg");
+        this.root.style.setProperty("--tilt-rx", (py * -8).toFixed(2) + "deg");
+        this.root.style.setProperty("--glare-x", x.toFixed(0) + "px");
+        this.root.style.setProperty("--glare-y", y.toFixed(0) + "px");
+        this.root.style.setProperty("--glare-o", "1");
+      });
+    };
+
+    this.onLeave = () => {
+      if (this.frame) {
+        cancelAnimationFrame(this.frame);
+        this.frame = null;
+      }
+      this.root.style.setProperty("--tilt-rx", "0deg");
+      this.root.style.setProperty("--tilt-ry", "0deg");
+      this.root.style.setProperty("--glare-o", "0");
+    };
+
+    this.el.addEventListener("mousemove", this.onMove);
+    this.el.addEventListener("mouseleave", this.onLeave);
+  },
+  destroyed() {
+    if (!this.onMove) return;
+    this.el.removeEventListener("mousemove", this.onMove);
+    this.el.removeEventListener("mouseleave", this.onLeave);
+    if (this.frame) cancelAnimationFrame(this.frame);
+    ["--tilt-rx", "--tilt-ry", "--glare-x", "--glare-y", "--glare-o"].forEach(
+      (p) => document.documentElement.style.removeProperty(p),
+    );
+  },
 };
 
 Hooks.Dropdown = {
