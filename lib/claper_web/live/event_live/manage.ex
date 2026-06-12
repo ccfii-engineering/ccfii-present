@@ -119,6 +119,18 @@ defmodule ClaperWeb.EventLive.Manage do
 
   defp event_id(%{assigns: %{event: event}}), do: event.id
 
+  defp get_interaction_for_event("poll", id, socket),
+    do: Polls.get_poll_for_event(id, event_id(socket))
+
+  defp get_interaction_for_event("form", id, socket),
+    do: Forms.get_form_for_event(id, event_id(socket))
+
+  defp get_interaction_for_event("embed", id, socket),
+    do: Embeds.get_embed_for_event(id, event_id(socket))
+
+  defp get_interaction_for_event("quiz", id, socket),
+    do: Quizzes.get_quiz_for_event(id, event_id(socket))
+
   @impl true
   def handle_info(%{event: "presence_diff"}, %{assigns: %{event: event}} = socket) do
     attendees = Presence.list("event:#{event.uuid}")
@@ -257,31 +269,31 @@ defmodule ClaperWeb.EventLive.Manage do
   end
 
   @impl true
-  def handle_info({:poll_updated, poll}, socket) do
+  def handle_info({:poll_updated, _poll}, socket) do
     {:noreply,
      socket
-     |> interactions_at_position(poll.position)}
+     |> interactions_at_position(socket.assigns.state.position)}
   end
 
   @impl true
-  def handle_info({:embed_updated, embed}, socket) do
+  def handle_info({:embed_updated, _embed}, socket) do
     {:noreply,
      socket
-     |> interactions_at_position(embed.position)}
+     |> interactions_at_position(socket.assigns.state.position)}
   end
 
   @impl true
-  def handle_info({:form_updated, form}, socket) do
+  def handle_info({:form_updated, _form}, socket) do
     {:noreply,
      socket
-     |> interactions_at_position(form.position)}
+     |> interactions_at_position(socket.assigns.state.position)}
   end
 
   @impl true
-  def handle_info({:quiz_updated, quiz}, socket) do
+  def handle_info({:quiz_updated, _quiz}, socket) do
     {:noreply,
      socket
-     |> interactions_at_position(quiz.position)}
+     |> interactions_at_position(socket.assigns.state.position)}
   end
 
   @impl true
@@ -450,6 +462,33 @@ defmodule ClaperWeb.EventLive.Manage do
 
       {:error, _reason} ->
         {:noreply, socket |> put_flash(:error, gettext("Could not reorder slides"))}
+    end
+  end
+
+  @impl true
+  def handle_event(
+        "move-interaction",
+        %{"id" => id, "type" => type, "to" => to},
+        %{assigns: %{event: event, state: state}} = socket
+      )
+      when is_integer(id) and is_integer(to) and type in ["poll", "form", "embed", "quiz"] do
+    with interaction when not is_nil(interaction) <- get_interaction_for_event(type, id, socket),
+         {:ok, _moved} <- Claper.Interactions.move_interaction(event, interaction, to) do
+      if interaction.enabled do
+        Phoenix.PubSub.broadcast(
+          Claper.PubSub,
+          "event:#{event.uuid}",
+          {:current_interaction, nil}
+        )
+      end
+
+      {:noreply, socket |> interactions_at_position(state.position)}
+    else
+      nil ->
+        {:noreply, socket}
+
+      {:error, _reason} ->
+        {:noreply, socket |> put_flash(:error, gettext("Could not move interaction"))}
     end
   end
 

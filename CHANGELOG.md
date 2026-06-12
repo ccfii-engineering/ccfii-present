@@ -1,3 +1,15 @@
+## v.3.0.0
+
+### Features
+
+- Redesign the manager, dashboard and waiting screen
+- Add new global interaction: realtime transcription with Mistral API
+- Add drag-and-drop for interactions and slides
+
+### Fixes and improvements
+
+- Improve performance of preview with thumbnails
+
 ## v.2.5.2
 
 ### Fixes and improvements

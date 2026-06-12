@@ -73,6 +73,46 @@ defmodule Claper.Interactions do
     end
   end
 
+  @doc """
+  Moves an interaction to another slide position.
+
+  The interaction is disabled when moved so it doesn't stay live on a slide
+  the audience is not looking at. Returns `{:ok, interaction}` (a no-op when
+  the position is unchanged) or `{:error, :invalid_position}`.
+  """
+  def move_interaction(
+        %Events.Event{
+          presentation_file: %Presentations.PresentationFile{} = presentation_file
+        } = event,
+        interaction,
+        to
+      )
+      when is_integer(to) do
+    count = presentation_file.length || 0
+
+    cond do
+      to < 0 or to >= count -> {:error, :invalid_position}
+      to == interaction.position -> {:ok, interaction}
+      true -> do_move_interaction(event.uuid, interaction, to)
+    end
+  end
+
+  defp do_move_interaction(event_uuid, %Polls.Poll{} = poll, to),
+    do: Polls.update_poll(event_uuid, poll, %{position: to, enabled: false})
+
+  defp do_move_interaction(event_uuid, %Forms.Form{} = form, to),
+    do: Forms.update_form(event_uuid, form, %{position: to, enabled: false})
+
+  defp do_move_interaction(event_uuid, %Embeds.Embed{} = embed, to),
+    do: Embeds.update_embed(event_uuid, embed, %{position: to, enabled: false})
+
+  # Quiz.changeset requires quiz_questions via cast_assoc, so they must be
+  # loaded even though the move doesn't touch them.
+  defp do_move_interaction(event_uuid, %Quizzes.Quiz{} = quiz, to) do
+    quiz = Claper.Repo.preload(quiz, quiz_questions: :quiz_question_opts)
+    Quizzes.update_quiz(event_uuid, quiz, %{position: to, enabled: false})
+  end
+
   def enable_interaction(interaction) do
     Ecto.Multi.new()
     |> Ecto.Multi.run(:disable_polls, fn _repo, _ ->

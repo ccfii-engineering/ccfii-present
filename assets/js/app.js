@@ -407,6 +407,10 @@ Hooks.Manager = {
     this.manager.update();
   },
 };
+const INTERACTION_DRAG_TYPE = "application/x-claper-interaction";
+const isInteractionDrag = (e) =>
+  e.dataTransfer && Array.from(e.dataTransfer.types).includes(INTERACTION_DRAG_TYPE);
+
 Hooks.SlideSortable = {
   mounted() {
     this.from = null;
@@ -421,7 +425,7 @@ Hooks.SlideSortable = {
     });
 
     this.el.addEventListener("dragover", (e) => {
-      if (this.from === null) return;
+      if (this.from === null && !isInteractionDrag(e)) return;
       e.preventDefault();
       e.dataTransfer.dropEffect = "move";
       const item = e.target.closest("[data-index]");
@@ -438,6 +442,12 @@ Hooks.SlideSortable = {
         const to = parseInt(item.dataset.index);
         if (to !== this.from) {
           this.pushEvent("reorder-slides", { from: this.from, to: to });
+        }
+      } else if (item && isInteractionDrag(e)) {
+        const data = JSON.parse(e.dataTransfer.getData(INTERACTION_DRAG_TYPE));
+        const to = parseInt(item.dataset.index);
+        if (to !== data.position) {
+          this.pushEvent("move-interaction", { id: data.id, type: data.type, to: to });
         }
       }
       this.reset();
@@ -456,6 +466,40 @@ Hooks.SlideSortable = {
     this.el
       .querySelectorAll("[data-index]")
       .forEach((n) => n.classList.remove("opacity-40"));
+  },
+};
+Hooks.InteractionDrag = {
+  mounted() {
+    this.el.addEventListener("dragstart", (e) => {
+      const item = e.target.closest("[data-interaction-id]");
+      if (!item) return;
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData(
+        INTERACTION_DRAG_TYPE,
+        JSON.stringify({
+          id: parseInt(item.dataset.interactionId),
+          type: item.dataset.interactionType,
+          position: parseInt(item.dataset.interactionPosition),
+        }),
+      );
+      const rect = item.getBoundingClientRect();
+      const ghost = item.cloneNode(true);
+      ghost.style.width = `${rect.width}px`;
+      ghost.style.position = "fixed";
+      ghost.style.top = "-1000px";
+      ghost.style.left = "-1000px";
+      ghost.style.pointerEvents = "none";
+      document.body.appendChild(ghost);
+      e.dataTransfer.setDragImage(ghost, e.clientX - rect.left, e.clientY - rect.top);
+      setTimeout(() => ghost.remove(), 0);
+      setTimeout(() => item.classList.add("opacity-40"), 0);
+    });
+
+    this.el.addEventListener("dragend", () => {
+      this.el
+        .querySelectorAll("[data-interaction-id]")
+        .forEach((n) => n.classList.remove("opacity-40"));
+    });
   },
 };
 Hooks.OpenPresenter = {

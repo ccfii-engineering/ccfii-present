@@ -38,7 +38,11 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
       )
 
     ~H"""
-    <div class="relative flex flex-col gap-2 border border-gray-200 rounded-2xl p-2">
+    <div
+      id="interaction-drag-list"
+      phx-hook="InteractionDrag"
+      class="relative flex flex-col gap-2 border border-gray-200 rounded-2xl p-2"
+    >
       <div class="flex items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -357,13 +361,19 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
       </div>
 
       <%= for interaction <- @paginated do %>
-        <div class={[
-          "flex items-center gap-2 overflow-hidden pl-2 pr-3 py-2 rounded-xl w-full",
-          if(interaction.enabled,
-            do: "bg-gray-100 border-b-2 border-accent",
-            else: "bg-white border border-gray-200"
-          )
-        ]}>
+        <div
+          draggable="true"
+          data-interaction-id={interaction.id}
+          data-interaction-type={type_key(interaction)}
+          data-interaction-position={interaction.position}
+          class={[
+            "flex items-center gap-2 overflow-hidden pl-2 pr-3 py-2 rounded-xl w-full cursor-grab active:cursor-grabbing",
+            if(interaction.enabled,
+              do: "bg-gray-100 border-b-2 border-accent",
+              else: "bg-white border border-gray-200"
+            )
+          ]}
+        >
           <div class={[
             "flex items-center justify-center rounded-full w-[42px] h-[41px] shrink-0",
             if(interaction.enabled, do: "bg-white", else: "bg-gray-100")
@@ -444,6 +454,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
 
           <.link
             patch={edit_path(@event_code, interaction)}
+            draggable="false"
             class="flex items-center justify-center rounded-full w-[42px] h-[41px] shrink-0 border border-[#140553] text-[#140553]"
           >
             <svg
@@ -515,6 +526,12 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
     </div>
     """
   end
+
+  defp type_key(%Claper.Polls.Poll{}), do: "poll"
+  defp type_key(%Claper.Forms.Form{}), do: "form"
+  defp type_key(%Claper.Embeds.Embed{}), do: "embed"
+  defp type_key(%Claper.Quizzes.Quiz{}), do: "quiz"
+  defp type_key(_), do: nil
 
   defp type_label(%Claper.Polls.Poll{}), do: gettext("Poll")
   defp type_label(%Claper.Forms.Form{}), do: gettext("Form")
