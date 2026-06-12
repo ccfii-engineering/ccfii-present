@@ -7,6 +7,7 @@ defmodule Claper.Presentations.PresentationFile do
           hash: String.t() | nil,
           length: integer() | nil,
           status: String.t() | nil,
+          slide_order: [integer()] | nil,
           event_id: integer() | nil,
           polls: [Claper.Polls.Poll.t()] | nil,
           forms: [Claper.Forms.Form.t()] | nil,
@@ -21,6 +22,7 @@ defmodule Claper.Presentations.PresentationFile do
     field :hash, :string
     field :length, :integer
     field :status, :string
+    field :slide_order, {:array, :integer}
 
     belongs_to :event, Claper.Events.Event
     has_many :polls, Claper.Polls.Poll
@@ -37,7 +39,7 @@ defmodule Claper.Presentations.PresentationFile do
   @doc false
   def changeset(presentation_file, attrs) do
     presentation_file
-    |> cast(attrs, [:length, :status, :hash, :event_id])
+    |> cast(attrs, [:length, :status, :hash, :event_id, :slide_order])
     |> cast_assoc(:presentation_state)
   end
 end

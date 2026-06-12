@@ -40,13 +40,15 @@ defmodule ClaperWeb.EventLive.ManageSlideSidebarComponent do
 
         <span class="font-bold text-sm text-[#140553]">{gettext("Content")}</span>
       </div>
-      <div class="flex-1 overflow-y-auto p-3 space-y-2">
+      <div id="slide-sortable" phx-hook="SlideSortable" class="flex-1 overflow-y-auto p-3 space-y-2">
         <button
           :for={{src, index} <- @thumbnail_urls |> Enum.with_index(0)}
           id={"slide-thumb-#{index}"}
+          draggable="true"
+          data-index={index}
           phx-click="current-page"
           phx-value-page={index}
-          class={"group flex items-start gap-x-1.5 w-full rounded-lg p-1 transition-all hover:bg-gray-200 #{if @current_position == index, do: "bg-primary-50"}"}
+          class={"group flex items-start gap-x-1.5 w-full rounded-lg p-1 transition-all cursor-grab active:cursor-grabbing hover:bg-gray-200 #{if @current_position == index, do: "bg-primary-50"}"}
         >
           <span class={"flex-shrink-0 w-5 text-base font-semibold #{if @current_position == index, do: "text-primary-600", else: "text-gray-500"}"}>
             {index + 1}
@@ -54,6 +56,7 @@ defmodule ClaperWeb.EventLive.ManageSlideSidebarComponent do
           <div class={"relative w-28 aspect-video rounded-md overflow-hidden border-2 transition-all #{if @current_position == index, do: "border-primary-500 shadow-md", else: "border-transparent opacity-60 group-hover:opacity-100"}"}>
             <img
               src={src}
+              draggable="false"
               loading="lazy"
               decoding="async"
               class="w-full h-full object-cover"

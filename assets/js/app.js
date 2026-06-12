@@ -407,6 +407,57 @@ Hooks.Manager = {
     this.manager.update();
   },
 };
+Hooks.SlideSortable = {
+  mounted() {
+    this.from = null;
+
+    this.el.addEventListener("dragstart", (e) => {
+      const item = e.target.closest("[data-index]");
+      if (!item) return;
+      this.from = parseInt(item.dataset.index);
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/plain", item.dataset.index);
+      setTimeout(() => item.classList.add("opacity-40"), 0);
+    });
+
+    this.el.addEventListener("dragover", (e) => {
+      if (this.from === null) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      const item = e.target.closest("[data-index]");
+      this.clearDropTarget();
+      if (item && parseInt(item.dataset.index) !== this.from) {
+        item.classList.add("ring-2", "ring-primary-500");
+      }
+    });
+
+    this.el.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const item = e.target.closest("[data-index]");
+      if (item && this.from !== null) {
+        const to = parseInt(item.dataset.index);
+        if (to !== this.from) {
+          this.pushEvent("reorder-slides", { from: this.from, to: to });
+        }
+      }
+      this.reset();
+    });
+
+    this.el.addEventListener("dragend", () => this.reset());
+  },
+  clearDropTarget() {
+    this.el
+      .querySelectorAll("[data-index]")
+      .forEach((n) => n.classList.remove("ring-2", "ring-primary-500"));
+  },
+  reset() {
+    this.from = null;
+    this.clearDropTarget();
+    this.el
+      .querySelectorAll("[data-index]")
+      .forEach((n) => n.classList.remove("opacity-40"));
+  },
+};
 Hooks.OpenPresenter = {
   open(e) {
     e.preventDefault();

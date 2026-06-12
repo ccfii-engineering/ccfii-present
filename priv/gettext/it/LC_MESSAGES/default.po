@@ -20,7 +20,7 @@ msgstr "Impostazioni"
 #: lib/claper_web/live/admin_live/user_live.html.heex:41
 #: lib/claper_web/live/admin_live/user_live.html.heex:104
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:18
-#: lib/claper_web/live/event_live/manage.ex:1092
+#: lib/claper_web/live/event_live/manage.ex:1118
 #: lib/claper_web/live/form_live/form_component.html.heex:32
 #: lib/claper_web/live/user_settings_live/show.html.heex:18
 #: lib/claper_web/templates/user_registration/new.html.heex:63
@@ -692,7 +692,7 @@ msgstr "Modulo"
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:74
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:234
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:24
-#: lib/claper_web/live/event_live/manage.ex:1091
+#: lib/claper_web/live/event_live/manage.ex:1117
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "Nome"
@@ -1337,12 +1337,12 @@ msgstr "Ricarica la pagina che stai cercando di accedere (non reinviare i dati)"
 msgid "Try logging in again"
 msgstr "Prova ad accedere di nuovo"
 
-#: lib/claper_web/live/event_live/manage.ex:1064
+#: lib/claper_web/live/event_live/manage.ex:1090
 #, elixir-autogen, elixir-format
 msgid "No"
 msgstr "No"
 
-#: lib/claper_web/live/event_live/manage.ex:1064
+#: lib/claper_web/live/event_live/manage.ex:1090
 #, elixir-autogen, elixir-format
 msgid "Yes"
 msgstr "Sì"
@@ -2667,10 +2667,10 @@ msgstr "ID risorsa"
 msgid "Resource Type"
 msgstr "Tipo di risposta"
 
-#: lib/claper_web/live/event_live/manage.ex:1072
-#: lib/claper_web/live/event_live/manage.ex:1115
-#: lib/claper_web/live/event_live/manage.ex:1131
-#: lib/claper_web/live/event_live/manage.ex:1173
+#: lib/claper_web/live/event_live/manage.ex:1098
+#: lib/claper_web/live/event_live/manage.ex:1141
+#: lib/claper_web/live/event_live/manage.ex:1157
+#: lib/claper_web/live/event_live/manage.ex:1199
 #, elixir-autogen, elixir-format
 msgid "Resource not found"
 msgstr "Risorsa non trovata"
@@ -2908,7 +2908,7 @@ msgstr "Accedi per avviare o gestire le tue sessioni interattive."
 msgid "Could not regenerate thumbnails"
 msgstr "Impossibile rigenerare le miniature"
 
-#: lib/claper_web/live/event_live/manage.ex:461
+#: lib/claper_web/live/event_live/manage.ex:487
 #, elixir-autogen, elixir-format
 msgid "Could not start thumbnail regeneration"
 msgstr "Impossibile avviare la rigenerazione delle miniature"
@@ -2938,7 +2938,7 @@ msgstr "Rigenera miniature"
 msgid "Regenerating..."
 msgstr "Rigenerazione in corso..."
 
-#: lib/claper_web/live/event_live/manage.ex:458
+#: lib/claper_web/live/event_live/manage.ex:484
 #, elixir-autogen, elixir-format
 msgid "Thumbnail regeneration started"
 msgstr "Rigenerazione delle miniature avviata"
@@ -3246,7 +3246,7 @@ msgstr ""
 msgid "Transcription deleted"
 msgstr ""
 
-#: lib/claper_web/live/event_live/manage.ex:826
+#: lib/claper_web/live/event_live/manage.ex:852
 #, elixir-autogen, elixir-format
 msgid "Transcription has been disabled by the administrator"
 msgstr ""
@@ -3311,3 +3311,8 @@ msgstr "Illimitato"
 #, elixir-autogen, elixir-format
 msgid "Powered by"
 msgstr "Funziona con"
+
+#: lib/claper_web/live/event_live/manage.ex:452
+#, elixir-autogen, elixir-format
+msgid "Could not reorder slides"
+msgstr ""

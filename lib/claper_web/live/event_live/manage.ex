@@ -429,6 +429,32 @@ defmodule ClaperWeb.EventLive.Manage do
 
   @impl true
   def handle_event(
+        "reorder-slides",
+        %{"from" => from, "to" => to},
+        %{assigns: %{event: event, state: state}} = socket
+      )
+      when is_integer(from) and is_integer(to) and from != to do
+    case Presentations.reorder_slides(event.presentation_file, from, to) do
+      {:ok, _presentation_file, new_state} ->
+        if new_state && new_state.position != state.position do
+          Phoenix.PubSub.broadcast(
+            Claper.PubSub,
+            "event:#{event.uuid}",
+            {:page_changed, new_state.position}
+          )
+        end
+
+        socket = refresh_event(socket)
+
+        {:noreply, socket |> interactions_at_position(socket.assigns.state.position)}
+
+      {:error, _reason} ->
+        {:noreply, socket |> put_flash(:error, gettext("Could not reorder slides"))}
+    end
+  end
+
+  @impl true
+  def handle_event(
         "regenerate-thumbnails",
         _params,
         %{assigns: %{missing_slide_thumbnails: false}} = socket

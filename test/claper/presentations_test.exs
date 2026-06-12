@@ -64,6 +64,95 @@ defmodule Claper.PresentationsTest do
     end
   end
 
+  describe "slide ordering" do
+    import Claper.PresentationsFixtures
+    import Claper.PollsFixtures
+
+    test "get_slide_urls/1 and get_slide_thumbnail_urls/1 honor slide_order" do
+      put_local_storage_config(unique_storage_dir())
+
+      presentation_file = presentation_file_fixture(%{hash: "ordered", length: 3})
+
+      {:ok, presentation_file} =
+        Presentations.update_presentation_file(presentation_file, %{slide_order: [3, 1, 2]})
+
+      assert Presentations.get_slide_urls(presentation_file) == [
+               "/uploads/ordered/3.jpg",
+               "/uploads/ordered/1.jpg",
+               "/uploads/ordered/2.jpg"
+             ]
+
+      assert Presentations.get_slide_thumbnail_urls(presentation_file) == [
+               "/uploads/ordered/thumbs/3.jpg",
+               "/uploads/ordered/thumbs/1.jpg",
+               "/uploads/ordered/thumbs/2.jpg"
+             ]
+    end
+
+    test "a stale slide_order falls back to natural order" do
+      put_local_storage_config(unique_storage_dir())
+
+      presentation_file = presentation_file_fixture(%{hash: "stale", length: 3})
+
+      {:ok, presentation_file} =
+        Presentations.update_presentation_file(presentation_file, %{slide_order: [2, 1]})
+
+      assert Presentations.get_slide_urls(presentation_file) == [
+               "/uploads/stale/1.jpg",
+               "/uploads/stale/2.jpg",
+               "/uploads/stale/3.jpg"
+             ]
+    end
+
+    test "update_presentation_file/2 clears slide_order with a nil param" do
+      presentation_file = presentation_file_fixture()
+
+      {:ok, presentation_file} =
+        Presentations.update_presentation_file(presentation_file, %{slide_order: [2, 1]})
+
+      assert presentation_file.slide_order == [2, 1]
+
+      {:ok, presentation_file} =
+        Presentations.update_presentation_file(presentation_file, %{"slide_order" => nil})
+
+      assert is_nil(presentation_file.slide_order)
+    end
+
+    test "reorder_slides/3 remaps slide order, interactions and state position" do
+      presentation_file = presentation_file_fixture(%{length: 5})
+      presentation_state_fixture(%{presentation_file: presentation_file, position: 1})
+
+      poll_at_0 = poll_fixture(%{presentation_file_id: presentation_file.id, position: 0})
+      poll_at_3 = poll_fixture(%{presentation_file_id: presentation_file.id, position: 3})
+
+      # Move the slide displayed at position 3 to position 0
+      assert {:ok, presentation_file, state} =
+               Presentations.reorder_slides(presentation_file, 3, 0)
+
+      assert presentation_file.slide_order == [4, 1, 2, 3, 5]
+      assert state.position == 2
+      assert Claper.Polls.get_poll!(poll_at_0.id).position == 1
+      assert Claper.Polls.get_poll!(poll_at_3.id).position == 0
+
+      # Moving it back restores the natural order
+      assert {:ok, presentation_file, state} =
+               Presentations.reorder_slides(presentation_file, 0, 3)
+
+      assert presentation_file.slide_order == [1, 2, 3, 4, 5]
+      assert state.position == 1
+      assert Claper.Polls.get_poll!(poll_at_0.id).position == 0
+      assert Claper.Polls.get_poll!(poll_at_3.id).position == 3
+    end
+
+    test "reorder_slides/3 rejects invalid positions" do
+      presentation_file = presentation_file_fixture(%{length: 5})
+
+      assert {:error, :invalid_position} = Presentations.reorder_slides(presentation_file, 0, 0)
+      assert {:error, :invalid_position} = Presentations.reorder_slides(presentation_file, -1, 2)
+      assert {:error, :invalid_position} = Presentations.reorder_slides(presentation_file, 0, 5)
+    end
+  end
+
   describe "presentation_states" do
     alias Claper.Presentations.PresentationState
 

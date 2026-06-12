@@ -256,7 +256,8 @@ defmodule Claper.Tasks.Converter do
            Claper.Presentations.update_presentation_file(presentation, %{
              "hash" => "#{hash}",
              "length" => length,
-             "status" => "done"
+             "status" => "done",
+             "slide_order" => nil
            }) do
       if get_presentation_storage() != "local", do: File.rm_rf!(path)
 

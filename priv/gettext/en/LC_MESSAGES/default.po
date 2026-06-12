@@ -19,7 +19,7 @@ msgstr ""
 #: lib/claper_web/live/admin_live/user_live.html.heex:41
 #: lib/claper_web/live/admin_live/user_live.html.heex:104
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:18
-#: lib/claper_web/live/event_live/manage.ex:1092
+#: lib/claper_web/live/event_live/manage.ex:1118
 #: lib/claper_web/live/form_live/form_component.html.heex:32
 #: lib/claper_web/live/user_settings_live/show.html.heex:18
 #: lib/claper_web/templates/user_registration/new.html.heex:63
@@ -691,7 +691,7 @@ msgstr ""
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:74
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:234
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:24
-#: lib/claper_web/live/event_live/manage.ex:1091
+#: lib/claper_web/live/event_live/manage.ex:1117
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr ""
@@ -1336,12 +1336,12 @@ msgstr ""
 msgid "Try logging in again"
 msgstr ""
 
-#: lib/claper_web/live/event_live/manage.ex:1064
+#: lib/claper_web/live/event_live/manage.ex:1090
 #, elixir-autogen, elixir-format
 msgid "No"
 msgstr ""
 
-#: lib/claper_web/live/event_live/manage.ex:1064
+#: lib/claper_web/live/event_live/manage.ex:1090
 #, elixir-autogen, elixir-format
 msgid "Yes"
 msgstr ""
@@ -2666,10 +2666,10 @@ msgstr ""
 msgid "Resource Type"
 msgstr ""
 
-#: lib/claper_web/live/event_live/manage.ex:1072
-#: lib/claper_web/live/event_live/manage.ex:1115
-#: lib/claper_web/live/event_live/manage.ex:1131
-#: lib/claper_web/live/event_live/manage.ex:1173
+#: lib/claper_web/live/event_live/manage.ex:1098
+#: lib/claper_web/live/event_live/manage.ex:1141
+#: lib/claper_web/live/event_live/manage.ex:1157
+#: lib/claper_web/live/event_live/manage.ex:1199
 #, elixir-autogen, elixir-format
 msgid "Resource not found"
 msgstr ""
@@ -2907,7 +2907,7 @@ msgstr ""
 msgid "Could not regenerate thumbnails"
 msgstr ""
 
-#: lib/claper_web/live/event_live/manage.ex:461
+#: lib/claper_web/live/event_live/manage.ex:487
 #, elixir-autogen, elixir-format
 msgid "Could not start thumbnail regeneration"
 msgstr ""
@@ -2937,7 +2937,7 @@ msgstr ""
 msgid "Regenerating..."
 msgstr ""
 
-#: lib/claper_web/live/event_live/manage.ex:458
+#: lib/claper_web/live/event_live/manage.ex:484
 #, elixir-autogen, elixir-format
 msgid "Thumbnail regeneration started"
 msgstr ""
@@ -3245,7 +3245,7 @@ msgstr ""
 msgid "Transcription deleted"
 msgstr ""
 
-#: lib/claper_web/live/event_live/manage.ex:826
+#: lib/claper_web/live/event_live/manage.ex:852
 #, elixir-autogen, elixir-format
 msgid "Transcription has been disabled by the administrator"
 msgstr ""
@@ -3309,4 +3309,9 @@ msgstr ""
 #: lib/claper_web/live/event_live/show.html.heex:515
 #, elixir-autogen, elixir-format
 msgid "Powered by"
+msgstr ""
+
+#: lib/claper_web/live/event_live/manage.ex:452
+#, elixir-autogen, elixir-format
+msgid "Could not reorder slides"
 msgstr ""
