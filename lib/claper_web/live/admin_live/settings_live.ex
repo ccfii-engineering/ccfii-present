@@ -35,19 +35,22 @@ defmodule ClaperWeb.AdminLive.SettingsLive do
       Settings.set_encrypted("transcription_api_key", api_key)
     end
 
-    # Save default language
-    language = params["transcription_default_language"]
-
-    if language == "" do
-      Settings.set("transcription_default_language", nil)
-    else
-      Settings.set("transcription_default_language", language)
+    # Save default language (field is hidden when transcription is disabled)
+    case params["transcription_default_language"] do
+      nil -> :noop
+      "" -> Settings.set("transcription_default_language", nil)
+      language -> Settings.set("transcription_default_language", language)
     end
 
     {:noreply,
      socket
      |> put_flash(:info, gettext("Settings saved successfully"))
      |> load_settings()}
+  end
+
+  @impl true
+  def handle_event("toggle_transcription", params, socket) do
+    {:noreply, assign(socket, :transcription_enabled, params["value"] == "true")}
   end
 
   @impl true

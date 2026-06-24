@@ -16,7 +16,7 @@ defmodule ClaperWeb.Component.Alert do
     <div
       class={[
         "alert shadow-lg",
-        @kind == :info && "alert-success",
+        @kind == :info && "alert-success text-white",
         @kind == :error && "alert-error"
       ]}
       x-data="{ open: true }"

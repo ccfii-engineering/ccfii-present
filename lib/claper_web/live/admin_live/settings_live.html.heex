@@ -22,6 +22,7 @@
             value="true"
             class="toggle toggle-primary"
             checked={@transcription_enabled}
+            phx-click="toggle_transcription"
           />
           <div>
             <span class="label-text font-medium">
@@ -33,9 +34,9 @@
           </div>
         </label>
       </div>
-      
+
 <!-- API Key -->
-      <div class="form-control mb-6">
+      <div :if={@transcription_enabled} class="form-control mb-6">
         <label class="label">
           <span class="label-text font-medium">{gettext("Mistral API Key")}</span>
         </label>
@@ -71,7 +72,7 @@
       </div>
       
 <!-- Default Language -->
-      <div class="form-control mb-6">
+      <div :if={@transcription_enabled} class="form-control mb-6">
         <label class="label">
           <span class="label-text font-medium">{gettext("Default Language")}</span>
         </label>
