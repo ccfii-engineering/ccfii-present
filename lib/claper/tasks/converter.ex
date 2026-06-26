@@ -8,6 +8,8 @@ defmodule Claper.Tasks.Converter do
   alias Claper.Presentations.PresentationFile
   alias Porcelain.Result
 
+  @imagemagick_commands ~w(magick convert convert-im6.q16)
+
   @doc """
   Convert the presentation file to images.
   We use original hash :erlang.phash2(code-name) where the files are uploaded to send it to another folder with a new hash. This last stored in db.
@@ -157,17 +159,14 @@ defmodule Claper.Tasks.Converter do
 
     files = Path.wildcard("#{path}/*.jpg")
 
-    if Enum.empty?(files) do
-      {:error, :missing_slides}
-    else
+    with [_ | _] <- files,
+         {:ok, imagemagick_command} <- get_imagemagick_command() do
       result =
         Enum.reduce_while(files, :ok, fn file, _acc ->
           thumb_path = Path.join(thumbs_dir, Path.basename(file))
 
-          # Generate thumbnail with 200px width, maintaining aspect ratio
-          # Using "magick" for ImageMagick v7+ compatibility
           case Porcelain.exec(
-                 "magick",
+                 imagemagick_command,
                  [
                    file,
                    "-resize",
@@ -187,6 +186,16 @@ defmodule Claper.Tasks.Converter do
       end
 
       result
+    else
+      [] -> {:error, :missing_slides}
+      {:error, _reason} = error -> error
+    end
+  end
+
+  defp get_imagemagick_command do
+    case Enum.find(@imagemagick_commands, &System.find_executable/1) do
+      nil -> {:error, :missing_imagemagick}
+      command -> {:ok, command}
     end
   end
 

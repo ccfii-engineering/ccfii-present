@@ -37,6 +37,7 @@ RUN apt-get update && apt-get install -y \
     libtool \
     openjdk-11-jdk \
     ghostscript \
+    imagemagick \
     libreoffice \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*

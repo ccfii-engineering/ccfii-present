@@ -64,7 +64,7 @@ RUN mix release
 # the compiled release and other runtime necessities
 FROM ${RUNNER_IMAGE}
 
-RUN apt-get update -y && apt-get install -y curl libstdc++6 openssl locales ghostscript default-jre libreoffice-java-common \
+RUN apt-get update -y && apt-get install -y curl libstdc++6 openssl locales ghostscript imagemagick default-jre libreoffice-java-common \
   && apt-get install -y libreoffice --no-install-recommends && apt-get clean && rm -f /var/lib/apt/lists/*_*
 # RUN apk add --no-cache curl libstdc++ openssl ncurses ghostscript openjdk11-jre
 
