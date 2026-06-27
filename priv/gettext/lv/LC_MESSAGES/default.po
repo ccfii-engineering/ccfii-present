@@ -66,11 +66,6 @@ msgstr "Izrakstīties"
 msgid "Personal informations"
 msgstr "Personīgā informācija"
 
-#: lib/claper_web/templates/user_registration/confirm.html.heex:13
-#, elixir-autogen, elixir-format
-msgid "We already sent you an email to login, please retry in 5 minutes."
-msgstr "Mēs jau nosūtījām jums e-pastu, lai pieteiktos. Lūdzu, mēģiniet vēlreiz pēc 5 minūtēm."
-
 #: lib/claper_web/templates/user_registration/confirm.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "We sent you an email at"
@@ -250,7 +245,7 @@ msgstr "Mainiet e-pasta adresi, kuru vēlaties saistīt ar savu kontu."
 #: lib/claper_web/live/user_settings_live/show.ex:50
 #, elixir-autogen, elixir-format
 msgid "Update your email"
-msgstr "Atjauniniet savu e-pasta adresi"
+msgstr "Mainiet savu e-pasta adresi"
 
 #: lib/claper_web/notifiers/user_notifier.ex:12
 #: lib/claper_web/templates/user_notifier/magic.html.heex:17
@@ -319,7 +314,7 @@ msgstr "Izvēlieties savu prezentāciju"
 #: lib/claper_web/live/event_live/event_form_component.html.heex:91
 #, elixir-autogen, elixir-format
 msgid "Upload a file"
-msgstr "Failu augšupielāde"
+msgstr "Importēt failu"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:95
 #, elixir-autogen, elixir-format
@@ -364,7 +359,7 @@ msgstr "Jūsu aptaujas nosaukums"
 #: lib/claper_web/live/event_live/event_form_component.ex:324
 #, elixir-autogen, elixir-format
 msgid "Upload failed"
-msgstr "Neizdevās augšupielādēt"
+msgstr "Neizdevās importēt"
 
 #: lib/claper_web/live/event_live/manage.html.heex:84
 #, elixir-autogen, elixir-format
@@ -470,7 +465,7 @@ msgstr "Ja jums rodas problēmas ar iepriekš norādīto pogu, nokopējiet un ie
 #: lib/claper_web/live/event_live/manageable_post_component.ex:120
 #, elixir-autogen, elixir-format
 msgid "Blocking this user will delete all his messages and he will not be able to join again, confirm ?"
-msgstr "Bloķējot šo lietotāju, tiks dzēsti visi lietotāja ziņojumi un viņš vairs nevarēs pievienoties, apstipriniet?"
+msgstr "Bloķējot šo lietotāju, tiks dzēsti visi viņa ziņojumi, un viņš vairs nevarēs pievienoties notikumam. Vai apstiprināt?"
 
 #: lib/claper_web/live/event_live/show.ex:64
 #: lib/claper_web/live/event_live/show.ex:224
@@ -518,12 +513,12 @@ msgstr "Noklikšķiniet uz <span style='font-weight: 700'>Prezentēt/Pielāgot</
 #: lib/claper_web/templates/user_notifier/welcome.html.heex:22
 #, elixir-autogen, elixir-format
 msgid "Congrats! You've taken the first step to improving your presentations. Here are the next steps to create step up your presentations with Claper:"
-msgstr "Apsveicam! Jūs esat spēruši pirmo soli, lai uzlabotu savas prezentācijas. Šeit ir nākamie soļi, lai ar Claper uzlabotu savas prezentācijas:"
+msgstr "Apsveicam! Jūs esat spēruši pirmo soli, lai uzlabotu savas prezentācijas. Šeit ir nākamie soļi, lai ar Claper padarītu savas prezentācijas saistošākas:"
 
 #: lib/claper_web/templates/user_notifier/welcome.html.heex:69
 #, elixir-autogen, elixir-format
 msgid "Enjoy ! ✨"
-msgstr "Izbaudiet! ✨"
+msgstr "Veiksmīgu prezentāciju! ✨"
 
 #: lib/claper_web/templates/user_registration/confirm.html.heex:20
 #, elixir-autogen, elixir-format
@@ -566,7 +561,7 @@ msgstr "Nav nosūtīts neviens ziņojums"
 #: lib/claper_web/live/event_live/event_card_component.ex:819
 #, elixir-autogen, elixir-format
 msgid "This will delete all data related to your event, this cannot be undone. Confirm ?"
-msgstr "Tādējādi tiks dzēsti visi ar jūsu notikumu saistītie dati, un to nevar atcelt. Apstiprināt?"
+msgstr "Šī darbība dzēsīs visus ar jūsu notikumu saistītos datus. Tā ir neatgriezeniska. Vai apstiprināt?"
 
 #: lib/claper_web/live/event_live/manage.html.heex:465
 #: lib/claper_web/live/event_live/manage.html.heex:472
@@ -599,13 +594,6 @@ msgstr "Kļūda apstrādājot failu"
 #, elixir-autogen, elixir-format
 msgid "About"
 msgstr "Par"
-
-#: lib/claper_web/live/event_live/join.html.heex:75
-#: lib/claper_web/live/event_live/join.html.heex:105
-#: lib/claper_web/templates/user_session/new.html.heex:78
-#, elixir-autogen, elixir-format
-msgid "Login"
-msgstr "Pieteikšanās"
 
 #: lib/claper_web/live/event_live/show.html.heex:509
 #, elixir-autogen, elixir-format
@@ -930,20 +918,10 @@ msgstr "Rādīt tikai piespraustos ziņojumus"
 msgid "Unpin"
 msgstr "Atspraust"
 
-#: lib/claper_web/templates/leader_notifier/invitation.html.heex:35
-#, elixir-autogen, elixir-format
-msgid "Login or create account"
-msgstr "Pieslēdzieties vai izveidojiet kontu"
-
 #: lib/claper_web/templates/leader_notifier/invitation.html.heex:22
 #, elixir-autogen, elixir-format
 msgid "Someone invited you to manage the event: %{name}"
 msgstr "Kāds jūs uzaicināja vadīt pasākumu: %{name}"
-
-#: lib/claper_web/templates/leader_notifier/invitation.html.heex:25
-#, elixir-autogen, elixir-format
-msgid "To accept the invitation, please login or create an account with this email: %{email}"
-msgstr "Lai pieņemtu ielūgumu, lūdzu, piesakieties vai izveidojiet kontu, izmantojot šo e-pasta adresi: %{email}"
 
 #: lib/claper_web/templates/leader_notifier/invitation.html.heex:17
 #, elixir-autogen, elixir-format
@@ -964,7 +942,7 @@ msgstr "Saglabāts"
 #: lib/claper_web/live/user_settings_live/show.html.heex:378
 #, elixir-autogen, elixir-format
 msgid "All your events and files will be permanently deleted, are you sure?"
-msgstr "Visi jūsu notikumi un faili tiks neatgriezeniski dzēsti, vai esat pārliecināti?"
+msgstr "Visi jūsu notikumi un faili tiks neatgriezeniski dzēsti. Vai esat pārliecināti?"
 
 #: lib/claper_web/live/event_live/event_card_component.ex:233
 #: lib/claper_web/live/event_live/event_card_component.ex:449
@@ -1196,11 +1174,6 @@ msgstr "Saistītie konti"
 msgid "Are you sure you want to unlink this account?"
 msgstr "Vai esat pārliecināti, ka vēlaties atcelt šī konta sasaisti?"
 
-#: lib/claper_web/templates/user_session/new.html.heex:90
-#, elixir-autogen, elixir-format
-msgid "Login with %{provider}"
-msgstr "Pieteikšanās ar %{provider}"
-
 #: lib/claper_web/live/user_settings_live/show.ex:101
 #: lib/claper_web/live/user_settings_live/show.ex:115
 #, elixir-autogen, elixir-format
@@ -1299,11 +1272,6 @@ msgstr "Dublēt"
 #, elixir-autogen, elixir-format
 msgid "A required security token was not found or was invalid."
 msgstr "Nepieciešamais drošības žetons netika atrasts vai bija nederīgs."
-
-#: lib/claper_web/templates/error/csrf_error.html.heex:26
-#, elixir-autogen, elixir-format
-msgid "Back to Login"
-msgstr "Atgriezties pie pieteikšanās"
 
 #: lib/claper_web/templates/error/csrf_error.html.heex:5
 #, elixir-autogen, elixir-format
@@ -1643,11 +1611,6 @@ msgstr "Ielādēt vairāk"
 msgid "Shared with you"
 msgstr "Kopīgots ar jums"
 
-#: lib/claper_web/templates/lti/registration/new.html.heex:39
-#, elixir-autogen, elixir-format
-msgid "You must login to continue"
-msgstr "Jums ir jāpiesakās, lai turpinātu"
-
 #: lib/claper/quizzes/quiz_question.ex:51
 #, elixir-autogen, elixir-format
 msgid "must have at least one correct answer"
@@ -1731,11 +1694,6 @@ msgstr "Piešķirtais lietotājs"
 #, elixir-autogen, elixir-format
 msgid "Audience Peak"
 msgstr "Auditorijas maksimums"
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:103
-#, elixir-autogen, elixir-format
-msgid "Authorization Code"
-msgstr "Autorizācijas kods"
 
 #: lib/claper_web/live/admin_live/event_live/form_component.ex:80
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:147
@@ -1938,30 +1896,10 @@ msgstr "Beidzies"
 msgid "File selected"
 msgstr "Fails izvēlēts"
 
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:121
-#, elixir-autogen, elixir-format
-msgid "Form Post"
-msgstr "Form Post"
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:120
-#, elixir-autogen, elixir-format
-msgid "Fragment"
-msgstr "Fragments"
-
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:125
 #, elixir-autogen, elixir-format
 msgid "How the authorization response should be returned (defaults to 'query')"
 msgstr "Kā jāatgriež autorizācijas atbilde (noklusējums: 'query')"
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:105
-#, elixir-autogen, elixir-format
-msgid "Hybrid"
-msgstr "Hibrīds"
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:104
-#, elixir-autogen, elixir-format
-msgid "Implicit"
-msgstr "Netiešs"
 
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:140
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:270
@@ -2088,11 +2026,6 @@ msgstr "Nodrošinātājs veiksmīgi izveidots"
 msgid "Provider updated successfully"
 msgstr "Nodrošinātājs veiksmīgi atjaunināts."
 
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:119
-#, elixir-autogen, elixir-format
-msgid "Query"
-msgstr "Vaicājums"
-
 #: lib/claper_web/live/admin_live/dashboard_live.html.heex:100
 #, elixir-autogen, elixir-format
 msgid "Recent Events"
@@ -2102,11 +2035,6 @@ msgstr "Nesenie pasākumi"
 #, elixir-autogen, elixir-format
 msgid "Redirect URI"
 msgstr "Pāradresēšanas URI"
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:117
-#, elixir-autogen, elixir-format
-msgid "Response Mode"
-msgstr "Atbildes režīms"
 
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:250
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:101
@@ -2300,16 +2228,6 @@ msgstr "dalībnieku"
 #, elixir-autogen, elixir-format
 msgid "https://example.com"
 msgstr "https://example.com"
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:75
-#, elixir-autogen, elixir-format
-msgid "https://yourapp.com/auth/callback"
-msgstr "https://yourapp.com/auth/callback"
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:90
-#, elixir-autogen, elixir-format
-msgid "openid email profile"
-msgstr "openid email profile"
 
 #: lib/claper_web/live/admin_live/dashboard_live.html.heex:28
 #: lib/claper_web/live/admin_live/dashboard_live.html.heex:50
@@ -2741,7 +2659,7 @@ msgstr "Vismaz 6 rakstzīmes"
 #: lib/claper_web/templates/user_registration/new.html.heex:21
 #, elixir-autogen, elixir-format
 msgid "Thousands of presenters already use Claper to engage their audience in real time."
-msgstr "Tūkstošiem prezentētāju jau izmanto Claper, lai iesaistītu savu auditoriju reāllaikā."
+msgstr "Tūkstošiem prezentētāju jau izmanto Claper, lai mudinātu savu auditoriju piedalīties reāllaikā."
 
 #: lib/claper_web/templates/user_registration/new.html.heex:118
 #, elixir-autogen, elixir-format
@@ -2753,11 +2671,14 @@ msgstr "Izveidojot kontu, jūs piekrītat mūsu"
 msgid "Join 6,000+ speakers"
 msgstr "Pievienojieties 6000+ runātājiem"
 
+#: lib/claper_web/live/event_live/join.html.heex:75
+#: lib/claper_web/live/event_live/join.html.heex:105
 #: lib/claper_web/templates/user_registration/new.html.heex:108
 #: lib/claper_web/templates/user_session/new.html.heex:37
+#: lib/claper_web/templates/user_session/new.html.heex:78
 #, elixir-autogen, elixir-format
 msgid "Log in"
-msgstr "Pieteikšanās"
+msgstr "Pieteikties"
 
 #: lib/claper_web/templates/user_registration/new.html.heex:130
 #, elixir-autogen, elixir-format
@@ -2782,7 +2703,7 @@ msgstr "Pakalpojumu noteikumi"
 #: lib/claper_web/templates/user_registration/new.html.heex:18
 #, elixir-autogen, elixir-format
 msgid "Make your presentations stand out with live audience interaction."
-msgstr "Izceliet savas prezentācijas ar tiešsaistes auditorijas mijiedarbību."
+msgstr "Padariet savas prezentācijas neaizmirstamas ar tiešsaistes auditorijas mijiedarbību."
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:72
 #, elixir-autogen, elixir-format
@@ -2804,12 +2725,6 @@ msgstr "you@example.com"
 #, elixir-autogen, elixir-format
 msgid "Open your dashboard, launch a session, and let your audience interact in real time."
 msgstr "Atveriet savu paneli, sāciet sesiju un ļaujiet auditorijai mijiedarboties reāllaikā."
-
-#: lib/claper_web/templates/user_reset_password/edit.html.heex:95
-#: lib/claper_web/templates/user_reset_password/new.html.heex:78
-#, elixir-autogen, elixir-format
-msgid "Back to login"
-msgstr "Atgriezties pie pieteikšanās"
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:18
 #, elixir-autogen, elixir-format
@@ -2869,17 +2784,17 @@ msgstr "Iestatiet jaunu paroli zemāk un izmantojiet to nākamajā pieteikšanā
 #: lib/claper_web/templates/user_session/new.html.heex:18
 #, elixir-autogen, elixir-format
 msgid "Run live polls, Q&A, and reactions right from your slides."
-msgstr "Palaidiet tiešsaistes aptaujas, jautājumus un reakcijas tieši no saviem slaidiem."
+msgstr "Palaidiet tiešsaistes aptaujas, jautājumu un atbilžu sesijas un reakcijas tieši no saviem slaidiem."
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:86
 #, elixir-autogen, elixir-format
 msgid "Still new here?"
-msgstr "Vēl esat jauns šeit?"
+msgstr "Jauns šeit?"
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:21
 #, elixir-autogen, elixir-format
 msgid "Choose something secure that you'll remember, then you're all set."
-msgstr "Izvēlieties kaut ko drošu, ko atcerēsieties, un viss ir gatavs."
+msgstr "Izvēlieties drošu paroli, ko atcerēsieties, un viss ir gatavs."
 
 #: lib/claper_web/templates/user_reset_password/new.html.heex:21
 #, elixir-autogen, elixir-format
@@ -2951,12 +2866,12 @@ msgstr "Sīktēlu atjaunošana sākta"
 msgid "Thumbnails regenerated successfully"
 msgstr "Sīktēli veiksmīgi atjaunoti"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:59
+#: lib/claper_web/live/admin_live/settings_live.ex:62
 #, elixir-autogen, elixir-format
 msgid "API key cleared"
 msgstr "API atslēga notīrīta"
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:67
+#: lib/claper_web/live/admin_live/settings_live.html.heex:68
 #, elixir-autogen, elixir-format
 msgid "API key is configured"
 msgstr "API atslēga ir konfigurēta"
@@ -2966,13 +2881,13 @@ msgstr "API atslēga ir konfigurēta"
 msgid "Add real-time subtitles from your microphone."
 msgstr "Pievienojiet reāllaika subtitrus no sava mikrofona."
 
-#: lib/claper_web/live/admin_live/settings_live.ex:86
+#: lib/claper_web/live/admin_live/settings_live.ex:89
 #: lib/claper_web/live/transcription_live/form_component.ex:21
 #, elixir-autogen, elixir-format
 msgid "Arabic"
 msgstr "Arābu"
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:59
+#: lib/claper_web/live/admin_live/settings_live.html.heex:60
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to clear the API key?"
 msgstr "Vai esat pārliecināti, ka vēlaties dzēst API atslēgu?"
@@ -2987,19 +2902,19 @@ msgstr "Vai esat pārliecināti, ka vēlaties dzēst šo transkripciju?"
 msgid "Attendee only"
 msgstr "Tikai dalībnieki"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:73
+#: lib/claper_web/live/admin_live/settings_live.ex:76
 #: lib/claper_web/live/transcription_live/form_component.ex:8
 #, elixir-autogen, elixir-format
 msgid "Auto-detect"
 msgstr "Automātiska noteikšana"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:84
+#: lib/claper_web/live/admin_live/settings_live.ex:87
 #: lib/claper_web/live/transcription_live/form_component.ex:19
 #, elixir-autogen, elixir-format
 msgid "Chinese"
 msgstr "Ķīniešu"
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:61
+#: lib/claper_web/live/admin_live/settings_live.html.heex:62
 #, elixir-autogen, elixir-format
 msgid "Clear"
 msgstr "Notīrīt"
@@ -3014,18 +2929,18 @@ msgstr "Konfigurējiet Mistral API reāllaika transkripcijas funkcijām."
 msgid "Could not delete transcription"
 msgstr "Neizdevās dzēst transkripciju"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:91
+#: lib/claper_web/live/admin_live/settings_live.ex:94
 #: lib/claper_web/live/transcription_live/form_component.ex:26
 #, elixir-autogen, elixir-format
 msgid "Danish"
 msgstr "Dāņu"
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:76
+#: lib/claper_web/live/admin_live/settings_live.html.heex:77
 #, elixir-autogen, elixir-format
 msgid "Default Language"
 msgstr "Noklusējuma valoda"
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:85
+#: lib/claper_web/live/admin_live/settings_live.html.heex:86
 #, elixir-autogen, elixir-format
 msgid "Default language for new transcription sessions. Can be overridden per event."
 msgstr "Noklusējuma valoda jaunām transkripcijas sesijām. To var mainīt katram pasākumam atsevišķi."
@@ -3040,7 +2955,7 @@ msgstr "Dzēst transkripciju"
 msgid "Disabled"
 msgstr "Atspējots"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:80
+#: lib/claper_web/live/admin_live/settings_live.ex:83
 #: lib/claper_web/live/transcription_live/form_component.ex:15
 #, elixir-autogen, elixir-format
 msgid "Dutch"
@@ -3051,65 +2966,65 @@ msgstr "Holandiešu"
 msgid "Edit transcription"
 msgstr "Rediģēt transkripciju"
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:28
+#: lib/claper_web/live/admin_live/settings_live.html.heex:29
 #, elixir-autogen, elixir-format
 msgid "Enable transcription feature globally"
 msgstr "Iespējot transkripcijas funkciju globāli"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:74
+#: lib/claper_web/live/admin_live/settings_live.ex:77
 #: lib/claper_web/live/transcription_live/form_component.ex:9
 #, elixir-autogen, elixir-format
 msgid "English"
 msgstr "Angļu"
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:49
+#: lib/claper_web/live/admin_live/settings_live.html.heex:50
 #, elixir-autogen, elixir-format
 msgid "Enter your Mistral API key"
 msgstr "Ievadiet savu Mistral API atslēgu"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:92
+#: lib/claper_web/live/admin_live/settings_live.ex:95
 #: lib/claper_web/live/transcription_live/form_component.ex:27
 #, elixir-autogen, elixir-format
 msgid "Finnish"
 msgstr "Somu"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:75
+#: lib/claper_web/live/admin_live/settings_live.ex:78
 #: lib/claper_web/live/transcription_live/form_component.ex:10
 #, elixir-autogen, elixir-format
 msgid "French"
 msgstr "Franču"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:76
+#: lib/claper_web/live/admin_live/settings_live.ex:79
 #: lib/claper_web/live/transcription_live/form_component.ex:11
 #, elixir-autogen, elixir-format
 msgid "German"
 msgstr "Vācu"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:87
+#: lib/claper_web/live/admin_live/settings_live.ex:90
 #: lib/claper_web/live/transcription_live/form_component.ex:22
 #, elixir-autogen, elixir-format
 msgid "Hindi"
 msgstr "Hindi"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:78
+#: lib/claper_web/live/admin_live/settings_live.ex:81
 #: lib/claper_web/live/transcription_live/form_component.ex:13
 #, elixir-autogen, elixir-format
 msgid "Italian"
 msgstr "Itāļu"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:83
+#: lib/claper_web/live/admin_live/settings_live.ex:86
 #: lib/claper_web/live/transcription_live/form_component.ex:18
 #, elixir-autogen, elixir-format
 msgid "Japanese"
 msgstr "Japāņu"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:85
+#: lib/claper_web/live/admin_live/settings_live.ex:88
 #: lib/claper_web/live/transcription_live/form_component.ex:20
 #, elixir-autogen, elixir-format
 msgid "Korean"
 msgstr "Korejiešu"
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:48
+#: lib/claper_web/live/admin_live/settings_live.html.heex:49
 #, elixir-autogen, elixir-format
 msgid "Leave blank to keep current key"
 msgstr "Atstājiet tukšu, lai saglabātu pašreizējo atslēgu"
@@ -3134,7 +3049,7 @@ msgstr "Mikrofons"
 msgid "Microphone selection is saved locally in your browser."
 msgstr "Mikrofona izvēle tiek saglabāta lokāli jūsu pārlūkprogrammā."
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:40
+#: lib/claper_web/live/admin_live/settings_live.html.heex:41
 #, elixir-autogen, elixir-format
 msgid "Mistral API Key"
 msgstr "Mistral API atslēga"
@@ -3144,7 +3059,7 @@ msgstr "Mistral API atslēga"
 msgid "New transcription"
 msgstr "Jauna transkripcija"
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:68
+#: lib/claper_web/live/admin_live/settings_live.html.heex:69
 #, elixir-autogen, elixir-format
 msgid "No API key configured"
 msgstr "Nav konfigurēta API atslēga"
@@ -3155,19 +3070,19 @@ msgstr "Nav konfigurēta API atslēga"
 msgid "No transcriptions found"
 msgstr "Nav atrasta neviena transkripcija"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:90
+#: lib/claper_web/live/admin_live/settings_live.ex:93
 #: lib/claper_web/live/transcription_live/form_component.ex:25
 #, elixir-autogen, elixir-format
 msgid "Norwegian"
 msgstr "Norvēģu"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:81
+#: lib/claper_web/live/admin_live/settings_live.ex:84
 #: lib/claper_web/live/transcription_live/form_component.ex:16
 #, elixir-autogen, elixir-format
 msgid "Polish"
 msgstr "Poļu"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:79
+#: lib/claper_web/live/admin_live/settings_live.ex:82
 #: lib/claper_web/live/transcription_live/form_component.ex:14
 #, elixir-autogen, elixir-format
 msgid "Portuguese"
@@ -3183,13 +3098,13 @@ msgstr "Prezentētājs un dalībnieks"
 msgid "Presenter only"
 msgstr "Tikai prezentētājs"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:82
+#: lib/claper_web/live/admin_live/settings_live.ex:85
 #: lib/claper_web/live/transcription_live/form_component.ex:17
 #, elixir-autogen, elixir-format
 msgid "Russian"
 msgstr "Krievu"
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:95
+#: lib/claper_web/live/admin_live/settings_live.html.heex:96
 #, elixir-autogen, elixir-format
 msgid "Save settings"
 msgstr "Saglabāt iestatījumus"
@@ -3199,7 +3114,7 @@ msgstr "Saglabāt iestatījumus"
 msgid "Set a new password"
 msgstr "Jaunas paroles iestatīšana"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:49
+#: lib/claper_web/live/admin_live/settings_live.ex:47
 #, elixir-autogen, elixir-format
 msgid "Settings saved successfully"
 msgstr "Iestatījumi veiksmīgi saglabāti"
@@ -3209,13 +3124,13 @@ msgstr "Iestatījumi veiksmīgi saglabāti"
 msgid "Show subtitles on"
 msgstr "Rādīt subtitrus uz"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:77
+#: lib/claper_web/live/admin_live/settings_live.ex:80
 #: lib/claper_web/live/transcription_live/form_component.ex:12
 #, elixir-autogen, elixir-format
 msgid "Spanish"
 msgstr "Spāņu"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:89
+#: lib/claper_web/live/admin_live/settings_live.ex:92
 #: lib/claper_web/live/transcription_live/form_component.ex:24
 #, elixir-autogen, elixir-format
 msgid "Swedish"
@@ -3260,13 +3175,13 @@ msgstr "Administrators ir atspējojis transkripciju"
 msgid "Transcriptions"
 msgstr "Transkripcijas"
 
-#: lib/claper_web/live/admin_live/settings_live.ex:88
+#: lib/claper_web/live/admin_live/settings_live.ex:91
 #: lib/claper_web/live/transcription_live/form_component.ex:23
 #, elixir-autogen, elixir-format
 msgid "Turkish"
 msgstr "Turku"
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:31
+#: lib/claper_web/live/admin_live/settings_live.html.heex:32
 #, elixir-autogen, elixir-format
 msgid "When disabled, no events can use transcription."
 msgstr "Kad atspējota, neviens pasākums nevar izmantot transkripciju."
@@ -3324,3 +3239,35 @@ msgstr "Neizdevās pārkārtot slaidus"
 #, elixir-autogen, elixir-format
 msgid "Could not move interaction"
 msgstr "Neizdevās pārvietot mijiedarbību"
+
+#: lib/claper_web/templates/error/csrf_error.html.heex:26
+#: lib/claper_web/templates/user_reset_password/edit.html.heex:95
+#: lib/claper_web/templates/user_reset_password/new.html.heex:78
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Back to log in"
+msgstr "Atgriezties pie pieteikšanās"
+
+#: lib/claper_web/templates/leader_notifier/invitation.html.heex:35
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Log in or create account"
+msgstr "Pieslēdzieties vai izveidojiet kontu"
+
+#: lib/claper_web/templates/user_session/new.html.heex:90
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Log in with %{provider}"
+msgstr "Pieteikšanās ar %{provider}"
+
+#: lib/claper_web/templates/leader_notifier/invitation.html.heex:25
+#, elixir-autogen, elixir-format, fuzzy
+msgid "To accept the invitation, please log in or create an account with this email: %{email}"
+msgstr "Lai pieņemtu ielūgumu, lūdzu, piesakieties vai izveidojiet kontu, izmantojot šo e-pasta adresi: %{email}"
+
+#: lib/claper_web/templates/user_registration/confirm.html.heex:13
+#, elixir-autogen, elixir-format, fuzzy
+msgid "We already sent you an email to log in, please retry in 5 minutes."
+msgstr "Mēs jau nosūtījām jums e-pastu, lai pieteiktos. Lūdzu, mēģiniet vēlreiz pēc 5 minūtēm."
+
+#: lib/claper_web/templates/lti/registration/new.html.heex:39
+#, elixir-autogen, elixir-format, fuzzy
+msgid "You must log in to continue"
+msgstr "Jums ir jāpiesakās, lai turpinātu"

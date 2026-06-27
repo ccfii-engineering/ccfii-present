@@ -72,7 +72,7 @@ defmodule ClaperWeb.AdminLive.OidcProviderLive.FormComponent do
             field={:redirect_uri}
             type="text"
             label={gettext("Redirect URI")}
-            placeholder={gettext("https://yourapp.com/auth/callback")}
+            placeholder="https://yourapp.com/auth/callback"
             required={true}
             width_class="sm:col-span-6"
             description={
@@ -87,7 +87,7 @@ defmodule ClaperWeb.AdminLive.OidcProviderLive.FormComponent do
             field={:scope}
             type="text"
             label={gettext("Scope")}
-            placeholder={gettext("openid email profile")}
+            placeholder="openid email profile"
             width_class="sm:col-span-3"
             description={gettext("OIDC scopes to request (defaults to 'openid email profile')")}
           />
@@ -100,9 +100,9 @@ defmodule ClaperWeb.AdminLive.OidcProviderLive.FormComponent do
             type="select"
             label={gettext("Response Type")}
             select_options={[
-              {gettext("Authorization Code"), "code"},
-              {gettext("Implicit"), "token"},
-              {gettext("Hybrid"), "code token"}
+              {"Authorization Code", "code"},
+              {"Implicit", "token"},
+              {"Hybrid", "code token"}
             ]}
             width_class="sm:col-span-3"
             description={gettext("OAuth 2.0 response type (defaults to 'code')")}
@@ -114,11 +114,11 @@ defmodule ClaperWeb.AdminLive.OidcProviderLive.FormComponent do
             form={@form}
             field={:response_mode}
             type="select"
-            label={gettext("Response Mode")}
+            label="Response Mode"
             select_options={[
-              {gettext("Query"), "query"},
-              {gettext("Fragment"), "fragment"},
-              {gettext("Form Post"), "form_post"}
+              {"Query", "query"},
+              {"Fragment", "fragment"},
+              {"Form Post", "form_post"}
             ]}
             width_class="sm:col-span-3"
             description={

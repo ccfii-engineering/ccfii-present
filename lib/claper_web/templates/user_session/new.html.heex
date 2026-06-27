@@ -75,7 +75,7 @@
 
               <div class="pt-3">
                 <button type="submit" class="btn btn-primary w-full">
-                  {gettext("Login")}
+                  {gettext("Log in")}
                 </button>
               </div>
             </.form>
@@ -87,7 +87,7 @@
                   "flex w-full items-center justify-center gap-x-2 rounded-xl border border-secondary-500/70 px-4 py-3 text-sm font-medium text-white transition hover:bg-secondary-500/20"
               ) do %>
                 <img width="24" src={@oidc_logo_url} />
-                <span>{gettext("Login with %{provider}", provider: @oidc_provider_name)}</span>
+                <span>{gettext("Log in with %{provider}", provider: @oidc_provider_name)}</span>
               <% end %>
             </div>
 

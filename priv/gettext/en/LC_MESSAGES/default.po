@@ -66,11 +66,6 @@ msgstr ""
 msgid "Personal informations"
 msgstr ""
 
-#: lib/claper_web/templates/user_registration/confirm.html.heex:13
-#, elixir-autogen, elixir-format
-msgid "We already sent you an email to login, please retry in 5 minutes."
-msgstr ""
-
 #: lib/claper_web/templates/user_registration/confirm.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "We sent you an email at"
@@ -597,13 +592,6 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: lib/claper_web/live/event_live/join.html.heex:75
-#: lib/claper_web/live/event_live/join.html.heex:105
-#: lib/claper_web/templates/user_session/new.html.heex:78
-#, elixir-autogen, elixir-format
-msgid "Login"
-msgstr ""
-
 #: lib/claper_web/live/event_live/show.html.heex:509
 #, elixir-autogen, elixir-format
 msgid "Or use the code:"
@@ -926,19 +914,9 @@ msgstr ""
 msgid "Unpin"
 msgstr ""
 
-#: lib/claper_web/templates/leader_notifier/invitation.html.heex:35
-#, elixir-autogen, elixir-format
-msgid "Login or create account"
-msgstr ""
-
 #: lib/claper_web/templates/leader_notifier/invitation.html.heex:22
 #, elixir-autogen, elixir-format
 msgid "Someone invited you to manage the event: %{name}"
-msgstr ""
-
-#: lib/claper_web/templates/leader_notifier/invitation.html.heex:25
-#, elixir-autogen, elixir-format
-msgid "To accept the invitation, please login or create an account with this email: %{email}"
 msgstr ""
 
 #: lib/claper_web/templates/leader_notifier/invitation.html.heex:17
@@ -1192,11 +1170,6 @@ msgstr ""
 msgid "Are you sure you want to unlink this account?"
 msgstr ""
 
-#: lib/claper_web/templates/user_session/new.html.heex:90
-#, elixir-autogen, elixir-format
-msgid "Login with %{provider}"
-msgstr ""
-
 #: lib/claper_web/live/user_settings_live/show.ex:101
 #: lib/claper_web/live/user_settings_live/show.ex:115
 #, elixir-autogen, elixir-format
@@ -1294,11 +1267,6 @@ msgstr ""
 #: lib/claper_web/templates/error/csrf_error.html.heex:8
 #, elixir-autogen, elixir-format
 msgid "A required security token was not found or was invalid."
-msgstr ""
-
-#: lib/claper_web/templates/error/csrf_error.html.heex:26
-#, elixir-autogen, elixir-format
-msgid "Back to Login"
 msgstr ""
 
 #: lib/claper_web/templates/error/csrf_error.html.heex:5
@@ -1639,11 +1607,6 @@ msgstr ""
 msgid "Shared with you"
 msgstr ""
 
-#: lib/claper_web/templates/lti/registration/new.html.heex:39
-#, elixir-autogen, elixir-format
-msgid "You must login to continue"
-msgstr ""
-
 #: lib/claper/quizzes/quiz_question.ex:51
 #, elixir-autogen, elixir-format
 msgid "must have at least one correct answer"
@@ -1726,11 +1689,6 @@ msgstr ""
 #: lib/claper_web/live/admin_live/event_live.html.heex:141
 #, elixir-autogen, elixir-format
 msgid "Audience Peak"
-msgstr ""
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:103
-#, elixir-autogen, elixir-format
-msgid "Authorization Code"
 msgstr ""
 
 #: lib/claper_web/live/admin_live/event_live/form_component.ex:80
@@ -1934,29 +1892,9 @@ msgstr ""
 msgid "File selected"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:121
-#, elixir-autogen, elixir-format
-msgid "Form Post"
-msgstr ""
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:120
-#, elixir-autogen, elixir-format
-msgid "Fragment"
-msgstr ""
-
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:125
 #, elixir-autogen, elixir-format
 msgid "How the authorization response should be returned (defaults to 'query')"
-msgstr ""
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:105
-#, elixir-autogen, elixir-format
-msgid "Hybrid"
-msgstr ""
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:104
-#, elixir-autogen, elixir-format
-msgid "Implicit"
 msgstr ""
 
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:140
@@ -2084,11 +2022,6 @@ msgstr ""
 msgid "Provider updated successfully"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:119
-#, elixir-autogen, elixir-format
-msgid "Query"
-msgstr ""
-
 #: lib/claper_web/live/admin_live/dashboard_live.html.heex:100
 #, elixir-autogen, elixir-format
 msgid "Recent Events"
@@ -2097,11 +2030,6 @@ msgstr ""
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:74
 #, elixir-autogen, elixir-format
 msgid "Redirect URI"
-msgstr ""
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:117
-#, elixir-autogen, elixir-format
-msgid "Response Mode"
 msgstr ""
 
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:250
@@ -2295,16 +2223,6 @@ msgstr ""
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:38
 #, elixir-autogen, elixir-format
 msgid "https://example.com"
-msgstr ""
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:75
-#, elixir-autogen, elixir-format
-msgid "https://yourapp.com/auth/callback"
-msgstr ""
-
-#: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:90
-#, elixir-autogen, elixir-format
-msgid "openid email profile"
 msgstr ""
 
 #: lib/claper_web/live/admin_live/dashboard_live.html.heex:28
@@ -2749,8 +2667,11 @@ msgstr ""
 msgid "Join 6,000+ speakers"
 msgstr ""
 
+#: lib/claper_web/live/event_live/join.html.heex:75
+#: lib/claper_web/live/event_live/join.html.heex:105
 #: lib/claper_web/templates/user_registration/new.html.heex:108
 #: lib/claper_web/templates/user_session/new.html.heex:37
+#: lib/claper_web/templates/user_session/new.html.heex:78
 #, elixir-autogen, elixir-format
 msgid "Log in"
 msgstr ""
@@ -2799,12 +2720,6 @@ msgstr ""
 #: lib/claper_web/templates/user_session/new.html.heex:21
 #, elixir-autogen, elixir-format
 msgid "Open your dashboard, launch a session, and let your audience interact in real time."
-msgstr ""
-
-#: lib/claper_web/templates/user_reset_password/edit.html.heex:95
-#: lib/claper_web/templates/user_reset_password/new.html.heex:78
-#, elixir-autogen, elixir-format
-msgid "Back to login"
 msgstr ""
 
 #: lib/claper_web/templates/user_reset_password/edit.html.heex:18
@@ -2947,12 +2862,12 @@ msgstr ""
 msgid "Thumbnails regenerated successfully"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:59
+#: lib/claper_web/live/admin_live/settings_live.ex:62
 #, elixir-autogen, elixir-format
 msgid "API key cleared"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:67
+#: lib/claper_web/live/admin_live/settings_live.html.heex:68
 #, elixir-autogen, elixir-format
 msgid "API key is configured"
 msgstr ""
@@ -2962,13 +2877,13 @@ msgstr ""
 msgid "Add real-time subtitles from your microphone."
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:86
+#: lib/claper_web/live/admin_live/settings_live.ex:89
 #: lib/claper_web/live/transcription_live/form_component.ex:21
 #, elixir-autogen, elixir-format
 msgid "Arabic"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:59
+#: lib/claper_web/live/admin_live/settings_live.html.heex:60
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to clear the API key?"
 msgstr ""
@@ -2983,19 +2898,19 @@ msgstr ""
 msgid "Attendee only"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:73
+#: lib/claper_web/live/admin_live/settings_live.ex:76
 #: lib/claper_web/live/transcription_live/form_component.ex:8
 #, elixir-autogen, elixir-format
 msgid "Auto-detect"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:84
+#: lib/claper_web/live/admin_live/settings_live.ex:87
 #: lib/claper_web/live/transcription_live/form_component.ex:19
 #, elixir-autogen, elixir-format
 msgid "Chinese"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:61
+#: lib/claper_web/live/admin_live/settings_live.html.heex:62
 #, elixir-autogen, elixir-format
 msgid "Clear"
 msgstr ""
@@ -3010,18 +2925,18 @@ msgstr ""
 msgid "Could not delete transcription"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:91
+#: lib/claper_web/live/admin_live/settings_live.ex:94
 #: lib/claper_web/live/transcription_live/form_component.ex:26
 #, elixir-autogen, elixir-format
 msgid "Danish"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:76
+#: lib/claper_web/live/admin_live/settings_live.html.heex:77
 #, elixir-autogen, elixir-format
 msgid "Default Language"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:85
+#: lib/claper_web/live/admin_live/settings_live.html.heex:86
 #, elixir-autogen, elixir-format
 msgid "Default language for new transcription sessions. Can be overridden per event."
 msgstr ""
@@ -3036,7 +2951,7 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:80
+#: lib/claper_web/live/admin_live/settings_live.ex:83
 #: lib/claper_web/live/transcription_live/form_component.ex:15
 #, elixir-autogen, elixir-format
 msgid "Dutch"
@@ -3047,65 +2962,65 @@ msgstr ""
 msgid "Edit transcription"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:28
+#: lib/claper_web/live/admin_live/settings_live.html.heex:29
 #, elixir-autogen, elixir-format
 msgid "Enable transcription feature globally"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:74
+#: lib/claper_web/live/admin_live/settings_live.ex:77
 #: lib/claper_web/live/transcription_live/form_component.ex:9
 #, elixir-autogen, elixir-format
 msgid "English"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:49
+#: lib/claper_web/live/admin_live/settings_live.html.heex:50
 #, elixir-autogen, elixir-format
 msgid "Enter your Mistral API key"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:92
+#: lib/claper_web/live/admin_live/settings_live.ex:95
 #: lib/claper_web/live/transcription_live/form_component.ex:27
 #, elixir-autogen, elixir-format
 msgid "Finnish"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:75
+#: lib/claper_web/live/admin_live/settings_live.ex:78
 #: lib/claper_web/live/transcription_live/form_component.ex:10
 #, elixir-autogen, elixir-format
 msgid "French"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:76
+#: lib/claper_web/live/admin_live/settings_live.ex:79
 #: lib/claper_web/live/transcription_live/form_component.ex:11
 #, elixir-autogen, elixir-format
 msgid "German"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:87
+#: lib/claper_web/live/admin_live/settings_live.ex:90
 #: lib/claper_web/live/transcription_live/form_component.ex:22
 #, elixir-autogen, elixir-format
 msgid "Hindi"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:78
+#: lib/claper_web/live/admin_live/settings_live.ex:81
 #: lib/claper_web/live/transcription_live/form_component.ex:13
 #, elixir-autogen, elixir-format
 msgid "Italian"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:83
+#: lib/claper_web/live/admin_live/settings_live.ex:86
 #: lib/claper_web/live/transcription_live/form_component.ex:18
 #, elixir-autogen, elixir-format
 msgid "Japanese"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:85
+#: lib/claper_web/live/admin_live/settings_live.ex:88
 #: lib/claper_web/live/transcription_live/form_component.ex:20
 #, elixir-autogen, elixir-format
 msgid "Korean"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:48
+#: lib/claper_web/live/admin_live/settings_live.html.heex:49
 #, elixir-autogen, elixir-format
 msgid "Leave blank to keep current key"
 msgstr ""
@@ -3130,7 +3045,7 @@ msgstr ""
 msgid "Microphone selection is saved locally in your browser."
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:40
+#: lib/claper_web/live/admin_live/settings_live.html.heex:41
 #, elixir-autogen, elixir-format
 msgid "Mistral API Key"
 msgstr ""
@@ -3140,7 +3055,7 @@ msgstr ""
 msgid "New transcription"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:68
+#: lib/claper_web/live/admin_live/settings_live.html.heex:69
 #, elixir-autogen, elixir-format
 msgid "No API key configured"
 msgstr ""
@@ -3151,19 +3066,19 @@ msgstr ""
 msgid "No transcriptions found"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:90
+#: lib/claper_web/live/admin_live/settings_live.ex:93
 #: lib/claper_web/live/transcription_live/form_component.ex:25
 #, elixir-autogen, elixir-format
 msgid "Norwegian"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:81
+#: lib/claper_web/live/admin_live/settings_live.ex:84
 #: lib/claper_web/live/transcription_live/form_component.ex:16
 #, elixir-autogen, elixir-format
 msgid "Polish"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:79
+#: lib/claper_web/live/admin_live/settings_live.ex:82
 #: lib/claper_web/live/transcription_live/form_component.ex:14
 #, elixir-autogen, elixir-format
 msgid "Portuguese"
@@ -3179,13 +3094,13 @@ msgstr ""
 msgid "Presenter only"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:82
+#: lib/claper_web/live/admin_live/settings_live.ex:85
 #: lib/claper_web/live/transcription_live/form_component.ex:17
 #, elixir-autogen, elixir-format
 msgid "Russian"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:95
+#: lib/claper_web/live/admin_live/settings_live.html.heex:96
 #, elixir-autogen, elixir-format
 msgid "Save settings"
 msgstr ""
@@ -3195,7 +3110,7 @@ msgstr ""
 msgid "Set a new password"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:49
+#: lib/claper_web/live/admin_live/settings_live.ex:47
 #, elixir-autogen, elixir-format
 msgid "Settings saved successfully"
 msgstr ""
@@ -3205,13 +3120,13 @@ msgstr ""
 msgid "Show subtitles on"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:77
+#: lib/claper_web/live/admin_live/settings_live.ex:80
 #: lib/claper_web/live/transcription_live/form_component.ex:12
 #, elixir-autogen, elixir-format
 msgid "Spanish"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:89
+#: lib/claper_web/live/admin_live/settings_live.ex:92
 #: lib/claper_web/live/transcription_live/form_component.ex:24
 #, elixir-autogen, elixir-format
 msgid "Swedish"
@@ -3256,13 +3171,13 @@ msgstr ""
 msgid "Transcriptions"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.ex:88
+#: lib/claper_web/live/admin_live/settings_live.ex:91
 #: lib/claper_web/live/transcription_live/form_component.ex:23
 #, elixir-autogen, elixir-format
 msgid "Turkish"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/settings_live.html.heex:31
+#: lib/claper_web/live/admin_live/settings_live.html.heex:32
 #, elixir-autogen, elixir-format
 msgid "When disabled, no events can use transcription."
 msgstr ""
@@ -3319,4 +3234,36 @@ msgstr ""
 #: lib/claper_web/live/event_live/manage.ex:491
 #, elixir-autogen, elixir-format
 msgid "Could not move interaction"
+msgstr ""
+
+#: lib/claper_web/templates/error/csrf_error.html.heex:26
+#: lib/claper_web/templates/user_reset_password/edit.html.heex:95
+#: lib/claper_web/templates/user_reset_password/new.html.heex:78
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Back to log in"
+msgstr ""
+
+#: lib/claper_web/templates/leader_notifier/invitation.html.heex:35
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Log in or create account"
+msgstr ""
+
+#: lib/claper_web/templates/user_session/new.html.heex:90
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Log in with %{provider}"
+msgstr ""
+
+#: lib/claper_web/templates/leader_notifier/invitation.html.heex:25
+#, elixir-autogen, elixir-format, fuzzy
+msgid "To accept the invitation, please log in or create an account with this email: %{email}"
+msgstr ""
+
+#: lib/claper_web/templates/user_registration/confirm.html.heex:13
+#, elixir-autogen, elixir-format, fuzzy
+msgid "We already sent you an email to log in, please retry in 5 minutes."
+msgstr ""
+
+#: lib/claper_web/templates/lti/registration/new.html.heex:39
+#, elixir-autogen, elixir-format, fuzzy
+msgid "You must log in to continue"
 msgstr ""

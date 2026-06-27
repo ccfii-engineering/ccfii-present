@@ -9,6 +9,7 @@
 ### Fixes and improvements
 
 - Improve performance of preview with thumbnails
+- Improve translations
 
 ## v.2.5.2
 
