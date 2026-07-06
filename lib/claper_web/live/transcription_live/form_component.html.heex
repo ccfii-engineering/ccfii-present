@@ -8,12 +8,7 @@
     phx-submit="save"
     class="flex flex-col gap-6"
   >
-    <.select_field
-      form={f}
-      key={:language}
-      label={gettext("Language")}
-      options={@languages}
-    />
+    <.select_field form={f} key={:language} label={gettext("Language")} options={@languages} />
 
     <div class="flex flex-col gap-4">
       <p class="text-sm font-bold text-base-content">{gettext("Options")}</p>
@@ -48,7 +43,11 @@
     </div>
 
     <div class="flex flex-col gap-2">
-      <button type="submit" phx-disable-with={gettext("Loading...")} class="btn btn-primary w-full">
+      <button
+        type="submit"
+        phx-disable-with={gettext("Loading...")}
+        class="btn btn-primary w-full"
+      >
         {case @live_action do
           :new -> gettext("Add transcription")
           :edit -> gettext("Save")

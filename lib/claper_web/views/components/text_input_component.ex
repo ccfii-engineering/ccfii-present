@@ -53,11 +53,7 @@ defmodule ClaperWeb.Component.TextInput do
 
     ~H"""
     <div class="flex flex-col gap-1">
-      <label
-        :if={@label}
-        for={input_id(@form, @key)}
-        class="text-sm font-bold text-base-content"
-      >
+      <label :if={@label} for={input_id(@form, @key)} class="text-sm font-bold text-base-content">
         {@label}
       </label>
       <div class="flex items-center gap-2">

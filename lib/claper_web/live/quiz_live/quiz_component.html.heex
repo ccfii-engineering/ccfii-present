@@ -122,7 +122,11 @@
                         stroke="currentColor"
                         class="h-6 w-6"
                       >
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="m4.5 12.75 6 6 9-13.5"
+                        />
                       </svg>
                     </label>
                     <%= if o.index > 1 do %>
@@ -144,7 +148,11 @@
                           stroke="currentColor"
                           class="h-5 w-5"
                         >
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 002 2h8a2 2 0 002-2l1-13M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3" />
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 002 2h8a2 2 0 002-2l1-13M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3"
+                          />
                         </svg>
                       </label>
                     <% end %>
@@ -196,11 +204,7 @@
     <div class="flex flex-col gap-1">
       <p class="text-sm font-bold text-base-content">{gettext("Options")}</p>
 
-      <.checkbox
-        form={f}
-        key={:allow_anonymous}
-        label={gettext("Allow anonymous submissions")}
-      />
+      <.checkbox form={f} key={:allow_anonymous} label={gettext("Allow anonymous submissions")} />
     </div>
 
     <div class="flex flex-col gap-2">

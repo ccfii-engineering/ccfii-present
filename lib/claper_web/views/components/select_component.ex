@@ -42,11 +42,7 @@ defmodule ClaperWeb.Component.Select do
 
     ~H"""
     <div class="flex flex-col gap-1">
-      <label
-        :if={@label}
-        for={input_id(@form, @key)}
-        class="text-sm font-bold text-base-content"
-      >
+      <label :if={@label} for={input_id(@form, @key)} class="text-sm font-bold text-base-content">
         {@label}
       </label>
       <select
