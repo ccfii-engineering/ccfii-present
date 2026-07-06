@@ -1082,8 +1082,8 @@ msgstr "Jūsu iestatījumi ir atjaunināti."
 
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:50
 #, elixir-autogen, elixir-format
-msgid "Question"
-msgstr "Jautājums"
+msgid "Questions"
+msgstr "Jautājumi"
 
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:126
 #, elixir-autogen, elixir-format

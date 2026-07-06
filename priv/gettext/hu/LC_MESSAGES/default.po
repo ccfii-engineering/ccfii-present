@@ -1078,8 +1078,8 @@ msgstr "Beállítások frissítve."
 
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:50
 #, elixir-autogen, elixir-format
-msgid "Question"
-msgstr "Kérdés"
+msgid "Questions"
+msgstr "Kérdések"
 
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:126
 #, elixir-autogen, elixir-format

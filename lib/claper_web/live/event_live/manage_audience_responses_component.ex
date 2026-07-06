@@ -47,7 +47,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
             phx-value-tab="questions"
             class={"px-3 py-1.5 rounded-full text-sm font-medium transition-colors #{if @list_tab == :questions, do: "bg-secondary-500 text-white", else: "text-gray-600 hover:bg-gray-100"}"}
           >
-            {gettext("Question")} ({@question_count})
+            {gettext("Questions")} ({@question_count})
           </button>
         </li>
         <li>

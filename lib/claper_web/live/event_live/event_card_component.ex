@@ -101,7 +101,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
               <h3 class="font-bold text-gray-800 truncate">
                 {@event.name}
               </h3>
-              <p class="text-gray-500 text-base">
+              <p class="text-gray-500 text-base uppercase">
                 # {@event.code}
               </p>
             </div>

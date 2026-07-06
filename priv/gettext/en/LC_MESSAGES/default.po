@@ -1078,7 +1078,7 @@ msgstr ""
 
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:50
 #, elixir-autogen, elixir-format
-msgid "Question"
+msgid "Questions"
 msgstr ""
 
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:126

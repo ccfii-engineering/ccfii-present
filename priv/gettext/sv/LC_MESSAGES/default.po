@@ -1114,8 +1114,8 @@ msgstr "Dina inställningar har uppdaterats."
 
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:50
 #, elixir-autogen, elixir-format
-msgid "Question"
-msgstr "Fråga"
+msgid "Questions"
+msgstr "Frågor"
 
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:126
 #, elixir-autogen, elixir-format

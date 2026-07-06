@@ -1078,8 +1078,8 @@ msgstr "Tus preferencias han sido actualizadas."
 
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:50
 #, elixir-autogen, elixir-format
-msgid "Question"
-msgstr "Pregunta"
+msgid "Questions"
+msgstr "Preguntas"
 
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:126
 #, elixir-autogen, elixir-format
