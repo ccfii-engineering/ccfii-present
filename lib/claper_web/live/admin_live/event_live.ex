@@ -1,5 +1,5 @@
 defmodule ClaperWeb.AdminLive.EventLive do
-  use ClaperWeb, :live_view
+  use ClaperWeb, :admin_live_view
 
   import ClaperWeb.AdminLive.DetailComponents
 

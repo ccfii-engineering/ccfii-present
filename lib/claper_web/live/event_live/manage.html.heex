@@ -322,8 +322,8 @@
           </div>
         <% end %>
         <%= if @create == "transcription" do %>
-          <div class="scroll-py-3 overflow-y-auto bg-gray-100 p-3">
-            <p class="text-xl font-bold">
+          <div class="scroll-py-3 overflow-y-auto p-6">
+            <p class="text-base font-bold text-secondary mb-5">
               {case @create_action do
                 :new -> gettext("New transcription")
                 :edit -> gettext("Edit transcription")

@@ -1,5 +1,5 @@
 defmodule ClaperWeb.AdminLive.AuditLogLive do
-  use ClaperWeb, :live_view
+  use ClaperWeb, :admin_live_view
 
   import ClaperWeb.AdminLive.DetailComponents
 

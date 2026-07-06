@@ -54,6 +54,17 @@ defmodule ClaperWeb do
     end
   end
 
+  def admin_live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {ClaperWeb.LayoutView, :admin_app}
+
+      on_mount ClaperWeb.AdminLive.NavHook
+
+      unquote(view_helpers())
+    end
+  end
+
   def live_component do
     quote do
       use Phoenix.LiveComponent

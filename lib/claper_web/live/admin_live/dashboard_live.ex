@@ -1,5 +1,5 @@
 defmodule ClaperWeb.AdminLive.DashboardLive do
-  use ClaperWeb, :live_view
+  use ClaperWeb, :admin_live_view
 
   import Ecto.Query, warn: false
   alias Claper.Admin

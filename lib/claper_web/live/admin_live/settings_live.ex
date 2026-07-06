@@ -1,5 +1,5 @@
 defmodule ClaperWeb.AdminLive.SettingsLive do
-  use ClaperWeb, :live_view
+  use ClaperWeb, :admin_live_view
 
   alias Claper.Settings
 
