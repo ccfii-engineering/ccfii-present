@@ -242,8 +242,8 @@
           </ul>
         <% end %>
         <%= if @create=="poll" do %>
-          <div class="scroll-py-3 overflow-y-auto bg-gray-100 p-3">
-            <p class="text-xl font-bold">
+          <div class="scroll-py-3 overflow-y-auto p-6">
+            <p class="text-base font-bold text-secondary mb-5">
               {case @create_action do
                 :new -> gettext("New poll")
                 :edit -> gettext("Edit poll")
@@ -262,8 +262,8 @@
           </div>
         <% end %>
         <%= if @create=="form" do %>
-          <div class="scroll-py-3 overflow-y-auto bg-gray-100 p-3">
-            <p class="text-xl font-bold">
+          <div class="scroll-py-3 overflow-y-auto p-6">
+            <p class="text-base font-bold text-secondary mb-5">
               {case @create_action do
                 :new -> gettext("New form")
                 :edit -> gettext("Edit form")
@@ -282,8 +282,8 @@
           </div>
         <% end %>
         <%= if @create == "embed" do %>
-          <div class="scroll-py-3 overflow-y-auto bg-gray-100 p-3">
-            <p class="text-xl font-bold">
+          <div class="scroll-py-3 overflow-y-auto p-6">
+            <p class="text-base font-bold text-secondary mb-5">
               {case @create_action do
                 :new -> gettext("New web content")
                 :edit -> gettext("Edit web content")
@@ -302,8 +302,8 @@
           </div>
         <% end %>
         <%= if @create=="quiz" do %>
-          <div class="scroll-py-3 overflow-y-auto bg-gray-100 p-3">
-            <p class="text-xl font-bold">
+          <div class="scroll-py-3 overflow-y-auto p-6">
+            <p class="text-base font-bold text-secondary mb-5">
               {case @create_action do
                 :new -> gettext("New quiz")
                 :edit -> gettext("Edit quiz")

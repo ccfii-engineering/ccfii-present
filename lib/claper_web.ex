@@ -113,6 +113,9 @@ defmodule ClaperWeb do
       import ClaperWeb.Component.Button
       import ClaperWeb.Component.Badge
       import ClaperWeb.Component.Tabs
+      import ClaperWeb.Component.TextInput
+      import ClaperWeb.Component.Checkbox
+      import ClaperWeb.Component.Select
 
       unquote(verified_routes())
     end

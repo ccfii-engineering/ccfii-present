@@ -6,87 +6,94 @@
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save"
+    class="flex flex-col gap-6"
   >
-    <div class="my-3 mb-10">
-      <ClaperWeb.Component.Input.text
+    <div class="flex flex-col gap-4">
+      <.text_field
         form={f}
         key={:title}
-        name={gettext("Title of your form")}
-        autofocus="true"
-        required="true"
+        label={gettext("Form's title")}
+        placeholder={gettext("Enter your title")}
+        autocomplete="off"
+        required
+        autofocus
       />
+
+      <%= inputs_for f, :fields, fn i -> %>
+        <div class="flex flex-col gap-2">
+          <div class="flex gap-3 items-end">
+            <div class="flex-1 min-w-0">
+              <.text_field
+                form={i}
+                key={:name}
+                label={ngettext("Field %{count}", "Field %{count}", i.index + 1)}
+                autocomplete="off"
+                required
+              />
+            </div>
+            <div class="w-40 shrink-0">
+              <.select_field
+                form={i}
+                key={:type}
+                label={gettext("Type")}
+                options={[{gettext("Text"), "text"}, {gettext("Email"), "email"}]}
+                required
+              />
+            </div>
+            <%= if i.index >= 1 do %>
+              <button
+                type="button"
+                phx-click="remove_field"
+                phx-value-field={i.index}
+                phx-target={@myself}
+                aria-label={gettext("Remove field")}
+                class="btn btn-circle btn-error !size-12 shrink-0"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="h-5 w-5"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 002 2h8a2 2 0 002-2l1-13M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3" />
+                </svg>
+              </button>
+            <% end %>
+          </div>
+
+          <label class="flex items-center gap-2 cursor-pointer w-fit pl-1">
+            {checkbox(i, :required, class: "toggle toggle-sm toggle-primary")}
+            <span class="text-sm font-medium text-neutral">{gettext("Required")}</span>
+          </label>
+        </div>
+      <% end %>
+
+      <button
+        type="button"
+        phx-click="add_field"
+        phx-target={@myself}
+        class="btn btn-sm bg-base-200 text-base-content border-none hover:bg-base-300 gap-1.5 self-start !h-9"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          class="h-4 w-4"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+        {gettext("Add")}
+      </button>
     </div>
 
-    <%= inputs_for f, :fields, fn i -> %>
-      <div class="flex gap-x-3 mt-3 items-center justify-start">
-        <div class="flex items-center gap-x-2">
-          <ClaperWeb.Component.Input.text
-            form={i}
-            key={:name}
-            name={ngettext("Field %{count}", "Field %{count}", i.index + 1)}
-            autofocus="true"
-            required="true"
-          />
-          <ClaperWeb.Component.Input.select
-            form={i}
-            array={[{:"#{gettext("Text")}", "text"}, {:"#{gettext("Email")}", "email"}]}
-            key={:type}
-            name={gettext("Type")}
-            required="true"
-          />
-          <ClaperWeb.Component.Input.toggle form={i} key={:required} label={gettext("Required")} />
-        </div>
-        <%= if i.index >= 1 do %>
-          <button
-            type="button"
-            phx-click="remove_field"
-            phx-value-field={i.index}
-            phx-target={@myself}
-            class="rounded-md bg-red-500 hover:bg-red-600 transition block mt-6"
-          >
-            <svg
-              class="text-white h-8 transform rotate-45"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </button>
-        <% end %>
-      </div>
-    <% end %>
-
-    <button
-      type="button"
-      phx-click="add_field"
-      phx-target={@myself}
-      class="rounded-md bg-primary-500 hover:bg-primary-600 transition block mt-3 mb-8"
-    >
-      <svg
-        class="text-white h-10"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </button>
-
-    <div class="flex space-x-3">
-      <button type="submit" phx_disable_with="Loading..." class="btn btn-primary w-full lg:w-auto">
+    <div class="flex flex-col gap-2">
+      <button type="submit" phx-disable-with={gettext("Loading...")} class="btn btn-primary w-full">
         {case @live_action do
-          :new -> gettext("Create")
+          :new -> gettext("Create form")
           :edit -> gettext("Save")
         end}
       </button>
@@ -102,7 +109,7 @@
                 "This will delete all responses associated and the form itself, are you sure?"
               )
           ],
-          class: "btn btn-error w-full lg:w-auto"
+          class: "btn btn-outline btn-error w-full"
         )}
       <% end %>
     </div>
