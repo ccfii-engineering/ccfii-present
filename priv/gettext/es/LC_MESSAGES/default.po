@@ -897,7 +897,7 @@ msgstr "Anclar"
 #: lib/claper_web/live/event_live/post_component.ex:175
 #, elixir-autogen, elixir-format
 msgid "Pinned"
-msgstr "Anclado"
+msgstr "Anclados"
 
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:186
 #, elixir-autogen, elixir-format
