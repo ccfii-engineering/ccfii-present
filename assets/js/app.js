@@ -247,9 +247,10 @@ Hooks.NicknamePicker = {
       localStorage.getItem("nickname") || "",
     );
 
-    if (nickname) {
+    if (nickname && nickname.trim().length > 0) {
       localStorage.setItem("nickname", nickname);
       this.pushEvent("set-nickname", { nickname: nickname });
+      this.js().exec(this.el.dataset.close);
     }
   },
 };
