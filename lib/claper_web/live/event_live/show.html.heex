@@ -365,7 +365,7 @@
           :if={@state.message_reaction_enabled}
           id="room-reaction-fab"
           phx-hook="RoomReactionFab"
-          class="absolute bottom-20 left-4 z-20 flex flex-col items-center gap-2"
+          class="absolute bottom-20 left-4 z-20 flex w-14 flex-col items-center gap-2"
         >
           <div
             data-reaction-picker
@@ -379,7 +379,11 @@
               aria-label={gettext("Heart")}
               class="grid h-11 w-11 place-items-center rounded-full hover:bg-white/10"
             >
-              <img src="/images/icons/heart.svg" class="h-6 w-6" />
+              <img
+                src="/images/icons/heart.svg"
+                draggable="false"
+                class="pointer-events-none h-6 w-6 select-none"
+              />
             </button>
             <button
               type="button"
@@ -388,7 +392,11 @@
               aria-label={gettext("Clap")}
               class="grid h-11 w-11 place-items-center rounded-full hover:bg-white/10"
             >
-              <img src="/images/icons/clap.svg" class="h-6 w-6" />
+              <img
+                src="/images/icons/clap.svg"
+                draggable="false"
+                class="pointer-events-none h-6 w-6 select-none"
+              />
             </button>
             <button
               type="button"
@@ -397,7 +405,11 @@
               aria-label={gettext("Hundred")}
               class="grid h-11 w-11 place-items-center rounded-full hover:bg-white/10"
             >
-              <img src="/images/icons/hundred.svg" class="h-6 w-6" />
+              <img
+                src="/images/icons/hundred.svg"
+                draggable="false"
+                class="pointer-events-none h-6 w-6 select-none"
+              />
             </button>
             <button
               type="button"
@@ -406,7 +418,11 @@
               aria-label={gettext("Raise hand")}
               class="grid h-11 w-11 place-items-center rounded-full hover:bg-white/10"
             >
-              <img src="/images/icons/raisehand.svg" class="h-6 w-6" />
+              <img
+                src="/images/icons/raisehand.svg"
+                draggable="false"
+                class="pointer-events-none h-6 w-6 select-none"
+              />
             </button>
           </div>
           <button
@@ -417,7 +433,12 @@
             aria-expanded="false"
             class="grid h-14 w-14 place-items-center rounded-full border-4 border-gray-900 bg-supporting-yellow-100 shadow-xl"
           >
-            <img data-reaction-icon src="/images/icons/heart.svg" class="h-7 w-7" />
+            <img
+              data-reaction-icon
+              src="/images/icons/heart.svg"
+              draggable="false"
+              class="pointer-events-none h-7 w-7 select-none"
+            />
           </button>
         </div>
       </section>
@@ -453,7 +474,7 @@
               rows: 1,
               maxlength: 255,
               class:
-                "min-h-9 max-h-16 min-w-0 flex-1 resize-none border-0 bg-transparent px-2 py-2 text-sm leading-5 text-white outline-hidden placeholder:text-white/70 focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50",
+                "min-h-9 max-h-16 min-w-0 flex-1 resize-none border-0 bg-transparent px-2 py-2 text-base leading-5 text-white outline-hidden placeholder:text-white/70 focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50",
               placeholder:
                 if(!@state.anonymous_chat_enabled && @nickname in [nil, ""],
                   do: gettext("Set your nickname to participate"),

@@ -31,6 +31,8 @@ defmodule ClaperWeb.EventLive.ShowTest do
     assert "attendee-composer" in classes(document, "#post-form")
     assert Floki.find(document, "#room-topbar") != []
     assert Floki.find(document, "#room-composer") != []
+    assert Floki.attribute(document, "[data-reaction-icon]", "draggable") == ["false"]
+    assert "pointer-events-none" in classes(document, "[data-reaction-icon]")
     assert Floki.find(document, "#top-identity-button") == []
     assert Floki.find(document, "#composer-identity-button") != []
 

@@ -83,6 +83,14 @@
   -webkit-backdrop-filter: blur(18px) saturate(140%);
 }
 
+#room-reaction-fab,
+#room-reaction-fab button,
+#room-reaction-fab img {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 #focus-slot:fullscreen {
   height: 100dvh;
   max-height: none;

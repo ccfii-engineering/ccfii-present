@@ -730,6 +730,7 @@ Hooks.RoomReactionFab = {
       if (!this.longPressed) this.send(this.reaction);
     };
     this.onPointerCancel = () => window.clearTimeout(this.pressTimer);
+    this.onContextMenu = (event) => event.preventDefault();
     this.onClick = (event) => {
       if (event.detail === 0) this.send(this.reaction);
     };
@@ -759,6 +760,7 @@ Hooks.RoomReactionFab = {
     this.trigger.addEventListener("pointerdown", this.onPointerDown);
     this.trigger.addEventListener("pointerup", this.onPointerUp);
     this.trigger.addEventListener("pointercancel", this.onPointerCancel);
+    this.trigger.addEventListener("contextmenu", this.onContextMenu);
     this.trigger.addEventListener("click", this.onClick);
     this.trigger.addEventListener("keydown", this.onKeyDown);
     this.picker.addEventListener("click", this.onPickerClick);
@@ -769,6 +771,7 @@ Hooks.RoomReactionFab = {
     this.trigger.removeEventListener("pointerdown", this.onPointerDown);
     this.trigger.removeEventListener("pointerup", this.onPointerUp);
     this.trigger.removeEventListener("pointercancel", this.onPointerCancel);
+    this.trigger.removeEventListener("contextmenu", this.onContextMenu);
     this.trigger.removeEventListener("click", this.onClick);
     this.trigger.removeEventListener("keydown", this.onKeyDown);
     this.picker.removeEventListener("click", this.onPickerClick);
