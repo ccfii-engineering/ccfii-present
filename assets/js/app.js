@@ -188,6 +188,80 @@ Hooks.Scroll = {
   },
 };
 
+Hooks.RoomFeed = {
+  mounted() {
+    this.chip = document.querySelector(this.el.dataset.chip);
+    this.unread = 0;
+    this.atBottom = true;
+    this.onScroll = () => {
+      this.atBottom = this.distanceFromBottom() <= 48;
+      if (this.atBottom) this.clearUnread();
+    };
+    this.onChipClick = () => this.scrollToBottom(true);
+    this.onMessageSent = () => {
+      this.sentMessage = true;
+      this.scrollToBottom(true);
+      clearTimeout(this.sentMessageTimeout);
+      this.sentMessageTimeout = setTimeout(() => {
+        this.sentMessage = false;
+      }, 1000);
+    };
+    this.el.addEventListener("scroll", this.onScroll, { passive: true });
+    this.el.addEventListener("room:message-sent", this.onMessageSent);
+    this.chip?.addEventListener("click", this.onChipClick);
+    requestAnimationFrame(() => this.scrollToBottom(true));
+  },
+  beforeUpdate() {
+    this.wasAtBottom = this.distanceFromBottom() <= 48;
+    this.previousPostCount = this.postCount();
+  },
+  updated() {
+    const newPostCount = this.postCount();
+    const hasNewPost = newPostCount > this.previousPostCount;
+
+    if (hasNewPost && this.sentMessage) {
+      clearTimeout(this.sentMessageTimeout);
+      this.sentMessage = false;
+      requestAnimationFrame(() => this.scrollToBottom(true));
+    } else if (hasNewPost && this.wasAtBottom) {
+      this.scrollToBottom();
+    } else if (hasNewPost) {
+      this.unread += newPostCount - this.previousPostCount;
+      this.showUnread();
+    }
+  },
+  destroyed() {
+    this.el.removeEventListener("scroll", this.onScroll);
+    this.el.removeEventListener("room:message-sent", this.onMessageSent);
+    this.chip?.removeEventListener("click", this.onChipClick);
+    clearTimeout(this.sentMessageTimeout);
+  },
+  postCount() {
+    return this.el.querySelectorAll(":scope > [id^='posts-']").length;
+  },
+  distanceFromBottom() {
+    return this.el.scrollHeight - this.el.scrollTop - this.el.clientHeight;
+  },
+  scrollToBottom(instant = false) {
+    this.el.scrollTo({
+      top: this.el.scrollHeight,
+      behavior: instant ? "auto" : "smooth",
+    });
+    this.atBottom = true;
+    this.clearUnread();
+  },
+  showUnread() {
+    if (!this.chip) return;
+    const count = this.chip.querySelector("[data-unread-count]");
+    if (count) count.textContent = this.unread;
+    this.chip.classList.remove("hidden");
+  },
+  clearUnread() {
+    this.unread = 0;
+    this.chip?.classList.add("hidden");
+  },
+};
+
 Hooks.ScrollIntoDiv = {
   mounted() {
     let useParent = this.el.dataset.useParent === "true";
@@ -225,45 +299,64 @@ Hooks.ScrollIntoDiv = {
 
 Hooks.NicknamePicker = {
   mounted() {
-    let currentNickname = localStorage.getItem("nickname") || "";
+    this.storageKey = this.el.dataset.storageKey || "nickname";
+    this.onClick = (event) => this.clicked(event);
+    let currentNickname = this.currentNickname();
     if (currentNickname.length > 0) {
       this.pushEvent("set-nickname", { nickname: currentNickname });
     }
 
-    this.el.addEventListener("click", (e) => this.clicked(e));
+    this.el.addEventListener("click", this.onClick);
   },
   reconnected() {
-    let currentNickname = localStorage.getItem("nickname") || "";
+    let currentNickname = this.currentNickname();
     if (currentNickname.length > 0) {
       this.pushEvent("set-nickname", { nickname: currentNickname });
     }
   },
   destroyed() {
-    this.el.removeEventListener("click", (e) => this.clicked(e));
+    this.el.removeEventListener("click", this.onClick);
   },
   clicked(e) {
     let nickname = prompt(
       this.el.dataset.prompt,
-      localStorage.getItem("nickname") || "",
+      localStorage.getItem(this.storageKey) || "",
     );
 
-    if (nickname && nickname.trim().length > 0) {
-      localStorage.setItem("nickname", nickname);
-      this.pushEvent("set-nickname", { nickname: nickname });
+    if (nickname) {
+      nickname = nickname.trim();
+      if (nickname.length < 2 || nickname.length > 20) {
+        window.alert(this.el.dataset.invalid);
+        return;
+      }
+      localStorage.setItem(this.storageKey, nickname);
+      this.pushEvent("set-nickname", { nickname });
       this.js().exec(this.el.dataset.close);
     }
+  },
+  currentNickname() {
+    const scopedNickname = localStorage.getItem(this.storageKey);
+    if (scopedNickname !== null) return scopedNickname;
+
+    const legacyNickname = (localStorage.getItem("nickname") || "").trim();
+    localStorage.removeItem("nickname");
+    if (legacyNickname.length < 2 || legacyNickname.length > 20) return "";
+
+    localStorage.setItem(this.storageKey, legacyNickname);
+    return legacyNickname;
   },
 };
 
 Hooks.EmptyNickname = {
   mounted() {
-    this.el.addEventListener("click", (e) => this.clicked(e));
+    this.onClick = () => {
+      localStorage.removeItem(this.el.dataset.storageKey || "nickname");
+      localStorage.removeItem("nickname");
+    };
+    this.el.addEventListener("click", this.onClick);
   },
   destroyed() {
-    this.el.removeEventListener("click", (e) => this.clicked(e));
-  },
-  clicked(e) {
-    localStorage.removeItem("nickname");
+    this.el.removeEventListener("click", this.onClick);
   },
 };
 
@@ -281,63 +374,71 @@ Hooks.SearchableSelect = {
 };
 
 Hooks.PostForm = {
-  onPress(e, submitBtn, TA) {
-    if (e.key == "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      submitBtn.click();
-    } else {
-      if (TA.value.length > 0 && TA.value.length < 256) {
-        submitBtn.classList.remove("opacity-50");
-        submitBtn.classList.add("opacity-100");
-        submitBtn.disabled = false;
-      } else {
-        submitBtn.classList.add("opacity-50");
-        submitBtn.classList.remove("opacity-100");
-        submitBtn.disabled = true;
-      }
-    }
-  },
-  onSubmit(e, TA) {
-    e.preventDefault();
-    document.getElementById("hiddenSubmit").click();
-    TA.value = "";
-  },
   mounted() {
-    setTimeout(() => {
-      const submitBtn = document.getElementById("submitBtn");
-      const TA = document.getElementById("postFormTA");
-      if (submitBtn && TA) {
-        submitBtn.addEventListener("click", (e) => this.onSubmit(e, TA));
-        TA.addEventListener("keydown", (e) => this.onPress(e, submitBtn, TA));
-      }
-    }, 500);
-
-    // set nickname if present
-    let nickname = this.el.dataset.nickname;
-    if (nickname) {
-      localStorage.setItem("nickname", nickname);
-    }
+    this.storageKey = this.el.dataset.storageKey;
+    this.bindElements();
+    this.restoreDraft();
+    this.handleEvent("post-saved", () => {
+      this.ta.value = "";
+      localStorage.removeItem(this.storageKey);
+      this.updateState();
+      document
+        .querySelector("#chat-feed")
+        ?.dispatchEvent(new CustomEvent("room:message-sent"));
+    });
   },
   updated() {
-    const submitBtn = document.getElementById("submitBtn");
-    const TA = document.getElementById("postFormTA");
-    if (TA.value.length > 0 && TA.value.length < 256) {
-      submitBtn.classList.remove("opacity-50");
-      submitBtn.classList.add("opacity-100");
-      submitBtn.disabled = false;
-    } else {
-      submitBtn.classList.add("opacity-50");
-      submitBtn.classList.remove("opacity-100");
-      submitBtn.disabled = true;
-    }
+    this.bindElements();
+    this.restoreDraft();
+    this.updateState();
   },
   destroyed() {
-    const submitBtn = document.getElementById("submitBtn");
-    const TA = document.getElementById("postFormTA");
-    if (submitBtn && TA) {
-      TA.removeEventListener("keydown", (e) => this.onPress(e, submitBtn, TA));
-      submitBtn.removeEventListener("click", (e) => this.onSubmit(e, TA));
-    }
+    this.unbindElements();
+  },
+  bindElements() {
+    const ta = this.el.querySelector("#postFormTA");
+    const submit = this.el.querySelector("#submitBtn");
+    if (this.ta === ta && this.submit === submit) return;
+
+    this.unbindElements();
+    this.ta = ta;
+    this.submit = submit;
+    if (!this.ta || !this.submit) return;
+
+    this.onInput = () => {
+      localStorage.setItem(this.storageKey, this.ta.value);
+      this.updateState();
+    };
+    this.onKeyDown = (event) => {
+      if (event.key === "Enter" && !event.shiftKey && this.valid()) {
+        event.preventDefault();
+        this.el.requestSubmit();
+      }
+    };
+    this.ta.addEventListener("input", this.onInput);
+    this.ta.addEventListener("keydown", this.onKeyDown);
+  },
+  unbindElements() {
+    this.ta?.removeEventListener("input", this.onInput);
+    this.ta?.removeEventListener("keydown", this.onKeyDown);
+  },
+  restoreDraft() {
+    if (!this.ta || !this.storageKey || this.ta.value) return;
+    this.ta.value = localStorage.getItem(this.storageKey) || "";
+    this.updateState();
+  },
+  valid() {
+    const length = this.ta?.value.trim().length || 0;
+    return !this.ta?.disabled && length >= 2 && length <= 255;
+  },
+  updateState() {
+    if (!this.ta || !this.submit) return;
+    const valid = this.valid();
+    this.submit.disabled = !valid;
+    this.submit.classList.toggle("opacity-50", !valid);
+    this.submit.classList.toggle("opacity-100", valid);
+    this.ta.style.height = "auto";
+    this.ta.style.height = `${Math.min(this.ta.scrollHeight, 64)}px`;
   },
 };
 
@@ -523,44 +624,295 @@ Hooks.OpenPresenter = {
     this.el.removeEventListener("click", (e) => this.open(e));
   },
 };
-Hooks.GlobalReacts = {
-  svgCache: {},
 
+Hooks.AttendeeFocus = {
   mounted() {
-    this.preloadSVGs();
-    this.handleEvent("global-react", (data) => {
-      const svgContent = this.svgCache[data.type];
-      if (svgContent) {
-        const container = document.createElement("div");
-        container.innerHTML = svgContent;
-        const svgElement = container.firstChild;
-        svgElement.classList.add(
-          "react-animation",
-          "absolute",
-          "transform",
-          "opacity-0",
-        );
-        svgElement.classList.add(...this.el.className.split(" "));
-        this.el.appendChild(svgElement);
+    this.focusKey = this.el.dataset.focusKey;
+    this.captionKey = "attendee-captions";
+    this.collapseKey = this.el.dataset.collapseKey;
+    this.onClick = (event) => {
+      if (event.target.closest("[data-focus-collapse]")) {
+        localStorage.setItem(this.collapseKey, "collapsed");
+        this.restoreCollapse();
+        return;
       }
+
+      if (event.target.closest("[data-focus-show]")) {
+        localStorage.setItem(this.collapseKey, "expanded");
+        this.restoreCollapse();
+        return;
+      }
+
+      const fullscreenButton = event.target.closest("[data-focus-fullscreen]");
+      if (fullscreenButton) {
+        if (document.fullscreenElement) {
+          document.exitFullscreen?.();
+        } else if (this.el.classList.contains("focus-fallback-fullscreen")) {
+          this.el.classList.remove("focus-fallback-fullscreen");
+        } else {
+          this.enterFullscreen();
+        }
+        return;
+      }
+
+      if (event.target.closest("[data-caption-toggle]")) {
+        const captions = this.el.querySelector("[data-caption-text]");
+        if (!captions) return;
+        const hidden = captions.classList.toggle("invisible");
+        localStorage.setItem(this.captionKey, hidden ? "hidden" : "visible");
+      }
+    };
+    this.onKeyDown = (event) => {
+      if (event.key === "Escape") this.el.classList.remove("focus-fallback-fullscreen");
+    };
+    this.el.addEventListener("click", this.onClick);
+    document.addEventListener("keydown", this.onKeyDown);
+    this.restoreCaptions();
+    this.restoreCollapse();
+  },
+  updated() {
+    const nextKey = this.el.dataset.focusKey;
+    if (this.focusKey !== nextKey) {
+      const composer = document.querySelector("#postFormTA");
+      const badge = this.el.querySelector("#new-interaction-badge");
+      if (composer && document.activeElement === composer && badge) {
+        badge.classList.remove("hidden");
+        window.setTimeout(() => badge.classList.add("hidden"), 3000);
+      }
+      this.focusKey = nextKey;
+    }
+    this.restoreCaptions();
+    this.restoreCollapse();
+  },
+  destroyed() {
+    this.el.removeEventListener("click", this.onClick);
+    document.removeEventListener("keydown", this.onKeyDown);
+  },
+  restoreCaptions() {
+    if (localStorage.getItem(this.captionKey) === "hidden") {
+      this.el.querySelector("[data-caption-text]")?.classList.add("invisible");
+    }
+  },
+  restoreCollapse() {
+    const interactionMode = this.el.dataset.interactionMode === "true";
+    const collapsed = localStorage.getItem(this.collapseKey) === "collapsed";
+    this.el.classList.toggle("focus-collapsed", collapsed && !interactionMode);
+  },
+  enterFullscreen() {
+    if (!this.el.requestFullscreen) {
+      this.el.classList.add("focus-fallback-fullscreen");
+      return;
+    }
+
+    this.el.requestFullscreen().catch(() => {
+      this.el.classList.add("focus-fallback-fullscreen");
     });
-    this.handleEvent("reset-global-react", (data) => {
-      this.el.innerHTML = "";
+  },
+};
+
+Hooks.RoomReactionFab = {
+  mounted() {
+    this.trigger = this.el.querySelector("[data-reaction-trigger]");
+    this.picker = this.el.querySelector("[data-reaction-picker]");
+    this.icon = this.el.querySelector("[data-reaction-icon]");
+    this.reaction = "heart";
+    this.updateIcon();
+
+    this.onPointerDown = () => {
+      this.longPressed = false;
+      this.pressTimer = window.setTimeout(() => {
+        this.longPressed = true;
+        this.openPicker();
+      }, 450);
+    };
+    this.onPointerUp = () => {
+      window.clearTimeout(this.pressTimer);
+      if (!this.longPressed) this.send(this.reaction);
+    };
+    this.onPointerCancel = () => window.clearTimeout(this.pressTimer);
+    this.onClick = (event) => {
+      if (event.detail === 0) this.send(this.reaction);
+    };
+    this.onKeyDown = (event) => {
+      if (["ArrowUp", "ArrowDown"].includes(event.key)) {
+        event.preventDefault();
+        this.openPicker();
+        this.picker.querySelector("[data-reaction]")?.focus();
+      } else if (event.key === "Escape") {
+        this.closePicker();
+      }
+    };
+    this.onPickerClick = (event) => {
+      const button = event.target.closest("[data-reaction]");
+      if (!button) return;
+      this.send(button.dataset.reaction);
+      this.closePicker();
+      this.trigger.focus();
+    };
+    this.onPickerKeyDown = (event) => {
+      if (event.key === "Escape") {
+        this.closePicker();
+        this.trigger.focus();
+      }
+    };
+
+    this.trigger.addEventListener("pointerdown", this.onPointerDown);
+    this.trigger.addEventListener("pointerup", this.onPointerUp);
+    this.trigger.addEventListener("pointercancel", this.onPointerCancel);
+    this.trigger.addEventListener("click", this.onClick);
+    this.trigger.addEventListener("keydown", this.onKeyDown);
+    this.picker.addEventListener("click", this.onPickerClick);
+    this.picker.addEventListener("keydown", this.onPickerKeyDown);
+  },
+  destroyed() {
+    window.clearTimeout(this.pressTimer);
+    this.trigger.removeEventListener("pointerdown", this.onPointerDown);
+    this.trigger.removeEventListener("pointerup", this.onPointerUp);
+    this.trigger.removeEventListener("pointercancel", this.onPointerCancel);
+    this.trigger.removeEventListener("click", this.onClick);
+    this.trigger.removeEventListener("keydown", this.onKeyDown);
+    this.picker.removeEventListener("click", this.onPickerClick);
+    this.picker.removeEventListener("keydown", this.onPickerKeyDown);
+  },
+  send(reaction) {
+    this.reaction = reaction;
+    this.updateIcon();
+    this.pushEvent("global-react", { type: reaction });
+  },
+  updateIcon() {
+    this.icon.src = `/images/icons/${this.reaction}.svg`;
+  },
+  openPicker() {
+    this.picker.classList.remove("hidden");
+    this.picker.classList.add("flex");
+    this.trigger.setAttribute("aria-expanded", "true");
+  },
+  closePicker() {
+    this.picker.classList.add("hidden");
+    this.picker.classList.remove("flex");
+    this.trigger.setAttribute("aria-expanded", "false");
+  },
+};
+
+Hooks.GlobalReacts = {
+  mounted() {
+    this.svgCache = {};
+    this.queue = [];
+    this.activeReactions = new Map();
+    this.sequence = 0;
+    this.drainTimer = null;
+    this.preloadSVGs();
+
+    this.globalReactRef = this.handleEvent("global-react", (data) => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (!this.svgTypes.includes(data.type)) return;
+
+      this.queue.push(data.type);
+      if (this.queue.length > 30) this.queue.shift();
+      this.scheduleDrain(0);
     });
+    this.resetGlobalReactRef = this.handleEvent("reset-global-react", () => this.reset());
+  },
+
+  destroyed() {
+    this.removeHandleEvent?.(this.globalReactRef);
+    this.removeHandleEvent?.(this.resetGlobalReactRef);
+    this.reset();
+  },
+
+  get svgTypes() {
+    return ["heart", "hundred", "clap", "raisehand"];
   },
 
   preloadSVGs() {
-    const svgTypes = ["heart", "hundred", "clap", "raisehand"];
-    svgTypes.forEach((type) => {
+    this.svgTypes.forEach((type) => {
       fetch(`/images/icons/${type}.svg`)
         .then((response) => response.text())
         .then((svgContent) => {
           this.svgCache[type] = svgContent;
+          this.scheduleDrain(0);
         })
-        .catch((error) =>
-          console.error(`Error loading SVG for ${type}:`, error),
-        );
+        .catch((error) => {
+          this.svgCache[type] = null;
+          this.queue = this.queue.filter((queuedType) => queuedType !== type);
+          console.error(`Error loading SVG for ${type}:`, error);
+        });
     });
+  },
+
+  scheduleDrain(delay = 120) {
+    if (this.drainTimer !== null || this.queue.length === 0) return;
+
+    this.drainTimer = window.setTimeout(() => {
+      this.drainTimer = null;
+      this.drain();
+    }, delay);
+  },
+
+  drain() {
+    if (this.queue.length === 0) return;
+    if (this.activeReactions.size >= 12) {
+      this.scheduleDrain(100);
+      return;
+    }
+
+    const type = this.queue[0];
+    const svgContent = this.svgCache[type];
+
+    if (svgContent === undefined) {
+      this.scheduleDrain(100);
+      return;
+    }
+
+    this.queue.shift();
+    if (svgContent) this.play(svgContent);
+    this.scheduleDrain();
+  },
+
+  play(svgContent) {
+    const container = document.createElement("div");
+    container.innerHTML = svgContent;
+    const svgElement = container.firstElementChild;
+    if (!svgElement) return;
+
+    const animationClass =
+      this.sequence++ % 2 === 0 ? "react-animation--short" : "react-animation--long";
+
+    svgElement.classList.add(
+      "react-animation",
+      animationClass,
+      "absolute",
+      "transform",
+      "opacity-0",
+      ...(this.el.dataset.className || "h-12 w-12").split(" "),
+    );
+    svgElement.style.left = `${15 + Math.random() * 70}%`;
+    svgElement.style.bottom = "1rem";
+
+    let removalTimer;
+    const cleanup = () => {
+      window.clearTimeout(removalTimer);
+      this.activeReactions.delete(svgElement);
+      svgElement.remove();
+      this.scheduleDrain(0);
+    };
+
+    svgElement.addEventListener("animationend", cleanup, { once: true });
+    removalTimer = window.setTimeout(cleanup, 2300);
+    this.activeReactions.set(svgElement, removalTimer);
+    this.el.appendChild(svgElement);
+  },
+
+  reset() {
+    this.queue = [];
+    window.clearTimeout(this.drainTimer);
+    this.drainTimer = null;
+    this.activeReactions?.forEach((timer, element) => {
+      window.clearTimeout(timer);
+      element.remove();
+    });
+    this.activeReactions?.clear();
+    this.el.innerHTML = "";
   },
 };
 Hooks.WelcomeEarly = {

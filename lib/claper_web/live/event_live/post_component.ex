@@ -1,276 +1,274 @@
 defmodule ClaperWeb.EventLive.PostComponent do
   use ClaperWeb, :live_component
 
+  @impl true
   def render(assigns) do
+    own_message =
+      assigns.post.attendee_identifier == assigns.attendee_identifier ||
+        (not is_nil(assigns.current_user) && assigns.post.user_id == assigns.current_user.id)
+
+    host_message = leader?(assigns.post, assigns.event, assigns.leaders)
+
+    assigns =
+      assigns
+      |> assign(:own_message, own_message)
+      |> assign(:host_message, host_message)
+      |> assign(:show_actions, own_message || assigns.is_leader)
+      |> assign(:can_react, assigns.reaction_enabled && !own_message)
+      |> assign(:author_name, author_name(assigns.post))
+
     ~H"""
-    <div id={@id}>
-      <%= if @post.attendee_identifier == @attendee_identifier || (not is_nil(@current_user) && @post.user_id == @current_user.id) do %>
-        <div class="px-4 pt-3 pb-8 rounded-b-lg rounded-tl-lg bg-gray-700 text-white relative z-0 break-word">
-          <button
-            phx-click={
-              JS.toggle(
-                to: "#post-menu-#{@post.id}",
-                out: "animate__animated animate__fadeOut",
-                in: "animate__animated animate__fadeIn"
-              )
-            }
-            phx-click-away={
-              JS.hide(to: "#post-menu-#{@post.id}", transition: "animate__animated animate__fadeOut")
-            }
-            class="float-right mr-1"
-          >
-            <img src="/images/icons/ellipsis-horizontal-white.svg" class="h-5" />
-          </button>
+    <article
+      id={@id}
+      class={[
+        "relative rounded-xl border px-3 py-2 shadow-sm",
+        @host_message &&
+          "border-supporting-yellow-300 bg-supporting-yellow-50 text-supporting-yellow-950",
+        !@host_message && @own_message && "border-gray-600 bg-gray-700 text-white",
+        !@host_message && !@own_message && "border-gray-200 bg-white text-gray-900"
+      ]}
+    >
+      <header class={[
+        "mb-1 flex min-h-6 items-center gap-2",
+        @can_react && @show_actions && "pr-20",
+        @can_react && !@show_actions && "pr-9",
+        !@can_react && @show_actions && "pr-9"
+      ]}>
+        <span class={[
+          "truncate text-xs font-bold",
+          @host_message && "text-supporting-yellow-900",
+          !@host_message && @own_message && "text-gray-200",
+          !@host_message && !@own_message && "text-gray-600"
+        ]}>
+          {@author_name}
+        </span>
+        <span
+          :if={@host_message}
+          class="inline-flex items-center gap-1 rounded-full bg-supporting-yellow-200 px-2 py-1 text-[10px] font-bold uppercase text-supporting-yellow-900"
+        >
+          ★ {gettext("Host")}
+        </span>
+        <span
+          :if={pinned?(@post)}
+          class="inline-flex items-center rounded-full bg-primary-100 px-2 py-1 text-[10px] font-bold uppercase text-primary-800"
+        >
+          {gettext("Pinned")}
+        </span>
+      </header>
 
-          <%= if @post.name || leader?(@post, @event, @leaders) || pinned?(@post) do %>
-            <div class="inline-flex items-center">
-              <%= if @post.name do %>
-                <p class="text-white text-xs font-semibold mb-2 mr-2">{@post.name}</p>
-              <% end %>
-              <%= if leader?(@post, @event, @leaders) do %>
-                <div class="inline-flex items-center space-x-1 justify-center px-3 py-0.5 rounded-full text-xs font-medium bg-supporting-yellow-100 text-supporting-yellow-800 mb-2">
-                  <img src="/images/icons/star.svg" class="h-3" />
-                  <span>{gettext("Host")}</span>
-                </div>
-              <% end %>
+      <button
+        :if={@show_actions}
+        type="button"
+        aria-label={gettext("Message actions")}
+        phx-click={
+          JS.toggle(
+            to: "#post-menu-#{@post.id}",
+            out: "animate__animated animate__fadeOut",
+            in: "animate__animated animate__fadeIn"
+          )
+        }
+        phx-click-away={
+          JS.hide(to: "#post-menu-#{@post.id}", transition: "animate__animated animate__fadeOut")
+        }
+        class={[
+          "absolute right-2 top-2 grid h-11 w-11 place-items-center rounded-full text-xl leading-none",
+          @own_message && !@host_message && "text-white hover:bg-white/10",
+          (!@own_message || @host_message) && "text-gray-600 hover:bg-black/5"
+        ]}
+      >
+        ⋯
+      </button>
 
-              <%= if pinned?(@post) do %>
-                <div class="inline-flex items-center space-x-1 justify-center px-3 py-0.5 rounded-full text-xs font-medium bg-supporting-yellow-100 text-supporting-yellow-800 mb-2 ml-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-pin-filled"
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <path
-                      d="M15.113 3.21l.094 .083l5.5 5.5a1 1 0 0 1 -1.175 1.59l-3.172 3.171l-1.424 3.797a1 1 0 0 1 -.158 .277l-.07 .08l-1.5 1.5a1 1 0 0 1 -1.32 .082l-.095 -.083l-2.793 -2.792l-3.793 3.792a1 1 0 0 1 -1.497 -1.32l.083 -.094l3.792 -3.793l-2.792 -2.793a1 1 0 0 1 -.083 -1.32l.083 -.094l1.5 -1.5a1 1 0 0 1 .258 -.187l.098 -.042l3.796 -1.425l3.171 -3.17a1 1 0 0 1 1.497 -1.26z"
-                      stroke-width="0"
-                      fill="currentColor"
-                    >
-                    </path>
-                  </svg>
-                  <span>{gettext("Pinned")}</span>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
+      <button
+        :if={@can_react}
+        type="button"
+        data-message-reaction-trigger
+        aria-label={gettext("React to message")}
+        aria-haspopup="menu"
+        phx-click={JS.toggle(to: "#reaction-menu-#{@post.id}", display: "flex")}
+        class={[
+          "absolute top-2 grid h-11 w-11 place-items-center rounded-full text-sm font-bold",
+          @show_actions && "right-12",
+          !@show_actions && "right-2",
+          @own_message && !@host_message && "text-white hover:bg-white/10",
+          (!@own_message || @host_message) && "text-gray-600 hover:bg-black/5"
+        ]}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M12 20l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.96 6.053" />
+          <path d="M16 19h6" />
+          <path d="M19 16v6" />
+        </svg>
+      </button>
 
-          <div
-            id={"post-menu-#{@post.id}"}
-            class="hidden absolute right-4 top-7 bg-white rounded-lg px-5 py-2 animate__faster"
-          >
-            <span class="text-red-500">
-              {link(gettext("Delete"),
-                to: "#",
-                phx_click: "delete",
-                phx_value_id: @post.uuid,
-                phx_value_event_id: @event.uuid,
-                data: [confirm: gettext("Are you sure?")]
-              )}
-            </span>
-          </div>
-          <p>{ClaperWeb.Helpers.format_body(@post.body)}</p>
+      <div
+        :if={@can_react}
+        id={"reaction-menu-#{@post.id}"}
+        data-message-reaction-menu
+        role="menu"
+        phx-click-away={JS.hide(to: "#reaction-menu-#{@post.id}")}
+        class={[
+          "absolute top-14 z-20 hidden items-center gap-1 rounded-full bg-gray-950 p-1.5 text-white shadow-2xl",
+          @show_actions && "right-11",
+          !@show_actions && "right-2"
+        ]}
+      >
+        <button
+          type="button"
+          role="menuitem"
+          aria-label={gettext("Thumbs up")}
+          phx-click={picker_reaction_click(Enum.member?(@liked_posts, @post.id), @post.id)}
+          phx-value-type="👍"
+          phx-value-post-id={@post.uuid}
+          class={picker_reaction_classes(Enum.member?(@liked_posts, @post.id))}
+        >
+          👍
+        </button>
+        <button
+          type="button"
+          role="menuitem"
+          aria-label={gettext("Heart")}
+          phx-click={picker_reaction_click(Enum.member?(@loved_posts, @post.id), @post.id)}
+          phx-value-type="❤️"
+          phx-value-post-id={@post.uuid}
+          class={picker_reaction_classes(Enum.member?(@loved_posts, @post.id))}
+        >
+          ❤️
+        </button>
+        <button
+          type="button"
+          role="menuitem"
+          aria-label={gettext("Laugh")}
+          phx-click={picker_reaction_click(Enum.member?(@loled_posts, @post.id), @post.id)}
+          phx-value-type="😂"
+          phx-value-post-id={@post.uuid}
+          class={picker_reaction_classes(Enum.member?(@loled_posts, @post.id))}
+        >
+          😂
+        </button>
+      </div>
 
-          <div class="flex h-6 text-sm float-right text-white space-x-2">
-            <%= if @post.like_count > 0 do %>
-              <div class="flex px-1 items-center">
-                <img src="/images/icons/thumb.svg" class="h-4" />
-                <span class="ml-1 text-white">{@post.like_count}</span>
-              </div>
-            <% end %>
-            <%= if @post.love_count > 0 do %>
-              <div class="flex px-1 items-center">
-                <img src="/images/icons/heart.svg" class="h-4" />
-                <span class="ml-1 text-white">{@post.love_count}</span>
-              </div>
-            <% end %>
-            <%= if @post.lol_count > 0 do %>
-              <div class="flex px-1 items-center">
-                <img src="/images/icons/laugh.svg" class="h-4" />
-                <span class="ml-1 text-white">{@post.lol_count}</span>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      <% else %>
-        <div class="px-4 pt-3 pb-8 rounded-b-lg rounded-tr-lg bg-white text-black relative z-0 break-all">
-          <%= if @post.name || leader?(@post, @event, @leaders) do %>
-            <div class="inline-flex items-center">
-              <%= if @post.name do %>
-                <p class="text-black text-xs font-semibold mb-2 mr-2">{@post.name}</p>
-              <% end %>
-              <%= if leader?(@post, @event, @leaders) do %>
-                <div class="inline-flex items-center space-x-1 justify-center px-3 py-0.5 rounded-full text-xs font-medium bg-supporting-yellow-100 text-supporting-yellow-800 mb-2">
-                  <img src="/images/icons/star.svg" class="h-3" />
-                  <span>{gettext("Host")}</span>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
+      <div
+        id={"post-menu-#{@post.id}"}
+        class="absolute right-3 top-12 z-20 hidden rounded-xl bg-gray-950 px-4 py-3 text-sm shadow-2xl animate__faster"
+      >
+        {link(gettext("Delete"),
+          to: "#",
+          class: "font-semibold text-supporting-red-400",
+          phx_click: "delete",
+          phx_value_id: @post.uuid,
+          phx_value_event_id: @event.uuid,
+          data: [confirm: gettext("Are you sure?")]
+        )}
+      </div>
 
-          <%= if @is_leader do %>
-            <button
-              phx-click={
-                JS.toggle(
-                  to: "#post-menu-#{@post.id}",
-                  out: "animate__animated animate__fadeOut",
-                  in: "animate__animated animate__fadeIn"
-                )
-              }
-              phx-click-away={
-                JS.hide(
-                  to: "#post-menu-#{@post.id}",
-                  transition: "animate__animated animate__fadeOut"
-                )
-              }
-              class="float-right mr-1"
-            >
-              <img src="/images/icons/ellipsis-horizontal.svg" class="h-5" />
-            </button>
-            <div
-              id={"post-menu-#{@post.id}"}
-              class="hidden absolute right-4 top-7 bg-gray-900 rounded-lg px-5 py-2"
-            >
-              <span class="text-red-500">
-                {link(gettext("Delete"),
-                  to: "#",
-                  phx_click: "delete",
-                  phx_value_id: @post.uuid,
-                  phx_value_event_id: @event.uuid,
-                  data: [confirm: gettext("Are you sure?")]
-                )}
-              </span>
-            </div>
-          <% end %>
+      <p class="break-words text-sm leading-5">{ClaperWeb.Helpers.format_body(@post.body)}</p>
 
-          <%= if pinned?(@post) do %>
-            <div class="inline-flex items-center space-x-1 justify-center px-3 py-0.5 rounded-full text-xs font-medium bg-supporting-yellow-100 text-supporting-yellow-800 mb-2 ml-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-pin-filled"
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                stroke-width="2"
-                stroke="currentColor"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path
-                  d="M15.113 3.21l.094 .083l5.5 5.5a1 1 0 0 1 -1.175 1.59l-3.172 3.171l-1.424 3.797a1 1 0 0 1 -.158 .277l-.07 .08l-1.5 1.5a1 1 0 0 1 -1.32 .082l-.095 -.083l-2.793 -2.792l-3.793 3.792a1 1 0 0 1 -1.497 -1.32l.083 -.094l3.792 -3.793l-2.792 -2.793a1 1 0 0 1 -.083 -1.32l.083 -.094l1.5 -1.5a1 1 0 0 1 .258 -.187l.098 -.042l3.796 -1.425l3.171 -3.17a1 1 0 0 1 1.497 -1.26z"
-                  stroke-width="0"
-                  fill="currentColor"
-                >
-                </path>
-              </svg>
-              <span>{gettext("Pinned")}</span>
-            </div>
-          <% end %>
-
-          <p>{ClaperWeb.Helpers.format_body(@post.body)}</p>
-
-          <div class="flex h-6 text-xs float-right space-x-2">
-            <%= if @reaction_enabled do %>
-              <%= if not Enum.member?(@liked_posts, @post.id) do %>
-                <button
-                  phx-click="react"
-                  phx-value-type="👍"
-                  phx-value-post-id={@post.uuid}
-                  class="flex rounded-full px-3 py-1 border border-gray-300 bg-white items-center"
-                >
-                  <img src="/images/icons/thumb.svg" class="h-4" />
-                  <%= if @post.like_count > 0 do %>
-                    <span class="ml-1">{@post.like_count}</span>
-                  <% end %>
-                </button>
-              <% else %>
-                <button
-                  phx-click="unreact"
-                  phx-value-type="👍"
-                  phx-value-post-id={@post.uuid}
-                  class="flex rounded-full px-3 py-1 border border-gray-300 bg-gray-100 items-center"
-                >
-                  <span class="">
-                    <img src="/images/icons/thumb.svg" class="h-4" />
-                  </span>
-                  <%= if @post.like_count > 0 do %>
-                    <span class="ml-1">{@post.like_count}</span>
-                  <% end %>
-                </button>
-              <% end %>
-              <%= if not Enum.member?(@loved_posts, @post.id) do %>
-                <button
-                  phx-click="react"
-                  phx-value-type="❤️"
-                  phx-value-post-id={@post.uuid}
-                  class="flex rounded-full px-3 py-1 border border-gray-300 bg-white items-center"
-                >
-                  <img src="/images/icons/heart.svg" class="h-4" />
-                  <%= if @post.love_count > 0 do %>
-                    <span class="ml-1">{@post.love_count}</span>
-                  <% end %>
-                </button>
-              <% else %>
-                <button
-                  phx-click="unreact"
-                  phx-value-type="❤️"
-                  phx-value-post-id={@post.uuid}
-                  class="flex rounded-full px-3 py-1 border border-gray-300 bg-gray-100 items-center"
-                >
-                  <img src="/images/icons/heart.svg" class="h-4" />
-                  <%= if @post.love_count > 0 do %>
-                    <span class="ml-1">{@post.love_count}</span>
-                  <% end %>
-                </button>
-              <% end %>
-              <%= if not Enum.member?(@loled_posts, @post.id) do %>
-                <button
-                  phx-click="react"
-                  phx-value-type="😂"
-                  phx-value-post-id={@post.uuid}
-                  class="flex rounded-full px-3 py-1 border border-gray-300 bg-white items-center"
-                >
-                  <img src="/images/icons/laugh.svg" class="h-4" />
-                  <%= if @post.lol_count > 0 do %>
-                    <span class="ml-1">{@post.lol_count}</span>
-                  <% end %>
-                </button>
-              <% else %>
-                <button
-                  phx-click="unreact"
-                  phx-value-type="😂"
-                  phx-value-post-id={@post.uuid}
-                  class="flex rounded-full px-3 py-1 border border-gray-300 bg-gray-100 items-center"
-                >
-                  <img src="/images/icons/laugh.svg" class="h-4" />
-                  <%= if @post.lol_count > 0 do %>
-                    <span class="ml-1">{@post.lol_count}</span>
-                  <% end %>
-                </button>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
+      <div
+        :if={
+          @reaction_enabled &&
+            (@post.like_count > 0 || @post.love_count > 0 || @post.lol_count > 0)
+        }
+        class="mt-1.5 flex flex-wrap justify-end gap-1"
+      >
+        <button
+          :if={@post.like_count > 0}
+          type="button"
+          data-reaction-chip
+          disabled={@own_message}
+          phx-click={if Enum.member?(@liked_posts, @post.id), do: "unreact", else: "react"}
+          phx-value-type="👍"
+          phx-value-post-id={@post.uuid}
+          aria-pressed={to_string(Enum.member?(@liked_posts, @post.id))}
+          class={
+            reaction_chip_classes(
+              Enum.member?(@liked_posts, @post.id),
+              @own_message && !@host_message
+            )
+          }
+        >
+          <span>👍</span><span :if={@post.like_count > 0}>{@post.like_count}</span>
+        </button>
+        <button
+          :if={@post.love_count > 0}
+          data-reaction-chip
+          type="button"
+          disabled={@own_message}
+          phx-click={if Enum.member?(@loved_posts, @post.id), do: "unreact", else: "react"}
+          phx-value-type="❤️"
+          phx-value-post-id={@post.uuid}
+          aria-pressed={to_string(Enum.member?(@loved_posts, @post.id))}
+          class={
+            reaction_chip_classes(
+              Enum.member?(@loved_posts, @post.id),
+              @own_message && !@host_message
+            )
+          }
+        >
+          <span>❤️</span><span :if={@post.love_count > 0}>{@post.love_count}</span>
+        </button>
+        <button
+          :if={@post.lol_count > 0}
+          data-reaction-chip
+          type="button"
+          disabled={@own_message}
+          phx-click={if Enum.member?(@loled_posts, @post.id), do: "unreact", else: "react"}
+          phx-value-type="😂"
+          phx-value-post-id={@post.uuid}
+          aria-pressed={to_string(Enum.member?(@loled_posts, @post.id))}
+          class={
+            reaction_chip_classes(
+              Enum.member?(@loled_posts, @post.id),
+              @own_message && !@host_message
+            )
+          }
+        >
+          <span>😂</span><span :if={@post.lol_count > 0}>{@post.lol_count}</span>
+        </button>
+      </div>
+    </article>
     """
+  end
+
+  defp author_name(%{name: name}) when is_binary(name) and name != "", do: name
+  defp author_name(_post), do: gettext("Anonymous")
+
+  defp reaction_chip_classes(selected, dark_message) do
+    [
+      "inline-flex h-7 min-w-7 items-center justify-center gap-1 rounded-full border px-2 text-[11px] font-semibold transition-colors",
+      selected && "border-primary-400 bg-primary-100 text-primary-900",
+      !selected && dark_message && "border-white/30 bg-transparent text-white hover:bg-white/10",
+      !selected && !dark_message && "border-gray-300 bg-white text-gray-800 hover:bg-gray-100"
+    ]
+  end
+
+  defp picker_reaction_classes(selected) do
+    [
+      "grid h-11 w-11 place-items-center rounded-full text-lg transition-colors hover:bg-white/10",
+      selected && "bg-primary-500"
+    ]
+  end
+
+  defp picker_reaction_click(selected, post_id) do
+    JS.push(if(selected, do: "unreact", else: "react"))
+    |> JS.hide(to: "#reaction-menu-#{post_id}")
   end
 
   defp leader?(post, event, leaders) do
     !is_nil(post.user_id) &&
       (post.user_id == event.user_id ||
-         Enum.any?(leaders, fn leader ->
-           leader.user_id == post.user_id
-         end))
+         Enum.any?(leaders, fn leader -> leader.user_id == post.user_id end))
   end
 
   defp pinned?(post), do: post.pinned
