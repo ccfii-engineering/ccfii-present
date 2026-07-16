@@ -126,7 +126,7 @@
 }
 
 @media (max-height: 500px) {
-  #focus-slot {
+  #focus-slot:not([data-interaction-mode="true"]) {
     height: 7rem;
     min-height: 7rem;
   }

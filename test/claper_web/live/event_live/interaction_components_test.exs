@@ -40,6 +40,7 @@ defmodule ClaperWeb.EventLive.InteractionComponentsTest do
     assert "bg-primary-900/40" in option_classes
     assert "py-2" in option_classes
     assert "shrink-0" in option_classes
+    refute "overflow-y-auto" in classes(document, "#poll-options")
     refute "min-h-11" in option_classes
     assert Floki.attribute(document, "#poll-opt-0", "aria-pressed") == ["true"]
     assert "btn-gradient" in vote_classes
@@ -284,6 +285,15 @@ defmodule ClaperWeb.EventLive.InteractionComponentsTest do
     assert "h-full" in classes(document, "iframe")
     assert "w-full" in classes(document, "iframe")
     assert Floki.attribute(document, "iframe", "title") == ["Watch the demo"]
+
+    focus_document =
+      EmbedComponent
+      |> render_component(id: "focus-embed-component", embed: embed, focus_mode: true)
+      |> Floki.parse_document!()
+
+    assert Floki.find(focus_document, "#collapsed-embed") == []
+    assert Floki.find(focus_document, "#embed-pane") == []
+    assert "shadow-none" in classes(focus_document, "#extended-embed")
   end
 
   test "custom web content is not cropped into a video aspect ratio" do

@@ -8,7 +8,8 @@
   <% interaction_mode? =
     match?(%Claper.Polls.Poll{}, @current_interaction) ||
       match?(%Claper.Forms.Form{}, @current_interaction) ||
-      match?(%Claper.Quizzes.Quiz{}, @current_interaction) %>
+      match?(%Claper.Quizzes.Quiz{}, @current_interaction) ||
+      match?(%Claper.Embeds.Embed{attendee_visibility: true}, @current_interaction) %>
   <div class="h-[100dvh] overflow-hidden bg-black lg:bg-primary-700">
     <main
       id="attendee-room"
@@ -131,7 +132,8 @@
         data-interaction-mode={to_string(interaction_mode?)}
         class={[
           "relative z-10 min-h-0 overflow-hidden border-y border-white/10 bg-gray-950 transition-[height] duration-300",
-          focus_content? && "h-[40dvh] min-h-40 max-h-[26rem]",
+          focus_content? && interaction_mode? && "h-auto max-h-[40dvh]",
+          focus_content? && !interaction_mode? && "h-[40dvh] min-h-40 max-h-[26rem]",
           !focus_content? && "h-12"
         ]}
       >
@@ -144,7 +146,7 @@
 
         <%= case @current_interaction do %>
           <% %Claper.Polls.Poll{} -> %>
-            <div class="h-full overflow-y-auto overscroll-contain p-3">
+            <div class="max-h-[40dvh] overflow-y-auto overscroll-contain p-3">
               <.live_component
                 module={ClaperWeb.EventLive.PollComponent}
                 id={"#{@current_interaction.id}-poll"}
@@ -159,7 +161,7 @@
               />
             </div>
           <% %Claper.Forms.Form{} -> %>
-            <div class="h-full overflow-y-auto overscroll-contain p-3">
+            <div class="max-h-[40dvh] overflow-y-auto overscroll-contain p-3">
               <.live_component
                 module={ClaperWeb.EventLive.FormComponent}
                 id={"#{@current_interaction.id}-form"}
@@ -172,7 +174,7 @@
               />
             </div>
           <% %Claper.Quizzes.Quiz{} -> %>
-            <div class="h-full overflow-y-auto overscroll-contain p-3">
+            <div class="max-h-[40dvh] overflow-y-auto overscroll-contain p-3">
               <.live_component
                 module={ClaperWeb.EventLive.QuizComponent}
                 id={"#{@current_interaction.id}-quiz"}
@@ -188,13 +190,12 @@
               />
             </div>
           <% %Claper.Embeds.Embed{attendee_visibility: true} -> %>
-            <div id="focus-media" class="relative h-full w-full bg-black">
+            <div class="max-h-[40dvh] overflow-y-auto overscroll-contain p-3">
               <.live_component
-                id={"focus-embed-#{@current_interaction.id}"}
-                module={ClaperWeb.EventLive.EmbedIframeComponent}
-                provider={@current_interaction.provider}
-                content={@current_interaction.content}
-                title={@current_interaction.title}
+                id={"#{@current_interaction.id}-embed"}
+                module={ClaperWeb.EventLive.EmbedComponent}
+                embed={@current_interaction}
+                focus_mode
               />
             </div>
           <% _ -> %>
