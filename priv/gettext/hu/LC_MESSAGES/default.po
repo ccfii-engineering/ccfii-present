@@ -3242,32 +3242,32 @@ msgstr "Válasz hozzáadása"
 #: lib/claper_web/live/transcription_live/form_component.html.heex:52
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Add transcription"
-msgstr "Új átirat"
+msgstr "Átirat hozzáadása"
 
 #: lib/claper_web/live/embed_live/form_component.html.heex:66
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Add web content"
-msgstr "Internetes tartalom szerkesztése"
+msgstr "Internetes tartalom hozzáadása"
 
 #: lib/claper_web/live/poll_live/form_component.html.heex:97
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Create a poll"
-msgstr "Létrehozás"
+msgstr "Szavazás létrehozása"
 
 #: lib/claper_web/live/form_live/form_component.html.heex:104
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Create form"
-msgstr "Jelenlegi űrlap"
+msgstr "Űrlap létrehozása"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:218
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Create quiz"
-msgstr "Jelenlegi kvíz"
+msgstr "Kvíz létrehozása"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:134
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Delete answer"
-msgstr "Felhasználó törlése"
+msgstr "Válasz törlése"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:15
 #, elixir-autogen, elixir-format
@@ -3277,19 +3277,19 @@ msgstr ""
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:82
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Enter your question"
-msgstr "Írja be a nevét"
+msgstr "Írja be a kérdését"
 
 #: lib/claper_web/live/embed_live/form_component.html.heex:16
 #: lib/claper_web/live/form_live/form_component.html.heex:16
 #: lib/claper_web/live/poll_live/form_component.html.heex:16
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Enter your title"
-msgstr "Írja be a nevét"
+msgstr "Írja be a címet"
 
 #: lib/claper_web/live/form_live/form_component.html.heex:15
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Form's title"
-msgstr "Űrlapok"
+msgstr "Az űrlap címe"
 
 #: lib/claper_web/live/embed_live/form_component.html.heex:62
 #: lib/claper_web/live/form_live/form_component.html.heex:100
@@ -3298,7 +3298,7 @@ msgstr "Űrlapok"
 #: lib/claper_web/live/transcription_live/form_component.html.heex:48
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Loading..."
-msgstr "Mentés..."
+msgstr "Betöltés..."
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:107
 #, elixir-autogen, elixir-format
@@ -3308,7 +3308,7 @@ msgstr ""
 #: lib/claper_web/live/poll_live/form_component.html.heex:15
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Poll's title"
-msgstr "Szavazások"
+msgstr "A szavazás címe"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:74
 #, elixir-autogen, elixir-format
@@ -3318,124 +3318,124 @@ msgstr ""
 #: lib/claper_web/live/poll_live/form_component.html.heex:36
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Remove choice"
-msgstr "Eltávolítás"
+msgstr "Válaszlehetőség eltávolítása"
 
 #: lib/claper_web/live/form_live/form_component.html.heex:49
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Remove field"
-msgstr "Eltávolítás"
+msgstr "Mező eltávolítása"
 
 #: lib/claper_web/live/event_live/form_component.ex:132
 #: lib/claper_web/live/event_live/poll_component.ex:176
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Submitted"
-msgstr "Küldés"
+msgstr "Elküldve"
 
 #: lib/claper_web/live/event_live/show.html.heex:338
 #, elixir-autogen, elixir-format
 msgid "Be the first to ask a question or share a thought."
-msgstr ""
+msgstr "Legyen az első, aki kérdést tesz fel vagy megoszt egy gondolatot."
 
 #: lib/claper_web/live/event_live/show.html.heex:437
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Choose identity"
-msgstr "Fájl kiválasztása"
+msgstr "Identitás kiválasztása"
 
 #: lib/claper_web/live/event_live/show.html.heex:205
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Current presentation slide"
-msgstr "Jelenlegi jelszó"
+msgstr "A prezentáció aktuális diája"
 
 #: lib/claper_web/live/event_live/post_component.ex:61
 #, elixir-autogen, elixir-format
 msgid "Message actions"
-msgstr ""
+msgstr "Üzenetműveletek"
 
 #: lib/claper_web/live/event_live/show.html.heex:142
 #, elixir-autogen, elixir-format, fuzzy
 msgid "New interaction"
-msgstr "Új átirat"
+msgstr "Új interakció"
 
 #: lib/claper_web/live/event_live/show.html.heex:90
 #, elixir-autogen, elixir-format
 msgid "Nickname"
-msgstr ""
+msgstr "Becenév"
 
 #: lib/claper_web/live/event_live/show.html.heex:221
 #, elixir-autogen, elixir-format
 msgid "Open fullscreen"
-msgstr ""
+msgstr "Teljes képernyő megnyitása"
 
 #: lib/claper_web/live/event_live/show.html.heex:52
 #, elixir-autogen, elixir-format
 msgid "Post as"
-msgstr ""
+msgstr "Közzététel mint"
 
 #: lib/claper_web/live/event_live/show.html.heex:43
 #, elixir-autogen, elixir-format
 msgid "Reconnecting..."
-msgstr ""
+msgstr "Újracsatlakozás..."
 
 #: lib/claper_web/live/event_live/show.html.heex:409
 #, elixir-autogen, elixir-format
 msgid "Send a live reaction"
-msgstr ""
+msgstr "Élő reakció küldése"
 
 #: lib/claper_web/live/event_live/show.html.heex:462
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Send message"
-msgstr "Üzenetek elrejtése"
+msgstr "Üzenet küldése"
 
 #: lib/claper_web/live/event_live/show.html.heex:92
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Set your nickname"
-msgstr "Használja a nevét"
+msgstr "Becenév megadása"
 
 #: lib/claper_web/live/event_live/show.html.heex:453
 #, elixir-autogen, elixir-format
 msgid "Set your nickname to participate"
-msgstr ""
+msgstr "Becenév megadása a részvételhez"
 
 #: lib/claper_web/live/event_live/show.html.heex:291
 #, elixir-autogen, elixir-format
 msgid "Toggle captions"
-msgstr ""
+msgstr "Feliratok be-/kikapcsolása"
 
 #: lib/claper_web/live/event_live/show.html.heex:211
 #, elixir-autogen, elixir-format
 msgid "Waiting for content"
-msgstr ""
+msgstr "Várakozás a tartalomra"
 
 #: lib/claper_web/live/event_live/show.html.heex:346
 #, elixir-autogen, elixir-format, fuzzy
 msgid "new messages"
-msgstr "Üzenetek elrejtése"
+msgstr "új üzenet"
 
 #: lib/claper_web/live/event_live/show.html.heex:382
 #, elixir-autogen, elixir-format
 msgid "Clap"
-msgstr ""
+msgstr "Taps"
 
 #: lib/claper_web/live/event_live/post_component.ex:125
 #: lib/claper_web/live/event_live/show.html.heex:373
 #, elixir-autogen, elixir-format
 msgid "Heart"
-msgstr ""
+msgstr "Szív"
 
 #: lib/claper_web/live/event_live/show.html.heex:391
 #, elixir-autogen, elixir-format
 msgid "Hundred"
-msgstr ""
+msgstr "Száz pont"
 
 #: lib/claper_web/live/event_live/show.html.heex:80
 #, elixir-autogen, elixir-format
 msgid "Nickname must be between 2 and 20 characters"
-msgstr ""
+msgstr "A becenévnek 2 és 20 karakter között kell lennie"
 
 #: lib/claper_web/live/event_live/show.html.heex:400
 #, elixir-autogen, elixir-format
 msgid "Raise hand"
-msgstr ""
+msgstr "Felemelt kéz"
 
 #: lib/claper_web/live/event_live/show.html.heex:243
 #, elixir-autogen, elixir-format
@@ -3450,14 +3450,14 @@ msgstr "Prezentáció megjelenítése"
 #: lib/claper_web/live/event_live/post_component.ex:136
 #, elixir-autogen, elixir-format
 msgid "Laugh"
-msgstr ""
+msgstr "Nevetés"
 
 #: lib/claper_web/live/event_live/post_component.ex:85
 #, elixir-autogen, elixir-format
 msgid "React to message"
-msgstr ""
+msgstr "Reagálás az üzenetre"
 
 #: lib/claper_web/live/event_live/post_component.ex:114
 #, elixir-autogen, elixir-format
 msgid "Thumbs up"
-msgstr ""
+msgstr "Hüvelykujj felfelé"

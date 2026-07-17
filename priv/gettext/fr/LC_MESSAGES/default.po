@@ -3246,32 +3246,32 @@ msgstr "Ajouter une réponse"
 #: lib/claper_web/live/transcription_live/form_component.html.heex:52
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Add transcription"
-msgstr "Nouvelle transcription"
+msgstr "Ajouter une transcription"
 
 #: lib/claper_web/live/embed_live/form_component.html.heex:66
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Add web content"
-msgstr "Modifier le contenu web"
+msgstr "Ajouter un contenu web"
 
 #: lib/claper_web/live/poll_live/form_component.html.heex:97
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Create a poll"
-msgstr "Créer"
+msgstr "Créer un sondage"
 
 #: lib/claper_web/live/form_live/form_component.html.heex:104
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Create form"
-msgstr "Formulaire actuel"
+msgstr "Créer un formulaire"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:218
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Create quiz"
-msgstr "Quiz actuel"
+msgstr "Créer un quiz"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:134
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Delete answer"
-msgstr "Supprimer l'utilisateur"
+msgstr "Supprimer la réponse"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:15
 #, elixir-autogen, elixir-format
@@ -3281,19 +3281,19 @@ msgstr ""
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:82
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Enter your question"
-msgstr "Entrez votre nom"
+msgstr "Entrez votre question"
 
 #: lib/claper_web/live/embed_live/form_component.html.heex:16
 #: lib/claper_web/live/form_live/form_component.html.heex:16
 #: lib/claper_web/live/poll_live/form_component.html.heex:16
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Enter your title"
-msgstr "Entrez votre nom"
+msgstr "Entrez votre titre"
 
 #: lib/claper_web/live/form_live/form_component.html.heex:15
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Form's title"
-msgstr "Formulaires"
+msgstr "Titre du formulaire"
 
 #: lib/claper_web/live/embed_live/form_component.html.heex:62
 #: lib/claper_web/live/form_live/form_component.html.heex:100
@@ -3302,7 +3302,7 @@ msgstr "Formulaires"
 #: lib/claper_web/live/transcription_live/form_component.html.heex:48
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Loading..."
-msgstr "Enregistrement..."
+msgstr "Chargement..."
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:107
 #, elixir-autogen, elixir-format
@@ -3312,7 +3312,7 @@ msgstr ""
 #: lib/claper_web/live/poll_live/form_component.html.heex:15
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Poll's title"
-msgstr "Sondages"
+msgstr "Titre du sondage"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:74
 #, elixir-autogen, elixir-format
@@ -3322,124 +3322,124 @@ msgstr ""
 #: lib/claper_web/live/poll_live/form_component.html.heex:36
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Remove choice"
-msgstr "Supprimer"
+msgstr "Supprimer le choix"
 
 #: lib/claper_web/live/form_live/form_component.html.heex:49
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Remove field"
-msgstr "Supprimer"
+msgstr "Supprimer le champ"
 
 #: lib/claper_web/live/event_live/form_component.ex:132
 #: lib/claper_web/live/event_live/poll_component.ex:176
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Submitted"
-msgstr "Soumettre"
+msgstr "Soumis"
 
 #: lib/claper_web/live/event_live/show.html.heex:338
 #, elixir-autogen, elixir-format
 msgid "Be the first to ask a question or share a thought."
-msgstr ""
+msgstr "Soyez le premier à poser une question ou à partager une idée."
 
 #: lib/claper_web/live/event_live/show.html.heex:437
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Choose identity"
-msgstr "Choisir un fichier"
+msgstr "Choisir une identité"
 
 #: lib/claper_web/live/event_live/show.html.heex:205
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Current presentation slide"
-msgstr "Mot de passe actuel"
+msgstr "Diapositive actuelle de la présentation"
 
 #: lib/claper_web/live/event_live/post_component.ex:61
 #, elixir-autogen, elixir-format
 msgid "Message actions"
-msgstr ""
+msgstr "Actions du message"
 
 #: lib/claper_web/live/event_live/show.html.heex:142
 #, elixir-autogen, elixir-format, fuzzy
 msgid "New interaction"
-msgstr "Nouvelle transcription"
+msgstr "Nouvelle interaction"
 
 #: lib/claper_web/live/event_live/show.html.heex:90
 #, elixir-autogen, elixir-format
 msgid "Nickname"
-msgstr ""
+msgstr "Pseudo"
 
 #: lib/claper_web/live/event_live/show.html.heex:221
 #, elixir-autogen, elixir-format
 msgid "Open fullscreen"
-msgstr ""
+msgstr "Ouvrir en plein écran"
 
 #: lib/claper_web/live/event_live/show.html.heex:52
 #, elixir-autogen, elixir-format
 msgid "Post as"
-msgstr ""
+msgstr "Publier en tant que"
 
 #: lib/claper_web/live/event_live/show.html.heex:43
 #, elixir-autogen, elixir-format
 msgid "Reconnecting..."
-msgstr ""
+msgstr "Reconnexion..."
 
 #: lib/claper_web/live/event_live/show.html.heex:409
 #, elixir-autogen, elixir-format
 msgid "Send a live reaction"
-msgstr ""
+msgstr "Envoyer une réaction en direct"
 
 #: lib/claper_web/live/event_live/show.html.heex:462
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Send message"
-msgstr "Masquer les messages"
+msgstr "Envoyer le message"
 
 #: lib/claper_web/live/event_live/show.html.heex:92
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Set your nickname"
-msgstr "Utiliser votre nom"
+msgstr "Choisir un pseudo"
 
 #: lib/claper_web/live/event_live/show.html.heex:453
 #, elixir-autogen, elixir-format
 msgid "Set your nickname to participate"
-msgstr ""
+msgstr "Choisir un pseudo pour participer"
 
 #: lib/claper_web/live/event_live/show.html.heex:291
 #, elixir-autogen, elixir-format
 msgid "Toggle captions"
-msgstr ""
+msgstr "Activer/désactiver les sous-titres"
 
 #: lib/claper_web/live/event_live/show.html.heex:211
 #, elixir-autogen, elixir-format
 msgid "Waiting for content"
-msgstr ""
+msgstr "En attente de contenu"
 
 #: lib/claper_web/live/event_live/show.html.heex:346
 #, elixir-autogen, elixir-format, fuzzy
 msgid "new messages"
-msgstr "Masquer les messages"
+msgstr "nouveaux messages"
 
 #: lib/claper_web/live/event_live/show.html.heex:382
 #, elixir-autogen, elixir-format
 msgid "Clap"
-msgstr ""
+msgstr "Applaudissements"
 
 #: lib/claper_web/live/event_live/post_component.ex:125
 #: lib/claper_web/live/event_live/show.html.heex:373
 #, elixir-autogen, elixir-format
 msgid "Heart"
-msgstr ""
+msgstr "Cœur"
 
 #: lib/claper_web/live/event_live/show.html.heex:391
 #, elixir-autogen, elixir-format
 msgid "Hundred"
-msgstr ""
+msgstr "Cent points"
 
 #: lib/claper_web/live/event_live/show.html.heex:80
 #, elixir-autogen, elixir-format
 msgid "Nickname must be between 2 and 20 characters"
-msgstr ""
+msgstr "Le pseudo doit contenir entre 2 et 20 caractères"
 
 #: lib/claper_web/live/event_live/show.html.heex:400
 #, elixir-autogen, elixir-format
 msgid "Raise hand"
-msgstr ""
+msgstr "Main levée"
 
 #: lib/claper_web/live/event_live/show.html.heex:243
 #, elixir-autogen, elixir-format
@@ -3454,14 +3454,14 @@ msgstr "Afficher la présentation"
 #: lib/claper_web/live/event_live/post_component.ex:136
 #, elixir-autogen, elixir-format
 msgid "Laugh"
-msgstr ""
+msgstr "Rire"
 
 #: lib/claper_web/live/event_live/post_component.ex:85
 #, elixir-autogen, elixir-format
 msgid "React to message"
-msgstr ""
+msgstr "Réagir au message"
 
 #: lib/claper_web/live/event_live/post_component.ex:114
 #, elixir-autogen, elixir-format
 msgid "Thumbs up"
-msgstr ""
+msgstr "Pouce levé"
