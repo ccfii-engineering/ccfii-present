@@ -190,7 +190,8 @@ msgstr ""
 #: lib/claper_web/live/event_live/event_card_component.ex:837
 #: lib/claper_web/live/event_live/event_form_component.html.heex:48
 #: lib/claper_web/live/event_live/event_form_component.html.heex:404
-#: lib/claper_web/live/event_live/manage_audience_responses_component.ex:247
+#: lib/claper_web/live/event_live/manage_audience_responses_component.ex:263
+#: lib/claper_web/live/event_live/manage_audience_responses_component.ex:269
 #: lib/claper_web/live/event_live/manageable_post_component.ex:140
 #: lib/claper_web/live/event_live/post_component.ex:176
 #: lib/claper_web/live/form_live/form_component.html.heex:109
@@ -439,8 +440,8 @@ msgstr ""
 msgid "If you’re having trouble with the button above, copy and paste the URL below into your web browser"
 msgstr ""
 
-#: lib/claper_web/live/event_live/manageable_post_component.ex:94
-#: lib/claper_web/live/event_live/manageable_post_component.ex:120
+#: lib/claper_web/live/event_live/manageable_post_component.ex:86
+#: lib/claper_web/live/event_live/manageable_post_component.ex:116
 #, elixir-autogen, elixir-format
 msgid "Blocking this user will delete all his messages and he will not be able to join again, confirm ?"
 msgstr ""
@@ -452,8 +453,8 @@ msgstr ""
 msgid "You have been banned from this event"
 msgstr ""
 
-#: lib/claper_web/live/event_live/manageable_post_component.ex:88
-#: lib/claper_web/live/event_live/manageable_post_component.ex:114
+#: lib/claper_web/live/event_live/manageable_post_component.ex:80
+#: lib/claper_web/live/event_live/manageable_post_component.ex:110
 #, elixir-autogen, elixir-format
 msgid "Ban"
 msgstr ""
@@ -689,7 +690,7 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-#: lib/claper_web/live/event_live/manage_audience_responses_component.ex:244
+#: lib/claper_web/live/event_live/manage_audience_responses_component.ex:268
 #, elixir-autogen, elixir-format
 msgid "This cannot be undone, confirm ?"
 msgstr ""
@@ -857,7 +858,7 @@ msgstr ""
 msgid "Web content"
 msgstr ""
 
-#: lib/claper_web/live/event_live/manageable_post_component.ex:45
+#: lib/claper_web/live/event_live/manageable_post_component.ex:52
 #, elixir-autogen, elixir-format
 msgid "Pin"
 msgstr ""
@@ -878,7 +879,7 @@ msgstr ""
 msgid "Show only pinned messages"
 msgstr ""
 
-#: lib/claper_web/live/event_live/manageable_post_component.ex:45
+#: lib/claper_web/live/event_live/manageable_post_component.ex:52
 #, elixir-autogen, elixir-format
 msgid "Unpin"
 msgstr ""

@@ -197,7 +197,8 @@ msgstr "Skapa"
 #: lib/claper_web/live/event_live/event_card_component.ex:837
 #: lib/claper_web/live/event_live/event_form_component.html.heex:48
 #: lib/claper_web/live/event_live/event_form_component.html.heex:404
-#: lib/claper_web/live/event_live/manage_audience_responses_component.ex:247
+#: lib/claper_web/live/event_live/manage_audience_responses_component.ex:263
+#: lib/claper_web/live/event_live/manage_audience_responses_component.ex:269
 #: lib/claper_web/live/event_live/manageable_post_component.ex:140
 #: lib/claper_web/live/event_live/post_component.ex:176
 #: lib/claper_web/live/form_live/form_component.html.heex:109
@@ -450,8 +451,8 @@ msgid "If you’re having trouble with the button above, copy and paste the URL 
 msgstr ""
 "Om du har problem med knappen ovan, kopiera och klistra in URL:en nedan i din webbläsare"
 
-#: lib/claper_web/live/event_live/manageable_post_component.ex:94
-#: lib/claper_web/live/event_live/manageable_post_component.ex:120
+#: lib/claper_web/live/event_live/manageable_post_component.ex:86
+#: lib/claper_web/live/event_live/manageable_post_component.ex:116
 #, elixir-autogen, elixir-format
 msgid "Blocking this user will delete all his messages and he will not be able to join again, confirm ?"
 msgstr ""
@@ -465,8 +466,8 @@ msgstr ""
 msgid "You have been banned from this event"
 msgstr "Du har blivit avstängd från detta evenemang"
 
-#: lib/claper_web/live/event_live/manageable_post_component.ex:88
-#: lib/claper_web/live/event_live/manageable_post_component.ex:114
+#: lib/claper_web/live/event_live/manageable_post_component.ex:80
+#: lib/claper_web/live/event_live/manageable_post_component.ex:110
 #, elixir-autogen, elixir-format
 msgid "Ban"
 msgstr "Blockera"
@@ -722,7 +723,7 @@ msgstr "Skicka in"
 msgid "Text"
 msgstr "Text"
 
-#: lib/claper_web/live/event_live/manage_audience_responses_component.ex:244
+#: lib/claper_web/live/event_live/manage_audience_responses_component.ex:268
 #, elixir-autogen, elixir-format
 msgid "This cannot be undone, confirm ?"
 msgstr "Detta kan inte ångras, bekräfta?"
@@ -893,7 +894,7 @@ msgstr "Titel"
 msgid "Web content"
 msgstr "Webbinnehåll"
 
-#: lib/claper_web/live/event_live/manageable_post_component.ex:45
+#: lib/claper_web/live/event_live/manageable_post_component.ex:52
 #, elixir-autogen, elixir-format
 msgid "Pin"
 msgstr "Fäst"
@@ -914,7 +915,7 @@ msgstr "Fästa meddelanden kommer att visas här."
 msgid "Show only pinned messages"
 msgstr "Visa endast fästa meddelanden"
 
-#: lib/claper_web/live/event_live/manageable_post_component.ex:45
+#: lib/claper_web/live/event_live/manageable_post_component.ex:52
 #, elixir-autogen, elixir-format
 msgid "Unpin"
 msgstr "Avfäst"
@@ -3244,72 +3245,72 @@ msgstr "Du måste logga in för att fortsätta"
 #: lib/claper_web/live/poll_live/form_component.html.heex:74
 #, elixir-autogen, elixir-format
 msgid "Add"
-msgstr ""
+msgstr "Lägg till"
 
 #: lib/claper_web/live/embed_live/form_component.html.heex:41
 #, elixir-autogen, elixir-format
 msgid "Add a link"
-msgstr ""
+msgstr "Lägg till en länk"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:58
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Add a question"
 msgstr "Lägg till fråga"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:181
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Add an answer"
 msgstr "Lägg till svar"
 
 #: lib/claper_web/live/transcription_live/form_component.html.heex:52
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Add transcription"
 msgstr "Lägg till transkribering"
 
 #: lib/claper_web/live/embed_live/form_component.html.heex:66
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Add web content"
 msgstr "Lägg till webbinnehåll"
 
 #: lib/claper_web/live/poll_live/form_component.html.heex:97
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Create a poll"
 msgstr "Skapa en omröstning"
 
 #: lib/claper_web/live/form_live/form_component.html.heex:104
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Create form"
 msgstr "Skapa formulär"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:218
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Create quiz"
 msgstr "Skapa quiz"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:134
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Delete answer"
 msgstr "Radera svar"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "Enter a title"
-msgstr ""
+msgstr "Ange en titel"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:82
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Enter your question"
 msgstr "Ange din fråga"
 
 #: lib/claper_web/live/embed_live/form_component.html.heex:16
 #: lib/claper_web/live/form_live/form_component.html.heex:16
 #: lib/claper_web/live/poll_live/form_component.html.heex:16
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Enter your title"
 msgstr "Ange din titel"
 
 #: lib/claper_web/live/form_live/form_component.html.heex:15
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Form's title"
 msgstr "Formulärets titel"
 
@@ -3318,32 +3319,32 @@ msgstr "Formulärets titel"
 #: lib/claper_web/live/poll_live/form_component.html.heex:93
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:213
 #: lib/claper_web/live/transcription_live/form_component.html.heex:48
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Loading..."
 msgstr "Laddar..."
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:107
 #, elixir-autogen, elixir-format
 msgid "Mark as correct answer"
-msgstr ""
+msgstr "Markera som rätt svar"
 
 #: lib/claper_web/live/poll_live/form_component.html.heex:15
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Poll's title"
 msgstr "Omröstningens titel"
 
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:74
 #, elixir-autogen, elixir-format
 msgid "Question %{number}"
-msgstr ""
+msgstr "Fråga %{number}"
 
 #: lib/claper_web/live/poll_live/form_component.html.heex:36
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Remove choice"
 msgstr "Ta bort alternativ"
 
 #: lib/claper_web/live/form_live/form_component.html.heex:49
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Remove field"
 msgstr "Ta bort fält"
 
@@ -3353,12 +3354,12 @@ msgid "Be the first to ask a question or share a thought."
 msgstr "Var först med att ställa en fråga eller dela en tanke."
 
 #: lib/claper_web/live/event_live/show.html.heex:464
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Choose identity"
 msgstr "Välj identitet"
 
 #: lib/claper_web/live/event_live/show.html.heex:206
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Current presentation slide"
 msgstr "Aktuell presentationsbild"
 
@@ -3368,7 +3369,7 @@ msgid "Message actions"
 msgstr "Meddelandeåtgärder"
 
 #: lib/claper_web/live/event_live/show.html.heex:144
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "New interaction"
 msgstr "Ny interaktion"
 
@@ -3398,12 +3399,12 @@ msgid "Send a live reaction"
 msgstr "Skicka en livereaktion"
 
 #: lib/claper_web/live/event_live/show.html.heex:489
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Send message"
 msgstr "Skicka meddelande"
 
 #: lib/claper_web/live/event_live/show.html.heex:93
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Set your nickname"
 msgstr "Välj smeknamn"
 
@@ -3423,7 +3424,7 @@ msgid "Waiting for content"
 msgstr "Väntar på innehåll"
 
 #: lib/claper_web/live/event_live/show.html.heex:352
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "new messages"
 msgstr "nya meddelanden"
 
@@ -3479,31 +3480,31 @@ msgid "Thumbs up"
 msgstr "Tumme upp"
 
 #: lib/claper_web/live/event_live/poll_component.ex:190
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Voted"
-msgstr "Rösta"
+msgstr "Röstat"
 
 #: lib/claper_web/live/event_live/form_component.ex:123
 #, elixir-autogen, elixir-format
 msgid "Send"
-msgstr ""
+msgstr "Skicka"
 
 #: lib/claper_web/live/event_live/form_component.ex:146
 #, elixir-autogen, elixir-format
 msgid "Sent"
-msgstr ""
+msgstr "Skickat"
 
 #: lib/claper_web/live/event_live/manage_attendees_options_component.ex:37
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Attendee Settings"
 msgstr "Deltagarinställningar"
 
 #: lib/claper_web/live/event_live/manage_interaction_options_component.ex:35
 #, elixir-autogen, elixir-format
 msgid "Current Interaction Settings"
-msgstr ""
+msgstr "Inställningar för aktuell interaktion"
 
 #: lib/claper_web/live/event_live/manage_presentation_options_component.ex:35
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Presentation Settings"
-msgstr "Presentationsalternativ"
+msgstr "Presentationsinställningar"
