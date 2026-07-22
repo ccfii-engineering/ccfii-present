@@ -13,16 +13,28 @@ defmodule ClaperWeb.EventLive.ManageAttendeesOptionsComponent do
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          viewBox="0 0 20 20"
+          viewBox="0 0 24 24"
           fill="none"
-          class="shrink-0"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-mood-cog shrink-0 text-[#140553]"
         >
-          <path
-            d="M7 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM14.5 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM1.615 16.428a1.224 1.224 0 0 1-.569-1.175 6.002 6.002 0 0 1 11.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 0 1 7 18a9.953 9.953 0 0 1-5.385-1.572ZM14.5 16h-.106c.07-.297.088-.611.048-.933a7.47 7.47 0 0 0-1.588-3.755 4.502 4.502 0 0 1 5.874 2.636.818.818 0 0 1-.36.98A7.465 7.465 0 0 1 14.5 16Z"
-            fill="#140553"
-          />
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M21 12a9 9 0 1 0 -8.983 9" />
+          <path d="M16.001 18a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+          <path d="M18.001 14.5v1.5" />
+          <path d="M18.001 20v1.5" />
+          <path d="M21.032 16.25l-1.299 .75" />
+          <path d="M16.27 19l-1.3 .75" />
+          <path d="M14.97 16.25l1.3 .75" />
+          <path d="M19.733 19l1.3 .75" />
+          <path d="M9 10h.01" />
+          <path d="M15 10h.01" />
+          <path d="M9.5 15c.658 .64 1.56 1 2.5 1" />
         </svg>
-        <span class="font-bold text-sm text-[#140553]">{gettext("Attendees Settings")}</span>
+        <span class="font-bold text-sm text-[#140553]">{gettext("Attendee Settings")}</span>
       </div>
 
       <div class="space-y-2 px-1">

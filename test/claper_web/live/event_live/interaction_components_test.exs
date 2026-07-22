@@ -60,7 +60,7 @@ defmodule ClaperWeb.EventLive.InteractionComponentsTest do
       )
       |> Floki.parse_document!()
 
-    assert_submitted_button(submitted_document)
+    assert_submitted_button(submitted_document, "Voted")
   end
 
   test "form uses the feature preview card and field styling" do
@@ -89,6 +89,11 @@ defmodule ClaperWeb.EventLive.InteractionComponentsTest do
     assert "btn-gradient" in submit_classes
     assert "w-full" in submit_classes
 
+    assert document
+           |> Floki.find(~s(button[type="submit"]))
+           |> Floki.text()
+           |> String.trim() == "Send"
+
     submitted_document =
       FormComponent
       |> render_component(
@@ -101,7 +106,7 @@ defmodule ClaperWeb.EventLive.InteractionComponentsTest do
       )
       |> Floki.parse_document!()
 
-    assert_submitted_button(submitted_document)
+    assert_submitted_button(submitted_document, "Sent")
 
     assert Floki.attribute(
              submitted_document,
@@ -328,14 +333,15 @@ defmodule ClaperWeb.EventLive.InteractionComponentsTest do
     assert Floki.attribute(document, close_selector, "aria-label") == ["Close"]
   end
 
-  defp assert_submitted_button(document) do
+  defp assert_submitted_button(document, text) do
     assert "w-full" in classes(document, "button[data-submitted]")
     assert Floki.attribute(document, "button[data-submitted]", "disabled") == ["disabled"]
+    assert Floki.find(document, "button[data-submitted] svg") != []
 
     assert document
            |> Floki.find("button[data-submitted]")
            |> Floki.text()
-           |> String.trim() == "Submitted"
+           |> String.trim() == text
   end
 
   defp classes(document, selector) do

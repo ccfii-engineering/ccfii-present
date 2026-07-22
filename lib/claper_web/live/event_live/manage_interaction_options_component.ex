@@ -13,24 +13,27 @@ defmodule ClaperWeb.EventLive.ManageInteractionOptionsComponent do
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          viewBox="0 0 20 20"
+          viewBox="0 0 24 24"
           fill="none"
-          class="shrink-0"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-pointer-cog shrink-0 text-[#140553]"
         >
-          <path
-            d="M6.111 11.89A5.5 5.5 0 1 1 15.501 8 .75.75 0 0 0 17 8a7 7 0 1 0-11.95 4.95.75.75 0 0 0 1.06-1.06Z"
-            fill="#140553"
-          />
-          <path
-            d="M8.232 6.232a2.5 2.5 0 0 0 0 3.536.75.75 0 1 1-1.06 1.06A4 4 0 1 1 14 8a.75.75 0 0 1-1.5 0 2.5 2.5 0 0 0-4.268-1.768Z"
-            fill="#140553"
-          />
-          <path
-            d="M10.766 7.51a.75.75 0 0 0-1.37.365l-.492 6.861a.75.75 0 0 0 1.204.65l1.043-.799.985 3.678a.75.75 0 0 0 1.45-.388l-.978-3.646 1.292.204a.75.75 0 0 0 .74-1.16l-3.874-5.764Z"
-            fill="#140553"
-          />
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M15.774 13.218l-.996 -.996l3.113 -2.09a1.2 1.2 0 0 0 -.309 -2.228l-13.582 -3.904l3.904 13.563a1.2 1.2 0 0 0 2.228 .308l2.09 -3.093l.343 .343" />
+          <path d="M17.001 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+          <path d="M19.001 15.5v1.5" />
+          <path d="M19.001 21v1.5" />
+          <path d="M22.032 17.25l-1.299 .75" />
+          <path d="M17.27 20l-1.3 .75" />
+          <path d="M15.97 17.25l1.3 .75" />
+          <path d="M20.733 20l1.3 .75" />
         </svg>
-        <span class="font-bold text-sm text-[#140553]">{gettext("Current interaction options")}</span>
+        <span class="font-bold text-sm text-[#140553]">
+          {gettext("Current Interaction Settings")}
+        </span>
       </div>
 
       <div class="space-y-2 px-1">

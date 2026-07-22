@@ -18,24 +18,20 @@ defmodule ClaperWeb.EventLive.ManageSlideSidebarComponent do
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          viewBox="0 0 20 18"
+          viewBox="0 0 24 24"
           fill="none"
-          class="shrink-0"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-presentation shrink-0 text-[#140553]"
         >
-          <path
-            d="M0.849609 0.850098H18.8496M1.84961 0.850098V10.8501C1.84961 11.3805 2.06032 11.8892 2.4354 12.2643C2.81047 12.6394 3.31918 12.8501 3.84961 12.8501H15.8496C16.38 12.8501 16.8887 12.6394 17.2638 12.2643C17.6389 11.8892 17.8496 11.3805 17.8496 10.8501V0.850098M9.84961 12.8501V16.8501M6.84961 16.8501H12.8496"
-            stroke="#140553"
-            stroke-width="1.7"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M5.84961 8.8501L8.84961 5.8501L10.8496 7.8501L13.8496 4.8501"
-            stroke="#140553"
-            stroke-width="1.7"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M3 4l18 0" />
+          <path d="M4 4v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-10" />
+          <path d="M12 16l0 4" />
+          <path d="M9 20l6 0" />
+          <path d="M8 12l3 -3l2 2l3 -3" />
         </svg>
 
         <span class="font-bold text-sm text-[#140553]">{gettext("Content")}</span>

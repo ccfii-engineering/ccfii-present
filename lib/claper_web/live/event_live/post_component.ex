@@ -50,8 +50,18 @@ defmodule ClaperWeb.EventLive.PostComponent do
         </span>
         <span
           :if={pinned?(@post)}
-          class="inline-flex items-center rounded-full bg-primary-100 px-2 py-1 text-[10px] font-bold uppercase text-primary-800"
+          class="inline-flex items-center gap-1 rounded-full bg-supporting-yellow-400 px-2 py-1 text-[10px] font-bold uppercase text-supporting-yellow-900"
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-3 w-3"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M16 3a1 1 0 0 1 .117 1.993l-.117 .007v4.764l1.894 3.789a1 1 0 0 1 .1 .331l.006 .116v2a1 1 0 0 1 -.883 .993l-.117 .007h-4v4a1 1 0 0 1 -1.993 .117l-.007 -.117v-4h-4a1 1 0 0 1 -.993 -.883l-.007 -.117v-2a1 1 0 0 1 .06 -.34l.046 -.107l1.894 -3.791v-4.762a1 1 0 0 1 -.117 -1.993l.117 -.007h8z" />
+          </svg>
           {gettext("Pinned")}
         </span>
       </header>

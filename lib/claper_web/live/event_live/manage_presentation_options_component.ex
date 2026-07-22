@@ -13,18 +13,26 @@ defmodule ClaperWeb.EventLive.ManagePresentationOptionsComponent do
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          viewBox="0 0 20 20"
+          viewBox="0 0 24 24"
           fill="none"
-          class="shrink-0"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-eye-cog shrink-0 text-[#140553]"
         >
-          <path
-            fill-rule="evenodd"
-            d="M2 4.25A2.25 2.25 0 0 1 4.25 2h11.5A2.25 2.25 0 0 1 18 4.25v8.5A2.25 2.25 0 0 1 15.75 15h-3.105a3.501 3.501 0 0 0 1.1 1.677A.75.75 0 0 1 13.26 18H6.74a.75.75 0 0 1-.484-1.323A3.501 3.501 0 0 0 7.355 15H4.25A2.25 2.25 0 0 1 2 12.75v-8.5Zm1.5 0a.75.75 0 0 1 .75-.75h11.5a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-.75.75H4.25a.75.75 0 0 1-.75-.75v-7.5Z"
-            clip-rule="evenodd"
-            fill="#140553"
-          />
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+          <path d="M12 18c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+          <path d="M17.001 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+          <path d="M19.001 15.5v1.5" />
+          <path d="M19.001 21v1.5" />
+          <path d="M22.032 17.25l-1.299 .75" />
+          <path d="M17.27 20l-1.3 .75" />
+          <path d="M15.97 17.25l1.3 .75" />
+          <path d="M20.733 20l1.3 .75" />
         </svg>
-        <span class="font-bold text-sm text-[#140553]">{gettext("Presentation Options")}</span>
+        <span class="font-bold text-sm text-[#140553]">{gettext("Presentation Settings")}</span>
       </div>
 
       <div class="space-y-2 px-1">

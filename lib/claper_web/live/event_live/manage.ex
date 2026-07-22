@@ -1338,9 +1338,11 @@ defmodule ClaperWeb.EventLive.Manage do
         _ -> :date
       end
 
-    Claper.Posts.list_questions(event_id, [:event, :reactions], sort_atom)
-    |> Enum.filter(&(ClaperWeb.Helpers.body_without_links(&1.body) =~ "?"))
-    |> Enum.reverse()
+    questions =
+      Claper.Posts.list_questions(event_id, [:event, :reactions], sort_atom)
+      |> Enum.filter(&(ClaperWeb.Helpers.body_without_links(&1.body) =~ "?"))
+
+    if sort_atom == :date, do: Enum.reverse(questions), else: questions
   end
 
   defp list_form_submits(_socket, presentation_file_id) do

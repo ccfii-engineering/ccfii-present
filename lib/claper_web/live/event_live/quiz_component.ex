@@ -183,7 +183,7 @@ defmodule ClaperWeb.EventLive.QuizComponent do
                 <% else %>
                   <p class="text-sm text-gray-400">{gettext("Waiting for results...")}</p>
                   <svg
-                    class="mt-4 h-24 w-24 text-white"
+                    class="mt-4 h-24 w-24 text-white/50"
                     viewBox="0 0 360 360"
                     fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg"

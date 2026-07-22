@@ -16,16 +16,18 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          viewBox="0 0 20 20"
+          viewBox="0 0 24 24"
           fill="none"
-          class="shrink-0"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-message shrink-0 text-[#140553]"
         >
-          <path
-            fill-rule="evenodd"
-            d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902.848.137 1.705.248 2.57.331v3.443a.75.75 0 0 0 1.28.53l3.58-3.579a.78.78 0 0 1 .527-.224 41.202 41.202 0 0 0 5.183-.5c1.437-.232 2.43-1.49 2.43-2.903V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0 0 10 2Zm0 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM8 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm5 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-            clip-rule="evenodd"
-            fill="#140553"
-          />
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M8 9h8" />
+          <path d="M8 13h6" />
+          <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12" />
         </svg>
         <span class="font-bold text-sm text-[#140553]">{gettext("Audience Responses")}</span>
       </div>
@@ -233,35 +235,75 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
             data-forms-nb={@form_submit_count}
             phx-hook="ScrollIntoDiv"
           >
-            <div :for={{id, submission} <- @streams.form_submits} id={id}>
-              <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <div class="flex items-center justify-end mb-2">
-                  <button
-                    phx-click="delete-form-submit"
-                    phx-value-id={submission.id}
-                    data-confirm={gettext("This cannot be undone, confirm ?")}
-                    class="text-xs text-red-500 hover:text-red-700"
+            <div
+              :for={{id, submission} <- @streams.form_submits}
+              id={id}
+              class="group flex items-end gap-2"
+            >
+              <div class="flex shrink-0 flex-col items-center gap-1">
+                <span class="text-xs leading-4 text-gray-400">
+                  {Calendar.strftime(submission.inserted_at, "%H:%M")}
+                </span>
+                <div class="avatar avatar-placeholder">
+                  <div
+                    class="w-8 rounded-full text-white"
+                    style={"background-color: #{avatar_color(submission)}"}
                   >
-                    {gettext("Delete")}
-                  </button>
+                    <span class="text-sm">{avatar_emoji(submission)}</span>
+                  </div>
                 </div>
-                <div class="flex items-start gap-x-3">
-                  <div class="avatar avatar-placeholder shrink-0">
-                    <div
-                      class="text-white w-8 rounded-full"
-                      style={"background-color: #{avatar_color(submission)}"}
-                    >
-                      <span class="text-sm">{avatar_emoji(submission)}</span>
+              </div>
+
+              <div class="flex min-w-0 flex-1 flex-col">
+                <div class="mb-0.5 ml-3 flex min-h-5 items-center gap-2">
+                  <span class="min-w-0 truncate text-sm font-bold text-secondary-500">
+                    {submission.form.title}
+                  </span>
+                  <div class="ml-auto flex shrink-0 items-center divide-x divide-gray-200 rounded-lg border border-gray-200 opacity-0 transition-opacity group-hover:opacity-100">
+                    <div class="tooltip tooltip-bottom" data-tip={gettext("Delete")}>
+                      <button
+                        type="button"
+                        phx-click="delete-form-submit"
+                        phx-value-id={submission.id}
+                        data-confirm={gettext("This cannot be undone, confirm ?")}
+                        aria-label={gettext("Delete")}
+                        class="flex h-6 w-8 items-center justify-center text-error"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="icon icon-tabler icons-tabler-outline icon-tabler-trash size-4"
+                        >
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M4 7l16 0" />
+                          <path d="M10 11l0 6" />
+                          <path d="M14 11l0 6" />
+                          <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                          <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                        </svg>
+                      </button>
                     </div>
                   </div>
-                  <div class="flex-1 text-sm text-gray-600">
-                    <%= for res <- submission.response do %>
-                      <p>
-                        <span class="font-medium">{elem(res, 0)}:</span>
-                        {elem(res, 1)}
-                      </p>
-                    <% end %>
-                  </div>
+                </div>
+
+                <div class="min-w-0 rounded-xl border border-base-200 bg-base-100 px-3 py-2 shadow-sm">
+                  <dl class="divide-y divide-base-200">
+                    <div :for={response <- submission.response} class="py-1.5 first:pt-0 last:pb-0">
+                      <dt class="text-[11px] font-semibold leading-4 text-base-content/60">
+                        {elem(response, 0)}
+                      </dt>
+                      <dd class="break-words text-xs leading-4 text-base-content">
+                        {elem(response, 1)}
+                      </dd>
+                    </div>
+                  </dl>
                 </div>
               </div>
             </div>
