@@ -72,17 +72,17 @@ msgstr "Persoonlijke informatie"
 msgid "We sent you an email at"
 msgstr "Wij hebben je een e-mail gestuurd om"
 
-#: lib/claper_web/live/event_live/show.html.heex:562
+#: lib/claper_web/live/event_live/show.html.heex:568
 #, elixir-autogen, elixir-format
 msgid "days"
 msgstr "dagen"
 
-#: lib/claper_web/live/event_live/show.html.heex:567
+#: lib/claper_web/live/event_live/show.html.heex:573
 #, elixir-autogen, elixir-format
 msgid "hours"
 msgstr "uren"
 
-#: lib/claper_web/live/event_live/show.html.heex:572
+#: lib/claper_web/live/event_live/show.html.heex:578
 #, elixir-autogen, elixir-format
 msgid "minutes"
 msgstr "minuten"
@@ -113,7 +113,7 @@ msgstr "Dashboard"
 msgid "Host"
 msgstr "Host"
 
-#: lib/claper_web/live/event_live/show.html.heex:577
+#: lib/claper_web/live/event_live/show.html.heex:583
 #, elixir-autogen, elixir-format
 msgid "seconds"
 msgstr "seconden"
@@ -143,7 +143,7 @@ msgid "Leave"
 msgstr "Vertrekken"
 
 #: lib/claper_web/live/event_live/presenter.html.heex:27
-#: lib/claper_web/live/event_live/show.html.heex:602
+#: lib/claper_web/live/event_live/show.html.heex:608
 #, elixir-autogen, elixir-format
 msgid "Scan to interact in real-time"
 msgstr "Scannen om live mee te doen"
@@ -401,7 +401,7 @@ msgstr "Hier verschijnen berichten van deelnemers."
 msgid "This will delete all responses associated and the poll itself, are you sure?"
 msgstr "Hierdoor worden alle bijbehorende reacties en de peiling verwijderd. Weet je het zeker?"
 
-#: lib/claper_web/live/event_live/show.html.heex:517
+#: lib/claper_web/live/event_live/show.html.heex:523
 #, elixir-autogen, elixir-format
 msgid "Ask, comment..."
 msgstr "Vraag, reageer..."
@@ -574,7 +574,7 @@ msgstr "Fout bij het verwerken van het bestand"
 msgid "About"
 msgstr "Over"
 
-#: lib/claper_web/live/event_live/show.html.heex:613
+#: lib/claper_web/live/event_live/show.html.heex:619
 #, elixir-autogen, elixir-format
 msgid "Or use the code:"
 msgstr "Of gebruik de code:"
@@ -737,7 +737,7 @@ msgstr "Schakel berichten in"
 msgid "Show messages"
 msgstr "Toon berichten"
 
-#: lib/claper_web/live/event_live/show.html.heex:533
+#: lib/claper_web/live/event_live/show.html.heex:539
 #, elixir-autogen, elixir-format
 msgid "Messages deactivated"
 msgstr "Berichten gedeactiveerd"
@@ -3136,32 +3136,32 @@ msgstr "Al toegevoegd aan deze presentatie."
 msgid "Global"
 msgstr "Globaal"
 
-#: lib/claper_web/live/event_live/show.html.heex:583
+#: lib/claper_web/live/event_live/show.html.heex:589
 #, elixir-autogen, elixir-format
 msgid "Admit"
 msgstr "Toegang"
 
-#: lib/claper_web/live/event_live/show.html.heex:547
+#: lib/claper_web/live/event_live/show.html.heex:553
 #, elixir-autogen, elixir-format
 msgid "Live interactive event"
 msgstr "Live interactief evenement"
 
-#: lib/claper_web/live/event_live/show.html.heex:591
+#: lib/claper_web/live/event_live/show.html.heex:597
 #, elixir-autogen, elixir-format
 msgid "No."
 msgstr "Nr."
 
-#: lib/claper_web/live/event_live/show.html.heex:587
+#: lib/claper_web/live/event_live/show.html.heex:593
 #, elixir-autogen, elixir-format
 msgid "Session"
 msgstr "Sessie"
 
-#: lib/claper_web/live/event_live/show.html.heex:584
+#: lib/claper_web/live/event_live/show.html.heex:590
 #, elixir-autogen, elixir-format
 msgid "Unlimited"
 msgstr "Onbeperkt"
 
-#: lib/claper_web/live/event_live/show.html.heex:619
+#: lib/claper_web/live/event_live/show.html.heex:625
 #, elixir-autogen, elixir-format
 msgid "Powered by"
 msgstr "Mogelijk gemaakt door"
@@ -3315,12 +3315,12 @@ msgstr "Keuze verwijderen"
 msgid "Remove field"
 msgstr "Veld verwijderen"
 
-#: lib/claper_web/live/event_live/show.html.heex:380
+#: lib/claper_web/live/event_live/show.html.heex:386
 #, elixir-autogen, elixir-format
 msgid "Be the first to ask a question or share a thought."
 msgstr "Wees de eerste die een vraag stelt of een gedachte deelt."
 
-#: lib/claper_web/live/event_live/show.html.heex:500
+#: lib/claper_web/live/event_live/show.html.heex:506
 #, elixir-autogen, elixir-format
 msgid "Choose identity"
 msgstr "Kies identiteit"
@@ -3360,12 +3360,12 @@ msgstr "Posten als"
 msgid "Reconnecting..."
 msgstr "Opnieuw verbinden..."
 
-#: lib/claper_web/live/event_live/show.html.heex:467
+#: lib/claper_web/live/event_live/show.html.heex:473
 #, elixir-autogen, elixir-format
 msgid "Send a live reaction"
 msgstr "Stuur een live reactie"
 
-#: lib/claper_web/live/event_live/show.html.heex:525
+#: lib/claper_web/live/event_live/show.html.heex:531
 #, elixir-autogen, elixir-format
 msgid "Send message"
 msgstr "Bericht versturen"
@@ -3375,7 +3375,7 @@ msgstr "Bericht versturen"
 msgid "Set your nickname"
 msgstr "Kies een bijnaam"
 
-#: lib/claper_web/live/event_live/show.html.heex:516
+#: lib/claper_web/live/event_live/show.html.heex:522
 #, elixir-autogen, elixir-format
 msgid "Set your nickname to participate"
 msgstr "Kies een bijnaam om deel te nemen"
@@ -3385,23 +3385,23 @@ msgstr "Kies een bijnaam om deel te nemen"
 msgid "Waiting for content"
 msgstr "Wachten op inhoud"
 
-#: lib/claper_web/live/event_live/show.html.heex:388
+#: lib/claper_web/live/event_live/show.html.heex:394
 #, elixir-autogen, elixir-format
 msgid "new messages"
 msgstr "nieuwe berichten"
 
-#: lib/claper_web/live/event_live/show.html.heex:428
+#: lib/claper_web/live/event_live/show.html.heex:434
 #, elixir-autogen, elixir-format
 msgid "Clap"
 msgstr "Applaus"
 
 #: lib/claper_web/live/event_live/post_component.ex:151
-#: lib/claper_web/live/event_live/show.html.heex:415
+#: lib/claper_web/live/event_live/show.html.heex:421
 #, elixir-autogen, elixir-format
 msgid "Heart"
 msgstr "Hart"
 
-#: lib/claper_web/live/event_live/show.html.heex:441
+#: lib/claper_web/live/event_live/show.html.heex:447
 #, elixir-autogen, elixir-format
 msgid "Hundred"
 msgstr "Honderd punten"
@@ -3411,7 +3411,7 @@ msgstr "Honderd punten"
 msgid "Nickname must be between 2 and 20 characters"
 msgstr "De bijnaam moet tussen 2 en 20 tekens lang zijn"
 
-#: lib/claper_web/live/event_live/show.html.heex:454
+#: lib/claper_web/live/event_live/show.html.heex:460
 #, elixir-autogen, elixir-format
 msgid "Raise hand"
 msgstr "Opgestoken hand"
@@ -3472,9 +3472,9 @@ msgid "Presentation Settings"
 msgstr "Presentatie-instellingen"
 
 #: lib/claper_web/live/user_settings_live/show.ex:64
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Change the first and last name associated with your account."
-msgstr "Wijzig het e-mailadres dat je aan jouw account wil koppelen."
+msgstr "Wijzig de voor- en achternaam die aan je account zijn gekoppeld."
 
 #: lib/claper_web/live/admin_live/user_live.html.heex:46
 #: lib/claper_web/live/admin_live/user_live.html.heex:110
@@ -3484,7 +3484,7 @@ msgstr "Wijzig het e-mailadres dat je aan jouw account wil koppelen."
 #: lib/claper_web/templates/user_registration/new.html.heex:64
 #, elixir-autogen, elixir-format
 msgid "First name"
-msgstr ""
+msgstr "Voornaam"
 
 #: lib/claper_web/live/admin_live/user_live.html.heex:49
 #: lib/claper_web/live/admin_live/user_live.html.heex:113
@@ -3494,45 +3494,45 @@ msgstr ""
 #: lib/claper_web/templates/user_registration/new.html.heex:75
 #, elixir-autogen, elixir-format
 msgid "Last name"
-msgstr ""
+msgstr "Achternaam"
 
 #: lib/claper_web/live/user_settings_live/show.html.heex:203
 #: lib/claper_web/live/user_settings_live/show.html.heex:211
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Not set"
-msgstr "Niet gestart"
+msgstr "Niet ingesteld"
 
 #: lib/claper_web/live/user_settings_live/show.ex:61
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Update your profile"
-msgstr "Wijzig uw e-mailadres"
+msgstr "Je profiel bijwerken"
 
 #: lib/claper_web/live/user_settings_live/show.ex:138
 #, elixir-autogen, elixir-format
 msgid "Your profile has been updated."
-msgstr ""
+msgstr "Je profiel is bijgewerkt."
 
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:19
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Enter first name"
-msgstr "Vul jouw naam in"
+msgstr "Voer de voornaam in"
 
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:31
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Enter last name"
-msgstr "Voer een titel in"
+msgstr "Voer de achternaam in"
 
-#: lib/claper_web/live/event_live/show.html.heex:311
-#, elixir-autogen, elixir-format, fuzzy
+#: lib/claper_web/live/event_live/show.html.heex:317
+#, elixir-autogen, elixir-format
 msgid "Hide captions"
-msgstr "Ondertiteling aan/uit"
+msgstr "Ondertiteling verbergen"
 
-#: lib/claper_web/live/event_live/show.html.heex:331
-#, elixir-autogen, elixir-format, fuzzy
+#: lib/claper_web/live/event_live/show.html.heex:337
+#, elixir-autogen, elixir-format
 msgid "Show captions"
-msgstr "Ondertiteling aan/uit"
+msgstr "Ondertiteling tonen"
 
-#: lib/claper_web/live/event_live/show.html.heex:303
-#, elixir-autogen, elixir-format, fuzzy
+#: lib/claper_web/live/event_live/show.html.heex:309
+#, elixir-autogen, elixir-format
 msgid "Waiting for captions"
-msgstr "Wachten op inhoud"
+msgstr "Wachten op ondertiteling"

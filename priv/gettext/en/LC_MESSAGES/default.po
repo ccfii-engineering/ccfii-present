@@ -72,17 +72,17 @@ msgstr ""
 msgid "We sent you an email at"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:562
+#: lib/claper_web/live/event_live/show.html.heex:568
 #, elixir-autogen, elixir-format
 msgid "days"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:567
+#: lib/claper_web/live/event_live/show.html.heex:573
 #, elixir-autogen, elixir-format
 msgid "hours"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:572
+#: lib/claper_web/live/event_live/show.html.heex:578
 #, elixir-autogen, elixir-format
 msgid "minutes"
 msgstr ""
@@ -113,7 +113,7 @@ msgstr ""
 msgid "Host"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:577
+#: lib/claper_web/live/event_live/show.html.heex:583
 #, elixir-autogen, elixir-format
 msgid "seconds"
 msgstr ""
@@ -143,7 +143,7 @@ msgid "Leave"
 msgstr ""
 
 #: lib/claper_web/live/event_live/presenter.html.heex:27
-#: lib/claper_web/live/event_live/show.html.heex:602
+#: lib/claper_web/live/event_live/show.html.heex:608
 #, elixir-autogen, elixir-format
 msgid "Scan to interact in real-time"
 msgstr ""
@@ -401,7 +401,7 @@ msgstr ""
 msgid "This will delete all responses associated and the poll itself, are you sure?"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:517
+#: lib/claper_web/live/event_live/show.html.heex:523
 #, elixir-autogen, elixir-format
 msgid "Ask, comment..."
 msgstr ""
@@ -574,7 +574,7 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:613
+#: lib/claper_web/live/event_live/show.html.heex:619
 #, elixir-autogen, elixir-format
 msgid "Or use the code:"
 msgstr ""
@@ -737,7 +737,7 @@ msgstr ""
 msgid "Show messages"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:533
+#: lib/claper_web/live/event_live/show.html.heex:539
 #, elixir-autogen, elixir-format
 msgid "Messages deactivated"
 msgstr ""
@@ -3134,32 +3134,32 @@ msgstr ""
 msgid "Global"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:583
+#: lib/claper_web/live/event_live/show.html.heex:589
 #, elixir-autogen, elixir-format
 msgid "Admit"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:547
+#: lib/claper_web/live/event_live/show.html.heex:553
 #, elixir-autogen, elixir-format
 msgid "Live interactive event"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:591
+#: lib/claper_web/live/event_live/show.html.heex:597
 #, elixir-autogen, elixir-format
 msgid "No."
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:587
+#: lib/claper_web/live/event_live/show.html.heex:593
 #, elixir-autogen, elixir-format
 msgid "Session"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:584
+#: lib/claper_web/live/event_live/show.html.heex:590
 #, elixir-autogen, elixir-format
 msgid "Unlimited"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:619
+#: lib/claper_web/live/event_live/show.html.heex:625
 #, elixir-autogen, elixir-format
 msgid "Powered by"
 msgstr ""
@@ -3313,12 +3313,12 @@ msgstr ""
 msgid "Remove field"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:380
+#: lib/claper_web/live/event_live/show.html.heex:386
 #, elixir-autogen, elixir-format
 msgid "Be the first to ask a question or share a thought."
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:500
+#: lib/claper_web/live/event_live/show.html.heex:506
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Choose identity"
 msgstr ""
@@ -3358,12 +3358,12 @@ msgstr ""
 msgid "Reconnecting..."
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:467
+#: lib/claper_web/live/event_live/show.html.heex:473
 #, elixir-autogen, elixir-format
 msgid "Send a live reaction"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:525
+#: lib/claper_web/live/event_live/show.html.heex:531
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Send message"
 msgstr ""
@@ -3373,7 +3373,7 @@ msgstr ""
 msgid "Set your nickname"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:516
+#: lib/claper_web/live/event_live/show.html.heex:522
 #, elixir-autogen, elixir-format
 msgid "Set your nickname to participate"
 msgstr ""
@@ -3383,23 +3383,23 @@ msgstr ""
 msgid "Waiting for content"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:388
+#: lib/claper_web/live/event_live/show.html.heex:394
 #, elixir-autogen, elixir-format, fuzzy
 msgid "new messages"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:428
+#: lib/claper_web/live/event_live/show.html.heex:434
 #, elixir-autogen, elixir-format
 msgid "Clap"
 msgstr ""
 
 #: lib/claper_web/live/event_live/post_component.ex:151
-#: lib/claper_web/live/event_live/show.html.heex:415
+#: lib/claper_web/live/event_live/show.html.heex:421
 #, elixir-autogen, elixir-format
 msgid "Heart"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:441
+#: lib/claper_web/live/event_live/show.html.heex:447
 #, elixir-autogen, elixir-format
 msgid "Hundred"
 msgstr ""
@@ -3409,7 +3409,7 @@ msgstr ""
 msgid "Nickname must be between 2 and 20 characters"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:454
+#: lib/claper_web/live/event_live/show.html.heex:460
 #, elixir-autogen, elixir-format
 msgid "Raise hand"
 msgstr ""
@@ -3520,17 +3520,17 @@ msgstr ""
 msgid "Enter last name"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:311
+#: lib/claper_web/live/event_live/show.html.heex:317
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Hide captions"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:331
+#: lib/claper_web/live/event_live/show.html.heex:337
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Show captions"
 msgstr ""
 
-#: lib/claper_web/live/event_live/show.html.heex:303
+#: lib/claper_web/live/event_live/show.html.heex:309
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Waiting for captions"
 msgstr ""

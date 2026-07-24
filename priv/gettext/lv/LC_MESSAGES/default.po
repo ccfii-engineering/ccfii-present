@@ -72,17 +72,17 @@ msgstr "Personīgā informācija"
 msgid "We sent you an email at"
 msgstr "Mēs nosūtījām jums e-pastu uz adresi"
 
-#: lib/claper_web/live/event_live/show.html.heex:562
+#: lib/claper_web/live/event_live/show.html.heex:568
 #, elixir-autogen, elixir-format
 msgid "days"
 msgstr "dienas"
 
-#: lib/claper_web/live/event_live/show.html.heex:567
+#: lib/claper_web/live/event_live/show.html.heex:573
 #, elixir-autogen, elixir-format
 msgid "hours"
 msgstr "stundas"
 
-#: lib/claper_web/live/event_live/show.html.heex:572
+#: lib/claper_web/live/event_live/show.html.heex:578
 #, elixir-autogen, elixir-format
 msgid "minutes"
 msgstr "minūtes"
@@ -113,7 +113,7 @@ msgstr "Vadības panelis"
 msgid "Host"
 msgstr "Organizators"
 
-#: lib/claper_web/live/event_live/show.html.heex:577
+#: lib/claper_web/live/event_live/show.html.heex:583
 #, elixir-autogen, elixir-format
 msgid "seconds"
 msgstr "sekundes"
@@ -143,7 +143,7 @@ msgid "Leave"
 msgstr "Pamest"
 
 #: lib/claper_web/live/event_live/presenter.html.heex:27
-#: lib/claper_web/live/event_live/show.html.heex:602
+#: lib/claper_web/live/event_live/show.html.heex:608
 #, elixir-autogen, elixir-format
 msgid "Scan to interact in real-time"
 msgstr "Noskenējiet, lai mijiedarbotos reāllaikā"
@@ -402,7 +402,7 @@ msgstr "Dalībnieku ziņojumi parādīsies šeit."
 msgid "This will delete all responses associated and the poll itself, are you sure?"
 msgstr "Tas izdzēsīs visas saistītās atbildes un pašu aptauju, vai esat pārliecināti?"
 
-#: lib/claper_web/live/event_live/show.html.heex:517
+#: lib/claper_web/live/event_live/show.html.heex:523
 #, elixir-autogen, elixir-format
 msgid "Ask, comment..."
 msgstr "Jautājiet, komentējiet..."
@@ -577,7 +577,7 @@ msgstr "Kļūda apstrādājot failu"
 msgid "About"
 msgstr "Par"
 
-#: lib/claper_web/live/event_live/show.html.heex:613
+#: lib/claper_web/live/event_live/show.html.heex:619
 #, elixir-autogen, elixir-format
 msgid "Or use the code:"
 msgstr "Vai arī izmantojiet kodu:"
@@ -741,7 +741,7 @@ msgstr "Iespējot ziņojumus"
 msgid "Show messages"
 msgstr "Rādīt ziņojumus"
 
-#: lib/claper_web/live/event_live/show.html.heex:533
+#: lib/claper_web/live/event_live/show.html.heex:539
 #, elixir-autogen, elixir-format
 msgid "Messages deactivated"
 msgstr "Ziņojumi atspējoti"
@@ -3138,32 +3138,32 @@ msgstr "Jau pievienots šai prezentācijai."
 msgid "Global"
 msgstr "Globāls"
 
-#: lib/claper_web/live/event_live/show.html.heex:583
+#: lib/claper_web/live/event_live/show.html.heex:589
 #, elixir-autogen, elixir-format
 msgid "Admit"
 msgstr "Ieeja"
 
-#: lib/claper_web/live/event_live/show.html.heex:547
+#: lib/claper_web/live/event_live/show.html.heex:553
 #, elixir-autogen, elixir-format
 msgid "Live interactive event"
 msgstr "Interaktīvs tiešraides pasākums"
 
-#: lib/claper_web/live/event_live/show.html.heex:591
+#: lib/claper_web/live/event_live/show.html.heex:597
 #, elixir-autogen, elixir-format
 msgid "No."
 msgstr "Nr."
 
-#: lib/claper_web/live/event_live/show.html.heex:587
+#: lib/claper_web/live/event_live/show.html.heex:593
 #, elixir-autogen, elixir-format
 msgid "Session"
 msgstr "Sesija"
 
-#: lib/claper_web/live/event_live/show.html.heex:584
+#: lib/claper_web/live/event_live/show.html.heex:590
 #, elixir-autogen, elixir-format
 msgid "Unlimited"
 msgstr "Neierobežots"
 
-#: lib/claper_web/live/event_live/show.html.heex:619
+#: lib/claper_web/live/event_live/show.html.heex:625
 #, elixir-autogen, elixir-format
 msgid "Powered by"
 msgstr "Darbina"
@@ -3317,12 +3317,12 @@ msgstr "Noņemt izvēli"
 msgid "Remove field"
 msgstr "Noņemt lauku"
 
-#: lib/claper_web/live/event_live/show.html.heex:380
+#: lib/claper_web/live/event_live/show.html.heex:386
 #, elixir-autogen, elixir-format
 msgid "Be the first to ask a question or share a thought."
 msgstr "Esiet pirmais, kas uzdod jautājumu vai dalās ar domu."
 
-#: lib/claper_web/live/event_live/show.html.heex:500
+#: lib/claper_web/live/event_live/show.html.heex:506
 #, elixir-autogen, elixir-format
 msgid "Choose identity"
 msgstr "Izvēlēties identitāti"
@@ -3362,12 +3362,12 @@ msgstr "Publicēt kā"
 msgid "Reconnecting..."
 msgstr "Atjauno savienojumu..."
 
-#: lib/claper_web/live/event_live/show.html.heex:467
+#: lib/claper_web/live/event_live/show.html.heex:473
 #, elixir-autogen, elixir-format
 msgid "Send a live reaction"
 msgstr "Nosūtīt tiešraides reakciju"
 
-#: lib/claper_web/live/event_live/show.html.heex:525
+#: lib/claper_web/live/event_live/show.html.heex:531
 #, elixir-autogen, elixir-format
 msgid "Send message"
 msgstr "Nosūtīt ziņojumu"
@@ -3377,7 +3377,7 @@ msgstr "Nosūtīt ziņojumu"
 msgid "Set your nickname"
 msgstr "Izvēlieties segvārdu"
 
-#: lib/claper_web/live/event_live/show.html.heex:516
+#: lib/claper_web/live/event_live/show.html.heex:522
 #, elixir-autogen, elixir-format
 msgid "Set your nickname to participate"
 msgstr "Izvēlieties segvārdu, lai piedalītos"
@@ -3387,23 +3387,23 @@ msgstr "Izvēlieties segvārdu, lai piedalītos"
 msgid "Waiting for content"
 msgstr "Gaida saturu"
 
-#: lib/claper_web/live/event_live/show.html.heex:388
+#: lib/claper_web/live/event_live/show.html.heex:394
 #, elixir-autogen, elixir-format
 msgid "new messages"
 msgstr "jauni ziņojumi"
 
-#: lib/claper_web/live/event_live/show.html.heex:428
+#: lib/claper_web/live/event_live/show.html.heex:434
 #, elixir-autogen, elixir-format
 msgid "Clap"
 msgstr "Aplausi"
 
 #: lib/claper_web/live/event_live/post_component.ex:151
-#: lib/claper_web/live/event_live/show.html.heex:415
+#: lib/claper_web/live/event_live/show.html.heex:421
 #, elixir-autogen, elixir-format
 msgid "Heart"
 msgstr "Sirds"
 
-#: lib/claper_web/live/event_live/show.html.heex:441
+#: lib/claper_web/live/event_live/show.html.heex:447
 #, elixir-autogen, elixir-format
 msgid "Hundred"
 msgstr "Simts punkti"
@@ -3413,7 +3413,7 @@ msgstr "Simts punkti"
 msgid "Nickname must be between 2 and 20 characters"
 msgstr "Segvārdam jābūt no 2 līdz 20 rakstzīmēm"
 
-#: lib/claper_web/live/event_live/show.html.heex:454
+#: lib/claper_web/live/event_live/show.html.heex:460
 #, elixir-autogen, elixir-format
 msgid "Raise hand"
 msgstr "Pacelta roka"
@@ -3474,9 +3474,9 @@ msgid "Presentation Settings"
 msgstr "Prezentācijas iestatījumi"
 
 #: lib/claper_web/live/user_settings_live/show.ex:64
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Change the first and last name associated with your account."
-msgstr "Mainiet e-pasta adresi, kuru vēlaties saistīt ar savu kontu."
+msgstr "Mainiet ar savu kontu saistīto vārdu un uzvārdu."
 
 #: lib/claper_web/live/admin_live/user_live.html.heex:46
 #: lib/claper_web/live/admin_live/user_live.html.heex:110
@@ -3486,7 +3486,7 @@ msgstr "Mainiet e-pasta adresi, kuru vēlaties saistīt ar savu kontu."
 #: lib/claper_web/templates/user_registration/new.html.heex:64
 #, elixir-autogen, elixir-format
 msgid "First name"
-msgstr ""
+msgstr "Vārds"
 
 #: lib/claper_web/live/admin_live/user_live.html.heex:49
 #: lib/claper_web/live/admin_live/user_live.html.heex:113
@@ -3496,45 +3496,45 @@ msgstr ""
 #: lib/claper_web/templates/user_registration/new.html.heex:75
 #, elixir-autogen, elixir-format
 msgid "Last name"
-msgstr ""
+msgstr "Uzvārds"
 
 #: lib/claper_web/live/user_settings_live/show.html.heex:203
 #: lib/claper_web/live/user_settings_live/show.html.heex:211
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Not set"
-msgstr "Nav sācies"
+msgstr "Nav norādīts"
 
 #: lib/claper_web/live/user_settings_live/show.ex:61
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Update your profile"
-msgstr "Mainiet savu e-pasta adresi"
+msgstr "Atjaunināt profilu"
 
 #: lib/claper_web/live/user_settings_live/show.ex:138
 #, elixir-autogen, elixir-format
 msgid "Your profile has been updated."
-msgstr ""
+msgstr "Jūsu profils ir atjaunināts."
 
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:19
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Enter first name"
-msgstr "Ievadiet savu vārdu"
+msgstr "Ievadiet vārdu"
 
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:31
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Enter last name"
-msgstr "Ievadiet nosaukumu"
+msgstr "Ievadiet uzvārdu"
 
-#: lib/claper_web/live/event_live/show.html.heex:311
-#, elixir-autogen, elixir-format, fuzzy
+#: lib/claper_web/live/event_live/show.html.heex:317
+#, elixir-autogen, elixir-format
 msgid "Hide captions"
-msgstr "Pārslēgt subtitrus"
+msgstr "Paslēpt subtitrus"
 
-#: lib/claper_web/live/event_live/show.html.heex:331
-#, elixir-autogen, elixir-format, fuzzy
+#: lib/claper_web/live/event_live/show.html.heex:337
+#, elixir-autogen, elixir-format
 msgid "Show captions"
-msgstr "Pārslēgt subtitrus"
+msgstr "Rādīt subtitrus"
 
-#: lib/claper_web/live/event_live/show.html.heex:303
-#, elixir-autogen, elixir-format, fuzzy
+#: lib/claper_web/live/event_live/show.html.heex:309
+#, elixir-autogen, elixir-format
 msgid "Waiting for captions"
-msgstr "Gaida saturu"
+msgstr "Gaida subtitrus"
