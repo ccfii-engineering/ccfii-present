@@ -340,26 +340,6 @@
     height: 20px;
 }
 
-/* vertical repeated edge text */
-.ticket-stage .edge-text {
-    position: absolute;
-    z-index: 2;
-    top: 0;
-    bottom: 0;
-    right: 8px;
-    writing-mode: vertical-rl;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.45em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, var(--paper-ink) 30%, transparent);
-    white-space: nowrap;
-    pointer-events: none;
-}
-
 /* ============================================================
    Below lg the ticket becomes the design's "Tall" boarding-pass
    orientation: body stacked above the stub, notches on the sides.
@@ -399,9 +379,6 @@
         right: -14px;
         top: 50%;
         transform: translate(50%, -50%);
-    }
-    .ticket-stage .edge-text {
-        display: none;
     }
     .ticket-stage .event-title {
         font-size: clamp(38px, 11vw, 52px);
