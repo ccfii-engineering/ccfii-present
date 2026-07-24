@@ -10,10 +10,17 @@
       match?(%Claper.Forms.Form{}, @current_interaction) ||
       match?(%Claper.Quizzes.Quiz{}, @current_interaction) ||
       match?(%Claper.Embeds.Embed{attendee_visibility: true}, @current_interaction) %>
+  <% captions_visible? =
+    @transcription_config && @transcription_config.enabled &&
+      @transcription_config.visibility in ["both", "attendee"] %>
   <div class="h-[100dvh] overflow-hidden bg-black lg:bg-primary-700">
     <main
       id="attendee-room"
-      class="relative mx-auto grid h-[100dvh] w-full max-w-lg grid-rows-[auto_auto_minmax(0,1fr)] overflow-hidden bg-black font-display shadow-2xl"
+      class={[
+        "relative mx-auto grid h-[100dvh] w-full max-w-lg overflow-hidden bg-black font-display shadow-2xl",
+        captions_visible? && "grid-rows-[auto_auto_auto_minmax(0,1fr)]",
+        !captions_visible? && "grid-rows-[auto_auto_minmax(0,1fr)]"
+      ]}
     >
       <div
         id="side-menu-shadow"
@@ -277,32 +284,67 @@
             </svg>
           </button>
         </div>
+      </section>
 
+      <section
+        :if={captions_visible?}
+        id="caption-panel"
+        phx-hook="AttendeeCaptions"
+        data-collapse-key={"caption-panel:#{@event.uuid}"}
+        class="relative z-10 min-h-12 max-h-32 overflow-hidden border-b border-white/10 bg-gray-950 transition-[height] duration-300"
+      >
         <div
-          :if={
-            !interaction_mode? && @transcription_config && @transcription_config.enabled &&
-              @transcription_config.visibility in ["both", "attendee"]
-          }
-          id="focus-captions"
-          class="absolute inset-x-0 bottom-0 z-20"
+          data-caption-content
+          class="flex min-h-12 max-h-32 items-start gap-3 overflow-y-auto px-4 py-3 pr-16"
         >
-          <button
-            type="button"
-            data-caption-toggle
-            aria-label={gettext("Toggle captions")}
-            class="absolute bottom-2 right-2 grid h-11 w-11 place-items-center rounded-full bg-black/70 text-xs font-black text-white backdrop-blur"
-          >
-            CC
-          </button>
-          <div
+          <span class="rounded bg-white/10 px-2 py-1 text-xs font-black text-white">CC</span>
+          <p
             data-caption-text
             class={[
-              "mx-14 mb-2 rounded-lg bg-black/80 px-3 py-2 text-center text-sm font-medium text-white backdrop-blur",
-              @transcription_text == "" && "hidden"
+              "py-0.5 text-sm font-medium leading-relaxed text-white",
+              @transcription_text == "" && "animate-pulse italic opacity-50"
             ]}
           >
-            {@transcription_text}
-          </div>
+            {if @transcription_text == "",
+              do: gettext("Waiting for captions"),
+              else: @transcription_text}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          data-caption-collapse
+          aria-label={gettext("Hide captions")}
+          class="absolute right-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-black/65 text-white backdrop-blur"
+        >
+          <svg
+            class="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="m6 15 6-6 6 6" />
+          </svg>
+        </button>
+
+        <div data-caption-collapsed-bar class="hidden h-full items-center px-4">
+          <button
+            type="button"
+            data-caption-show
+            class="flex min-h-11 w-full items-center justify-between text-sm font-semibold text-white"
+          >
+            <span>{gettext("Show captions")}</span>
+            <svg
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
         </div>
       </section>
 

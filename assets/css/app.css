@@ -114,13 +114,27 @@
 }
 
 #focus-slot.focus-collapsed #focus-media,
-#focus-slot.focus-collapsed #focus-captions,
 #focus-slot.focus-collapsed [data-focus-collapse],
 #focus-slot.focus-collapsed [data-focus-fullscreen] {
   display: none;
 }
 
 #focus-slot.focus-collapsed [data-focus-collapsed-bar] {
+  display: flex;
+}
+
+#caption-panel.caption-collapsed {
+  height: 3rem;
+  min-height: 3rem;
+  max-height: 3rem;
+}
+
+#caption-panel.caption-collapsed [data-caption-content],
+#caption-panel.caption-collapsed [data-caption-collapse] {
+  display: none;
+}
+
+#caption-panel.caption-collapsed [data-caption-collapsed-bar] {
   display: flex;
 }
 

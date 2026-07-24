@@ -62,6 +62,40 @@ defmodule ClaperWeb.EventLive.ShowTest do
     assert render(view) =~ "data-message-reaction-trigger"
   end
 
+  test "renders attendee captions as a collapsible panel that cannot be disabled", %{
+    conn: conn,
+    user: user
+  } do
+    presentation_file = presentation_file_fixture(%{user: user}, [:event])
+    presentation_state_fixture(%{presentation_file: presentation_file})
+
+    {:ok, _config} =
+      Claper.Transcriptions.create_transcription_config(%{
+        presentation_file_id: presentation_file.id,
+        enabled: true,
+        visibility: "attendee"
+      })
+
+    {:ok, view, html} = live(conn, ~p"/e/#{presentation_file.event.code}")
+
+    document = Floki.parse_document!(html)
+
+    assert "grid-rows-[auto_auto_auto_minmax(0,1fr)]" in classes(document, "#attendee-room")
+    assert Floki.attribute(document, "#caption-panel", "phx-hook") == ["AttendeeCaptions"]
+    assert Floki.find(document, "[data-caption-collapse]") != []
+    assert Floki.find(document, "[data-caption-show]") != []
+    assert Floki.find(document, "[data-caption-toggle]") == []
+    assert document |> Floki.find("[data-caption-show]") |> Floki.text() =~ "Show captions"
+
+    send(view.pid, {:transcription_delta, "Live caption text"})
+
+    assert view
+           |> render()
+           |> Floki.parse_document!()
+           |> Floki.find("[data-caption-text]")
+           |> Floki.text() =~ "Live caption text"
+  end
+
   defp classes(document, selector) do
     document
     |> Floki.attribute(selector, "class")

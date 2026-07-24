@@ -23,7 +23,7 @@ msgstr ""
 msgid "Settings"
 msgstr "Inställningar"
 
-#: lib/claper_web/live/admin_live/user_live.html.heex:47
+#: lib/claper_web/live/admin_live/user_live.html.heex:41
 #: lib/claper_web/live/admin_live/user_live.html.heex:116
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:42
 #: lib/claper_web/live/event_live/manage.ex:1157
@@ -79,17 +79,17 @@ msgstr "Personlig information"
 msgid "We sent you an email at"
 msgstr "Vi skickade ett e-postmeddelande till dig"
 
-#: lib/claper_web/live/event_live/show.html.heex:527
+#: lib/claper_web/live/event_live/show.html.heex:562
 #, elixir-autogen, elixir-format
 msgid "days"
 msgstr "dagar"
 
-#: lib/claper_web/live/event_live/show.html.heex:532
+#: lib/claper_web/live/event_live/show.html.heex:567
 #, elixir-autogen, elixir-format
 msgid "hours"
 msgstr "timmar"
 
-#: lib/claper_web/live/event_live/show.html.heex:537
+#: lib/claper_web/live/event_live/show.html.heex:572
 #, elixir-autogen, elixir-format
 msgid "minutes"
 msgstr "minuter"
@@ -120,7 +120,7 @@ msgstr "Instrumentpanel"
 msgid "Host"
 msgstr "Värd"
 
-#: lib/claper_web/live/event_live/show.html.heex:542
+#: lib/claper_web/live/event_live/show.html.heex:577
 #, elixir-autogen, elixir-format
 msgid "seconds"
 msgstr "sekunder"
@@ -144,13 +144,13 @@ msgstr "Avslutades"
 msgid "Incoming"
 msgstr "Inkommande"
 
-#: lib/claper_web/live/event_live/show.html.heex:36
+#: lib/claper_web/live/event_live/show.html.heex:43
 #, elixir-autogen, elixir-format
 msgid "Leave"
 msgstr "Lämna"
 
 #: lib/claper_web/live/event_live/presenter.html.heex:27
-#: lib/claper_web/live/event_live/show.html.heex:567
+#: lib/claper_web/live/event_live/show.html.heex:602
 #, elixir-autogen, elixir-format
 msgid "Scan to interact in real-time"
 msgstr "Skanna för att interagera i realtid"
@@ -411,7 +411,7 @@ msgid "This will delete all responses associated and the poll itself, are you su
 msgstr ""
 "Detta kommer att radera alla svar som är kopplade och själva omröstningen, är du säker?"
 
-#: lib/claper_web/live/event_live/show.html.heex:481
+#: lib/claper_web/live/event_live/show.html.heex:517
 #, elixir-autogen, elixir-format
 msgid "Ask, comment..."
 msgstr "Fråga, kommentera..."
@@ -607,7 +607,7 @@ msgstr "Fel vid bearbetning av filen"
 msgid "About"
 msgstr "Om"
 
-#: lib/claper_web/live/event_live/show.html.heex:578
+#: lib/claper_web/live/event_live/show.html.heex:613
 #, elixir-autogen, elixir-format
 msgid "Or use the code:"
 msgstr "Eller använd koden:"
@@ -771,14 +771,14 @@ msgstr "Aktivera meddelanden"
 msgid "Show messages"
 msgstr "Visa meddelanden"
 
-#: lib/claper_web/live/event_live/show.html.heex:497
+#: lib/claper_web/live/event_live/show.html.heex:533
 #, elixir-autogen, elixir-format
 msgid "Messages deactivated"
 msgstr "Meddelanden inaktiverade"
 
 #: lib/claper_web/live/event_live/post_component.ex:255
-#: lib/claper_web/live/event_live/show.html.heex:66
-#: lib/claper_web/live/event_live/show.html.heex:75
+#: lib/claper_web/live/event_live/show.html.heex:73
+#: lib/claper_web/live/event_live/show.html.heex:82
 #, elixir-autogen, elixir-format
 msgid "Anonymous"
 msgstr "Anonym"
@@ -792,7 +792,7 @@ msgstr "Anonym"
 msgid "Close"
 msgstr "Stäng"
 
-#: lib/claper_web/live/event_live/show.html.heex:80
+#: lib/claper_web/live/event_live/show.html.heex:87
 #, elixir-autogen, elixir-format
 msgid "Enter your name"
 msgstr "Ange ditt namn"
@@ -802,7 +802,7 @@ msgstr "Ange ditt namn"
 msgid "Or go to %{url} and use the code:"
 msgstr "Eller gå till %{url} och använd koden:"
 
-#: lib/claper_web/live/event_live/show.html.heex:75
+#: lib/claper_web/live/event_live/show.html.heex:82
 #, elixir-autogen, elixir-format
 msgid "disabled"
 msgstr "inaktiverade"
@@ -1045,7 +1045,7 @@ msgstr "Detta evenemang har avslutats"
 msgid "When your event will start?"
 msgstr "När kommer ditt evenemang att starta?"
 
-#: lib/claper_web/live/event_live/show.html.heex:105
+#: lib/claper_web/live/event_live/show.html.heex:112
 #, elixir-autogen, elixir-format
 msgid "Create your next presentation with"
 msgstr "Skapa din nästa presentation med"
@@ -3172,32 +3172,32 @@ msgstr "Redan tillagd i den här presentationen."
 msgid "Global"
 msgstr "Global"
 
-#: lib/claper_web/live/event_live/show.html.heex:548
+#: lib/claper_web/live/event_live/show.html.heex:583
 #, elixir-autogen, elixir-format
 msgid "Admit"
 msgstr "Inträde"
 
-#: lib/claper_web/live/event_live/show.html.heex:512
+#: lib/claper_web/live/event_live/show.html.heex:547
 #, elixir-autogen, elixir-format
 msgid "Live interactive event"
 msgstr "Interaktivt live-evenemang"
 
-#: lib/claper_web/live/event_live/show.html.heex:556
+#: lib/claper_web/live/event_live/show.html.heex:591
 #, elixir-autogen, elixir-format
 msgid "No."
 msgstr "Nr."
 
-#: lib/claper_web/live/event_live/show.html.heex:552
+#: lib/claper_web/live/event_live/show.html.heex:587
 #, elixir-autogen, elixir-format
 msgid "Session"
 msgstr "Session"
 
-#: lib/claper_web/live/event_live/show.html.heex:549
+#: lib/claper_web/live/event_live/show.html.heex:584
 #, elixir-autogen, elixir-format
 msgid "Unlimited"
 msgstr "Obegränsat"
 
-#: lib/claper_web/live/event_live/show.html.heex:584
+#: lib/claper_web/live/event_live/show.html.heex:619
 #, elixir-autogen, elixir-format
 msgid "Powered by"
 msgstr "Drivs av"
@@ -3351,17 +3351,17 @@ msgstr "Ta bort alternativ"
 msgid "Remove field"
 msgstr "Ta bort fält"
 
-#: lib/claper_web/live/event_live/show.html.heex:344
+#: lib/claper_web/live/event_live/show.html.heex:380
 #, elixir-autogen, elixir-format
 msgid "Be the first to ask a question or share a thought."
 msgstr "Var först med att ställa en fråga eller dela en tanke."
 
-#: lib/claper_web/live/event_live/show.html.heex:464
+#: lib/claper_web/live/event_live/show.html.heex:500
 #, elixir-autogen, elixir-format
 msgid "Choose identity"
 msgstr "Välj identitet"
 
-#: lib/claper_web/live/event_live/show.html.heex:206
+#: lib/claper_web/live/event_live/show.html.heex:213
 #, elixir-autogen, elixir-format
 msgid "Current presentation slide"
 msgstr "Aktuell presentationsbild"
@@ -3371,98 +3371,93 @@ msgstr "Aktuell presentationsbild"
 msgid "Message actions"
 msgstr "Meddelandeåtgärder"
 
-#: lib/claper_web/live/event_live/show.html.heex:144
+#: lib/claper_web/live/event_live/show.html.heex:151
 #, elixir-autogen, elixir-format
 msgid "New interaction"
 msgstr "Ny interaktion"
 
-#: lib/claper_web/live/event_live/show.html.heex:91
+#: lib/claper_web/live/event_live/show.html.heex:98
 #, elixir-autogen, elixir-format
 msgid "Nickname"
 msgstr "Smeknamn"
 
-#: lib/claper_web/live/event_live/show.html.heex:222
+#: lib/claper_web/live/event_live/show.html.heex:229
 #, elixir-autogen, elixir-format
 msgid "Open fullscreen"
 msgstr "Öppna helskärm"
 
-#: lib/claper_web/live/event_live/show.html.heex:53
+#: lib/claper_web/live/event_live/show.html.heex:60
 #, elixir-autogen, elixir-format
 msgid "Post as"
 msgstr "Posta som"
 
-#: lib/claper_web/live/event_live/show.html.heex:44
+#: lib/claper_web/live/event_live/show.html.heex:51
 #, elixir-autogen, elixir-format
 msgid "Reconnecting..."
 msgstr "Återansluter..."
 
-#: lib/claper_web/live/event_live/show.html.heex:431
+#: lib/claper_web/live/event_live/show.html.heex:467
 #, elixir-autogen, elixir-format
 msgid "Send a live reaction"
 msgstr "Skicka en livereaktion"
 
-#: lib/claper_web/live/event_live/show.html.heex:489
+#: lib/claper_web/live/event_live/show.html.heex:525
 #, elixir-autogen, elixir-format
 msgid "Send message"
 msgstr "Skicka meddelande"
 
-#: lib/claper_web/live/event_live/show.html.heex:93
+#: lib/claper_web/live/event_live/show.html.heex:100
 #, elixir-autogen, elixir-format
 msgid "Set your nickname"
 msgstr "Välj smeknamn"
 
-#: lib/claper_web/live/event_live/show.html.heex:480
+#: lib/claper_web/live/event_live/show.html.heex:516
 #, elixir-autogen, elixir-format
 msgid "Set your nickname to participate"
 msgstr "Välj smeknamn för att delta"
 
-#: lib/claper_web/live/event_live/show.html.heex:292
-#, elixir-autogen, elixir-format
-msgid "Toggle captions"
-msgstr "Växla undertexter"
-
-#: lib/claper_web/live/event_live/show.html.heex:212
+#: lib/claper_web/live/event_live/show.html.heex:219
 #, elixir-autogen, elixir-format
 msgid "Waiting for content"
 msgstr "Väntar på innehåll"
 
-#: lib/claper_web/live/event_live/show.html.heex:352
+#: lib/claper_web/live/event_live/show.html.heex:388
 #, elixir-autogen, elixir-format
 msgid "new messages"
 msgstr "nya meddelanden"
 
-#: lib/claper_web/live/event_live/show.html.heex:392
+#: lib/claper_web/live/event_live/show.html.heex:428
 #, elixir-autogen, elixir-format
 msgid "Clap"
 msgstr "Applåd"
 
 #: lib/claper_web/live/event_live/post_component.ex:151
-#: lib/claper_web/live/event_live/show.html.heex:379
+#: lib/claper_web/live/event_live/show.html.heex:415
 #, elixir-autogen, elixir-format
 msgid "Heart"
 msgstr "Hjärta"
 
-#: lib/claper_web/live/event_live/show.html.heex:405
+#: lib/claper_web/live/event_live/show.html.heex:441
 #, elixir-autogen, elixir-format
 msgid "Hundred"
 msgstr "Hundra poäng"
 
-#: lib/claper_web/live/event_live/show.html.heex:81
+#: lib/claper_web/live/event_live/show.html.heex:88
 #, elixir-autogen, elixir-format
 msgid "Nickname must be between 2 and 20 characters"
 msgstr "Smeknamnet måste vara mellan 2 och 20 tecken"
 
-#: lib/claper_web/live/event_live/show.html.heex:418
+#: lib/claper_web/live/event_live/show.html.heex:454
 #, elixir-autogen, elixir-format
 msgid "Raise hand"
 msgstr "Räckt hand"
 
-#: lib/claper_web/live/event_live/show.html.heex:244
+#: lib/claper_web/live/event_live/show.html.heex:251
 #, elixir-autogen, elixir-format
 msgid "Hide presentation"
 msgstr "Dölj presentation"
 
-#: lib/claper_web/live/event_live/show.html.heex:268
+#: lib/claper_web/live/event_live/show.html.heex:275
 #, elixir-autogen, elixir-format
 msgid "Show presentation"
 msgstr "Visa presentation"
@@ -3517,7 +3512,7 @@ msgstr "Presentationsinställningar"
 msgid "Change the first and last name associated with your account."
 msgstr "Ändra den e-postadress du vill koppla till ditt konto."
 
-#: lib/claper_web/live/admin_live/user_live.html.heex:41
+#: lib/claper_web/live/admin_live/user_live.html.heex:46
 #: lib/claper_web/live/admin_live/user_live.html.heex:110
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:18
 #: lib/claper_web/live/user_settings_live/show.html.heex:25
@@ -3527,7 +3522,7 @@ msgstr "Ändra den e-postadress du vill koppla till ditt konto."
 msgid "First name"
 msgstr ""
 
-#: lib/claper_web/live/admin_live/user_live.html.heex:44
+#: lib/claper_web/live/admin_live/user_live.html.heex:49
 #: lib/claper_web/live/admin_live/user_live.html.heex:113
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:30
 #: lib/claper_web/live/user_settings_live/show.html.heex:34
@@ -3562,3 +3557,18 @@ msgstr "Ange ditt namn"
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Enter last name"
 msgstr "Ange en titel"
+
+#: lib/claper_web/live/event_live/show.html.heex:311
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Hide captions"
+msgstr "Växla undertexter"
+
+#: lib/claper_web/live/event_live/show.html.heex:331
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Show captions"
+msgstr "Växla undertexter"
+
+#: lib/claper_web/live/event_live/show.html.heex:303
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Waiting for captions"
+msgstr "Väntar på innehåll"

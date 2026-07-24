@@ -628,7 +628,6 @@ Hooks.OpenPresenter = {
 Hooks.AttendeeFocus = {
   mounted() {
     this.focusKey = this.el.dataset.focusKey;
-    this.captionKey = "attendee-captions";
     this.collapseKey = this.el.dataset.collapseKey;
     this.onClick = (event) => {
       if (event.target.closest("[data-focus-collapse]")) {
@@ -654,20 +653,12 @@ Hooks.AttendeeFocus = {
         }
         return;
       }
-
-      if (event.target.closest("[data-caption-toggle]")) {
-        const captions = this.el.querySelector("[data-caption-text]");
-        if (!captions) return;
-        const hidden = captions.classList.toggle("invisible");
-        localStorage.setItem(this.captionKey, hidden ? "hidden" : "visible");
-      }
     };
     this.onKeyDown = (event) => {
       if (event.key === "Escape") this.el.classList.remove("focus-fallback-fullscreen");
     };
     this.el.addEventListener("click", this.onClick);
     document.addEventListener("keydown", this.onKeyDown);
-    this.restoreCaptions();
     this.restoreCollapse();
   },
   updated() {
@@ -681,17 +672,11 @@ Hooks.AttendeeFocus = {
       }
       this.focusKey = nextKey;
     }
-    this.restoreCaptions();
     this.restoreCollapse();
   },
   destroyed() {
     this.el.removeEventListener("click", this.onClick);
     document.removeEventListener("keydown", this.onKeyDown);
-  },
-  restoreCaptions() {
-    if (localStorage.getItem(this.captionKey) === "hidden") {
-      this.el.querySelector("[data-caption-text]")?.classList.add("invisible");
-    }
   },
   restoreCollapse() {
     const interactionMode = this.el.dataset.interactionMode === "true";
@@ -707,6 +692,36 @@ Hooks.AttendeeFocus = {
     this.el.requestFullscreen().catch(() => {
       this.el.classList.add("focus-fallback-fullscreen");
     });
+  },
+};
+
+Hooks.AttendeeCaptions = {
+  mounted() {
+    this.collapseKey = this.el.dataset.collapseKey;
+    this.onClick = (event) => {
+      if (event.target.closest("[data-caption-collapse]")) {
+        localStorage.setItem(this.collapseKey, "collapsed");
+        this.restoreCollapse();
+        return;
+      }
+
+      if (event.target.closest("[data-caption-show]")) {
+        localStorage.setItem(this.collapseKey, "expanded");
+        this.restoreCollapse();
+      }
+    };
+    this.el.addEventListener("click", this.onClick);
+    this.restoreCollapse();
+  },
+  updated() {
+    this.restoreCollapse();
+  },
+  destroyed() {
+    this.el.removeEventListener("click", this.onClick);
+  },
+  restoreCollapse() {
+    const collapsed = localStorage.getItem(this.collapseKey) === "collapsed";
+    this.el.classList.toggle("caption-collapsed", collapsed);
   },
 };
 
