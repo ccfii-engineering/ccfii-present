@@ -218,6 +218,8 @@ defmodule ClaperWeb.UserOidcAuth do
            sub: claims["sub"],
            issuer: claims["iss"],
            name: claims["name"],
+           first_name: claims["given_name"],
+           last_name: claims["family_name"],
            email: claims["email"],
            provider: provider_name(),
            expires_at: claims["exp"] |> DateTime.from_unix!() |> DateTime.to_naive(),

@@ -55,6 +55,29 @@
                 />
               <% end %>
 
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <ClaperWeb.Component.Input.text
+                  form={f}
+                  key={:first_name}
+                  labelClass="text-white"
+                  fieldClass="bg-gray-900/80 text-white border border-white/10"
+                  name={gettext("First name")}
+                  required="true"
+                  maxlength="160"
+                  autofocus="true"
+                />
+
+                <ClaperWeb.Component.Input.text
+                  form={f}
+                  key={:last_name}
+                  labelClass="text-white"
+                  fieldClass="bg-gray-900/80 text-white border border-white/10"
+                  name={gettext("Last name")}
+                  required="true"
+                  maxlength="160"
+                />
+              </div>
+
               <ClaperWeb.Component.Input.email
                 form={f}
                 key={:email}
@@ -62,7 +85,6 @@
                 fieldClass="bg-gray-900/80 text-white border border-white/10"
                 name={gettext("Email")}
                 placeholder={gettext("you@example.com")}
-                autofocus="true"
                 required="true"
               />
 

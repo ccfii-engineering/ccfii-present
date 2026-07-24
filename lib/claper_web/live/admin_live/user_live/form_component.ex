@@ -11,6 +11,30 @@ defmodule ClaperWeb.AdminLive.UserLive.FormComponent do
         <div class="grid grid-cols-6 gap-6">
           <.live_component
             module={ClaperWeb.AdminLive.FormFieldComponent}
+            id="user-first-name"
+            form={@form}
+            field={:first_name}
+            type="text"
+            label={gettext("First name")}
+            placeholder={gettext("Enter first name")}
+            required={true}
+            width_class="sm:col-span-3"
+          />
+
+          <.live_component
+            module={ClaperWeb.AdminLive.FormFieldComponent}
+            id="user-last-name"
+            form={@form}
+            field={:last_name}
+            type="text"
+            label={gettext("Last name")}
+            placeholder={gettext("Enter last name")}
+            required={true}
+            width_class="sm:col-span-3"
+          />
+
+          <.live_component
+            module={ClaperWeb.AdminLive.FormFieldComponent}
             id="user-email"
             form={@form}
             field={:email}
@@ -90,7 +114,7 @@ defmodule ClaperWeb.AdminLive.UserLive.FormComponent do
     #    :new -> %{}
     #  end
 
-    changeset = Accounts.change_user(user)
+    changeset = Accounts.change_user(user, %{}, require_names: true)
 
     role_options =
       Accounts.list_roles()
@@ -121,7 +145,7 @@ defmodule ClaperWeb.AdminLive.UserLive.FormComponent do
 
     changeset =
       socket.assigns.user
-      |> Accounts.change_user(user_params)
+      |> Accounts.change_user(user_params, require_names: true)
       |> Map.put(:action, :validate)
 
     {:noreply,
@@ -141,7 +165,7 @@ defmodule ClaperWeb.AdminLive.UserLive.FormComponent do
   end
 
   defp save_user(socket, :edit, user_params) do
-    case Accounts.update_user(socket.assigns.user, user_params) do
+    case Accounts.update_user(socket.assigns.user, user_params, require_names: true) do
       {:ok, user} ->
         notify_parent({:saved, user})
 
@@ -156,7 +180,7 @@ defmodule ClaperWeb.AdminLive.UserLive.FormComponent do
   end
 
   defp save_user(socket, :new, user_params) do
-    case Accounts.create_user(user_params) do
+    case Accounts.create_user(user_params, require_names: true) do
       {:ok, user} ->
         notify_parent({:saved, user})
 

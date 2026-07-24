@@ -8,8 +8,8 @@ defmodule Claper.Accounts.User do
     max_limit: 100,
     default_limit: 20,
     pagination_types: [:page],
-    filterable: [:email, :role_id],
-    sortable: [:email, :role_id, :confirmed_at, :inserted_at],
+    filterable: [:email, :first_name, :last_name, :role_id],
+    sortable: [:email, :first_name, :last_name, :role_id, :confirmed_at, :inserted_at],
     default_order: %{
       order_by: [:inserted_at],
       order_directions: [:desc]
@@ -20,6 +20,8 @@ defmodule Claper.Accounts.User do
           id: integer(),
           uuid: Ecto.UUID.t(),
           email: String.t(),
+          first_name: String.t() | nil,
+          last_name: String.t() | nil,
           password: String.t() | nil,
           hashed_password: String.t(),
           is_randomized_password: boolean(),
@@ -36,6 +38,8 @@ defmodule Claper.Accounts.User do
   schema "users" do
     field :uuid, :binary_id
     field :email, :string
+    field :first_name, :string
+    field :last_name, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :is_randomized_password, :boolean
@@ -53,8 +57,18 @@ defmodule Claper.Accounts.User do
 
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :confirmed_at, :password, :is_randomized_password, :role_id])
+    |> cast(attrs, [
+      :email,
+      :first_name,
+      :last_name,
+      :confirmed_at,
+      :password,
+      :is_randomized_password,
+      :role_id
+    ])
+    |> normalize_names()
     |> validate_email()
+    |> validate_names(Keyword.get(opts, :require_names, true))
     |> validate_confirmation(:password)
     |> validate_password(opts)
     |> foreign_key_constraint(:role_id)
@@ -65,13 +79,39 @@ defmodule Claper.Accounts.User do
     |> cast(attrs, [:locale])
   end
 
+  def profile_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:first_name, :last_name])
+    |> normalize_names()
+    |> validate_names(true)
+  end
+
+  def external_profile_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:first_name, :last_name])
+    |> normalize_names()
+    |> validate_names(false)
+  end
+
+  def display_name(%__MODULE__{} = user) do
+    [user.first_name, user.last_name]
+    |> Enum.reject(&(&1 in [nil, ""]))
+    |> Enum.join(" ")
+    |> case do
+      "" -> user.email
+      name -> name
+    end
+  end
+
   @doc """
   A changeset for admin operations on users.
   """
   def admin_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :confirmed_at, :password, :role_id])
+    |> cast(attrs, [:email, :first_name, :last_name, :confirmed_at, :password, :role_id])
+    |> normalize_names()
     |> validate_email()
+    |> validate_names(Keyword.get(opts, :require_names, false))
     |> validate_admin_password(opts)
     |> foreign_key_constraint(:role_id)
   end
@@ -91,6 +131,25 @@ defmodule Claper.Accounts.User do
     |> validate_length(:email, max: 160)
     |> unsafe_validate_unique(:email, Claper.Repo)
     |> unique_constraint(:email)
+  end
+
+  defp normalize_names(changeset) do
+    changeset
+    |> update_change(:first_name, &String.trim/1)
+    |> update_change(:last_name, &String.trim/1)
+  end
+
+  defp validate_names(changeset, require_names?) do
+    changeset =
+      changeset
+      |> validate_length(:first_name, max: 160)
+      |> validate_length(:last_name, max: 160)
+
+    if require_names? do
+      validate_required(changeset, [:first_name, :last_name])
+    else
+      changeset
+    end
   end
 
   defp validate_password(changeset, opts) do

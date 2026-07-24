@@ -14,6 +14,8 @@ defmodule Claper.AccountsFixtures do
     attrs
     |> Enum.into(%{
       email: unique_user_email(),
+      first_name: "John",
+      last_name: "Doe",
       password: password,
       confirmed_at: NaiveDateTime.utc_now()
     })
@@ -27,6 +29,8 @@ defmodule Claper.AccountsFixtures do
     attrs
     |> Enum.into(%{
       email: unique_user_email(),
+      first_name: "John",
+      last_name: "Doe",
       password: password
     })
     |> Map.put_new(:password_confirmation, password)

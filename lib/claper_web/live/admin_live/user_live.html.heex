@@ -43,6 +43,12 @@
             {user.email}
           </.link>
         </:col>
+        <:col :let={user} label={gettext("First name")} field={:first_name}>
+          {user.first_name || "—"}
+        </:col>
+        <:col :let={user} label={gettext("Last name")} field={:last_name}>
+          {user.last_name || "—"}
+        </:col>
         <:col :let={user} label={gettext("Role")} field={:role_id}>
           {if user.role, do: user.role.name, else: gettext("No role")}
         </:col>
@@ -101,6 +107,12 @@
 
       <div class="mt-6">
         <.detail_card>
+          <.detail_row label={gettext("First name")}>
+            {@user.first_name || "—"}
+          </.detail_row>
+          <.detail_row label={gettext("Last name")}>
+            {@user.last_name || "—"}
+          </.detail_row>
           <.detail_row label={gettext("Email")}>
             <a href={"mailto:#{@user.email}"} class="link link-primary">{@user.email}</a>
           </.detail_row>

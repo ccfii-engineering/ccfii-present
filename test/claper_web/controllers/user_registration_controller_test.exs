@@ -29,6 +29,8 @@ defmodule ClaperWeb.UserRegistrationControllerTest do
       response = html_response(conn, 200)
 
       assert response =~ "action=\"/users/register\""
+      assert response =~ "name=\"user[first_name]\""
+      assert response =~ "name=\"user[last_name]\""
       assert response =~ "name=\"user[email]\""
       assert response =~ "name=\"user[password]\""
       assert response =~ "name=\"user[password_confirmation]\""
@@ -133,6 +135,8 @@ defmodule ClaperWeb.UserRegistrationControllerTest do
       conn =
         post(conn, ~p"/users/register", %{
           "user" => %{
+            "first_name" => "Jane",
+            "last_name" => "Doe",
             "email" => email,
             "password" => valid_user_password(),
             "password_confirmation" => valid_user_password()
@@ -141,7 +145,9 @@ defmodule ClaperWeb.UserRegistrationControllerTest do
 
       assert redirected_to(conn) == "/events"
       assert get_session(conn, :user_token)
-      assert Accounts.get_user_by_email(email)
+      user = Accounts.get_user_by_email(email)
+      assert user.first_name == "Jane"
+      assert user.last_name == "Doe"
     end
 
     test "creates the user and redirects to confirmation when email confirmation is enabled", %{
@@ -155,6 +161,8 @@ defmodule ClaperWeb.UserRegistrationControllerTest do
       conn =
         post(conn, ~p"/users/register", %{
           "user" => %{
+            "first_name" => "Jane",
+            "last_name" => "Doe",
             "email" => email,
             "password" => valid_user_password(),
             "password_confirmation" => valid_user_password()
@@ -166,6 +174,8 @@ defmodule ClaperWeb.UserRegistrationControllerTest do
 
       user = Accounts.get_user_by_email(email)
       assert user
+      assert user.first_name == "Jane"
+      assert user.last_name == "Doe"
       refute user.confirmed_at
     end
   end

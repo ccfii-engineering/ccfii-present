@@ -33,13 +33,20 @@ defmodule Lti13.Users do
         } = attrs
       ) do
     case get_user_by_sub_and_registration_id(sub, registration_id) do
-      nil -> create_new_user(attrs, email, registration_id)
-      %User{} = user -> {:ok, user |> Repo.preload(:user)}
+      nil ->
+        create_new_user(attrs, email, registration_id)
+
+      %User{} = user ->
+        user = Repo.preload(user, :user)
+
+        with {:ok, _claper_user} <- Claper.Accounts.fill_missing_user_names(user.user, attrs) do
+          {:ok, Repo.preload(user, :user, force: true)}
+        end
     end
   end
 
   defp create_new_user(attrs, email, registration_id) do
-    with {:ok, claper_user} <- Claper.Accounts.get_user_by_email_or_create(email),
+    with {:ok, claper_user} <- Claper.Accounts.get_user_by_email_or_create(email, attrs),
          updated_attrs <-
            Map.merge(attrs, %{user_id: claper_user.id, registration_id: registration_id}),
          {:ok, user} <- create_user(updated_attrs) do

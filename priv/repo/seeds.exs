@@ -54,6 +54,8 @@ if Repo.aggregate(User, :count, :id) == 0 do
     {:ok, admin_user} =
       Accounts.register_user(%{
         email: "admin@claper.co",
+        first_name: "Claper",
+        last_name: "Admin",
         password: "claper",
         confirmed_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
       })

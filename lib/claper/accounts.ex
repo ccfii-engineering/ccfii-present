@@ -19,12 +19,14 @@ defmodule Claper.Accounts do
       iex> create_user(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
   """
-  def create_user(attrs) do
+  def create_user(attrs, opts \\ []) do
     # Get user role if not explicitly set
     attrs = maybe_set_default_role(attrs)
 
     %User{}
-    |> User.registration_changeset(attrs)
+    |> User.registration_changeset(attrs,
+      require_names: Keyword.get(opts, :require_names, false)
+    )
     |> Repo.insert(returning: [:uuid])
   end
 
@@ -55,14 +57,16 @@ defmodule Claper.Accounts do
       iex> get_user_by_email_or_create("unknown@example.com")
       %User{}
   """
-  def get_user_by_email_or_create(email) when is_binary(email) do
+  def get_user_by_email_or_create(email, profile_attrs \\ %{}) when is_binary(email) do
     case get_user_by_email(email) do
       nil ->
         attrs = %{
           email: email,
           confirmed_at: DateTime.utc_now(),
           is_randomized_password: true,
-          password: :crypto.strong_rand_bytes(32)
+          password: :crypto.strong_rand_bytes(32),
+          first_name: profile_attrs[:first_name] || profile_attrs["first_name"],
+          last_name: profile_attrs[:last_name] || profile_attrs["last_name"]
         }
 
         # Set default role if not explicitly set
@@ -71,7 +75,7 @@ defmodule Claper.Accounts do
         create_user(attrs)
 
       user ->
-        {:ok, user}
+        fill_missing_user_names(user, profile_attrs)
     end
   end
 
@@ -201,8 +205,8 @@ defmodule Claper.Accounts do
       %Ecto.Changeset{data: %User{}}
 
   """
-  def change_user(%User{} = user, attrs \\ %{}) do
-    User.admin_changeset(user, attrs, hash_password: false)
+  def change_user(%User{} = user, attrs \\ %{}, opts \\ []) do
+    User.admin_changeset(user, attrs, Keyword.put(opts, :hash_password, false))
   end
 
   @doc """
@@ -217,9 +221,9 @@ defmodule Claper.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_user(%User{} = user, attrs) do
+  def update_user(%User{} = user, attrs, opts \\ []) do
     user
-    |> User.admin_changeset(attrs)
+    |> User.admin_changeset(attrs, opts)
     |> Repo.update()
   end
 
@@ -249,6 +253,38 @@ defmodule Claper.Accounts do
   """
   def change_user_preferences(user, attrs \\ %{}) do
     User.preferences_changeset(user, attrs)
+  end
+
+  def change_user_profile(user, attrs \\ %{}) do
+    User.profile_changeset(user, attrs)
+  end
+
+  def update_user_profile(user, attrs) do
+    user
+    |> User.profile_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def fill_missing_user_names(%User{} = user, attrs) do
+    name_attrs =
+      Enum.reduce([:first_name, :last_name], %{}, fn field, acc ->
+        current_value = Map.get(user, field)
+        incoming_value = Map.get(attrs, field) || Map.get(attrs, Atom.to_string(field))
+
+        if blank_name?(current_value) and not blank_name?(incoming_value) do
+          Map.put(acc, field, incoming_value)
+        else
+          acc
+        end
+      end)
+
+    if map_size(name_attrs) == 0 do
+      {:ok, user}
+    else
+      user
+      |> User.external_profile_changeset(name_attrs)
+      |> Repo.update()
+    end
   end
 
   @doc """
@@ -295,6 +331,8 @@ defmodule Claper.Accounts do
     |> Ecto.Multi.update(:user, changeset)
     |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, [context]))
   end
+
+  defp blank_name?(value), do: is_nil(value) or (is_binary(value) and String.trim(value) == "")
 
   @doc """
   Updates the user password.
@@ -630,7 +668,7 @@ defmodule Claper.Accounts do
   end
 
   defp create_new_user(attrs) do
-    with {:ok, claper_user} <- get_user_by_email_or_create(attrs.email),
+    with {:ok, claper_user} <- get_user_by_email_or_create(attrs.email, attrs),
          updated_attrs <-
            Map.merge(attrs, %{user_id: claper_user.id}),
          {:ok, user} <- create_oidc_user(updated_attrs) do
@@ -641,12 +679,14 @@ defmodule Claper.Accounts do
   end
 
   defp update_oidc_user(user, attrs) do
-    user
-    |> Accounts.Oidc.User.changeset(attrs)
-    |> Repo.update()
-    |> case do
-      {:ok, user} -> {:ok, user |> Repo.preload(:user)}
-      {:error, changeset} -> {:error, changeset}
+    user = Repo.preload(user, :user)
+
+    with {:ok, _claper_user} <- fill_missing_user_names(user.user, attrs),
+         {:ok, user} <-
+           user
+           |> Accounts.Oidc.User.changeset(attrs)
+           |> Repo.update() do
+      {:ok, Repo.preload(user, :user, force: true)}
     end
   end
 

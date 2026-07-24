@@ -83,11 +83,15 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
       {:ok, view, html} = live(conn, ~p"/admin/users/#{user.id}")
 
       assert has_element?(view, "dl.card.card-body")
+      assert has_element?(view, "dl.card dt", "First name")
+      assert has_element?(view, "dl.card dt", "Last name")
       assert has_element?(view, "dl.card dt", "Email")
       assert has_element?(view, "dl.card dt", "Status")
       assert has_element?(view, "dl.card dt", "Confirmed At")
 
       assert html =~ user.email
+      assert html =~ user.first_name
+      assert html =~ user.last_name
       assert html =~ "badge badge-success"
       assert html =~ "Confirmed"
     end
@@ -169,6 +173,61 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
 
       assert page_1_matches == 2
       assert page_2_matches == 1
+    end
+  end
+
+  describe "user form" do
+    setup [:register_and_log_in_admin]
+
+    test "renders first and last name fields", %{conn: conn} do
+      {:ok, view, _html} = live(conn, ~p"/admin/users/new")
+
+      assert has_element?(view, "#user-form input[name='user[first_name]']")
+      assert has_element?(view, "#user-form input[name='user[last_name]']")
+    end
+
+    test "creates a user with names", %{conn: conn} do
+      role = Accounts.get_role_by_name("user")
+      email = unique_user_email()
+      {:ok, view, _html} = live(conn, ~p"/admin/users/new")
+
+      view
+      |> form("#user-form", %{
+        "user" => %{
+          "first_name" => "Admin",
+          "last_name" => "Created",
+          "email" => email,
+          "password" => valid_user_password(),
+          "role_id" => role.id
+        }
+      })
+      |> render_submit()
+
+      assert_redirect(view, ~p"/admin/users")
+      user = Accounts.get_user_by_email(email)
+      assert user.first_name == "Admin"
+      assert user.last_name == "Created"
+    end
+
+    test "updates a user's names", %{conn: conn} do
+      user = confirmed_user_fixture()
+      {:ok, view, _html} = live(conn, ~p"/admin/users/#{user.id}/edit")
+
+      view
+      |> form("#user-form", %{
+        "user" => %{
+          "first_name" => "Admin",
+          "last_name" => "Updated",
+          "email" => user.email,
+          "role_id" => user.role_id
+        }
+      })
+      |> render_submit()
+
+      assert_redirect(view, ~p"/admin/users")
+      updated_user = Accounts.get_user!(user.id)
+      assert updated_user.first_name == "Admin"
+      assert updated_user.last_name == "Updated"
     end
   end
 

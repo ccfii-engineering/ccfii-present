@@ -75,6 +75,7 @@ defmodule ClaperWeb.Router do
       live("/events/:id/stats", StatLive.Index, :index)
 
       live("/users/settings", UserSettingsLive.Show, :show)
+      live("/users/settings/edit/profile", UserSettingsLive.Show, :edit_profile)
       live("/users/settings/edit/password", UserSettingsLive.Show, :edit_password)
       live("/users/settings/edit/email", UserSettingsLive.Show, :edit_email)
       live("/users/settings/set/password", UserSettingsLive.Show, :set_password)

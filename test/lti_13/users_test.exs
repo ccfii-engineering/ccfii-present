@@ -60,14 +60,15 @@ defmodule Lti13.UsersTest do
     end
 
     test "get_or_create_user/1 creates a new user if not found", %{
-      registration: registration,
-      claper_user: claper_user
+      registration: registration
     } do
       attrs = %{
         sub: "a6d5c443-1f51-4783-ba1a-7686ffe3b54a",
         name: "John Doe",
+        first_name: "John",
+        last_name: "Doe",
         roles: ["role1", "role2"],
-        email: claper_user.email,
+        email: unique_user_email(),
         registration_id: registration.id
       }
 
@@ -77,8 +78,39 @@ defmodule Lti13.UsersTest do
       assert user.name
       assert user.email == attrs.email
       assert user.roles == attrs.roles
-      assert user.user_id == claper_user.id
       assert user.registration_id == registration.id
+      assert user.user.first_name == "John"
+      assert user.user.last_name == "Doe"
+    end
+
+    test "fills missing core names without overwriting local values", %{
+      registration: registration
+    } do
+      {:ok, claper_user} =
+        Claper.Accounts.create_user(%{
+          email: unique_user_email(),
+          password: valid_user_password(),
+          first_name: "Local"
+        })
+
+      attrs = %{
+        sub: Ecto.UUID.generate(),
+        name: "External User",
+        email: claper_user.email,
+        roles: ["role1"],
+        user_id: claper_user.id,
+        registration_id: registration.id
+      }
+
+      assert {:ok, %User{}} = Users.create_user(attrs)
+
+      assert {:ok, %User{} = user} =
+               Users.get_or_create_user(
+                 Map.merge(attrs, %{first_name: "External", last_name: "User"})
+               )
+
+      assert user.user.first_name == "Local"
+      assert user.user.last_name == "User"
     end
 
     test "get_or_create_user/1 returns existing user if found", %{

@@ -119,7 +119,9 @@
             clip-rule="evenodd"
           />
         </svg>
-        <span class="hidden md:block text-sm font-bold text-gray-700">{@user.email}</span>
+        <span class="hidden md:block text-sm font-bold text-gray-700">
+          {Claper.Accounts.User.display_name(@user)}
+        </span>
       </div>
       <ul
         tabindex="0"

@@ -1,4 +1,51 @@
 <div class="mx-3 md:max-w-4xl lg:max-w-6xl md:mx-auto py-8">
+  <%= if @live_action in [:edit_profile] do %>
+    <.live_component
+      module={ClaperWeb.ModalComponent}
+      class="hidden"
+      id="modal-wrapper"
+      title={@page_title}
+      description={@page_description}
+      return_to={~p"/users/settings"}
+    >
+      <div>
+        <.form
+          :let={f}
+          for={@profile_changeset}
+          phx-submit="save"
+          id="update_profile"
+          class="mt-5 space-y-4"
+        >
+          {hidden_input(f, :action, name: "action", value: "update_profile")}
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <ClaperWeb.Component.Input.text
+              form={f}
+              key={:first_name}
+              name={gettext("First name")}
+              required="true"
+              maxlength="160"
+              autofocus="true"
+            />
+
+            <ClaperWeb.Component.Input.text
+              form={f}
+              key={:last_name}
+              name={gettext("Last name")}
+              required="true"
+              maxlength="160"
+            />
+          </div>
+
+          {submit(gettext("Save"),
+            phx_disable_with: gettext("Saving..."),
+            class: "btn btn-primary w-full"
+          )}
+        </.form>
+      </div>
+    </.live_component>
+  <% end %>
+
   <%= if @live_action in [:edit_email] do %>
     <.live_component
       module={ClaperWeb.ModalComponent}
@@ -145,6 +192,33 @@
         </div>
 
         <div class="space-y-4">
+          <!-- Name -->
+          <div class="flex items-center justify-between gap-4 py-3 px-4 bg-base-200 rounded-xl">
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-8">
+              <div>
+                <p class="text-xs font-medium text-base-content/60 uppercase tracking-wide">
+                  {gettext("First name")}
+                </p>
+                <p class="mt-1 text-sm font-medium text-base-content">
+                  {@current_user.first_name || gettext("Not set")}
+                </p>
+              </div>
+              <div>
+                <p class="text-xs font-medium text-base-content/60 uppercase tracking-wide">
+                  {gettext("Last name")}
+                </p>
+                <p class="mt-1 text-sm font-medium text-base-content">
+                  {@current_user.last_name || gettext("Not set")}
+                </p>
+              </div>
+            </div>
+            <.link
+              patch={~p"/users/settings/edit/profile"}
+              class="btn btn-link btn-sm text-primary"
+            >
+              {gettext("Change")}
+            </.link>
+          </div>
           <!-- Email -->
           <div class="flex items-center justify-between py-3 px-4 bg-base-200 rounded-xl">
             <div>

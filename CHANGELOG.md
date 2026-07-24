@@ -5,6 +5,7 @@
 - Redesign the manager, dashboard and waiting screen
 - Add new global interaction: realtime transcription with Mistral API
 - Add drag-and-drop for interactions and slides
+- Add first name and last name informations for users
 
 ### Fixes and improvements
 
