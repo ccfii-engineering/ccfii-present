@@ -3422,24 +3422,24 @@ msgid "Enter last name"
 msgstr ""
 
 #: lib/claper_web/live/event_live/show.html.heex:317
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Hide captions"
 msgstr ""
 
 #: lib/claper_web/live/event_live/show.html.heex:337
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Show captions"
 msgstr ""
 
 #: lib/claper_web/live/event_live/show.html.heex:309
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Waiting for captions"
 msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:183
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Add a presentation"
-msgstr "Hide presentation"
+msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:179
 #, elixir-autogen, elixir-format
@@ -3458,12 +3458,12 @@ msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:453
 #: lib/claper_web/live/event_live/index.ex:182
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Create event"
 msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:449
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Creating..."
 msgstr ""
 
@@ -3478,12 +3478,12 @@ msgid "Drag and drop a file here, or"
 msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:243
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Event name"
 msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:289
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Facilitators"
 msgstr ""
 
@@ -3493,14 +3493,14 @@ msgid "Invite people who can present and manage audience interactions."
 msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:254
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Join code"
 msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:114
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "New presentation ready"
-msgstr "New presentation"
+msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:321
 #, elixir-autogen, elixir-format
@@ -3513,7 +3513,7 @@ msgid "Optional. Add a PDF or PowerPoint now, or upload one later."
 msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:197
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "PDF, PPT, or PPTX up to %{size} MB"
 msgstr ""
 
@@ -3523,18 +3523,18 @@ msgid "Permanently delete this event. This action cannot be undone."
 msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:57
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Presentation"
 msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:127
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Presentation upload progress"
 msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:362
 #: lib/claper_web/live/event_live/event_form_component.html.heex:387
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Remove facilitator"
 msgstr ""
 
@@ -3544,7 +3544,7 @@ msgid "Remove selected presentation"
 msgstr ""
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:181
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Replace presentation"
 msgstr ""
 

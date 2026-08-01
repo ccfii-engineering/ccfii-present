@@ -3439,163 +3439,163 @@ msgid "Waiting for captions"
 msgstr "Wachten op ondertiteling"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:183
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Add a presentation"
-msgstr "Presentatie verbergen"
+msgstr "Presentatie toevoegen"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:179
 #, elixir-autogen, elixir-format
 msgid "Attached"
-msgstr ""
+msgstr "Bijgevoegd"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:258
 #, elixir-autogen, elixir-format
 msgid "Attendees enter this code to join."
-msgstr ""
+msgstr "Deelnemers voeren deze code in om deel te nemen."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:18
 #, elixir-autogen, elixir-format
 msgid "Close event editor"
-msgstr ""
+msgstr "Evenementeditor sluiten"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:453
 #: lib/claper_web/live/event_live/index.ex:182
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Create event"
 msgstr "Evenement aanmaken"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:449
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Creating..."
-msgstr "Opslaan..."
+msgstr "Aanmaken..."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:433
 #, elixir-autogen, elixir-format
 msgid "Delete this event? This action cannot be undone."
-msgstr ""
+msgstr "Dit evenement verwijderen? Deze actie kan niet ongedaan worden gemaakt."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:187
 #, elixir-autogen, elixir-format
 msgid "Drag and drop a file here, or"
-msgstr ""
+msgstr "Sleep hier een bestand naartoe, of"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:243
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Event name"
-msgstr "Evenement"
+msgstr "Naam van het evenement"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:289
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Facilitators"
-msgstr "Facilitator toevoegen"
+msgstr "Facilitators"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:292
 #, elixir-autogen, elixir-format
 msgid "Invite people who can present and manage audience interactions."
-msgstr ""
+msgstr "Nodig mensen uit die kunnen presenteren en publieksinteracties kunnen beheren."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:254
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Join code"
-msgstr "Meedoen"
+msgstr "Deelnamecode"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:114
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "New presentation ready"
-msgstr "Nieuwe presentatie"
+msgstr "Nieuwe presentatie klaar"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:321
 #, elixir-autogen, elixir-format
 msgid "No facilitators have been added yet."
-msgstr ""
+msgstr "Er zijn nog geen facilitators toegevoegd."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:63
 #, elixir-autogen, elixir-format
 msgid "Optional. Add a PDF or PowerPoint now, or upload one later."
-msgstr ""
+msgstr "Optioneel. Voeg nu een PDF- of PowerPoint-bestand toe, of upload er later een."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:197
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "PDF, PPT, or PPTX up to %{size} MB"
-msgstr "PDF, PPT, PPTX tot %{size} MB"
+msgstr "PDF-, PPT- of PPTX-bestand van maximaal %{size} MB"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:426
 #, elixir-autogen, elixir-format
 msgid "Permanently delete this event. This action cannot be undone."
-msgstr ""
+msgstr "Verwijder dit evenement permanent. Deze actie kan niet ongedaan worden gemaakt."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:57
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Presentation"
-msgstr "Presentatie-instellingen"
+msgstr "Presentatie"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:127
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Presentation upload progress"
-msgstr "Presentatie geupload"
+msgstr "Voortgang bij het uploaden van de presentatie"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:362
 #: lib/claper_web/live/event_live/event_form_component.html.heex:387
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Remove facilitator"
-msgstr "Facilitator toevoegen"
+msgstr "Facilitator verwijderen"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:141
 #, elixir-autogen, elixir-format
 msgid "Remove selected presentation"
-msgstr ""
+msgstr "Geselecteerde presentatie verwijderen"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:181
-#, elixir-autogen, elixir-format, fuzzy
+#, elixir-autogen, elixir-format
 msgid "Replace presentation"
-msgstr "Selecteer presentatie"
+msgstr "Presentatie vervangen"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:453
 #, elixir-autogen, elixir-format
 msgid "Save changes"
-msgstr ""
+msgstr "Wijzigingen opslaan"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:132
 #, elixir-autogen, elixir-format
 msgid "Save the event to start processing this presentation."
-msgstr ""
+msgstr "Sla het evenement op om deze presentatie te laten verwerken."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:41
 #, elixir-autogen, elixir-format
 msgid "Set up the details attendees will use to join."
-msgstr ""
+msgstr "Stel de gegevens in die deelnemers nodig hebben om deel te nemen."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:271
 #, elixir-autogen, elixir-format
 msgid "Shown in your local time."
-msgstr ""
+msgstr "Weergegeven in je lokale tijd."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:266
 #, elixir-autogen, elixir-format
 msgid "Start date and time"
-msgstr ""
+msgstr "Startdatum en -tijd"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:236
 #, elixir-autogen, elixir-format
 msgid "These details help attendees find and join your event."
-msgstr ""
+msgstr "Met deze gegevens kunnen deelnemers je evenement vinden en eraan deelnemen."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:40
 #, elixir-autogen, elixir-format
 msgid "Update the event details your attendees will see."
-msgstr ""
+msgstr "Werk de evenementgegevens bij die je deelnemers te zien krijgen."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:116
 #, elixir-autogen, elixir-format
 msgid "Uploading... %{progress}%"
-msgstr ""
+msgstr "Uploaden... %{progress}%"
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:61
 #, elixir-autogen, elixir-format
 msgid "Your presentation is attached and ready to use."
-msgstr ""
+msgstr "Je presentatie is bijgevoegd en klaar voor gebruik."
 
 #: lib/claper_web/live/event_live/event_form_component.html.heex:344
 #, elixir-autogen, elixir-format
 msgid "name@example.com"
-msgstr ""
+msgstr "name@example.com"
