@@ -53,11 +53,11 @@ msgstr "Ändra"
 #: lib/claper_web/live/admin_live/dashboard_live.html.heex:107
 #: lib/claper_web/live/admin_live/event_live.html.heex:46
 #: lib/claper_web/live/admin_live/event_live/form_component.ex:32
-#: lib/claper_web/live/event_live/event_form_component.html.heex:279
 #, elixir-autogen, elixir-format
 msgid "Code"
 msgstr "Kod"
 
+#: lib/claper_web/live/event_live/event_form_component.html.heex:343
 #: lib/claper_web/live/user_settings_live/show.html.heex:226
 #: lib/claper_web/templates/user_session/new.html.heex:59
 #, elixir-autogen, elixir-format
@@ -181,23 +181,12 @@ msgstr "Skapades"
 #: lib/claper_web/live/admin_live/oidc_provider_live.html.heex:220
 #: lib/claper_web/live/admin_live/user_live.html.heex:102
 #: lib/claper_web/live/event_live/event_card_component.ex:772
-#: lib/claper_web/live/event_live/index.ex:168
 #, elixir-autogen, elixir-format
 msgid "Edit"
 msgstr "Redigera"
 
-#: lib/claper_web/live/event_live/event_form_component.html.heex:36
-#: lib/claper_web/live/event_live/event_form_component.html.heex:43
-#: lib/claper_web/live/event_live/event_form_component.html.heex:392
-#: lib/claper_web/live/event_live/event_form_component.html.heex:399
-#, elixir-autogen, elixir-format
-msgid "Create"
-msgstr "Skapa"
-
 #: lib/claper_web/live/embed_live/form_component.html.heex:71
 #: lib/claper_web/live/event_live/event_card_component.ex:837
-#: lib/claper_web/live/event_live/event_form_component.html.heex:48
-#: lib/claper_web/live/event_live/event_form_component.html.heex:404
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:263
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:269
 #: lib/claper_web/live/event_live/manageable_post_component.ex:140
@@ -211,10 +200,6 @@ msgid "Delete"
 msgstr "Ta bort"
 
 #: lib/claper_web/live/embed_live/form_component.html.heex:67
-#: lib/claper_web/live/event_live/event_form_component.html.heex:35
-#: lib/claper_web/live/event_live/event_form_component.html.heex:42
-#: lib/claper_web/live/event_live/event_form_component.html.heex:391
-#: lib/claper_web/live/event_live/event_form_component.html.heex:398
 #: lib/claper_web/live/form_live/form_component.html.heex:105
 #: lib/claper_web/live/poll_live/form_component.html.heex:98
 #: lib/claper_web/live/quiz_live/quiz_component.html.heex:219
@@ -275,45 +260,10 @@ msgstr "Om du inte skapade ett konto hos oss, vänligen ignorera detta."
 msgid "You can log into your account by clicking here."
 msgstr "Du kan logga in på ditt konto genom att klicka här."
 
-#: lib/claper_web/live/event_live/event_form_component.html.heex:52
-#: lib/claper_web/live/event_live/event_form_component.html.heex:408
 #: lib/claper_web/live/event_live/post_component.ex:182
 #, elixir-autogen, elixir-format
 msgid "Are you sure?"
 msgstr "Är du säker?"
-
-#: lib/claper_web/live/event_live/event_form_component.html.heex:168
-#, elixir-autogen, elixir-format
-msgid "Presentation attached"
-msgstr "Presentation bifogad"
-
-#: lib/claper_web/live/event_live/event_form_component.html.heex:128
-#, elixir-autogen, elixir-format
-msgid "Presentation uploaded"
-msgstr "Presentation uppladdad"
-
-#: lib/claper_web/live/event_live/event_form_component.html.heex:139
-#: lib/claper_web/live/event_live/event_form_component.html.heex:237
-#: lib/claper_web/live/event_live/event_form_component.html.heex:348
-#: lib/claper_web/live/event_live/event_form_component.html.heex:372
-#, elixir-autogen, elixir-format
-msgid "Remove"
-msgstr "Ta bort"
-
-#: lib/claper_web/live/event_live/event_form_component.html.heex:149
-#, elixir-autogen, elixir-format
-msgid "Select your presentation"
-msgstr "Välj din presentation"
-
-#: lib/claper_web/live/event_live/event_form_component.html.heex:91
-#, elixir-autogen, elixir-format
-msgid "Upload a file"
-msgstr "Importera en fil"
-
-#: lib/claper_web/live/event_live/event_form_component.html.heex:95
-#, elixir-autogen, elixir-format
-msgid "or drag and drop"
-msgstr "eller dra och släpp"
 
 #: lib/claper_web/live/event_live/event_form_component.ex:323
 #, elixir-autogen, elixir-format
@@ -324,16 +274,6 @@ msgstr "Du har valt en felaktig filtyp"
 #, elixir-autogen, elixir-format
 msgid "Your file is too large"
 msgstr "Din fil är för stor"
-
-#: lib/claper_web/live/event_live/event_form_component.html.heex:178
-#, elixir-autogen, elixir-format
-msgid "Change file"
-msgstr "Byt fil"
-
-#: lib/claper_web/live/event_live/event_form_component.html.heex:214
-#, elixir-autogen, elixir-format
-msgid "Presentation replaced"
-msgstr "Presentation ersatt"
 
 #: lib/claper_web/live/event_live/manage.html.heex:249
 #, elixir-autogen, elixir-format
@@ -387,19 +327,6 @@ msgstr "Se nuvarande omröstning"
 msgid "Vote"
 msgstr "Rösta"
 
-#: lib/claper_web/live/event_live/event_form_component.html.heex:337
-#: lib/claper_web/live/event_live/event_form_component.html.heex:355
-#, elixir-autogen, elixir-format
-msgid "User email address"
-msgstr "Användarens e-postadress"
-
-#: lib/claper_web/live/event_live/event_form_component.html.heex:193
-#, elixir-autogen, elixir-format
-msgid "Changing your file will remove all interaction elements like polls associated."
-msgstr ""
-"Att byta fil kommer att ta bort alla interaktionselement såsom "
-"associerade omröstningar."
-
 #: lib/claper_web/live/event_live/manage_audience_responses_component.ex:96
 #, elixir-autogen, elixir-format
 msgid "Messages from attendees will appear here."
@@ -423,11 +350,6 @@ msgstr "Fråga, kommentera..."
 msgid "Messages"
 msgstr "Meddelanden"
 
-#: lib/claper_web/live/event_live/event_form_component.html.heex:320
-#, elixir-autogen, elixir-format
-msgid "Add facilitator"
-msgstr "Lägg till facilitator"
-
 #: lib/claper_web/templates/error/404.html.heex:31
 #, elixir-autogen, elixir-format
 msgid "Oops, page doesn't exist."
@@ -437,11 +359,6 @@ msgstr "Hoppsan! Sidan finns inte."
 #, elixir-autogen, elixir-format
 msgid "The site is under maintenance, we'll be back very soon!"
 msgstr "Webbplatsen underhålls just nu. Vi är snart tillbaka!"
-
-#: lib/claper_web/live/event_live/event_form_component.html.heex:299
-#, elixir-autogen, elixir-format
-msgid "Facilitators can present and manage interactions"
-msgstr "Facilitatorer kan presentera och hantera interaktioner"
 
 #: lib/claper_web/templates/leader_notifier/invitation.html.heex:45
 #: lib/claper_web/templates/user_notifier/change.html.heex:42
@@ -756,11 +673,6 @@ msgstr "Välj ett eller flera alternativ"
 msgid "Multiple answers"
 msgstr "Flera svar"
 
-#: lib/claper_web/live/event_live/event_form_component.html.heex:98
-#, elixir-autogen, elixir-format
-msgid "PDF, PPT, PPTX up to %{size} MB"
-msgstr "PDF, PPT, PPTX upp till %{size} MB"
-
 #: lib/claper_web/live/event_live/manage_attendees_options_component.ex:43
 #, elixir-autogen, elixir-format
 msgid "Enable messages"
@@ -1020,30 +932,15 @@ msgstr "Live"
 msgid "My events"
 msgstr "Mina evenemang"
 
-#: lib/claper_web/live/event_live/event_form_component.html.heex:267
-#, elixir-autogen, elixir-format
-msgid "Name of your event"
-msgstr "Namn på ditt evenemang"
-
 #: lib/claper_web/live/event_live/join.html.heex:152
 #, elixir-autogen, elixir-format
 msgid "Return to your last event"
 msgstr "Återgå till ditt senaste evenemang"
 
-#: lib/claper_web/live/event_live/event_form_component.html.heex:64
-#, elixir-autogen, elixir-format
-msgid "Select your presentation (optional)"
-msgstr "Välj din presentation (valfritt)"
-
 #: lib/claper_web/live/event_live/show.ex:240
 #, elixir-autogen, elixir-format
 msgid "This event has been terminated"
 msgstr "Detta evenemang har avslutats"
-
-#: lib/claper_web/live/event_live/event_form_component.html.heex:288
-#, elixir-autogen, elixir-format
-msgid "When your event will start?"
-msgstr "När kommer ditt evenemang att starta?"
 
 #: lib/claper_web/live/event_live/show.html.heex:112
 #, elixir-autogen, elixir-format
@@ -1693,6 +1590,7 @@ msgid "Cancel"
 msgstr "Avbryt"
 
 #: lib/claper_web/live/admin_live/form_field_component.ex:112
+#: lib/claper_web/live/event_live/event_form_component.html.heex:193
 #, elixir-autogen, elixir-format
 msgid "Choose file"
 msgstr "Välj fil"
@@ -1758,6 +1656,8 @@ msgid "Currently running"
 msgstr "Körs just nu"
 
 #: lib/claper_web/live/admin_live/event_live.html.heex:80
+#: lib/claper_web/live/event_live/event_form_component.html.heex:423
+#: lib/claper_web/live/event_live/event_form_component.html.heex:429
 #, elixir-autogen, elixir-format
 msgid "Delete event"
 msgstr "Radera evenemang"
@@ -1782,6 +1682,7 @@ msgstr "Redigera OIDC-leverantör"
 #: lib/claper_web/live/admin_live/event_live.html.heex:70
 #: lib/claper_web/live/admin_live/event_live.html.heex:270
 #: lib/claper_web/live/admin_live/event_live.html.heex:280
+#: lib/claper_web/live/event_live/index.ex:168
 #, elixir-autogen, elixir-format
 msgid "Edit event"
 msgstr "Redigera evenemang"
@@ -1858,6 +1759,7 @@ msgstr "Evenemanget raderades"
 
 #: lib/claper_web/live/admin_live/event_live.ex:61
 #: lib/claper_web/live/admin_live/event_live.html.heex:96
+#: lib/claper_web/live/event_live/event_form_component.html.heex:233
 #, elixir-autogen, elixir-format
 msgid "Event details"
 msgstr "Evenemangsdetaljer"
@@ -2042,6 +1944,7 @@ msgstr "Roll"
 #: lib/claper_web/live/admin_live/event_live/form_component.ex:82
 #: lib/claper_web/live/admin_live/oidc_provider_live/form_component.ex:149
 #: lib/claper_web/live/admin_live/user_live/form_component.ex:98
+#: lib/claper_web/live/event_live/event_form_component.html.heex:449
 #: lib/claper_web/live/user_settings_live/show.html.heex:41
 #, elixir-autogen, elixir-format
 msgid "Saving..."
@@ -2315,7 +2218,7 @@ msgid "Required"
 msgstr "Obligatoriskt"
 
 #: lib/claper_web/views/components/input_component.ex:16
-#: lib/claper_web/views/components/input_component.ex:295
+#: lib/claper_web/views/components/input_component.ex:296
 #, elixir-autogen, elixir-format
 msgid "(optional)"
 msgstr "(valfritt)"
@@ -2501,11 +2404,6 @@ msgstr "Externa konton kopplade till din profil"
 #, elixir-autogen, elixir-format
 msgid "More"
 msgstr "Mer"
-
-#: lib/claper_web/live/event_live/index.ex:182
-#, elixir-autogen, elixir-format
-msgid "New presentation"
-msgstr "Ny presentation"
 
 #: lib/claper_web/live/admin_live/audit_log_live.html.heex:44
 #: lib/claper_web/live/admin_live/audit_log_live.html.heex:73
@@ -3244,6 +3142,7 @@ msgstr "Vi har redan skickat ett e-postmeddelande för att logga in dig, försö
 msgid "You must log in to continue"
 msgstr "Du måste logga in för att fortsätta"
 
+#: lib/claper_web/live/event_live/event_form_component.html.heex:312
 #: lib/claper_web/live/form_live/form_component.html.heex:93
 #: lib/claper_web/live/poll_live/form_component.html.heex:74
 #, elixir-autogen, elixir-format
@@ -3572,3 +3471,165 @@ msgstr "Visa undertexter"
 #, elixir-autogen, elixir-format
 msgid "Waiting for captions"
 msgstr "Väntar på undertexter"
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:183
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Add a presentation"
+msgstr "Dölj presentation"
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:179
+#, elixir-autogen, elixir-format
+msgid "Attached"
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:258
+#, elixir-autogen, elixir-format
+msgid "Attendees enter this code to join."
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "Close event editor"
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:453
+#: lib/claper_web/live/event_live/index.ex:182
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Create event"
+msgstr "Skapa Evenemang"
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:449
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Creating..."
+msgstr "Sparar..."
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:433
+#, elixir-autogen, elixir-format
+msgid "Delete this event? This action cannot be undone."
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:187
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a file here, or"
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:243
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Event name"
+msgstr "Evenemang"
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:289
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Facilitators"
+msgstr "Lägg till facilitator"
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:292
+#, elixir-autogen, elixir-format
+msgid "Invite people who can present and manage audience interactions."
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:254
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Join code"
+msgstr "Gå med"
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:114
+#, elixir-autogen, elixir-format, fuzzy
+msgid "New presentation ready"
+msgstr "Ny presentation"
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:321
+#, elixir-autogen, elixir-format
+msgid "No facilitators have been added yet."
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:63
+#, elixir-autogen, elixir-format
+msgid "Optional. Add a PDF or PowerPoint now, or upload one later."
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:197
+#, elixir-autogen, elixir-format, fuzzy
+msgid "PDF, PPT, or PPTX up to %{size} MB"
+msgstr "PDF, PPT, PPTX upp till %{size} MB"
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:426
+#, elixir-autogen, elixir-format
+msgid "Permanently delete this event. This action cannot be undone."
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:57
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Presentation"
+msgstr "Presentationsinställningar"
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:127
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Presentation upload progress"
+msgstr "Presentation uppladdad"
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:362
+#: lib/claper_web/live/event_live/event_form_component.html.heex:387
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Remove facilitator"
+msgstr "Lägg till facilitator"
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:141
+#, elixir-autogen, elixir-format
+msgid "Remove selected presentation"
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:181
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Replace presentation"
+msgstr "Välj presentation"
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:453
+#, elixir-autogen, elixir-format
+msgid "Save changes"
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:132
+#, elixir-autogen, elixir-format
+msgid "Save the event to start processing this presentation."
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:41
+#, elixir-autogen, elixir-format
+msgid "Set up the details attendees will use to join."
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:271
+#, elixir-autogen, elixir-format
+msgid "Shown in your local time."
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:266
+#, elixir-autogen, elixir-format
+msgid "Start date and time"
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:236
+#, elixir-autogen, elixir-format
+msgid "These details help attendees find and join your event."
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "Update the event details your attendees will see."
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:116
+#, elixir-autogen, elixir-format
+msgid "Uploading... %{progress}%"
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:61
+#, elixir-autogen, elixir-format
+msgid "Your presentation is attached and ready to use."
+msgstr ""
+
+#: lib/claper_web/live/event_live/event_form_component.html.heex:344
+#, elixir-autogen, elixir-format
+msgid "name@example.com"
+msgstr ""

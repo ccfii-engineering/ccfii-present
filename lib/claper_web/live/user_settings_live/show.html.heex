@@ -19,21 +19,23 @@
           {hidden_input(f, :action, name: "action", value: "update_profile")}
 
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <ClaperWeb.Component.Input.text
+            <.text_field
               form={f}
               key={:first_name}
-              name={gettext("First name")}
-              required="true"
+              label={gettext("First name")}
+              required
               maxlength="160"
-              autofocus="true"
+              autofocus
+              autocomplete="given-name"
             />
 
-            <ClaperWeb.Component.Input.text
+            <.text_field
               form={f}
               key={:last_name}
-              name={gettext("Last name")}
-              required="true"
+              label={gettext("Last name")}
+              required
               maxlength="160"
+              autocomplete="family-name"
             />
           </div>
 
@@ -59,11 +61,13 @@
         <.form :let={f} for={@email_changeset} phx-submit="save" id="update_email" class="mt-5">
           {hidden_input(f, :action, name: "action", value: "update_email")}
 
-          <ClaperWeb.Component.Input.email
+          <.text_field
             form={f}
             key={:email}
-            name={gettext("Email")}
-            required="true"
+            type="email"
+            label={gettext("Email")}
+            required
+            autocomplete="email"
           />
 
           {submit(gettext("Save"),
@@ -95,17 +99,21 @@
           {hidden_input(f, :action, name: "action", value: "update_password")}
 
           <div class="md:flex md:items-end gap-x-2">
-            <ClaperWeb.Component.Input.password
+            <.text_field
               form={f}
               key={:current_password}
-              name={gettext("Current password")}
-              required="true"
+              type="password"
+              label={gettext("Current password")}
+              required
+              autocomplete="current-password"
             />
-            <ClaperWeb.Component.Input.password
+            <.text_field
               form={f}
               key={:password}
-              name={gettext("New password")}
-              required="true"
+              type="password"
+              label={gettext("New password")}
+              required
+              autocomplete="new-password"
             />
           </div>
 
@@ -138,18 +146,22 @@
           {hidden_input(f, :action, name: "action", value: "set_password")}
 
           <div class="md:flex md:items-end gap-x-2">
-            <ClaperWeb.Component.Input.password
+            <.text_field
               form={f}
               key={:password}
-              name={gettext("New password")}
-              required="true"
+              type="password"
+              label={gettext("New password")}
+              required
+              autocomplete="new-password"
             />
 
-            <ClaperWeb.Component.Input.password
+            <.text_field
               form={f}
               key={:password_confirmation}
-              name={gettext("Confirm password")}
-              required="true"
+              type="password"
+              label={gettext("Confirm password")}
+              required
+              autocomplete="new-password"
             />
           </div>
 

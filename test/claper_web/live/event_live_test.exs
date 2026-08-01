@@ -35,6 +35,68 @@ defmodule ClaperWeb.EventLiveTest do
       assert html_response(conn, 200) =~ "some updated name"
     end
 
+    test "renders the redesigned create and edit states", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      {:ok, edit_live, _html} = live(conn, ~p"/events/#{presentation_file.event.uuid}/edit")
+
+      assert has_element?(edit_live, "#event-editor-title", "Edit event")
+      assert has_element?(edit_live, "#presentation-heading", "Presentation")
+      assert has_element?(edit_live, "#event-details-heading", "Event details")
+      assert has_element?(edit_live, "#facilitators-section")
+      assert has_element?(edit_live, "#event-danger-zone", "Delete event")
+      assert has_element?(edit_live, ~s(button[form="event-form"]), "Save changes")
+
+      {:ok, new_live, _html} = live(conn, ~p"/events/new")
+
+      assert has_element?(new_live, "#event-editor-title", "Create event")
+      assert has_element?(new_live, "#presentation-heading", "Presentation")
+      assert has_element?(new_live, ~s(label[for]), "Choose file")
+      refute has_element?(new_live, "#facilitators-section")
+      refute has_element?(new_live, "#event-danger-zone")
+      assert has_element?(new_live, ~s(button[form="event-form"]), "Create event")
+    end
+
+    test "adds and removes an unsaved facilitator", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      {:ok, index_live, _html} = live(conn, ~p"/events/#{presentation_file.event.uuid}/edit")
+
+      assert has_element?(index_live, "#facilitators-empty-state")
+
+      index_live
+      |> element(~s(button[phx-click="add-leader"]))
+      |> render_click()
+
+      refute has_element?(index_live, "#facilitators-empty-state")
+
+      assert has_element?(
+               index_live,
+               ~S|#facilitators-section input[type="email"]:not([readonly])|
+             )
+
+      index_live
+      |> element(~s(button[phx-click="remove-leader"]))
+      |> render_click()
+
+      assert has_element?(index_live, "#facilitators-empty-state")
+    end
+
+    test "disables save when event details are invalid", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      {:ok, index_live, _html} = live(conn, ~p"/events/#{presentation_file.event.uuid}/edit")
+
+      index_live
+      |> form("#event-form", event: %{name: ""})
+      |> render_change()
+
+      assert has_element?(index_live, ~s(button[form="event-form"][disabled]))
+    end
+
     test "deletes event in listing", %{conn: conn, presentation_file: presentation_file} do
       {:ok, index_live, _html} = live(conn, ~p"/events/#{presentation_file.event.uuid}/edit")
 
@@ -46,7 +108,7 @@ defmodule ClaperWeb.EventLiveTest do
 
       {:ok, index_live, _html} = live(conn, ~p"/events")
 
-      refute has_element?(index_live, "#event-#{presentation_file.event.uuid}")
+      refute has_element?(index_live, "#event-#{presentation_file.event.id}")
     end
   end
 
