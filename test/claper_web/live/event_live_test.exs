@@ -44,6 +44,13 @@ defmodule ClaperWeb.EventLiveTest do
       assert has_element?(edit_live, "#event-editor-title", "Edit event")
       assert has_element?(edit_live, "#presentation-heading", "Presentation")
       assert has_element?(edit_live, "#event-details-heading", "Event details")
+      assert has_element?(edit_live, ~s(#date-picker input[type="datetime-local"]))
+
+      assert has_element?(
+               edit_live,
+               ~s(#date-picker input[name="event[started_at]"][type="hidden"])
+             )
+
       assert has_element?(edit_live, "#facilitators-section")
       assert has_element?(edit_live, "#event-danger-zone", "Delete event")
       assert has_element?(edit_live, ~s(button[form="event-form"]), "Save changes")

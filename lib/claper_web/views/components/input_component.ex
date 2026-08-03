@@ -277,14 +277,16 @@ defmodule ClaperWeb.Component.Input do
 
     ~H"""
     <div>
-      <div class="relative" id="date" phx-hook="Pickr">
-        {label(@form, @key, @name, class: "block text-sm font-bold text-base-content")}
+      <div class="relative" id={"#{input_id(@form, @key)}-picker"} phx-hook="DateTimeLocal">
+        {label(@form, :local_date, @name, class: "block text-sm font-bold text-base-content")}
         <div class="mt-1 relative">
           {hidden_input(@form, @key)}
-          {text_input(@form, :local_date,
+          {datetime_local_input(@form, :local_date,
+            required: @required,
+            readonly: @readonly,
             autofocus: @autofocus,
-            placeholder: @placeholder,
-            autocomplete: false,
+            autocomplete: "off",
+            step: 300,
             class:
               "input h-12 w-full bg-white px-4 read-only:opacity-50 #{if Keyword.has_key?(@form.errors, @key), do: "input-error", else: ""}"
           )}

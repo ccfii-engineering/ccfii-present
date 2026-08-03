@@ -6,14 +6,6 @@ import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 import Alpine from "alpinejs";
 import moment from "moment-timezone";
-import AirDatepicker from "air-datepicker";
-import airdatepickerLocaleEn from "air-datepicker/locale/en";
-import airdatepickerLocaleFr from "air-datepicker/locale/fr";
-import airdatepickerLocaleDe from "air-datepicker/locale/de";
-import airdatepickerLocaleEs from "air-datepicker/locale/es";
-import airdatepickerLocaleNl from "air-datepicker/locale/nl";
-import airdatepickerLocaleIt from "air-datepicker/locale/it";
-import airdatepickerLocaleHu from "air-datepicker/locale/hu";
 import "moment/locale/de";
 import "moment/locale/fr";
 import "moment/locale/es";
@@ -42,27 +34,12 @@ const supportedLocales = window.claperConfig?.supportedLocales || [
   "lv",
 ];
 
-const airdatePickrSupportedLocales = window.claperConfig?.supportedLocales || [
-  "en",
-  "fr",
-  "de",
-  "es",
-  "nl",
-  "it",
-  "hu",
-];
-
 var locale =
   document.querySelector("html").getAttribute("lang") ||
   navigator.language.split("-")[0];
 
-var airdatepickrLocale = locale;
-
 if (!supportedLocales.includes(locale)) {
   locale = "en";
-}
-if (!airdatePickrSupportedLocales.includes(airdatepickrLocale)) {
-  airdatepickrLocale = "en";
 }
 
 window.moment.locale("en");
@@ -70,15 +47,6 @@ window.moment.locale(locale);
 window.Alpine = Alpine;
 Alpine.start();
 
-let airdatePickrLocales = {
-  en: airdatepickerLocaleEn,
-  fr: airdatepickerLocaleFr,
-  de: airdatepickerLocaleDe,
-  es: airdatepickerLocaleEs,
-  nl: airdatepickerLocaleNl,
-  it: airdatepickerLocaleIt,
-  hu: airdatepickerLocaleHu,
-};
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
@@ -450,31 +418,52 @@ Hooks.CalendarLocalDate = {
     this.el.innerHTML = moment.utc(this.el.dataset.date).local().calendar();
   },
 };
-Hooks.Pickr = {
+Hooks.DateTimeLocal = {
   mounted() {
-    const localTime = this.el.querySelector("input[type=text]");
-    const utcTime = this.el.querySelector("input[type=hidden]");
-    localTime.value = moment
-      .utc(utcTime.value)
-      .local()
-      .format("DD-MM-YYYY HH:mm");
-    this.pickr = new AirDatepicker(localTime, {
-      dateFormat: "dd-MM-yyyy",
-      timepicker: true,
-      minutesStep: 5,
-      minDate: moment(),
-      timeFormat: "HH:mm",
-      selectedDates: [moment(localTime.value, "DD-MM-YYYY HH:mm").toDate()],
-      onSelect: ({ date }) => {
-        const utc = moment(date).utc().format("YYYY-MM-DDTHH:mm:ss");
-        utcTime.value = utc;
-      },
-      locale: airdatePickrLocales[airdatepickrLocale] || airdatePickrLocales["en"],
-    });
+    this.localTime = this.el.querySelector("input[type=datetime-local]");
+    this.utcTime = this.el.querySelector("input[type=hidden]");
+    this.syncLocalTime();
+
+    this.handleInput = ({ target }) => {
+      if (target === this.localTime) this.syncUtcTime();
+    };
+    this.el.addEventListener("input", this.handleInput);
   },
-  updated() {},
+  updated() {
+    this.localTime = this.el.querySelector("input[type=datetime-local]");
+    this.utcTime = this.el.querySelector("input[type=hidden]");
+    this.syncLocalTime();
+  },
+  syncLocalTime() {
+    if (!this.utcTime.value) {
+      this.localTime.value = "";
+      return;
+    }
+
+    const value = this.utcTime.value.replace(" ", "T").replace(/Z$/, "");
+    const date = new Date(`${value}Z`);
+
+    if (!Number.isNaN(date.getTime())) {
+      const pad = (part) => String(part).padStart(2, "0");
+      this.localTime.value =
+        `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}` +
+        `T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
+  },
+  syncUtcTime() {
+    if (!this.localTime.value) {
+      this.utcTime.value = "";
+      return;
+    }
+
+    const date = new Date(this.localTime.value);
+
+    if (!Number.isNaN(date.getTime())) {
+      this.utcTime.value = date.toISOString().slice(0, 19);
+    }
+  },
   destroyed() {
-    if (this.pickr) this.pickr.destroy();
+    this.el.removeEventListener("input", this.handleInput);
   },
 };
 Hooks.UpdateAttendees = {
