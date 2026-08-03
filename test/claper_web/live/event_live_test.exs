@@ -65,6 +65,16 @@ defmodule ClaperWeb.EventLiveTest do
       assert has_element?(new_live, ~s(button[form="event-form"]), "Create event")
     end
 
+    test "uses the user's locale for the native date picker", %{user: user} do
+      {:ok, %{locale: "fr"} = user} =
+        Claper.Accounts.update_user_preferences(user, %{locale: "fr"})
+
+      conn = build_conn() |> log_in_user(user)
+      {:ok, new_live, _html} = live(conn, ~p"/events/new")
+
+      assert has_element?(new_live, ~s(#date-picker input[type="datetime-local"][lang="fr"]))
+    end
+
     test "adds and removes an unsaved facilitator", %{
       conn: conn,
       presentation_file: presentation_file

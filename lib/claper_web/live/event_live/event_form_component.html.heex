@@ -264,6 +264,7 @@
               form={f}
               key={:started_at}
               name={gettext("Start date and time")}
+              locale={@current_user.locale}
               required="true"
             />
             <p class="text-xs text-base-content/60">{gettext("Shown in your local time.")}</p>

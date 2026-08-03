@@ -272,6 +272,7 @@ defmodule ClaperWeb.Component.Input do
       |> assign_new(:autofocus, fn -> false end)
       |> assign_new(:placeholder, fn -> false end)
       |> assign_new(:readonly, fn -> false end)
+      |> assign_new(:locale, fn -> Gettext.get_locale(ClaperWeb.Gettext) end)
       |> assign_new(:labelClass, fn -> "text-gray-700" end)
       |> assign_new(:fieldClass, fn -> "bg-white" end)
 
@@ -286,6 +287,7 @@ defmodule ClaperWeb.Component.Input do
             readonly: @readonly,
             autofocus: @autofocus,
             autocomplete: "off",
+            lang: @locale,
             step: 300,
             class:
               "input h-12 w-full bg-white px-4 read-only:opacity-50 #{if Keyword.has_key?(@form.errors, @key), do: "input-error", else: ""}"
