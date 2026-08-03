@@ -3,6 +3,10 @@
 ### Features
 
 - Redesign the manager, dashboard and waiting screen
+- Redesig attendee room and interactions.
+- Redesign event creation/editing and file-upload flow.
+- Embed slide preview mode and collapsible live captions.
+- Add native, locale-aware date and time picker.
 - Add new global interaction: realtime transcription with Mistral API
 - Add drag-and-drop for interactions and slides
 - Add first name and last name informations for users
