@@ -12,7 +12,7 @@ defmodule Claper.Transcriptions.MistralRealtimeClientTest do
     assert %{
              "type" => "session.update",
              "session" => %{
-               "audio_format" => %{"encoding" => "pcm_s16le", "sample_rate" => 16000}
+               "audio_format" => %{"encoding" => "pcm_s16le", "sample_rate" => 16_000}
              }
            } = Jason.decode!(message)
 

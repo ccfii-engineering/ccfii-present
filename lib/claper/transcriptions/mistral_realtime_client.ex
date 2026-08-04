@@ -60,7 +60,9 @@ defmodule Claper.Transcriptions.MistralRealtimeClient do
 
   @impl true
   def handle_info(:send_session_update, state) do
-    session_config = %{"audio_format" => %{"encoding" => "pcm_s16le", "sample_rate" => 16000}}
+    session_config = %{
+      "audio_format" => %{"encoding" => "pcm_s16le", "sample_rate" => 16_000}
+    }
 
     message = Jason.encode!(%{"type" => "session.update", "session" => session_config})
     {:reply, {:text, message}, state}
@@ -74,47 +76,8 @@ defmodule Claper.Transcriptions.MistralRealtimeClient do
   @impl true
   def handle_frame({:text, msg}, state) do
     case Jason.decode(msg) do
-      {:ok, %{"type" => "session.created"} = event} ->
-        Logger.info("MistralRealtimeClient: session created")
-        send(state.callback_pid, {:mistral_event, :session_created, event})
-        {:ok, %{state | session_ready: true}}
-
-      {:ok, %{"type" => "session.updated"}} ->
-        Logger.info("MistralRealtimeClient: session updated, ready for audio")
-        {:ok, state}
-
-      {:ok, %{"type" => "transcription.text.delta", "text" => text}} ->
-        send(state.callback_pid, {:mistral_event, :text_delta, text})
-        {:ok, state}
-
-      {:ok, %{"type" => "transcription.segment", "text" => text}} ->
-        send(state.callback_pid, {:mistral_event, :segment, text})
-        {:ok, state}
-
-      {:ok, %{"type" => "transcription.done"} = event} ->
-        text = Map.get(event, "text", "")
-        send(state.callback_pid, {:mistral_event, :done, text})
-        {:ok, state}
-
-      {:ok, %{"type" => "transcription.language"} = event} ->
-        lang = Map.get(event, "audioLanguage") || Map.get(event, "language")
-
-        Logger.info("MistralRealtimeClient: detected language #{lang}")
-        send(state.callback_pid, {:mistral_event, :language, lang})
-        {:ok, state}
-
-      {:ok, %{"type" => "error"} = event} ->
-        error_msg = get_in(event, ["error", "message"]) || "unknown error"
-        Logger.error("MistralRealtimeClient: error - #{error_msg}")
-        send(state.callback_pid, {:mistral_event, :error, error_msg})
-        {:ok, state}
-
       {:ok, event} ->
-        Logger.info(
-          "MistralRealtimeClient: unhandled event type #{inspect(event["type"])} payload=#{inspect(event)}"
-        )
-
-        {:ok, state}
+        handle_event(event, state)
 
       {:error, reason} ->
         Logger.error("MistralRealtimeClient: failed to parse: #{inspect(reason)}")
@@ -132,6 +95,56 @@ defmodule Claper.Transcriptions.MistralRealtimeClient do
     Logger.info("MistralRealtimeClient: disconnected (#{inspect(reason)}), reconnecting...")
     send(state.callback_pid, {:mistral_event, :disconnected, reason})
     {:reconnect, state}
+  end
+
+  defp handle_event(%{"type" => "session.created"} = event, state) do
+    Logger.info("MistralRealtimeClient: session created")
+    send(state.callback_pid, {:mistral_event, :session_created, event})
+    {:ok, %{state | session_ready: true}}
+  end
+
+  defp handle_event(%{"type" => "session.updated"}, state) do
+    Logger.info("MistralRealtimeClient: session updated, ready for audio")
+    {:ok, state}
+  end
+
+  defp handle_event(%{"type" => "transcription.text.delta", "text" => text}, state) do
+    send(state.callback_pid, {:mistral_event, :text_delta, text})
+    {:ok, state}
+  end
+
+  defp handle_event(%{"type" => "transcription.segment", "text" => text}, state) do
+    send(state.callback_pid, {:mistral_event, :segment, text})
+    {:ok, state}
+  end
+
+  defp handle_event(%{"type" => "transcription.done"} = event, state) do
+    text = Map.get(event, "text", "")
+    send(state.callback_pid, {:mistral_event, :done, text})
+    {:ok, state}
+  end
+
+  defp handle_event(%{"type" => "transcription.language"} = event, state) do
+    lang = Map.get(event, "audioLanguage") || Map.get(event, "language")
+
+    Logger.info("MistralRealtimeClient: detected language #{lang}")
+    send(state.callback_pid, {:mistral_event, :language, lang})
+    {:ok, state}
+  end
+
+  defp handle_event(%{"type" => "error"} = event, state) do
+    error_msg = get_in(event, ["error", "message"]) || "unknown error"
+    Logger.error("MistralRealtimeClient: error - #{error_msg}")
+    send(state.callback_pid, {:mistral_event, :error, error_msg})
+    {:ok, state}
+  end
+
+  defp handle_event(event, state) do
+    Logger.info(
+      "MistralRealtimeClient: unhandled event type #{inspect(event["type"])} payload=#{inspect(event)}"
+    )
+
+    {:ok, state}
   end
 
   defp get_api_key do

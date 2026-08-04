@@ -106,11 +106,9 @@ defmodule ClaperWeb.AdminLive.EventLive do
     transcriptions = socket.assigns.transcriptions
 
     content =
-      transcriptions
-      |> Enum.map(fn t ->
+      Enum.map_join(transcriptions, "\n", fn t ->
         "[#{Calendar.strftime(t.inserted_at, "%Y-%m-%d %H:%M:%S")}] #{t.text}"
       end)
-      |> Enum.join("\n")
 
     {:noreply,
      push_event(socket, "download_csv", %{

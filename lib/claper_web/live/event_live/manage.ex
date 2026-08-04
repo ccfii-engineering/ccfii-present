@@ -26,89 +26,93 @@ defmodule ClaperWeb.EventLive.Manage do
        |> put_flash(:error, gettext("Event doesn't exist"))
        |> redirect(to: "/")}
     else
-      if connected?(socket) do
-        Claper.Events.Event.subscribe(event.uuid)
-        Presentations.subscribe(event.presentation_file.id)
-        Events.subscribe_user_events(socket.assigns.current_user.id)
-      end
-
-      posts = list_all_posts(socket, event.uuid)
-      pinned_posts = list_pinned_posts(socket, event.uuid)
-      questions = list_all_questions(socket, event.uuid)
-      form_submits = list_form_submits(socket, event.presentation_file.id)
-
-      audio_token =
-        Phoenix.Token.sign(ClaperWeb.Endpoint, "audio_token", %{
-          user_id: socket.assigns.current_user.id,
-          event_uuid: event.uuid
-        })
-
-      transcription_config =
-        Transcriptions.get_transcription_config(event.presentation_file.id)
-
-      transcription_globally_enabled = Claper.Settings.transcription_globally_enabled?()
-
-      # Auto-start transcription worker if config says enabled and globally enabled
-      if connected?(socket) && transcription_globally_enabled && transcription_config &&
-           transcription_config.enabled do
-        unless Claper.Transcriptions.TranscriptionWorker.running?(event.uuid) do
-          DynamicSupervisor.start_child(
-            Claper.TranscriptionSupervisor,
-            {Claper.Transcriptions.TranscriptionWorker, {event.uuid, event.presentation_file.id}}
-          )
-        end
-      end
-
-      socket =
-        socket
-        |> assign(:interaction_modal, false)
-        |> assign(:settings_modal, false)
-        |> assign(:attendees_nb, 0)
-        |> assign(:event, event)
-        |> assign(:sort_questions_by, "date")
-        |> assign(:state, event.presentation_file.presentation_state)
-        |> assign(:audio_token, audio_token)
-        |> assign(:transcription_config, transcription_config)
-        |> assign(:transcription_globally_enabled, transcription_globally_enabled)
-        |> stream(:posts, posts)
-        |> stream(:questions, questions)
-        |> stream(:pinned_posts, pinned_posts)
-        |> stream(:form_submits, form_submits)
-        |> assign(:pinned_post_count, length(pinned_posts))
-        |> assign(:question_count, length(questions))
-        |> assign(:post_count, length(posts))
-        |> assign(
-          :total_interactions,
-          Claper.Interactions.get_number_total_interactions(event.presentation_file.id)
-        )
-        |> assign(
-          :form_submit_count,
-          length(form_submits)
-        )
-        |> assign(:create, nil)
-        |> assign(:list_tab, :posts)
-        |> assign(:create_action, :new)
-        |> assign(
-          :missing_slide_thumbnails,
-          Presentations.missing_slide_thumbnails?(event.presentation_file)
-        )
-        |> assign(:thumbnail_cache_bust, thumbnail_cache_bust())
-        |> assign(:thumbnail_regeneration_in_progress, false)
-        |> push_event("page-manage", %{
-          current_page: event.presentation_file.presentation_state.position,
-          timeout: 500
-        })
-        |> then(fn s ->
-          if transcription_config && transcription_config.enabled do
-            push_event(s, "transcription-state", %{enabled: true})
-          else
-            s
-          end
-        end)
-        |> interactions_at_position(event.presentation_file.presentation_state.position)
-
-      {:ok, socket}
+      mount_event(socket, event)
     end
+  end
+
+  defp mount_event(socket, event) do
+    if connected?(socket) do
+      Claper.Events.Event.subscribe(event.uuid)
+      Presentations.subscribe(event.presentation_file.id)
+      Events.subscribe_user_events(socket.assigns.current_user.id)
+    end
+
+    posts = list_all_posts(socket, event.uuid)
+    pinned_posts = list_pinned_posts(socket, event.uuid)
+    questions = list_all_questions(socket, event.uuid)
+    form_submits = list_form_submits(socket, event.presentation_file.id)
+
+    audio_token =
+      Phoenix.Token.sign(ClaperWeb.Endpoint, "audio_token", %{
+        user_id: socket.assigns.current_user.id,
+        event_uuid: event.uuid
+      })
+
+    transcription_config =
+      Transcriptions.get_transcription_config(event.presentation_file.id)
+
+    transcription_globally_enabled = Claper.Settings.transcription_globally_enabled?()
+
+    # Auto-start transcription worker if config says enabled and globally enabled
+    if connected?(socket) && transcription_globally_enabled && transcription_config &&
+         transcription_config.enabled do
+      unless Claper.Transcriptions.TranscriptionWorker.running?(event.uuid) do
+        DynamicSupervisor.start_child(
+          Claper.TranscriptionSupervisor,
+          {Claper.Transcriptions.TranscriptionWorker, {event.uuid, event.presentation_file.id}}
+        )
+      end
+    end
+
+    socket =
+      socket
+      |> assign(:interaction_modal, false)
+      |> assign(:settings_modal, false)
+      |> assign(:attendees_nb, 0)
+      |> assign(:event, event)
+      |> assign(:sort_questions_by, "date")
+      |> assign(:state, event.presentation_file.presentation_state)
+      |> assign(:audio_token, audio_token)
+      |> assign(:transcription_config, transcription_config)
+      |> assign(:transcription_globally_enabled, transcription_globally_enabled)
+      |> stream(:posts, posts)
+      |> stream(:questions, questions)
+      |> stream(:pinned_posts, pinned_posts)
+      |> stream(:form_submits, form_submits)
+      |> assign(:pinned_post_count, length(pinned_posts))
+      |> assign(:question_count, length(questions))
+      |> assign(:post_count, length(posts))
+      |> assign(
+        :total_interactions,
+        Claper.Interactions.get_number_total_interactions(event.presentation_file.id)
+      )
+      |> assign(
+        :form_submit_count,
+        length(form_submits)
+      )
+      |> assign(:create, nil)
+      |> assign(:list_tab, :posts)
+      |> assign(:create_action, :new)
+      |> assign(
+        :missing_slide_thumbnails,
+        Presentations.missing_slide_thumbnails?(event.presentation_file)
+      )
+      |> assign(:thumbnail_cache_bust, thumbnail_cache_bust())
+      |> assign(:thumbnail_regeneration_in_progress, false)
+      |> push_event("page-manage", %{
+        current_page: event.presentation_file.presentation_state.position,
+        timeout: 500
+      })
+      |> then(fn s ->
+        if transcription_config && transcription_config.enabled do
+          push_event(s, "transcription-state", %{enabled: true})
+        else
+          s
+        end
+      end)
+      |> interactions_at_position(event.presentation_file.presentation_state.position)
+
+    {:ok, socket}
   end
 
   defp leader?(%{assigns: %{current_user: current_user}} = _socket, event) do

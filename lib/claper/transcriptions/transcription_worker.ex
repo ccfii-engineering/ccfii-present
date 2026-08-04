@@ -40,10 +40,7 @@ defmodule Claper.Transcriptions.TranscriptionWorker do
 
   @impl true
   def init({event_uuid, presentation_file_id}) do
-    unless Claper.Settings.transcription_globally_enabled?() do
-      Logger.info("TranscriptionWorker: transcription globally disabled, not starting")
-      {:stop, :transcription_disabled}
-    else
+    if Claper.Settings.transcription_globally_enabled?() do
       Logger.info("TranscriptionWorker started for event #{event_uuid}")
 
       config_language =
@@ -72,6 +69,9 @@ defmodule Claper.Transcriptions.TranscriptionWorker do
           Logger.error("Failed to connect to Mistral realtime API: #{inspect(reason)}")
           {:stop, reason}
       end
+    else
+      Logger.info("TranscriptionWorker: transcription globally disabled, not starting")
+      {:stop, :transcription_disabled}
     end
   end
 
