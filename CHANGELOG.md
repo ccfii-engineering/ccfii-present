@@ -10,11 +10,13 @@
 - Add new global interaction: realtime transcription with Mistral API
 - Add drag-and-drop for interactions and slides
 - Add first name and last name informations for users
+- Add search bar for events
 
 ### Fixes and improvements
 
 - Improve performance of preview with thumbnails
 - Improve translations
+- Fix admin stats calculation
 
 ## v.2.5.2
 
