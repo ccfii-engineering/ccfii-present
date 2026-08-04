@@ -6,6 +6,12 @@ defmodule Claper.Tasks.ConverterTest do
   alias Claper.Presentations.PresentationFile
   alias Claper.Tasks.Converter
 
+  test "uses the available Req client for S3 requests" do
+    assert Application.fetch_env!(:ex_aws, :http_client) == ExAws.Request.Req
+    assert Code.ensure_loaded?(ExAws.Request.Req)
+    assert function_exported?(ExAws.Request.Req, :request, 5)
+  end
+
   describe "regenerate_thumbnails/1" do
     test "uses convert when magick is unavailable" do
       storage_dir = unique_tmp_dir()

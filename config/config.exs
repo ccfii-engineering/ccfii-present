@@ -10,6 +10,9 @@ import Config
 config :claper,
   ecto_repos: [Claper.Repo]
 
+config :ex_aws,
+  http_client: ExAws.Request.Req
+
 # Configures the endpoint
 config :claper, ClaperWeb.Endpoint,
   render_errors: [view: ClaperWeb.ErrorView, accepts: ~w(html json), layout: false],
