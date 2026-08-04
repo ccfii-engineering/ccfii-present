@@ -132,6 +132,7 @@
       </header>
 
       <section
+        :if={focus_content?}
         id="focus-slot"
         phx-hook="AttendeeFocus"
         data-focus-key={focus_key(@current_interaction, @state.position)}
@@ -139,9 +140,8 @@
         data-interaction-mode={to_string(interaction_mode?)}
         class={[
           "relative z-10 min-h-0 overflow-hidden border-y border-white/10 bg-gray-950 transition-[height] duration-300",
-          focus_content? && interaction_mode? && "h-auto max-h-[40dvh]",
-          focus_content? && !interaction_mode? && "h-[40dvh] min-h-40 max-h-[26rem]",
-          !focus_content? && "h-12"
+          interaction_mode? && "h-auto max-h-[40dvh]",
+          !interaction_mode? && "h-[40dvh] min-h-40 max-h-[26rem]"
         ]}
       >
         <div
@@ -206,20 +206,13 @@
               />
             </div>
           <% _ -> %>
-            <%= if @current_slide_url do %>
-              <div id="focus-media" class="relative h-full w-full bg-black">
-                <img
-                  src={@current_slide_url}
-                  alt={gettext("Current presentation slide")}
-                  class="h-full w-full object-contain"
-                />
-              </div>
-            <% else %>
-              <div class="flex h-full items-center justify-between gap-3 px-4 text-sm text-gray-400">
-                <span>{gettext("Waiting for content")}</span>
-                <span class="h-2 w-2 animate-pulse rounded-full bg-primary-400"></span>
-              </div>
-            <% end %>
+            <div id="focus-media" class="relative h-full w-full bg-black">
+              <img
+                src={@current_slide_url}
+                alt={gettext("Current presentation slide")}
+                class="h-full w-full object-contain"
+              />
+            </div>
         <% end %>
 
         <button

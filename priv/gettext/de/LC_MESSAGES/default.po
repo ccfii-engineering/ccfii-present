@@ -3279,11 +3279,6 @@ msgstr "Spitznamen wählen"
 msgid "Set your nickname to participate"
 msgstr "Spitznamen wählen, um teilzunehmen"
 
-#: lib/claper_web/live/event_live/show.html.heex:219
-#, elixir-autogen, elixir-format
-msgid "Waiting for content"
-msgstr "Warten auf Inhalt"
-
 #: lib/claper_web/live/event_live/show.html.heex:394
 #, elixir-autogen, elixir-format
 msgid "new messages"

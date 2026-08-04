@@ -3279,11 +3279,6 @@ msgstr "Becenév megadása"
 msgid "Set your nickname to participate"
 msgstr "Becenév megadása a részvételhez"
 
-#: lib/claper_web/live/event_live/show.html.heex:219
-#, elixir-autogen, elixir-format
-msgid "Waiting for content"
-msgstr "Várakozás a tartalomra"
-
 #: lib/claper_web/live/event_live/show.html.heex:394
 #, elixir-autogen, elixir-format
 msgid "new messages"

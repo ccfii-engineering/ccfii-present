@@ -62,6 +62,18 @@ defmodule ClaperWeb.EventLive.ShowTest do
     assert render(view) =~ "data-message-reaction-trigger"
   end
 
+  test "does not render the focus panel without attendee content", %{conn: conn, user: user} do
+    presentation_file = presentation_file_fixture(%{user: user, length: 0}, [:event])
+    presentation_state_fixture(%{presentation_file: presentation_file})
+
+    {:ok, _view, html} = live(conn, ~p"/e/#{presentation_file.event.code}")
+
+    document = Floki.parse_document!(html)
+
+    assert Floki.find(document, "#focus-slot") == []
+    refute html =~ "Waiting for content"
+  end
+
   test "renders attendee captions as a collapsible panel that cannot be disabled", %{
     conn: conn,
     user: user
