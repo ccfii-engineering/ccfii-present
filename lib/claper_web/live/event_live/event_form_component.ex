@@ -47,7 +47,10 @@ defmodule ClaperWeb.EventLive.EventFormComponent do
 
   @impl true
   def handle_event("save", %{"event" => event_params}, socket) do
-    save_event(socket, socket.assigns.action, event_params)
+    case uploaded_entries(socket, :presentation_file) do
+      {_, []} -> save_event(socket, socket.assigns.action, event_params)
+      _ -> {:noreply, socket}
+    end
   end
 
   @impl true

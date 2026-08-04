@@ -114,6 +114,52 @@ defmodule ClaperWeb.EventLiveTest do
       assert has_element?(index_live, ~s(button[form="event-form"][disabled]))
     end
 
+    test "keeps the upload active and disables save while a presentation is starting", %{
+      conn: conn
+    } do
+      {:ok, new_live, _html} = live(conn, ~p"/events/new")
+
+      new_live
+      |> form("#event-form", event: %{name: "New event"})
+      |> render_change()
+
+      upload =
+        file_input(new_live, "#file-form", :presentation_file, [
+          %{name: "slides.pdf", content: "%PDF-1.4", type: "application/pdf"}
+        ])
+
+      assert render_upload(upload, "slides.pdf", 1) =~ "Uploading... 1%"
+      assert has_element?(new_live, ~s(#file-form input[type="file"]))
+      assert has_element?(new_live, ~s(button[form="event-form"][disabled]))
+
+      assert render_upload(upload, "slides.pdf", 99) =~ "New presentation ready"
+      assert has_element?(new_live, ~s|button[form="event-form"]:not([disabled])|)
+    end
+
+    test "does not create an event while a presentation upload is pending", %{conn: conn} do
+      {:ok, new_live, _html} = live(conn, ~p"/events/new")
+      event_count = Claper.Repo.aggregate(Claper.Events.Event, :count)
+
+      new_live
+      |> form("#event-form", event: %{name: "New event"})
+      |> render_change()
+
+      upload =
+        file_input(new_live, "#file-form", :presentation_file, [
+          %{name: "slides.pdf", content: "%PDF-1.4", type: "application/pdf"}
+        ])
+
+      assert {:ok, _metadata} = preflight_upload(upload)
+
+      html =
+        new_live
+        |> form("#event-form", event: %{name: "New event"})
+        |> render_submit()
+
+      assert html =~ "Uploading... 0%"
+      assert Claper.Repo.aggregate(Claper.Events.Event, :count) == event_count
+    end
+
     test "deletes event in listing", %{conn: conn, presentation_file: presentation_file} do
       {:ok, index_live, _html} = live(conn, ~p"/events/#{presentation_file.event.uuid}/edit")
 
