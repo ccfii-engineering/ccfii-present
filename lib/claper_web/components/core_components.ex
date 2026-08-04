@@ -567,6 +567,7 @@ defmodule ClaperWeb.CoreComponents do
     Flop.Phoenix.build_path(path, %{meta | flop: %{meta.flop | page: page}})
   end
 
+  defp page_range(_current, total) when total < 1, do: []
   defp page_range(_current, total) when total <= 5, do: 1..total
 
   defp page_range(current, total) do

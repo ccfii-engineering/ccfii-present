@@ -125,7 +125,11 @@ defmodule ClaperWeb.EventLiveTest do
 
       upload =
         file_input(new_live, "#file-form", :presentation_file, [
-          %{name: "slides.pdf", content: "%PDF-1.4", type: "application/pdf"}
+          %{
+            name: "slides.pdf",
+            content: "%PDF-" <> String.duplicate("0", 95),
+            type: "application/pdf"
+          }
         ])
 
       assert render_upload(upload, "slides.pdf", 1) =~ "Uploading... 1%"
