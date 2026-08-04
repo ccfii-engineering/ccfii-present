@@ -13,14 +13,14 @@
     <a href={~p"/events"} class="shrink-0 bg-white p-2 rounded-full shadow-md">
       <img src="/images/logo.svg" class="h-4" alt="Claper" />
     </a>
-
+    
 <!-- Title -->
     <h1 class="text-base font-bold text-secondary-500 capitalize">
       {if String.starts_with?(@conn.request_path, "/users/settings"),
         do: gettext("My account"),
         else: gettext("My events")}
     </h1>
-
+    
 <!-- User Menu -->
     <div class="dropdown dropdown-end shrink-0 bg-white p-1 shadow-md rounded-full">
       <div
@@ -58,14 +58,14 @@
     <a href={~p"/events"} class="shrink-0 bg-white p-2 rounded-full shadow-md">
       <img src="/images/logo.svg" class="h-5" alt="Claper" />
     </a>
-
+    
 <!-- Title -->
     <h1 class="text-2xl font-bold text-secondary-500 capitalize shrink-0">
       {if String.starts_with?(@conn.request_path, "/users/settings"),
         do: gettext("My account"),
         else: gettext("My events")}
     </h1>
-
+    
 <!-- Search Bar (only on events page) -->
     <%= if @conn.request_path == "/events" do %>
       <div class="flex-1 max-w-md">
@@ -96,10 +96,10 @@
         </form>
       </div>
     <% end %>
-
+    
 <!-- Spacer -->
     <div class="flex-1"></div>
-
+    
 <!-- User Menu -->
     <div class="dropdown dropdown-end shrink-0 bg-white p-1 shadow-md rounded-full">
       <div

@@ -31,7 +31,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
         </svg>
         <span class="font-bold text-sm text-[#140553]">{gettext("Audience Responses")}</span>
       </div>
-
+      
     <!-- Tabs -->
       <ul id="menu" phx-update="replace" class="flex items-center gap-x-1 overflow-x-auto">
         <li>
@@ -71,7 +71,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
           </button>
         </li>
       </ul>
-
+      
     <!-- Tab Content -->
       <div class="flex-1 overflow-y-auto overflow-x-hidden">
         <%= if @list_tab == :posts do %>

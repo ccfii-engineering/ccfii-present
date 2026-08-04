@@ -56,7 +56,7 @@
         </:tab>
       </.tabs>
     </div>
-
+    
 <!-- Desktop: Full layout with tabs, view toggle, and action buttons -->
     <div class="hidden lg:flex items-center justify-between gap-4">
       <!-- Left: Filter Tabs -->
@@ -85,7 +85,7 @@
           {gettext("Shared with you")}
         </:tab>
       </.tabs>
-
+      
 <!-- Right: View Toggle & Action Buttons -->
       <div class="flex items-center gap-2 flex-wrap">
         <!-- View Toggle -->
@@ -131,7 +131,7 @@
             </svg>
           </button>
         </div>
-
+        
 <!-- Create Event Button -->
         <.link patch={~p"/events/new"} class="btn btn-gradient">
           <svg
@@ -151,7 +151,7 @@
       </div>
     </div>
   </div>
-
+  
 <!-- Events Grid/List -->
   <div class="relative">
     <!-- Mobile: Always list view -->
@@ -168,7 +168,7 @@
         />
       <% end %>
     </div>
-
+    
 <!-- Desktop: Grid or List based on view_mode -->
     <%= if @view_mode == "grid" do %>
       <!-- Grid View -->
@@ -205,7 +205,7 @@
         <% end %>
       </div>
     <% end %>
-
+    
 <!-- Load More Button -->
     <%= if @page < @total_pages do %>
       <div class="flex justify-center my-8">
@@ -214,7 +214,7 @@
         </button>
       </div>
     <% end %>
-
+    
 <!-- Empty State -->
     <%= if Enum.count(@events) == 0 do %>
       <div class="w-full py-16 text-center">
@@ -251,7 +251,7 @@
       </div>
     <% end %>
   </div>
-
+  
 <!-- Mobile Fixed Bottom Action Buttons -->
   <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-t from-white from-70% via-white via-85% to-transparent px-4 pt-12 pb-6 z-20">
     <div class="flex flex-col gap-2.5">

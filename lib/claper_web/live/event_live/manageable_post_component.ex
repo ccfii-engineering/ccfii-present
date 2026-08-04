@@ -32,7 +32,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
           </div>
         </div>
       </div>
-
+      
     <!-- Right: header + bubble -->
       <div class="flex-1 min-w-0 flex flex-col">
         <!-- Header: name + actions -->
@@ -40,7 +40,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
           <p :if={@post.name} class="font-bold text-xs text-gray-700 truncate">
             {@post.name}
           </p>
-
+          
     <!-- Actions (visible on hover) -->
           <div
             :if={!@readonly}
@@ -167,7 +167,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
             </div>
           </div>
         </div>
-
+        
     <!-- Message bubble with tail -->
         <% is_question = ClaperWeb.Helpers.body_without_links(@post.body) =~ "?" %>
         <% bubble_bg =
