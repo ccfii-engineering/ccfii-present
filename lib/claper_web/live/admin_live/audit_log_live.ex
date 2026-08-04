@@ -1,5 +1,7 @@
 defmodule ClaperWeb.AdminLive.AuditLogLive do
-  use ClaperWeb, :live_view
+  use ClaperWeb, :admin_live_view
+
+  import ClaperWeb.AdminLive.DetailComponents
 
   alias Claper.Audit
 
@@ -59,16 +61,10 @@ defmodule ClaperWeb.AdminLive.AuditLogLive do
     {:noreply, push_patch(socket, to: to)}
   end
 
-  defp format_metadata(nil), do: "—"
-  defp format_metadata(metadata) when map_size(metadata) == 0, do: "—"
+  defp format_metadata(nil), do: empty_value()
+  defp format_metadata(metadata) when map_size(metadata) == 0, do: empty_value()
 
   defp format_metadata(metadata) do
     Enum.map_join(metadata, ", ", fn {k, v} -> "#{k}: #{v}" end)
   end
-
-  defp format_timestamp(%NaiveDateTime{} = timestamp) do
-    Calendar.strftime(timestamp, "%Y-%m-%d %H:%M:%S\u00A0UTC")
-  end
-
-  defp format_timestamp(timestamp), do: inspect(timestamp)
 end

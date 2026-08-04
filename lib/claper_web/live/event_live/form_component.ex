@@ -3,17 +3,25 @@ defmodule ClaperWeb.EventLive.FormComponent do
 
   @impl true
   def render(assigns) do
+    assigns = assign_new(assigns, :focus_mode, fn -> false end)
+
     ~H"""
-    <div>
+    <div class="font-display">
       <div
+        :if={!@focus_mode}
         id="collapsed-form"
-        class="bg-black py-3 px-6 text-black shadow-lg mx-auto rounded-full w-max hidden"
+        class="mx-auto hidden w-max rounded-full bg-gray-900 px-5 py-3 shadow-xl ring-1 ring-white/10"
       >
-        <div class="block w-full h-full cursor-pointer" phx-click={toggle_form()} phx-target={@myself}>
-          <div class="text-white flex space-x-2 items-center">
+        <button
+          type="button"
+          class="block h-full w-full cursor-pointer"
+          phx-click={toggle_form()}
+          phx-target={@myself}
+        >
+          <div class="flex items-center gap-2 text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
+              class="h-5 w-5 text-primary-300"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
@@ -29,16 +37,31 @@ defmodule ClaperWeb.EventLive.FormComponent do
               <path d="M17 12h.01"></path>
               <path d="M13 12h.01"></path>
             </svg>
-            <span class="font-bold">{gettext("See current form")}</span>
+            <span class="text-sm font-bold">{gettext("See current form")}</span>
           </div>
-        </div>
+        </button>
       </div>
-      <div id="extended-form" class="bg-black w-full py-3 px-6 text-black shadow-lg rounded-md">
-        <div class="block w-full h-full cursor-pointer" phx-click={toggle_form()} phx-target={@myself}>
-          <div id="form-pane" class="float-right mt-2">
+      <div
+        id="extended-form"
+        class={[
+          "w-full rounded-2xl bg-gray-900 p-4 text-gray-100",
+          @focus_mode && "shadow-none ring-0",
+          !@focus_mode && "shadow-2xl ring-1 ring-white/10"
+        ]}
+      >
+        <div class="relative pr-8">
+          <button
+            :if={!@focus_mode}
+            id="form-pane"
+            type="button"
+            aria-label={gettext("Close")}
+            class="absolute -right-1 -top-1 grid h-8 w-8 place-items-center rounded-full text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+            phx-click={toggle_form()}
+            phx-target={@myself}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-8 w-8 text-white"
+              class="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -46,24 +69,25 @@ defmodule ClaperWeb.EventLive.FormComponent do
             >
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
-          </div>
+          </button>
 
-          <p class="text-xs text-gray-500 my-1">{gettext("Current form")}</p>
-          <p class="text-white text-lg font-semibold mb-4">{@form.title}</p>
+          <p class="mb-1 text-xs font-semibold text-gray-400">{gettext("Current form")}</p>
+          <p class="mb-4 text-lg font-bold leading-snug text-white">{@form.title}</p>
         </div>
         <%= form_for :form_submit, "#", [id: @id, phx_change: "validate", phx_target: @myself, phx_submit: "submit"], fn f -> %>
-          <div class="flex flex-col space-y-3">
+          <div class="flex flex-col gap-3">
             <%= if (length @form.fields) > 0 do %>
               <%= for field <- @form.fields do %>
                 <%= case field.type do %>
                   <% "text" -> %>
                     <ClaperWeb.Component.Input.text
                       form={f}
-                      labelClass="text-white"
-                      fieldClass="bg-gray-700 text-white"
+                      labelClass="text-gray-300"
+                      fieldClass="bg-gray-800 text-white border border-gray-600 !text-sm !rounded-lg"
                       key={field_key(field.name)}
                       name={field.name}
                       required={field.required}
+                      readonly={not is_nil(assigns.current_form_submit)}
                       value={
                         if is_nil(assigns.current_form_submit),
                           do: ~c"",
@@ -73,11 +97,12 @@ defmodule ClaperWeb.EventLive.FormComponent do
                   <% "email" -> %>
                     <ClaperWeb.Component.Input.email
                       form={f}
-                      labelClass="text-white"
-                      fieldClass="bg-gray-700 text-white"
+                      labelClass="text-gray-300"
+                      fieldClass="bg-gray-800 text-white border border-gray-600 !text-sm !rounded-lg"
                       key={field_key(field.name)}
                       name={field.name}
                       required={field.required}
+                      readonly={not is_nil(assigns.current_form_submit)}
                       value={
                         if is_nil(assigns.current_form_submit),
                           do: ~c"",
@@ -89,30 +114,37 @@ defmodule ClaperWeb.EventLive.FormComponent do
             <% end %>
           </div>
 
-          <div class="flex items-center gap-4">
-            <button
-              type="submit"
-              class="px-3 py-2 text-white font-semibold bg-primary-500 hover:bg-primary-600 rounded-md my-5"
-            >
-              {if is_nil(assigns.current_form_submit), do: gettext("Submit"), else: gettext("Edit")}
-            </button>
-
-            <%= unless is_nil(assigns.current_form_submit) do %>
-              <div class="flex gap-1 text-green-500 text-sm">
+          <div class="mt-4">
+            <%= if is_nil(assigns.current_form_submit) do %>
+              <button
+                type="submit"
+                class="btn-gradient w-full rounded-lg px-3 py-2 text-sm font-bold transition-colors"
+              >
+                {gettext("Send")}
+              </button>
+            <% else %>
+              <button
+                type="button"
+                disabled
+                data-submitted
+                class="inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-gray-700 px-3 py-2 text-sm font-bold text-gray-400"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
+                  class="h-5 w-5"
                   viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
                   fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
+                  aria-hidden="true"
                 >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" />
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M5 12l5 5l10 -10" />
                 </svg>
-                <span>{gettext("Saved")}</span>
-              </div>
+                {gettext("Sent")}
+              </button>
             <% end %>
           </div>
         <% end %>

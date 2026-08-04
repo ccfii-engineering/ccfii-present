@@ -1,12 +1,40 @@
-@import 'air-datepicker/air-datepicker.css';
 @import 'animate.css/animate.min.css';
 
 @import 'tailwindcss';
-@import './theme.css' layer(theme);
+@import './theme-config.css';
+@import './ticket.css';
 
 @plugin "daisyui" {
-  themes: light --default;
-  include: toggle;
+  themes: claper --default;
+}
+
+@utility btn {
+  @apply rounded-full !font-display text-body h-12;
+  &:where(.btn-circle) {
+    aspect-ratio: 1;
+    height: var(--size);
+  }
+}
+
+@utility btn-gradient {
+  background: linear-gradient(to bottom right, var(--color-cyan-500, #06b6d4), var(--color-primary-500, #8611ed));
+  border: none;
+  color: white;
+  &:hover {
+    background: linear-gradient(to bottom right, var(--color-cyan-600, #0891b2), var(--color-primary-600, #6b0dbe));
+  }
+}
+
+@utility input {
+  @apply rounded-full focus:outline-none focus-within:outline-none focus:border-2 focus-within:border-2 !font-display text-small-body transition-all;
+}
+
+@utility select {
+  @apply rounded-full focus:outline-none focus-within:outline-none focus:border-2 focus-within:border-2 !font-display text-small-body transition-all;
+}
+
+@utility dropdown-content {
+  @apply border border-gray-200 !font-display !font-bold;
 }
 
 @layer base {
@@ -17,42 +45,142 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
   }
-}
 
-* {
-  font-family: var(--font-family-sans);
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
 }
 
 [x-cloak] { display: none !important; }
 
-/* Alerts and form errors used by phx.new */
-.alert {
-  padding: 15px;
-  margin-bottom: 20px;
-  border: 1px solid transparent;
-  border-radius: 4px;
+/*
+ The manager screen uses its own full-height scrolling containers. DaisyUI's
+ root scrollbar gutter for open modals adds an unnecessary right-side gutter
+ there, which shifts the layout when a modal opens.
+ */
+:root:has(#manager .manage-modal.modal-open) {
+  scrollbar-gutter: auto;
 }
-.alert-info {
-  color: var(--color-primary-700);
-  background-color: var(--color-primary-100);
-  border-color: var(--color-primary-200);
+
+#manager .manage-modal.modal-open {
+  scrollbar-gutter: auto;
 }
-.alert-warning {
-  color: var(--color-supporting-yellow-700);
-  background-color: var(--color-supporting-yellow-50);
-  border-color: var(--color-supporting-yellow-100);
+
+.phx-disconnected #connection-status {
+  display: flex;
 }
-.alert-danger {
-  color: var(--color-supporting-red-700);
-  background-color: var(--color-supporting-red-100);
-  border-color: var(--color-supporting-red-200);
+
+.attendee-composer {
+  background: linear-gradient(
+    333deg,
+    rgba(17, 134, 213, 0.8) 0%,
+    rgba(163, 39, 255, 0.8) 100%
+  );
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
 }
-.alert p {
-  margin-bottom: 0;
+
+#room-reaction-fab,
+#room-reaction-fab button,
+#room-reaction-fab img {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
-.alert:empty {
+
+#focus-slot:fullscreen {
+  height: 100dvh;
+  max-height: none;
+  background: #000;
+}
+
+#focus-slot.focus-fallback-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  height: 100dvh;
+  min-height: 100dvh;
+  max-height: none;
+  background: #000;
+}
+
+#focus-slot.focus-collapsed {
+  height: 3rem;
+  min-height: 3rem;
+  max-height: 3rem;
+}
+
+#focus-slot.focus-collapsed #focus-media,
+#focus-slot.focus-collapsed [data-focus-collapse],
+#focus-slot.focus-collapsed [data-focus-fullscreen] {
   display: none;
 }
+
+#focus-slot.focus-collapsed [data-focus-collapsed-bar] {
+  display: flex;
+}
+
+#caption-panel.caption-collapsed {
+  height: 3rem;
+  min-height: 3rem;
+  max-height: 3rem;
+}
+
+#caption-panel.caption-collapsed [data-caption-content],
+#caption-panel.caption-collapsed [data-caption-collapse] {
+  display: none;
+}
+
+#caption-panel.caption-collapsed [data-caption-collapsed-bar] {
+  display: flex;
+}
+
+#focus-slot:fullscreen #focus-media {
+  height: 100%;
+}
+
+#chat-feed {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(75 85 99) transparent;
+}
+
+@media (max-height: 500px) {
+  #focus-slot:not([data-interaction-mode="true"]) {
+    height: 7rem;
+    min-height: 7rem;
+  }
+
+  #chat-feed {
+    padding-bottom: 6rem;
+  }
+
+  #chat-feed[data-room-reactions="true"] {
+    padding-bottom: 10rem;
+  }
+
+  #room-composer textarea {
+    max-height: 2.75rem;
+  }
+
+  #room-reaction-fab [data-reaction-picker] {
+    position: fixed;
+    left: 4.75rem;
+    bottom: 4.75rem;
+    flex-direction: row;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #focus-slot,
+  #new-interaction-badge,
+  .react-animation {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 .invalid-feedback {
   color: var(--color-supporting-red-700);
   display: block;
@@ -77,41 +205,6 @@
   pointer-events: none;
 }
 
-.phx-modal {
-  opacity: 1!important;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
-}
-
-.phx-modal-content {
-  background-color: #fefefe;
-  margin: 15vh auto;
-  padding: 20px;
-  border: 1px solid var(--color-neutral-300);
-  width: 80%;
-  box-shadow: var(--shadow-lg);
-}
-
-.phx-modal-close {
-  color: var(--color-neutral-400);
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.phx-modal-close:hover,
-.phx-modal-close:focus {
-  color: var(--color-neutral-900);
-  text-decoration: none;
-  cursor: pointer;
-}
 
 /** 
  Forms
@@ -321,23 +414,6 @@
   src: url('/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf');
 }
 
-.bg-gradient-animate {
-  background: linear-gradient(-45deg, var(--color-secondary-500), var(--color-secondary-600), var(--color-primary-400), var(--color-primary-400));
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
 
 .arrow_box {
 	position: relative;
@@ -406,14 +482,17 @@
 }}
 .react-animation {
   opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation-fill-mode: forwards;
 }
 
-.react-animation:nth-child(odd) {
-  animation: react 2s linear;
+.react-animation--short {
+  animation: react 2s linear forwards;
 }
 
-.react-animation:nth-child(even) {
-  animation: react2 2s linear;
+.react-animation--long {
+  animation: react2 2s linear forwards;
 }
 
 @keyframes react {
@@ -463,20 +542,6 @@
   -ms-transform:rotate(-20deg);
   -o-transform:rotate(-20deg);
   transform:rotate(-20deg);
-}
-
-/* Air datepicker */
-.air-datepicker-body--day-name {
-  color: var(--color-primary-600);
-}
-
-.air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-current- {
-  background-color: var(--color-primary-500);
-  color: var(--color-white);
-}
-
-.air-datepicker-cell.-current- {
-  color: var(--color-secondary-500);
 }
 
 .animate__slow_slow {

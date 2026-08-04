@@ -1,5 +1,5 @@
 defmodule ClaperWeb.AdminLive.OidcProviderLive do
-  use ClaperWeb, :live_view
+  use ClaperWeb, :admin_live_view
 
   alias Claper.Accounts.Oidc
   alias Claper.Accounts.Oidc.Provider

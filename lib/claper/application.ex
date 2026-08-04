@@ -28,6 +28,8 @@ defmodule Claper.Application do
       # {Claper.Worker, arg}
       {Finch, name: Swoosh.Finch},
       {Task.Supervisor, name: Claper.TaskSupervisor},
+      {Registry, keys: :unique, name: Claper.TranscriptionRegistry},
+      {DynamicSupervisor, name: Claper.TranscriptionSupervisor, strategy: :one_for_one},
       {Oidcc.ProviderConfiguration.Worker,
        %{issuer: oidc_config[:issuer], name: Claper.OidcProviderConfig}},
       {Oban, Application.fetch_env!(:claper, Oban)}

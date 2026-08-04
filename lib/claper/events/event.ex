@@ -2,6 +2,28 @@ defmodule Claper.Events.Event do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {
+    Flop.Schema,
+    max_limit: 100,
+    default_limit: 20,
+    pagination_types: [:page],
+    filterable: [:name, :code, :user_email],
+    sortable: [:name, :code, :started_at, :expired_at, :audience_peak],
+    default_order: %{
+      order_by: [:started_at],
+      order_directions: [:desc]
+    },
+    adapter_opts: [
+      join_fields: [
+        user_email: [
+          binding: :user,
+          field: :email,
+          path: [:user, :email]
+        ]
+      ]
+    ]
+  }
+
   @type t :: %__MODULE__{
           id: integer(),
           uuid: Ecto.UUID.t(),

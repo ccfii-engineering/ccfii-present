@@ -69,7 +69,9 @@ defmodule Claper.AccountsTest do
   describe "change_user_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_registration(%User{})
-      assert changeset.required == [:password, :email]
+
+      assert Enum.sort(changeset.required) ==
+               Enum.sort([:email, :first_name, :last_name, :password])
     end
 
     test "allows fields to be set" do
@@ -83,6 +85,106 @@ defmodule Claper.AccountsTest do
 
       assert changeset.valid?
       assert get_change(changeset, :email) == email
+      assert get_change(changeset, :first_name) == "John"
+      assert get_change(changeset, :last_name) == "Doe"
+    end
+
+    test "validates password confirmation" do
+      changeset =
+        Accounts.change_user_registration(
+          %User{},
+          valid_user_attributes(password_confirmation: "does not match")
+        )
+
+      refute changeset.valid?
+      assert "does not match confirmation" in errors_on(changeset).password_confirmation
+    end
+  end
+
+  describe "user profile" do
+    test "updates and normalizes the user's names" do
+      user = user_fixture()
+
+      assert {:ok, updated_user} =
+               Accounts.update_user_profile(user, %{
+                 first_name: "  Jane ",
+                 last_name: " Smith  "
+               })
+
+      assert updated_user.first_name == "Jane"
+      assert updated_user.last_name == "Smith"
+    end
+
+    test "requires both names" do
+      user = user_fixture()
+
+      assert {:error, changeset} =
+               Accounts.update_user_profile(user, %{first_name: "", last_name: "Smith"})
+
+      assert "can't be blank" in errors_on(changeset).first_name
+    end
+
+    test "fills missing external names without overwriting local values" do
+      {:ok, user} =
+        Accounts.create_user(%{
+          email: unique_user_email(),
+          password: valid_user_password(),
+          first_name: "Local"
+        })
+
+      assert {:ok, updated_user} =
+               Accounts.fill_missing_user_names(user, %{
+                 first_name: "External",
+                 last_name: "Name"
+               })
+
+      assert updated_user.first_name == "Local"
+      assert updated_user.last_name == "Name"
+    end
+
+    test "uses the email as the display name when names are missing" do
+      assert User.display_name(%User{email: "user@example.com"}) == "user@example.com"
+
+      assert User.display_name(%User{
+               email: "user@example.com",
+               first_name: "Jane",
+               last_name: "Smith"
+             }) == "Jane Smith"
+    end
+  end
+
+  describe "OIDC user names" do
+    test "populates names from standard claims" do
+      attrs = oidc_user_attrs()
+
+      assert {:ok, oidc_user} = Accounts.get_or_create_user_with_oidc(attrs)
+      assert oidc_user.user.first_name == "OIDC"
+      assert oidc_user.user.last_name == "User"
+    end
+
+    test "fills missing names on a later login" do
+      attrs = oidc_user_attrs(%{first_name: nil, last_name: nil})
+      assert {:ok, oidc_user} = Accounts.get_or_create_user_with_oidc(attrs)
+      assert is_nil(oidc_user.user.first_name)
+
+      assert {:ok, oidc_user} =
+               Accounts.get_or_create_user_with_oidc(%{
+                 attrs
+                 | first_name: "Later",
+                   last_name: "Claim"
+               })
+
+      assert oidc_user.user.first_name == "Later"
+      assert oidc_user.user.last_name == "Claim"
+    end
+
+    test "does not overwrite locally stored names" do
+      user = user_fixture(first_name: "Local", last_name: "Name")
+      attrs = oidc_user_attrs(%{email: user.email})
+
+      assert {:ok, oidc_user} = Accounts.get_or_create_user_with_oidc(attrs)
+      assert oidc_user.user.first_name == "Local"
+      assert oidc_user.user.last_name == "Name"
     end
   end
 
@@ -91,6 +193,29 @@ defmodule Claper.AccountsTest do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_email(%User{})
       assert changeset.required == [:email]
     end
+  end
+
+  defp oidc_user_attrs(overrides \\ %{}) do
+    Map.merge(
+      %{
+        sub: Ecto.UUID.generate(),
+        issuer: "https://issuer.example.com",
+        name: "OIDC User",
+        first_name: "OIDC",
+        last_name: "User",
+        email: unique_user_email(),
+        provider: "Test Provider",
+        expires_at: NaiveDateTime.utc_now(),
+        id_token: "id-token",
+        access_token: "access-token",
+        refresh_token: "refresh-token",
+        groups: [],
+        roles: nil,
+        organization: nil,
+        photo_url: nil
+      },
+      overrides
+    )
   end
 
   describe "apply_user_email/3" do

@@ -7,6 +7,7 @@ defmodule ClaperWeb.EventLive.Presenter do
   alias Claper.Forms.Form
   alias Claper.Quizzes.Quiz
   alias Claper.Presentations
+  alias Claper.Transcriptions
 
   @impl true
   def mount(%{"code" => code} = params, session, socket) do
@@ -42,6 +43,9 @@ defmodule ClaperWeb.EventLive.Presenter do
 
       host = "#{scheme}://#{host}#{port_suffix}/#{path}"
 
+      transcription_config =
+        Transcriptions.get_transcription_config(event.presentation_file.id)
+
       socket =
         socket
         |> assign(:attendees_nb, 1)
@@ -56,6 +60,8 @@ defmodule ClaperWeb.EventLive.Presenter do
         |> assign(:pinned_posts, list_pinned_posts(socket, event.uuid))
         |> assign(:show_only_pinned, event.presentation_file.presentation_state.show_only_pinned)
         |> assign(:reacts, [])
+        |> assign(:transcription_text, "")
+        |> assign(:transcription_config, transcription_config)
         |> poll_at_position
         |> form_at_position
         |> embed_at_position
@@ -366,6 +372,26 @@ defmodule ClaperWeb.EventLive.Presenter do
     )
 
     {:noreply, socket |> assign(:current_question_idx, idx)}
+  end
+
+  @impl true
+  def handle_info({:transcription_created, transcription}, socket) do
+    {:noreply, socket |> assign(:transcription_text, transcription.text)}
+  end
+
+  @impl true
+  def handle_info({:transcription_delta, text}, socket) do
+    {:noreply, socket |> assign(:transcription_text, text)}
+  end
+
+  @impl true
+  def handle_info({:transcription_config_updated, config}, socket) do
+    {:noreply, socket |> assign(:transcription_config, config)}
+  end
+
+  @impl true
+  def handle_info({:transcription_config_deleted, _config}, socket) do
+    {:noreply, socket |> assign(:transcription_config, nil)}
   end
 
   @impl true

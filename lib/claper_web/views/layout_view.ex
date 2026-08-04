@@ -24,6 +24,17 @@ defmodule ClaperWeb.LayoutView do
     end
   end
 
+  @doc """
+  Returns the DaisyUI `active` class when `tab` is the current admin section.
+
+  The current section is provided by `ClaperWeb.AdminLive.NavHook` as the
+  `:active_tab` assign, which updates on every live navigation.
+  """
+  def admin_active(active_tab, tab) when active_tab == tab,
+    do: "bg-gray-100 text-gray-900 font-semibold"
+
+  def admin_active(_active_tab, _tab), do: ""
+
   def get_section_path(conn) do
     section = Enum.at(conn.path_info, 1)
 

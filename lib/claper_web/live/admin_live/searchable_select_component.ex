@@ -34,7 +34,7 @@ defmodule ClaperWeb.AdminLive.SearchableSelectComponent do
           <%= if @show_dropdown and length(@filtered_options) > 0 do %>
             <ul
               tabindex="0"
-              class="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow"
+              class="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow-md"
               phx-click-away="close_dropdown"
               phx-target={@myself}
             >

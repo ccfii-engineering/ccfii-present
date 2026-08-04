@@ -13,6 +13,7 @@ defmodule ClaperWeb.EventLive.EventFormComponent do
     {:ok,
      socket
      |> assign(assigns)
+     |> assign_new(:container, fn -> :page end)
      |> assign(:changeset, changeset)
      |> assign(:max_file_size, max_file_size)
      |> allow_upload(:presentation_file,

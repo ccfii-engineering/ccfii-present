@@ -17,7 +17,7 @@ defmodule ClaperWeb do
   and import those modules here.
   """
 
-  def static_paths, do: ~w(assets fonts .well-known images favicon.ico robots.txt)
+  def static_paths, do: ~w(assets fonts .well-known images worklets favicon.ico robots.txt)
 
   def controller do
     quote do
@@ -49,6 +49,17 @@ defmodule ClaperWeb do
     quote do
       use Phoenix.LiveView,
         layout: {ClaperWeb.LayoutView, :live}
+
+      unquote(view_helpers())
+    end
+  end
+
+  def admin_live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {ClaperWeb.LayoutView, :admin_app}
+
+      on_mount ClaperWeb.AdminLive.NavHook
 
       unquote(view_helpers())
     end
@@ -108,6 +119,14 @@ defmodule ClaperWeb do
 
       import ClaperWeb.ErrorHelpers
       use Gettext, backend: ClaperWeb.Gettext
+
+      # Import design system components
+      import ClaperWeb.Component.Button
+      import ClaperWeb.Component.Badge
+      import ClaperWeb.Component.Tabs
+      import ClaperWeb.Component.TextInput
+      import ClaperWeb.Component.Checkbox
+      import ClaperWeb.Component.Select
 
       unquote(verified_routes())
     end
