@@ -18,8 +18,10 @@
       id="attendee-room"
       class={[
         "relative mx-auto grid h-[100dvh] w-full max-w-lg overflow-hidden bg-black font-display shadow-2xl",
-        captions_visible? && "grid-rows-[auto_auto_auto_minmax(0,1fr)]",
-        !captions_visible? && "grid-rows-[auto_auto_minmax(0,1fr)]"
+        focus_content? && captions_visible? &&
+          "grid-rows-[auto_auto_auto_minmax(0,1fr)]",
+        focus_content? != captions_visible? && "grid-rows-[auto_auto_minmax(0,1fr)]",
+        !focus_content? && !captions_visible? && "grid-rows-[auto_minmax(0,1fr)]"
       ]}
     >
       <div

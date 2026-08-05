@@ -71,6 +71,7 @@ defmodule ClaperWeb.EventLive.ShowTest do
     document = Floki.parse_document!(html)
 
     assert Floki.find(document, "#focus-slot") == []
+    assert "grid-rows-[auto_minmax(0,1fr)]" in classes(document, "#attendee-room")
     refute html =~ "Waiting for content"
   end
 
