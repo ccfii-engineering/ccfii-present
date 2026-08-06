@@ -6,61 +6,64 @@
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save"
+    class="flex flex-col gap-6"
   >
-    <div class="my-3 mb-10">
-      <ClaperWeb.Component.Input.text
+    <div class="flex flex-col gap-4">
+      <.text_field
         form={f}
         key={:title}
-        name={gettext("Title")}
-        autofocus="true"
-        required="true"
+        label={gettext("Title")}
+        placeholder={gettext("Enter your title")}
+        autocomplete="off"
+        required
+        autofocus
       />
 
-      <div class="mt-3 flex gap-x-2 items-center">
-        <ClaperWeb.Component.Input.select
-          form={f}
-          key={:provider}
-          name={gettext("Provider")}
-          array={@providers}
-          required="true"
-        />
-        <div class="flex-1">
-          <p></p>
-          <ClaperWeb.Component.Input.text
+      <div class="flex gap-4 items-end">
+        <div class="w-44 shrink-0">
+          <.select_field
+            form={f}
+            key={:provider}
+            label={gettext("Provider")}
+            options={@providers}
+            required
+          />
+        </div>
+        <div class="flex-1 min-w-0">
+          <.text_field
             form={f}
             key={:content}
-            name={
+            label={
               if Ecto.Changeset.get_field(@changeset, :provider) == "custom",
                 do: gettext("Iframe code"),
                 else: gettext("Link to the content")
             }
-            autofocus="true"
-            required="true"
+            placeholder={gettext("Add a link")}
+            autocomplete="off"
+            required
           />
         </div>
       </div>
-
-      <p class="text-gray-700 text-xl font-semibold mt-5">{gettext("Options")}</p>
-
-      <div class="flex gap-x-2 mb-5 mt-3">
-        {checkbox(f, :attendee_visibility, class: "h-4 w-5")}
-        {label(
-          f,
-          :attendee_visibility,
-          gettext("Attendees can view the web content on their device"),
-          class: "text-sm font-medium"
-        )}
-      </div>
     </div>
 
-    <div class="flex space-x-3">
+    <div class="flex flex-col gap-1">
+      <p class="text-sm font-bold text-base-content">{gettext("Options")}</p>
+
+      <.checkbox
+        form={f}
+        key={:attendee_visibility}
+        label={gettext("Attendees can view the web content on their device")}
+      />
+    </div>
+
+    <div class="flex flex-col gap-2">
       <button
         type="submit"
-        phx_disable_with="Loading..."
-        class="w-full lg:w-auto px-6 text-white py-2 rounded-md tracking-wide font-bold focus:outline-hidden focus:shadow-outline bg-linear-to-tl from-primary-500 to-secondary-500 bg-size-[200%] bg-position-[0%_0%] hover:bg-position-[100%_100%] transition-all duration-500"
+        phx-disable-with={gettext("Loading...")}
+        class="btn btn-primary w-full"
       >
         {case @live_action do
-          :new -> gettext("Create")
+          :new -> gettext("Add web content")
           :edit -> gettext("Save")
         end}
       </button>
@@ -73,8 +76,7 @@
           data: [
             confirm: gettext("This will delete the web content, are you sure?")
           ],
-          class:
-            "w-full lg:w-auto px-6 text-center text-white py-2 rounded-md tracking-wide font-bold focus:outline-hidden focus:shadow-outline bg-linear-to-tl from-supporting-red-600 to-supporting-red-400 bg-size-[200%_200%] bg-position-[0%_0%] hover:bg-position-[100%_100%] transition-all duration-500"
+          class: "btn btn-outline btn-error w-full"
         )}
       <% end %>
     </div>

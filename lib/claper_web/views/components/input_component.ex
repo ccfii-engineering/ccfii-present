@@ -225,13 +225,27 @@ defmodule ClaperWeb.Component.Input do
 
     ~H"""
     <div class="relative">
-      {label(@form, @key, @name, class: "block text-sm font-medium #{@labelClass}")}
+      {label(@form, @key, @name, class: "block text-sm font-bold text-base-content")}
       <div class="mt-1 relative">
-        <img
-          class="icon absolute transition-all top-2.5 left-2 duration-100 h-6"
-          src="/images/icons/hashtag.svg"
-          alt="code"
-        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="pointer-events-none absolute left-4 top-3 z-10 h-6 w-6 text-gray-500"
+          aria-hidden="true"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M5 9l14 0" />
+          <path d="M5 15l14 0" />
+          <path d="M11 4l-4 16" />
+          <path d="M17 4l-4 16" />
+        </svg>
         {text_input(@form, @key,
           required: @required,
           readonly: @readonly,
@@ -241,7 +255,7 @@ defmodule ClaperWeb.Component.Input do
           minlength: 5,
           maxlength: 10,
           class:
-            "#{@fieldClass} read-only:opacity-50 outline-hidden shadow-base focus:ring-primary-500 focus:border-primary-500 block w-full text-lg border-gray-300 rounded-md py-2 pr-3 pl-9 uppercase"
+            "input h-12 w-full bg-white pl-12 pr-4 uppercase read-only:opacity-50 #{if Keyword.has_key?(@form.errors, @key), do: "input-error", else: ""}"
         )}
       </div>
       <%= if Keyword.has_key?(@form.errors, @key) do %>
@@ -258,21 +272,25 @@ defmodule ClaperWeb.Component.Input do
       |> assign_new(:autofocus, fn -> false end)
       |> assign_new(:placeholder, fn -> false end)
       |> assign_new(:readonly, fn -> false end)
+      |> assign_new(:locale, fn -> Gettext.get_locale(ClaperWeb.Gettext) end)
       |> assign_new(:labelClass, fn -> "text-gray-700" end)
       |> assign_new(:fieldClass, fn -> "bg-white" end)
 
     ~H"""
     <div>
-      <div class="relative" id="date" phx-hook="Pickr">
-        {label(@form, @key, @name, class: "block text-sm font-medium #{@labelClass}")}
+      <div class="relative" id={"#{input_id(@form, @key)}-picker"} phx-hook="DateTimeLocal">
+        {label(@form, :local_date, @name, class: "block text-sm font-bold text-base-content")}
         <div class="mt-1 relative">
           {hidden_input(@form, @key)}
-          {text_input(@form, :local_date,
+          {datetime_local_input(@form, :local_date,
+            required: @required,
+            readonly: @readonly,
             autofocus: @autofocus,
-            placeholder: @placeholder,
-            autocomplete: false,
+            autocomplete: "off",
+            lang: @locale,
+            step: 300,
             class:
-              "#{@fieldClass} outline-hidden shadow-base focus:ring-primary-500 focus:border-primary-500 block w-full text-lg border-gray-300 rounded-md py-2 px-3 read-only:opacity-50"
+              "input h-12 w-full bg-white px-4 read-only:opacity-50 #{if Keyword.has_key?(@form.errors, @key), do: "input-error", else: ""}"
           )}
         </div>
 

@@ -5,6 +5,7 @@ defmodule ClaperWeb.EventLive.QuizComponent do
   def render(assigns) do
     assigns =
       assigns
+      |> assign_new(:focus_mode, fn -> false end)
       |> assign(:is_submitted, length(assigns.current_quiz_responses) > 0)
       |> assign(
         :current_question,
@@ -14,40 +15,64 @@ defmodule ClaperWeb.EventLive.QuizComponent do
         :has_selection,
         length(assigns.selected_quiz_question_opts) > 0
       )
+      |> assign(
+        :response_opt_ids,
+        Enum.map(assigns.current_quiz_responses, & &1.quiz_question_opt_id)
+      )
 
     ~H"""
-    <div>
+    <div class="font-display">
       <div
+        :if={!@focus_mode}
         id="collapsed-quiz"
-        class="bg-gray-900 py-3 px-6 text-black shadow-lg mx-auto rounded-full w-max hidden"
+        class="mx-auto hidden w-max rounded-full bg-gray-900 px-5 py-3 shadow-xl ring-1 ring-white/10"
       >
-        <div class="block w-full h-full cursor-pointer" phx-click={toggle_quiz()} phx-target={@myself}>
-          <div class="text-white flex space-x-2 items-center">
+        <button
+          type="button"
+          class="block h-full w-full cursor-pointer"
+          phx-click={toggle_quiz()}
+          phx-target={@myself}
+        >
+          <div class="flex items-center gap-2 text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="h-6 w-6"
+              class="h-5 w-5 text-primary-300"
             >
               <path
                 stroke-linecap="round"
-                stroke-
-                linejoin="round"
+                stroke-linejoin="round"
                 d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
               />
             </svg>
-            <span class="font-bold">{gettext("See current quiz")}</span>
+            <span class="text-sm font-bold">{gettext("See current quiz")}</span>
           </div>
-        </div>
+        </button>
       </div>
-      <div id="extended-quiz" class="bg-gray-900 w-full p-4 text-black shadow-lg rounded-md">
-        <div class="block w-full h-full cursor-pointer" phx-click={toggle_quiz()} phx-target={@myself}>
-          <div id="poll-pane" class="float-right mt-2">
+      <div
+        id="extended-quiz"
+        class={[
+          "w-full rounded-2xl bg-gray-900 p-4 text-gray-100",
+          @focus_mode && "shadow-none ring-0",
+          !@focus_mode && "shadow-2xl ring-1 ring-white/10"
+        ]}
+      >
+        <div class="relative pr-8">
+          <button
+            :if={!@focus_mode}
+            id="quiz-pane"
+            type="button"
+            aria-label={gettext("Close")}
+            class="absolute -right-1 -top-1 grid h-8 w-8 place-items-center rounded-full text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+            phx-click={toggle_quiz()}
+            phx-target={@myself}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-8 w-8 text-white"
+              class="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -55,75 +80,110 @@ defmodule ClaperWeb.EventLive.QuizComponent do
             >
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
-          </div>
+          </button>
 
-          <p class="text-sm text-gray-400 my-1">{gettext("Current quiz")}</p>
+          <p class="mb-1 text-xs font-semibold text-gray-400">{gettext("Current quiz")}</p>
           <%= if is_nil(@current_question) do %>
-            <p class="text-white text-xl font-semibold mb-2">{@quiz.title}</p>
+            <p class="mb-2 text-lg font-bold leading-snug text-white">{@quiz.title}</p>
           <% else %>
-            <p class="text-white text-xl font-semibold mb-2">{@current_question.content}</p>
-            <p class="text-gray-400 text-sm mb-4">
+            <p class="mb-1 text-lg font-bold leading-snug text-white">
+              {@current_question.content}
+            </p>
+            <p class="mb-4 text-sm text-gray-400">
               {@current_quiz_question_idx + 1}/{length(@quiz.quiz_questions)}
             </p>
           <% end %>
         </div>
         <div>
-          <div class="flex flex-col space-y-3 overflow-y-auto max-h-[500px]">
+          <div class="flex max-h-[500px] flex-col gap-2 overflow-y-auto">
             <%= if @current_question do %>
               <%= for {opt, _idx} <- Enum.with_index(@current_question.quiz_question_opts) do %>
                 <%= if @is_submitted do %>
-                  <div class={"bg-gray-500 px-3 py-2 rounded-lg flex justify-between items-center relative text-white #{if opt.is_correct, do: "bg-green-600"} #{if not opt.is_correct && Enum.member?(Enum.map(@current_quiz_responses, &(&1.quiz_question_opt_id)), opt.id), do: "bg-red-600"}"}>
-                    <div class="flex justify-between items-center z-10 text-left w-full">
-                      <div class="flex items-center text-left space-x-3">
-                        <%= if Enum.member?(Enum.map(@current_quiz_responses, &(&1.quiz_question_opt_id)), opt.id) do %>
-                          <div class="h-5 w-5 mt-0.5 rounded-md point-select bg-white"></div>
-                        <% else %>
-                          <div class="h-5 w-5 mt-0.5 rounded-md point-select border-2 border-white">
-                          </div>
-                        <% end %>
-                        <span class="flex-1 pr-2">{opt.content}</span>
-                      </div>
-
-                      <span class="text-sm">{opt.percentage}% ({opt.response_count})</span>
+                  <% selected = Enum.member?(@response_opt_ids, opt.id) %>
+                  <div class={[
+                    "relative flex items-center justify-between rounded-xl border px-3 py-2 text-sm font-semibold transition-colors",
+                    opt.is_correct &&
+                      "border-supporting-green-500 bg-supporting-green-900/40 text-supporting-green-200",
+                    !opt.is_correct && selected &&
+                      "border-supporting-red-400 bg-supporting-red-900/40 text-supporting-red-200",
+                    !opt.is_correct && !selected &&
+                      "border-gray-700 bg-gray-800 text-gray-300 opacity-60"
+                  ]}>
+                    <div class="flex min-w-0 items-center gap-3 text-left">
+                      <span class={[
+                        "grid h-4 w-4 shrink-0 place-items-center rounded border-2",
+                        opt.is_correct && "border-supporting-green-500",
+                        !opt.is_correct && selected && "border-supporting-red-400",
+                        !opt.is_correct && !selected && "border-gray-500"
+                      ]}>
+                        <span
+                          :if={selected}
+                          class={[
+                            "h-1.5 w-1.5 rounded-sm",
+                            opt.is_correct && "bg-supporting-green-500",
+                            !opt.is_correct && "bg-supporting-red-400"
+                          ]}
+                        >
+                        </span>
+                      </span>
+                      <span class="min-w-0 flex-1 pr-2">{opt.content}</span>
                     </div>
+
+                    <span class="shrink-0 text-xs font-bold">
+                      {opt.percentage}% ({opt.response_count})
+                    </span>
                   </div>
                 <% else %>
                   <button
                     phx-click="select-quiz-question-opt"
                     phx-value-opt={opt.id}
-                    class="bg-gray-500 px-3 py-2 rounded-lg flex justify-between items-center relative text-white"
+                    aria-pressed={
+                      to_string(Enum.any?(@selected_quiz_question_opts, &(&1.id == opt.id)))
+                    }
+                    class={[
+                      "relative flex items-center justify-between rounded-xl border px-3 py-2 text-sm font-semibold text-white transition-colors",
+                      Enum.any?(@selected_quiz_question_opts, &(&1.id == opt.id)) &&
+                        "border-primary-400 bg-primary-900/40",
+                      !Enum.any?(@selected_quiz_question_opts, &(&1.id == opt.id)) &&
+                        "border-gray-700 bg-gray-800 hover:border-primary-400"
+                    ]}
                   >
-                    <div class="bg-linear-to-r from-primary-500 to-secondary-500 h-full absolute left-0 transition-all rounded-l-3xl">
-                    </div>
-                    <div class="flex space-x-3 items-center z-10 text-left">
-                      <%= if Enum.any?(@selected_quiz_question_opts, fn x -> x.id == opt.id end) do %>
-                        <span class="h-5 w-5 mt-0.5 rounded-md point-select bg-white"></span>
-                      <% else %>
-                        <span class="h-5 w-5 mt-0.5 rounded-md point-select border-2 border-white">
+                    <div class="flex min-w-0 items-center gap-3 text-left">
+                      <span class={[
+                        "grid h-4 w-4 shrink-0 place-items-center rounded border-2",
+                        Enum.any?(@selected_quiz_question_opts, &(&1.id == opt.id)) &&
+                          "border-primary-300",
+                        !Enum.any?(@selected_quiz_question_opts, &(&1.id == opt.id)) &&
+                          "border-gray-500"
+                      ]}>
+                        <span
+                          :if={Enum.any?(@selected_quiz_question_opts, &(&1.id == opt.id))}
+                          class="h-1.5 w-1.5 rounded-sm bg-primary-300"
+                        >
                         </span>
-                      <% end %>
-                      <span class="flex-1 pr-2">{opt.content}</span>
+                      </span>
+                      <span class="min-w-0 flex-1 pr-2">{opt.content}</span>
                     </div>
                   </button>
                 <% end %>
               <% end %>
             <% else %>
-              <div class="text-gray-400 flex flex-col items-center justify-center font-semibold text-lg mt-4">
+              <div class="mt-4 flex flex-col items-center justify-center text-center font-semibold text-white">
                 <%= if @quiz.show_results do %>
-                  <p>{gettext("Your score")}</p>
-                  <p class="text-6xl font-bold mt-2">
+                  <p class="text-sm text-gray-400">{gettext("Your score")}</p>
+                  <p class="mt-2 text-5xl font-bold">
                     {elem(@quiz_score, 0)}/{elem(@quiz_score, 1)}
                   </p>
                   <button
                     phx-click="show-quiz-results"
-                    class="mt-7 px-3 py-2 text-white font-medium bg-primary-400 hover:bg-primary-500 rounded-md mt-3 mb-4"
+                    class="btn-gradient mt-6 w-full rounded-lg px-3 py-2 text-sm font-bold"
                   >
                     {gettext("Show results")}
                   </button>
                 <% else %>
-                  <p>{gettext("Waiting for results...")}</p>
+                  <p class="text-sm text-gray-400">{gettext("Waiting for results...")}</p>
                   <svg
-                    class="w-32 h-32 mt-4"
+                    class="mt-4 h-24 w-24 text-white/50"
                     viewBox="0 0 360 360"
                     fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg"
@@ -145,9 +205,12 @@ defmodule ClaperWeb.EventLive.QuizComponent do
             <% end %>
           </div>
 
-          <div :if={not @is_submitted} class="flex justify-between items-baseline w-full h-12 mt-5">
+          <div :if={not @is_submitted} id="quiz-actions" class="mt-4 flex w-full items-center gap-2">
             <%= if @current_quiz_question_idx > 0 do %>
-              <button phx-click="prev-question" class="px-3 py-2 text-white font-medium">
+              <button
+                phx-click="prev-question"
+                class="shrink-0 rounded-lg px-3 py-2 text-sm font-bold text-white hover:bg-white/10"
+              >
                 {gettext("Back")}
               </button>
             <% end %>
@@ -155,29 +218,40 @@ defmodule ClaperWeb.EventLive.QuizComponent do
             <%= if @current_quiz_question_idx < length(@quiz.quiz_questions) - 1 do %>
               <button
                 phx-click="next-question"
-                class={"px-3 py-2 text-white font-medium rounded-md h-full #{if @has_selection, do: "bg-primary-400 hover:bg-primary-500", else: "bg-gray-500 cursor-not-allowed"}"}
+                class={[
+                  "flex-1 rounded-lg px-3 py-2 text-sm font-bold",
+                  @has_selection && "btn-gradient",
+                  !@has_selection && "cursor-not-allowed bg-gray-700 text-gray-400"
+                ]}
                 disabled={not @has_selection}
               >
                 {gettext("Next")}
               </button>
             <% else %>
               <%= if is_nil(@current_user) && !@quiz.allow_anonymous do %>
-                <div class="w-full flex items-center justify-between">
-                  <div class="text-white text-sm font-semibold">
-                    {gettext("Please sign in to submit your answers")}
-                  </div>
+                <div class="flex min-w-0 flex-1 flex-col gap-1">
                   {link(
                     gettext("Sign in"),
                     target: "_blank",
                     to: ~p"/users/log_in",
                     class:
-                      "inline px-3 py-2 text-white font-medium rounded-md h-full bg-primary-400 hover:bg-primary-500"
+                      "btn-gradient inline w-full rounded-lg px-3 py-2 text-center text-sm font-bold"
                   )}
+                  <p
+                    id="quiz-sign-in-prompt"
+                    class="text-center text-[10px] leading-tight text-gray-400"
+                  >
+                    {gettext("Please sign in to submit your answers")}
+                  </p>
                 </div>
               <% else %>
                 <button
                   phx-click="submit-quiz"
-                  class={"px-3 py-2 text-white font-medium rounded-md h-full #{if @has_selection, do: "bg-primary-400 hover:bg-primary-500", else: "bg-gray-500 cursor-not-allowed"}"}
+                  class={[
+                    "flex-1 rounded-lg px-3 py-2 text-sm font-bold",
+                    @has_selection && "btn-gradient",
+                    !@has_selection && "cursor-not-allowed bg-gray-700 text-gray-400"
+                  ]}
                   disabled={not @has_selection}
                 >
                   {gettext("Submit")}
@@ -191,20 +265,22 @@ defmodule ClaperWeb.EventLive.QuizComponent do
               @is_submitted && @quiz.show_results &&
                 @current_quiz_question_idx <= length(@quiz.quiz_questions) - 1
             }
-            class="flex justify-between items-baseline w-full h-12 mt-5"
+            id="quiz-review-actions"
+            class="mt-4 flex w-full items-center justify-between gap-3"
           >
             <%= if (@current_quiz_question_idx > 0 && @current_quiz_question_idx <= length(@quiz.quiz_questions) - 1) do %>
-              <button phx-click="prev-question" class="px-3 py-2 text-white font-medium">
+              <button
+                phx-click="prev-question"
+                class="rounded-lg px-3 py-2 text-sm font-bold text-white hover:bg-white/10"
+              >
                 {gettext("Back")}
               </button>
-            <% else %>
-              <div class="w-1/2"></div>
             <% end %>
 
             <button
               :if={@current_quiz_question_idx <= length(@quiz.quiz_questions) - 1}
               phx-click="next-question"
-              class="px-3 py-2 text-white font-medium bg-primary-400 hover:bg-primary-500 rounded-md h-full"
+              class="btn-gradient flex-1 rounded-lg px-3 py-2 text-sm font-bold"
             >
               {gettext("Next")}
             </button>

@@ -12,15 +12,6 @@ defmodule ClaperWeb.EventLive.Index do
       Gettext.put_locale(ClaperWeb.Gettext, locale)
     end
 
-    code = for _ <- 1..5, into: "", do: <<Enum.random(~c"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")>>
-
-    changeset =
-      Events.change_event(%Event{}, %{
-        started_at: NaiveDateTime.utc_now(),
-        code: code,
-        leaders: []
-      })
-
     if connected?(socket) do
       Events.subscribe_user_events(socket.assigns.current_user.id)
     end
@@ -31,13 +22,14 @@ defmodule ClaperWeb.EventLive.Index do
     socket =
       socket
       |> assign(:active_tab, "not_expired")
-      |> assign(:quick_event_changeset, changeset)
       |> assign(:has_expired_events, expired_events_count > 0)
       |> assign(:has_invited_events, invited_events_count > 0)
       |> assign(:page, 1)
       |> assign(:total_pages, 1)
       |> assign(:total_entries, 0)
       |> assign(:events, [])
+      |> assign(:search_query, "")
+      |> assign(:view_mode, "grid")
       |> assign(:temporary_assigns, events: [])
       |> load_events()
 
@@ -66,45 +58,6 @@ defmodule ClaperWeb.EventLive.Index do
     IO.puts("Received unknown message `#{inspect(message)}` in #{__MODULE__} #{inspect(self())}")
 
     {:noreply, socket}
-  end
-
-  @impl true
-  def handle_event("validate", %{"event" => event_params}, socket) do
-    changeset =
-      %Event{}
-      |> Claper.Events.change_event(event_params)
-      |> Map.put(:action, :validate)
-
-    {:noreply, socket |> assign(:quick_event_changeset, changeset)}
-  end
-
-  @impl true
-  def handle_event("save", %{"event" => event_params}, socket) do
-    code = for _ <- 1..5, into: "", do: <<Enum.random(~c"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")>>
-
-    case Claper.Events.create_event(
-           event_params
-           |> Map.put("user_id", socket.assigns.current_user.id)
-           |> Map.put("presentation_file", %{
-             "status" => "done",
-             "length" => 0,
-             "presentation_state" => %{}
-           })
-           |> Map.put("started_at", NaiveDateTime.utc_now())
-           |> Map.put(
-             "code",
-             "#{code}"
-           )
-         ) do
-      {:ok, _event} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, gettext("Quick event created successfully"))
-         |> push_navigate(to: ~p"/events")}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, quick_event_changeset: changeset)}
-    end
   end
 
   @impl true
@@ -151,20 +104,6 @@ defmodule ClaperWeb.EventLive.Index do
   end
 
   @impl true
-  def handle_event(
-        "toggle-quick-create",
-        _params,
-        %{assigns: %{:live_action => :quick_create}} = socket
-      ) do
-    {:noreply, assign(socket, :live_action, :index)}
-  end
-
-  @impl true
-  def handle_event("toggle-quick-create", _params, %{assigns: %{:live_action => :index}} = socket) do
-    {:noreply, assign(socket, :live_action, :quick_create)}
-  end
-
-  @impl true
   def handle_event("change-tab", %{"tab" => tab}, socket) do
     socket =
       socket
@@ -185,6 +124,31 @@ defmodule ClaperWeb.EventLive.Index do
     end
   end
 
+  @impl true
+  def handle_event("search", %{"search" => search_query}, socket) do
+    socket =
+      socket
+      |> assign(:search_query, search_query)
+      |> assign(:page, 1)
+      |> assign(:events, [])
+      |> load_events()
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("change-view", %{"view" => view_mode}, socket) do
+    {:noreply,
+     socket
+     |> assign(:view_mode, view_mode)
+     |> push_event("save-view-mode", %{view: view_mode})}
+  end
+
+  @impl true
+  def handle_event("restore-view-mode", %{"view" => view_mode}, socket) do
+    {:noreply, assign(socket, :view_mode, view_mode)}
+  end
+
   defp apply_action(socket, :edit, %{"id" => id}) do
     event =
       Events.get_user_event!(socket.assigns.current_user.id, id, [:presentation_file, :leaders])
@@ -201,7 +165,7 @@ defmodule ClaperWeb.EventLive.Index do
       {:ok, socket |> assign(:event, event)}
 
       socket
-      |> assign(:page_title, gettext("Edit"))
+      |> assign(:page_title, gettext("Edit event"))
       |> assign(:event, event)
     end
   rescue
@@ -215,7 +179,7 @@ defmodule ClaperWeb.EventLive.Index do
     code = for _ <- 1..5, into: "", do: <<Enum.random(~c"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")>>
 
     socket
-    |> assign(:page_title, gettext("Create"))
+    |> assign(:page_title, gettext("Create event"))
     |> assign(:event, %Event{
       started_at: NaiveDateTime.utc_now(),
       code: code,
@@ -230,7 +194,11 @@ defmodule ClaperWeb.EventLive.Index do
   end
 
   defp load_events(socket) do
-    params = %{"page" => socket.assigns.page, "page_size" => 5}
+    params = %{
+      "page" => socket.assigns.page,
+      "page_size" => 6,
+      "search" => socket.assigns.search_query
+    }
 
     {events, total_entries, total_pages} =
       case socket.assigns.active_tab do

@@ -111,6 +111,20 @@ const Hooks = {
     }
   },
   
+  // Hook for persisting view mode preference to localStorage
+  ViewModePreference: {
+    mounted() {
+      const savedMode = localStorage.getItem("claper_event_list_view_mode");
+      if (savedMode && (savedMode === "grid" || savedMode === "list")) {
+        this.pushEvent("restore-view-mode", { view: savedMode });
+      }
+
+      this.handleEvent("save-view-mode", ({ view }) => {
+        localStorage.setItem("claper_event_list_view_mode", view);
+      });
+    }
+  },
+
   // Hook for Event Creation Chart
   EventCreationChart: {
     mounted() {

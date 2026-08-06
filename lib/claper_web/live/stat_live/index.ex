@@ -1,7 +1,13 @@
 defmodule ClaperWeb.StatLive.Index do
   use ClaperWeb, :live_view
 
-  alias Claper.Events
+  alias Claper.{Events, Transcriptions}
+
+  @transcriptions_page_size 25
+  @avatars ~w(🦊 🐙 🦉 🐸 🐼 🦋 🐬 🦈 🐢 🦎 🐝 🦩 🐧 🦦 🐨 🦁 🐯 🐻 🐰 🐮
+    🐷 🐵 🦄 🐺 🦇 🐳 🐠 🦑 🦞 🦀 🐡 🐞 🦗 🕷 🦂 🐍 🦕 🦖 🦚 🦜
+    🦢 🦩 🐓 🦃 🦆 🦅 🦔 🐿 🦫 🦨 🦡 🦝 🦥 🦘 🦙 🐫 🐘 🦏 🦛 🐊
+    🐅 🐆 🦓 🐃 🐂 🐄 🐎 🐖 🐑 🐐 🦌 🐕 🐈 🦮 🐁 🐀 🦔 🐲 🌵 🍄)
 
   on_mount(ClaperWeb.UserLiveAuth)
 
@@ -32,6 +38,7 @@ defmodule ClaperWeb.StatLive.Index do
 
     distinct_attendee_count = Claper.Stats.get_unique_attendees_for_event(event.id)
     distinct_poster_count = Claper.Stats.distinct_poster_count(event.id)
+    posts = list_posts(socket, event.uuid)
 
     {:ok,
      socket
@@ -48,13 +55,16 @@ defmodule ClaperWeb.StatLive.Index do
        :engagement_rate,
        calculate_engagement_rate(event, distinct_attendee_count)
      )
-     |> assign(:posts, list_posts(socket, event.uuid))
+     |> assign(:posts, posts)
      |> assign(:current_tab, :messages)}
   end
 
   @impl true
   def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    {:noreply,
+     socket
+     |> apply_action(socket.assigns.live_action, params)
+     |> load_transcriptions()}
   end
 
   defp apply_action(socket, :index, _params) do
@@ -64,7 +74,77 @@ defmodule ClaperWeb.StatLive.Index do
 
   @impl true
   def handle_event("change_tab", %{"tab" => tab}, socket) do
-    {:noreply, assign(socket, :current_tab, String.to_existing_atom(tab))}
+    {:noreply, assign(socket, :current_tab, tab_to_atom(tab))}
+  end
+
+  @impl true
+  def handle_event("load_more_transcriptions", _params, socket) do
+    next_page = (socket.assigns.transcriptions_meta.current_page || 1) + 1
+
+    {transcriptions, transcriptions_meta} =
+      paginated_transcriptions(socket.assigns.event.presentation_file.id, next_page)
+
+    {:noreply,
+     socket
+     |> assign(:transcriptions, socket.assigns.transcriptions ++ transcriptions)
+     |> assign(:transcriptions_meta, transcriptions_meta)}
+  end
+
+  defp tab_to_atom("messages"), do: :messages
+  defp tab_to_atom("polls"), do: :polls
+  defp tab_to_atom("forms"), do: :forms
+  defp tab_to_atom("web_content"), do: :web_content
+  defp tab_to_atom("quizzes"), do: :quizzes
+  defp tab_to_atom("transcriptions"), do: :transcriptions
+  defp tab_to_atom(_), do: :messages
+
+  defp available_tabs(event, posts, has_transcriptions?) do
+    [
+      {:messages, posts},
+      {:polls, event.presentation_file.polls},
+      {:forms, event.presentation_file.forms},
+      {:web_content, event.presentation_file.embeds},
+      {:quizzes, event.presentation_file.quizzes},
+      {:transcriptions, has_transcriptions?}
+    ]
+    |> Enum.filter(fn
+      {_tab, entries} when is_list(entries) -> length(entries) > 0
+      {_tab, has_entries?} -> has_entries?
+    end)
+    |> Enum.map(fn {tab, _entries} -> tab end)
+  end
+
+  defp load_transcriptions(socket) do
+    {transcriptions, transcriptions_meta} =
+      paginated_transcriptions(socket.assigns.event.presentation_file.id, 1)
+
+    available_tabs =
+      available_tabs(
+        socket.assigns.event,
+        socket.assigns.posts,
+        transcriptions_meta.total_count > 0
+      )
+
+    socket
+    |> assign(:transcriptions, transcriptions)
+    |> assign(:transcriptions_meta, transcriptions_meta)
+    |> assign(:available_tabs, available_tabs)
+    |> assign(:current_tab, current_tab(socket, available_tabs))
+  end
+
+  defp paginated_transcriptions(presentation_file_id, page) do
+    Transcriptions.list_transcriptions_paginated(presentation_file_id, %{
+      "page" => page,
+      "page_size" => @transcriptions_page_size
+    })
+  end
+
+  defp current_tab(socket, available_tabs) do
+    if socket.assigns.current_tab in available_tabs do
+      socket.assigns.current_tab
+    else
+      List.first(available_tabs) || :messages
+    end
   end
 
   defp calculate_engagement_rate(event, unique_attendees) do
@@ -132,5 +212,19 @@ defmodule ClaperWeb.StatLive.Index do
 
   defp list_posts(_socket, event_id) do
     Claper.Posts.list_posts(event_id, [:event, :reactions])
+  end
+
+  defp avatar_identifier(record) do
+    "#{record.attendee_identifier || record.user_id || "default"}"
+  end
+
+  defp avatar_color(record) do
+    hue = :erlang.phash2(avatar_identifier(record), 360)
+    "hsl(#{hue}, 45%, 55%)"
+  end
+
+  defp avatar_emoji(record) do
+    index = :erlang.phash2({avatar_identifier(record), :emoji}, length(@avatars))
+    Enum.at(@avatars, index)
   end
 end

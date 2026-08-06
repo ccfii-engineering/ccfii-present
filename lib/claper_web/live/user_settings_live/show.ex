@@ -13,6 +13,7 @@ defmodule ClaperWeb.UserSettingsLive.Show do
 
     email_changeset = Accounts.User.email_changeset(%Accounts.User{}, %{})
     password_changeset = Accounts.User.password_changeset(%Accounts.User{}, %{})
+    profile_changeset = Accounts.change_user_profile(socket.assigns.current_user)
 
     oidc_accounts =
       Accounts.get_all_oidc_users_by_email(socket.assigns.current_user.email) |> List.wrap()
@@ -30,6 +31,7 @@ defmodule ClaperWeb.UserSettingsLive.Show do
      socket
      |> assign(:email_changeset, email_changeset)
      |> assign(:password_changeset, password_changeset)
+     |> assign(:profile_changeset, profile_changeset)
      |> assign(:preferences_changeset, preferences_changeset)
      |> assign(:is_external_user, oidc_accounts != [] or lti_accounts != [])
      |> assign(:oidc_accounts, oidc_accounts)
@@ -51,6 +53,15 @@ defmodule ClaperWeb.UserSettingsLive.Show do
     |> assign(
       :page_description,
       gettext("Change the email address you want associated with your account.")
+    )
+  end
+
+  defp apply_action(socket, :edit_profile, _params) do
+    socket
+    |> assign(:page_title, gettext("Update your profile"))
+    |> assign(
+      :page_description,
+      gettext("Change the first and last name associated with your account.")
     )
   end
 
@@ -114,6 +125,22 @@ defmodule ClaperWeb.UserSettingsLive.Show do
      socket
      |> put_flash(:info, gettext("The account has been unlinked."))
      |> push_navigate(to: ~p"/users/settings")}
+  end
+
+  @impl true
+  def handle_event("save", %{"action" => "update_profile", "user" => user_params}, socket) do
+    case Accounts.update_user_profile(socket.assigns.current_user, user_params) do
+      {:ok, user} ->
+        {:noreply,
+         socket
+         |> assign(:current_user, user)
+         |> assign(:profile_changeset, Accounts.change_user_profile(user))
+         |> put_flash(:info, gettext("Your profile has been updated."))
+         |> push_navigate(to: ~p"/users/settings")}
+
+      {:error, changeset} ->
+        {:noreply, assign(socket, :profile_changeset, changeset)}
+    end
   end
 
   @impl true

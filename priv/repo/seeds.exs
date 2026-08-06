@@ -54,6 +54,8 @@ if Repo.aggregate(User, :count, :id) == 0 do
     {:ok, admin_user} =
       Accounts.register_user(%{
         email: "admin@claper.co",
+        first_name: "Claper",
+        last_name: "Admin",
         password: "claper",
         confirmed_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
       })
@@ -68,3 +70,6 @@ if Repo.aggregate(User, :count, :id) == 0 do
     IO.puts("Warning: Admin role not found, skipping default admin user creation")
   end
 end
+
+# Seed global settings defaults
+Code.require_file("seeds/settings.exs", __DIR__)

@@ -164,6 +164,31 @@ allow_unlink_external_provider =
 
 logout_redirect_url = get_var_from_path_or_env(config_dir, "LOGOUT_REDIRECT_URL", nil)
 
+normalize_url = fn
+  nil ->
+    nil
+
+  value ->
+    case String.trim(value) do
+      "" -> nil
+      trimmed -> trimmed
+    end
+end
+
+terms_url = normalize_url.(get_var_from_path_or_env(config_dir, "TERMS_URL", nil))
+privacy_url = normalize_url.(get_var_from_path_or_env(config_dir, "PRIVACY_URL", nil))
+
+for {name, value} <- [{"TERMS_URL", terms_url}, {"PRIVACY_URL", privacy_url}],
+    not is_nil(value) do
+  case URI.parse(value) do
+    %URI{scheme: scheme} when scheme in ["http", "https"] ->
+      :ok
+
+    _ ->
+      raise "#{name} must start with `http` or `https`. Got `#{value}`"
+  end
+end
+
 languages =
   get_var_from_path_or_env(config_dir, "LANGUAGES", "en,fr,es,it,de")
   |> String.split(",")
@@ -210,7 +235,9 @@ config :claper,
   logout_redirect_url: logout_redirect_url,
   languages: languages,
   remote_ip_proxies: remote_ip_proxies,
-  remote_ip_headers: remote_ip_headers
+  remote_ip_headers: remote_ip_headers,
+  terms_url: terms_url,
+  privacy_url: privacy_url
 
 config :claper, :presentations,
   max_file_size: max_file_size,

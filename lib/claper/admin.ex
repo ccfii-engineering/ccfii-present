@@ -306,9 +306,8 @@ defmodule Claper.Admin do
         0.0
 
       previous > 0 ->
-        :erlang.float_to_binary(((current - previous) / previous * 100) |> Float.round(1),
-          decimals: 1
-        )
+        ((current - previous) / previous * 100)
+        |> Float.round(1)
 
       true ->
         0.0
@@ -316,128 +315,46 @@ defmodule Claper.Admin do
   end
 
   @doc """
-  Returns a paginated list of users.
+  Returns a paginated list of users using Flop.
 
-  ## Options
-
-  * `:page` - The page number (default: 1)
-  * `:per_page` - The number of users per page (default: 20)
-  * `:search` - Search term for filtering users by email
-  * `:role` - Filter users by role name
+  Accepts Flop params for filtering, sorting, and pagination.
+  See `Claper.Accounts.User` Flop.Schema config for available fields.
 
   ## Examples
 
-      iex> list_users_paginated(%{page: 1, per_page: 10})
-      %{entries: [%User{}, ...], page_number: 1, page_size: 10, total_entries: 20, total_pages: 2}
+      iex> list_users_paginated(%{"page" => 1, "page_size" => 10})
+      {[%User{}, ...], %Flop.Meta{}}
 
   """
   def list_users_paginated(params \\ %{}) do
-    page = Map.get(params, "page", 1)
-    per_page = Map.get(params, "per_page", 20)
-    search = Map.get(params, "search", "")
-    role = Map.get(params, "role", "")
-
     query =
       User
       |> where([u], is_nil(u.deleted_at))
       |> preload(:role)
+      |> join(:left, [u], r in assoc(u, :role), as: :role)
 
-    query =
-      if search != "" do
-        query |> where([u], ilike(u.email, ^"%#{search}%"))
-      else
-        query
-      end
-
-    query =
-      if role != "" do
-        query |> join(:inner, [u], r in assoc(u, :role), on: r.name == ^role)
-      else
-        query
-      end
-
-    query = query |> order_by([u], desc: u.inserted_at)
-
-    Repo.paginate(query, page: page, page_size: per_page)
+    Flop.validate_and_run!(query, params, for: User, replace_invalid_params: true)
   end
 
   @doc """
-  Returns a paginated list of events.
+  Returns a paginated list of events using Flop.
 
-  ## Options
-
-  * `:page` - The page number (default: 1)
-  * `:per_page` - The number of events per page (default: 20)
-  * `:search` - Search term for filtering events by name
-  * `:status` - Filter events by status (upcoming, past)
-  * `:start_date` - Filter events by start date
-  * `:end_date` - Filter events by end date
-  * `:creator_id` - Filter events by creator ID
+  Accepts Flop params for filtering, sorting, and pagination.
+  See `Claper.Events.Event` Flop.Schema config for available fields.
 
   ## Examples
 
-      iex> list_events_paginated(%{page: 1, per_page: 10})
-      %{entries: [%Event{}, ...], page_number: 1, page_size: 10, total_entries: 20, total_pages: 2}
+      iex> list_events_paginated(%{"page" => 1, "page_size" => 10})
+      {[%Event{}, ...], %Flop.Meta{}}
 
   """
   def list_events_paginated(params \\ %{}) do
-    page = Map.get(params, "page", 1)
-    per_page = Map.get(params, "per_page", 20)
-    search = Map.get(params, "search", "")
-    status = Map.get(params, "status", "")
-    start_date = Map.get(params, "start_date", nil)
-    end_date = Map.get(params, "end_date", nil)
-    creator_id = Map.get(params, "creator_id", nil)
-
     query =
       Event
+      |> join(:left, [e], u in assoc(e, :user), as: :user)
       |> preload(:user)
 
-    query =
-      if search != "" do
-        query |> where([e], ilike(e.name, ^"%#{search}%"))
-      else
-        query
-      end
-
-    query =
-      case status do
-        "upcoming" ->
-          now = NaiveDateTime.utc_now()
-          query |> where([e], e.started_at > ^now)
-
-        "past" ->
-          now = NaiveDateTime.utc_now()
-          query |> where([e], e.started_at <= ^now)
-
-        _ ->
-          query
-      end
-
-    query =
-      if start_date do
-        query |> where([e], e.started_at >= ^start_date)
-      else
-        query
-      end
-
-    query =
-      if end_date do
-        query |> where([e], e.started_at <= ^end_date)
-      else
-        query
-      end
-
-    query =
-      if creator_id do
-        query |> where([e], e.user_id == ^creator_id)
-      else
-        query
-      end
-
-    query = query |> order_by([e], desc: e.started_at)
-
-    Repo.paginate(query, page: page, page_size: per_page)
+    Flop.validate_and_run!(query, params, for: Event, replace_invalid_params: true)
   end
 
   @doc """
@@ -609,7 +526,7 @@ defmodule Claper.Admin do
 
     query =
       if search != "" do
-        query |> where([u], ilike(u.email, ^"%#{search}%") or ilike(u.name, ^"%#{search}%"))
+        query |> where([u], ilike(u.email, ^"%#{search}%"))
       else
         query
       end
@@ -631,5 +548,34 @@ defmodule Claper.Admin do
       user
       |> Map.put(:role_name, role_name)
     end)
+  end
+
+  @doc """
+  Returns all transcription segments for a given event, ordered by insertion time.
+  """
+  def list_transcriptions_for_event(event_id) do
+    Claper.Transcriptions.Transcription
+    |> join(:inner, [t], pf in Claper.Presentations.PresentationFile,
+      on: t.presentation_file_id == pf.id
+    )
+    |> where([t, pf], pf.event_id == ^event_id)
+    |> order_by([t], asc: t.inserted_at)
+    |> select([t, pf], %{
+      id: t.id,
+      text: t.text,
+      language: t.language,
+      inserted_at: t.inserted_at
+    })
+    |> Repo.all()
+  end
+
+  @doc """
+  Deletes a transcription by ID.
+  """
+  def delete_transcription(id) do
+    case Repo.get(Claper.Transcriptions.Transcription, id) do
+      nil -> {:error, :not_found}
+      transcription -> Repo.delete(transcription)
+    end
   end
 end

@@ -66,8 +66,27 @@ defmodule Claper.Audit do
   Returns a paginated, optionally filtered and sorted, list of audit logs.
   """
   def list_logs(params \\ %{}) do
-    query = from l in Log, left_join: u in assoc(l, :user), as: :user, preload: [user: u]
+    Flop.validate_and_run!(base_logs_query(), params, for: Log, replace_invalid_params: true)
+  end
+
+  @doc """
+  Returns a paginated list of audit logs scoped to a single user.
+
+  Accepts either a `Claper.Accounts.User` struct or a user id, plus the
+  same Flop params used by `list_logs/1`.
+  """
+  def list_logs_for_user(user_or_id, params \\ %{})
+
+  def list_logs_for_user(%Accounts.User{id: id}, params),
+    do: list_logs_for_user(id, params)
+
+  def list_logs_for_user(user_id, params) when is_integer(user_id) do
+    query = from [l, _u] in base_logs_query(), where: l.user_id == ^user_id
     Flop.validate_and_run!(query, params, for: Log, replace_invalid_params: true)
+  end
+
+  defp base_logs_query do
+    from l in Log, left_join: u in assoc(l, :user), as: :user, preload: [user: u]
   end
 
   @doc """

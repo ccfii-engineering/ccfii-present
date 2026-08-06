@@ -1,8 +1,16 @@
 defmodule ClaperWeb.EventLive.Manage do
   use ClaperWeb, :live_view
 
-  alias Claper.{Embeds, Forms, Polls, Presentations, Quizzes}
+  alias Claper.{Embeds, Events, Forms, Polls, Presentations, Quizzes, Transcriptions}
+  alias Claper.Transcriptions.TranscriptionConfig
+  alias Claper.Workers.PresentationThumbnails
   alias ClaperWeb.Presence
+
+  @event_preload [
+    :user,
+    :lti_resource,
+    presentation_file: [:polls, :presentation_state]
+  ]
 
   @impl true
   def mount(%{"code" => code}, session, socket) do
@@ -10,12 +18,7 @@ defmodule ClaperWeb.EventLive.Manage do
       Gettext.put_locale(ClaperWeb.Gettext, locale)
     end
 
-    event =
-      Claper.Events.get_event_with_code(code, [
-        :user,
-        :lti_resource,
-        presentation_file: [:polls, :presentation_state]
-      ])
+    event = Events.get_event_with_code(code, @event_preload)
 
     if is_nil(event) || not leader?(socket, event) do
       {:ok,
@@ -23,51 +26,93 @@ defmodule ClaperWeb.EventLive.Manage do
        |> put_flash(:error, gettext("Event doesn't exist"))
        |> redirect(to: "/")}
     else
-      if connected?(socket) do
-        Claper.Events.Event.subscribe(event.uuid)
-        Claper.Presentations.subscribe(event.presentation_file.id)
-      end
-
-      posts = list_all_posts(socket, event.uuid)
-      pinned_posts = list_pinned_posts(socket, event.uuid)
-      questions = list_all_questions(socket, event.uuid)
-      form_submits = list_form_submits(socket, event.presentation_file.id)
-
-      socket =
-        socket
-        |> assign(:interaction_modal, false)
-        |> assign(:settings_modal, false)
-        |> assign(:attendees_nb, 1)
-        |> assign(:event, event)
-        |> assign(:sort_questions_by, "date")
-        |> assign(:state, event.presentation_file.presentation_state)
-        |> stream(:posts, posts)
-        |> stream(:questions, questions)
-        |> stream(:pinned_posts, pinned_posts)
-        |> stream(:form_submits, form_submits)
-        |> assign(:pinned_post_count, length(pinned_posts))
-        |> assign(:question_count, length(questions))
-        |> assign(:post_count, length(posts))
-        |> assign(
-          :total_interactions,
-          Claper.Interactions.get_number_total_interactions(event.presentation_file.id)
-        )
-        |> assign(
-          :form_submit_count,
-          length(form_submits)
-        )
-        |> assign(:create, nil)
-        |> assign(:list_tab, :posts)
-        |> assign(:create_action, :new)
-        |> assign(:preview, false)
-        |> push_event("page-manage", %{
-          current_page: event.presentation_file.presentation_state.position,
-          timeout: 500
-        })
-        |> interactions_at_position(event.presentation_file.presentation_state.position)
-
-      {:ok, socket}
+      mount_event(socket, event)
     end
+  end
+
+  defp mount_event(socket, event) do
+    if connected?(socket) do
+      Claper.Events.Event.subscribe(event.uuid)
+      Presentations.subscribe(event.presentation_file.id)
+      Events.subscribe_user_events(socket.assigns.current_user.id)
+    end
+
+    posts = list_all_posts(socket, event.uuid)
+    pinned_posts = list_pinned_posts(socket, event.uuid)
+    questions = list_all_questions(socket, event.uuid)
+    form_submits = list_form_submits(socket, event.presentation_file.id)
+
+    audio_token =
+      Phoenix.Token.sign(ClaperWeb.Endpoint, "audio_token", %{
+        user_id: socket.assigns.current_user.id,
+        event_uuid: event.uuid
+      })
+
+    transcription_config =
+      Transcriptions.get_transcription_config(event.presentation_file.id)
+
+    transcription_globally_enabled = Claper.Settings.transcription_globally_enabled?()
+
+    # Auto-start transcription worker if config says enabled and globally enabled
+    if connected?(socket) && transcription_globally_enabled && transcription_config &&
+         transcription_config.enabled do
+      unless Claper.Transcriptions.TranscriptionWorker.running?(event.uuid) do
+        DynamicSupervisor.start_child(
+          Claper.TranscriptionSupervisor,
+          {Claper.Transcriptions.TranscriptionWorker, {event.uuid, event.presentation_file.id}}
+        )
+      end
+    end
+
+    socket =
+      socket
+      |> assign(:interaction_modal, false)
+      |> assign(:settings_modal, false)
+      |> assign(:attendees_nb, 0)
+      |> assign(:event, event)
+      |> assign(:sort_questions_by, "date")
+      |> assign(:state, event.presentation_file.presentation_state)
+      |> assign(:audio_token, audio_token)
+      |> assign(:transcription_config, transcription_config)
+      |> assign(:transcription_globally_enabled, transcription_globally_enabled)
+      |> stream(:posts, posts)
+      |> stream(:questions, questions)
+      |> stream(:pinned_posts, pinned_posts)
+      |> stream(:form_submits, form_submits)
+      |> assign(:pinned_post_count, length(pinned_posts))
+      |> assign(:question_count, length(questions))
+      |> assign(:post_count, length(posts))
+      |> assign(
+        :total_interactions,
+        Claper.Interactions.get_number_total_interactions(event.presentation_file.id)
+      )
+      |> assign(
+        :form_submit_count,
+        length(form_submits)
+      )
+      |> assign(:create, nil)
+      |> assign(:list_tab, :posts)
+      |> assign(:create_action, :new)
+      |> assign(
+        :missing_slide_thumbnails,
+        Presentations.missing_slide_thumbnails?(event.presentation_file)
+      )
+      |> assign(:thumbnail_cache_bust, thumbnail_cache_bust())
+      |> assign(:thumbnail_regeneration_in_progress, false)
+      |> push_event("page-manage", %{
+        current_page: event.presentation_file.presentation_state.position,
+        timeout: 500
+      })
+      |> then(fn s ->
+        if transcription_config && transcription_config.enabled do
+          push_event(s, "transcription-state", %{enabled: true})
+        else
+          s
+        end
+      end)
+      |> interactions_at_position(event.presentation_file.presentation_state.position)
+
+    {:ok, socket}
   end
 
   defp leader?(%{assigns: %{current_user: current_user}} = _socket, event) do
@@ -77,6 +122,18 @@ defmodule ClaperWeb.EventLive.Manage do
   defp leader?(_socket, _event), do: false
 
   defp event_id(%{assigns: %{event: event}}), do: event.id
+
+  defp get_interaction_for_event("poll", id, socket),
+    do: Polls.get_poll_for_event(id, event_id(socket))
+
+  defp get_interaction_for_event("form", id, socket),
+    do: Forms.get_form_for_event(id, event_id(socket))
+
+  defp get_interaction_for_event("embed", id, socket),
+    do: Embeds.get_embed_for_event(id, event_id(socket))
+
+  defp get_interaction_for_event("quiz", id, socket),
+    do: Quizzes.get_quiz_for_event(id, event_id(socket))
 
   @impl true
   def handle_info(%{event: "presence_diff"}, %{assigns: %{event: event}} = socket) do
@@ -88,14 +145,14 @@ defmodule ClaperWeb.EventLive.Manage do
   def handle_info({:post_created, post}, socket) do
     socket =
       socket
-      |> stream_insert(:posts, post)
+      |> stream_insert(:posts, post, at: 0)
       |> update(:post_count, fn post_count -> post_count + 1 end)
 
     case ClaperWeb.Helpers.body_without_links(post.body) =~ "?" do
       true ->
         {:noreply,
          socket
-         |> stream_insert(:questions, post)
+         |> stream_insert(:questions, post, at: 0)
          |> update(:question_count, fn question_count -> question_count + 1 end)
          |> push_event("scroll", %{})}
 
@@ -146,7 +203,7 @@ defmodule ClaperWeb.EventLive.Manage do
     updated_socket =
       socket
       |> stream_insert(:posts, post)
-      |> stream_insert(:pinned_posts, post)
+      |> stream_insert(:pinned_posts, post, at: 0)
       |> stream_insert(:questions, post)
       |> assign(:pinned_post_count, socket.assigns.pinned_post_count + 1)
 
@@ -216,31 +273,31 @@ defmodule ClaperWeb.EventLive.Manage do
   end
 
   @impl true
-  def handle_info({:poll_updated, poll}, socket) do
+  def handle_info({:poll_updated, _poll}, socket) do
     {:noreply,
      socket
-     |> interactions_at_position(poll.position)}
+     |> interactions_at_position(socket.assigns.state.position)}
   end
 
   @impl true
-  def handle_info({:embed_updated, embed}, socket) do
+  def handle_info({:embed_updated, _embed}, socket) do
     {:noreply,
      socket
-     |> interactions_at_position(embed.position)}
+     |> interactions_at_position(socket.assigns.state.position)}
   end
 
   @impl true
-  def handle_info({:form_updated, form}, socket) do
+  def handle_info({:form_updated, _form}, socket) do
     {:noreply,
      socket
-     |> interactions_at_position(form.position)}
+     |> interactions_at_position(socket.assigns.state.position)}
   end
 
   @impl true
-  def handle_info({:quiz_updated, quiz}, socket) do
+  def handle_info({:quiz_updated, _quiz}, socket) do
     {:noreply,
      socket
-     |> interactions_at_position(quiz.position)}
+     |> interactions_at_position(socket.assigns.state.position)}
   end
 
   @impl true
@@ -298,6 +355,62 @@ defmodule ClaperWeb.EventLive.Manage do
   end
 
   @impl true
+  def handle_info(
+        {:presentation_file_process_done, %{id: presentation_file_id}},
+        %{assigns: %{event: %{presentation_file: %{id: presentation_file_id}}}} = socket
+      ) do
+    {:noreply, refresh_event(socket)}
+  end
+
+  @impl true
+  def handle_info(
+        {:presentation_file_thumbnails_regenerated, presentation_file_id},
+        %{assigns: %{event: %{presentation_file: %{id: presentation_file_id}}}} = socket
+      ) do
+    {:noreply,
+     socket
+     |> refresh_event()
+     |> assign(:thumbnail_regeneration_in_progress, false)
+     |> put_flash(:info, gettext("Thumbnails regenerated successfully"))}
+  end
+
+  @impl true
+  def handle_info(
+        {:presentation_file_thumbnail_regeneration_failed, presentation_file_id},
+        %{assigns: %{event: %{presentation_file: %{id: presentation_file_id}}}} = socket
+      ) do
+    {:noreply,
+     socket
+     |> assign(:thumbnail_regeneration_in_progress, false)
+     |> put_flash(:error, gettext("Could not regenerate thumbnails"))}
+  end
+
+  @impl true
+  def handle_info({:transcription_config_created, config}, socket) do
+    {:noreply, socket |> assign(:transcription_config, config)}
+  end
+
+  @impl true
+  def handle_info({:transcription_config_updated, config}, socket) do
+    {:noreply, socket |> assign(:transcription_config, config)}
+  end
+
+  @impl true
+  def handle_info({:transcription_config_deleted, _config}, socket) do
+    {:noreply, socket |> assign(:transcription_config, nil)}
+  end
+
+  @impl true
+  def handle_info({:transcription_delta, _text}, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:transcription_created, _transcription}, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_info(_, socket) do
     {:noreply, socket}
   end
@@ -328,6 +441,94 @@ defmodule ClaperWeb.EventLive.Manage do
      socket
      |> assign(:state, new_state)
      |> interactions_at_position(page)}
+  end
+
+  @impl true
+  def handle_event(
+        "reorder-slides",
+        %{"from" => from, "to" => to},
+        %{assigns: %{event: event, state: state}} = socket
+      )
+      when is_integer(from) and is_integer(to) and from != to do
+    case Presentations.reorder_slides(event.presentation_file, from, to) do
+      {:ok, _presentation_file, new_state} ->
+        if new_state && new_state.position != state.position do
+          Phoenix.PubSub.broadcast(
+            Claper.PubSub,
+            "event:#{event.uuid}",
+            {:page_changed, new_state.position}
+          )
+        end
+
+        socket = refresh_event(socket)
+
+        {:noreply, socket |> interactions_at_position(socket.assigns.state.position)}
+
+      {:error, _reason} ->
+        {:noreply, socket |> put_flash(:error, gettext("Could not reorder slides"))}
+    end
+  end
+
+  @impl true
+  def handle_event(
+        "move-interaction",
+        %{"id" => id, "type" => type, "to" => to},
+        %{assigns: %{event: event, state: state}} = socket
+      )
+      when is_integer(id) and is_integer(to) and type in ["poll", "form", "embed", "quiz"] do
+    with interaction when not is_nil(interaction) <- get_interaction_for_event(type, id, socket),
+         {:ok, _moved} <- Claper.Interactions.move_interaction(event, interaction, to) do
+      if interaction.enabled do
+        Phoenix.PubSub.broadcast(
+          Claper.PubSub,
+          "event:#{event.uuid}",
+          {:current_interaction, nil}
+        )
+      end
+
+      {:noreply, socket |> interactions_at_position(state.position)}
+    else
+      nil ->
+        {:noreply, socket}
+
+      {:error, _reason} ->
+        {:noreply, socket |> put_flash(:error, gettext("Could not move interaction"))}
+    end
+  end
+
+  @impl true
+  def handle_event(
+        "regenerate-thumbnails",
+        _params,
+        %{assigns: %{missing_slide_thumbnails: false}} = socket
+      ) do
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event(
+        "regenerate-thumbnails",
+        _params,
+        %{assigns: %{thumbnail_regeneration_in_progress: true}} = socket
+      ) do
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("regenerate-thumbnails", _params, socket) do
+    presentation_file_id = socket.assigns.event.presentation_file.id
+    user_id = socket.assigns.current_user.id
+
+    case PresentationThumbnails.create(presentation_file_id, user_id) |> Oban.insert() do
+      {:ok, _job} ->
+        {:noreply,
+         socket
+         |> assign(:thumbnail_regeneration_in_progress, true)
+         |> put_flash(:info, gettext("Thumbnail regeneration started"))}
+
+      {:error, _changeset} ->
+        {:noreply, socket |> put_flash(:error, gettext("Could not start thumbnail regeneration"))}
+    end
   end
 
   def handle_event("poll-set-active", %{"id" => id}, socket) do
@@ -505,7 +706,7 @@ defmodule ClaperWeb.EventLive.Manage do
   @impl true
   def handle_event(
         "ban",
-        %{"attendee-identifier" => attendee_identifier},
+        %{"attendee_identifier" => attendee_identifier},
         %{assigns: %{event: event}} = socket
       ) do
     Claper.Posts.delete_all_posts(:attendee_identifier, attendee_identifier, event)
@@ -524,7 +725,7 @@ defmodule ClaperWeb.EventLive.Manage do
   @impl true
   def handle_event(
         "ban",
-        %{"user-id" => user_id},
+        %{"user_id" => user_id},
         %{assigns: %{event: event}} = socket
       ) do
     Claper.Posts.delete_all_posts(:user_id, user_id, event)
@@ -666,6 +867,51 @@ defmodule ClaperWeb.EventLive.Manage do
       )
 
     {:noreply, socket |> assign(:state, new_state)}
+  end
+
+  def handle_event("transcription-set-active", %{"id" => id}, socket) do
+    if Claper.Settings.transcription_globally_enabled?() do
+      {:ok, config} = Transcriptions.set_transcription_enabled(id)
+      event = socket.assigns.event
+
+      DynamicSupervisor.start_child(
+        Claper.TranscriptionSupervisor,
+        {Claper.Transcriptions.TranscriptionWorker, {event.uuid, event.presentation_file.id}}
+      )
+
+      Phoenix.PubSub.broadcast(
+        Claper.PubSub,
+        "event:#{event.uuid}",
+        {:transcription_config_updated, config}
+      )
+
+      {:noreply,
+       socket
+       |> assign(:transcription_config, config)
+       |> push_event("transcription-state", %{enabled: true})}
+    else
+      {:noreply,
+       socket
+       |> put_flash(:error, gettext("Transcription has been disabled by the administrator"))}
+    end
+  end
+
+  def handle_event("transcription-set-inactive", %{"id" => id}, socket) do
+    {:ok, config} = Transcriptions.set_transcription_disabled(id)
+    event = socket.assigns.event
+
+    Claper.Transcriptions.TranscriptionWorker.stop(event.uuid)
+
+    Phoenix.PubSub.broadcast(
+      Claper.PubSub,
+      "event:#{event.uuid}",
+      {:transcription_config_updated, config}
+    )
+
+    {:noreply,
+     socket
+     |> assign(:transcription_config, config)
+     |> push_event("transcription-state", %{enabled: false})}
   end
 
   @impl true
@@ -847,11 +1093,6 @@ defmodule ClaperWeb.EventLive.Manage do
   end
 
   @impl true
-  def handle_event("toggle-preview", _params, %{assigns: %{preview: preview}} = socket) do
-    {:noreply, socket |> assign(:preview, !preview)}
-  end
-
-  @impl true
   def handle_event(
         "toggle-interaction-modal",
         _params,
@@ -870,17 +1111,13 @@ defmodule ClaperWeb.EventLive.Manage do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  def handle_event("toggle-settings-modal", _params, socket) do
+    {:noreply, update(socket, :settings_modal, &(!&1))}
   end
 
-  def toggle_settings_modal(js \\ %JS{}) do
-    js
-    |> JS.toggle(
-      to: "#settings-modal",
-      out: "animate__animated animate__fadeOut",
-      in: "animate__animated animate__fadeIn"
-    )
+  @impl true
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
   defp apply_action(socket, :show, _params) do
@@ -890,6 +1127,8 @@ defmodule ClaperWeb.EventLive.Manage do
   defp apply_action(socket, :add_poll, _params) do
     socket
     |> assign(:create, "poll")
+    |> assign(:interaction_modal, true)
+    |> assign(:create_action, :new)
     |> assign(:poll, %Polls.Poll{
       poll_opts: [%Polls.PollOpt{content: gettext("Yes")}, %Polls.PollOpt{content: gettext("No")}]
     })
@@ -914,6 +1153,8 @@ defmodule ClaperWeb.EventLive.Manage do
   defp apply_action(socket, :add_form, _params) do
     socket
     |> assign(:create, "form")
+    |> assign(:interaction_modal, true)
+    |> assign(:create_action, :new)
     |> assign(:form, %Forms.Form{
       fields: [
         %Forms.Field{name: gettext("Name"), type: "text"},
@@ -925,6 +1166,8 @@ defmodule ClaperWeb.EventLive.Manage do
   defp apply_action(socket, :add_embed, _params) do
     socket
     |> assign(:create, "embed")
+    |> assign(:interaction_modal, true)
+    |> assign(:create_action, :new)
     |> assign(:embed, %Embeds.Embed{})
   end
 
@@ -969,6 +1212,8 @@ defmodule ClaperWeb.EventLive.Manage do
   defp apply_action(socket, :add_quiz, _params) do
     socket
     |> assign(:create, "quiz")
+    |> assign(:interaction_modal, true)
+    |> assign(:create_action, :new)
     |> assign(:quiz, %Quizzes.Quiz{
       presentation_file_id: socket.assigns.event.presentation_file.id,
       quiz_questions: [
@@ -1006,6 +1251,47 @@ defmodule ClaperWeb.EventLive.Manage do
     end
   end
 
+  defp apply_action(socket, :add_transcription, _params) do
+    existing = socket.assigns.transcription_config
+
+    if existing do
+      socket
+      |> push_navigate(
+        to: ~p"/e/#{socket.assigns.event.code}/manage/edit/transcription/#{existing.id}"
+      )
+    else
+      socket
+      |> assign(:create, "transcription")
+      |> assign(:interaction_modal, true)
+      |> assign(:create_action, :new)
+      |> assign(:transcription_config, %TranscriptionConfig{})
+    end
+  end
+
+  defp apply_action(socket, :edit_transcription, %{"id" => id}) do
+    config = Transcriptions.get_transcription_config!(id)
+
+    socket
+    |> assign(:create, "transcription")
+    |> assign(:interaction_modal, true)
+    |> assign(:create_action, :edit)
+    |> assign(:transcription_config, config)
+  end
+
+  @impl true
+  def terminate(_reason, socket) do
+    if Map.has_key?(socket.assigns, :event) do
+      event = socket.assigns.event
+      config = Map.get(socket.assigns, :transcription_config)
+
+      if config && config.enabled do
+        Claper.Transcriptions.TranscriptionWorker.stop(event.uuid)
+      end
+    end
+
+    :ok
+  end
+
   defp pin(post, socket) do
     {:ok, _updated_post} = Claper.Posts.toggle_pin_post(post)
 
@@ -1041,10 +1327,12 @@ defmodule ClaperWeb.EventLive.Manage do
 
   defp list_pinned_posts(_socket, event_id) do
     Claper.Posts.list_pinned_posts(event_id, [:event, :reactions])
+    |> Enum.reverse()
   end
 
   defp list_all_posts(_socket, event_id) do
     Claper.Posts.list_posts(event_id, [:event, :reactions])
+    |> Enum.reverse()
   end
 
   defp list_all_questions(_socket, event_id, sort \\ "date") do
@@ -1054,11 +1342,31 @@ defmodule ClaperWeb.EventLive.Manage do
         _ -> :date
       end
 
-    Claper.Posts.list_questions(event_id, [:event, :reactions], sort_atom)
-    |> Enum.filter(&(ClaperWeb.Helpers.body_without_links(&1.body) =~ "?"))
+    questions =
+      Claper.Posts.list_questions(event_id, [:event, :reactions], sort_atom)
+      |> Enum.filter(&(ClaperWeb.Helpers.body_without_links(&1.body) =~ "?"))
+
+    if sort_atom == :date, do: Enum.reverse(questions), else: questions
   end
 
   defp list_form_submits(_socket, presentation_file_id) do
     Claper.Forms.list_form_submits(presentation_file_id, [:form])
+  end
+
+  defp refresh_event(%{assigns: %{event: event}} = socket) do
+    refreshed_event = Events.get_event_with_code(event.code, @event_preload)
+
+    socket
+    |> assign(:event, refreshed_event)
+    |> assign(:state, refreshed_event.presentation_file.presentation_state)
+    |> assign(
+      :missing_slide_thumbnails,
+      Presentations.missing_slide_thumbnails?(refreshed_event.presentation_file)
+    )
+    |> assign(:thumbnail_cache_bust, thumbnail_cache_bust())
+  end
+
+  defp thumbnail_cache_bust do
+    System.system_time(:second)
   end
 end

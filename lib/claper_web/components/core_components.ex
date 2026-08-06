@@ -61,7 +61,7 @@ defmodule ClaperWeb.CoreComponents do
     >
       <div class={[
         "alert w-80 sm:w-96 max-w-80 sm:max-w-96 text-wrap",
-        @kind == :info && "alert-info",
+        @kind == :info && "alert-info text-white",
         @kind == :error && "alert-error"
       ]}>
         <.icon :if={@kind == :info} name="hero-information-circle" class="size-5 shrink-0" />
@@ -494,5 +494,86 @@ defmodule ClaperWeb.CoreComponents do
   """
   def translate_errors(errors, field) when is_list(errors) do
     for {^field, {msg, opts}} <- errors, do: translate_error({msg, opts})
+  end
+
+  @doc """
+  Renders a DaisyUI pagination component from a Flop.Meta struct.
+
+  ## Attributes
+
+  * `meta` - A `Flop.Meta` struct with pagination info.
+  * `path` - The base path for pagination links.
+  """
+  attr :meta, :map, required: true
+  attr :path, :string, required: true
+
+  def pagination(assigns) do
+    meta = assigns.meta
+
+    assigns =
+      assigns
+      |> assign(:current_page, meta.current_page || 1)
+      |> assign(:total_pages, meta.total_pages || 1)
+      |> assign(:has_previous?, meta.has_previous_page?)
+      |> assign(:has_next?, meta.has_next_page?)
+      |> assign(:page_range, page_range(meta.current_page || 1, meta.total_pages || 1))
+
+    ~H"""
+    <nav :if={@total_pages > 1} class="flex items-center gap-3" aria-label="Pagination">
+      <span class="text-sm text-base-content/60">
+        {gettext("Page %{current} of %{total}", current: @current_page, total: @total_pages)}
+      </span>
+      <div class="join">
+        <.link
+          patch={page_path(@path, @meta, @current_page - 1)}
+          class={[
+            "join-item btn btn-ghost btn-sm",
+            !@has_previous? && "btn-disabled"
+          ]}
+          aria-label={gettext("Previous page")}
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </.link>
+        <.link
+          :for={page <- @page_range}
+          patch={page_path(@path, @meta, page)}
+          class={[
+            "join-item btn btn-sm",
+            if(page == @current_page, do: "btn-active", else: "btn-ghost")
+          ]}
+        >
+          {page}
+        </.link>
+        <.link
+          patch={page_path(@path, @meta, @current_page + 1)}
+          class={[
+            "join-item btn btn-ghost btn-sm",
+            !@has_next? && "btn-disabled"
+          ]}
+          aria-label={gettext("Next page")}
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </.link>
+      </div>
+    </nav>
+    """
+  end
+
+  defp page_path(path, meta, page) do
+    Flop.Phoenix.build_path(path, %{meta | flop: %{meta.flop | page: page}})
+  end
+
+  defp page_range(_current, total) when total < 1, do: []
+  defp page_range(_current, total) when total <= 5, do: 1..total
+
+  defp page_range(current, total) do
+    start = max(1, current - 2)
+    stop = min(total, start + 4)
+    start = max(1, stop - 4)
+    start..stop
   end
 end

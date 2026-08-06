@@ -116,12 +116,14 @@ export class Presenter {
             this.fullscreen();
             break;
           case "ArrowLeft":
+          case "PageUp":
             e.preventDefault();
             window.opener.dispatchEvent(
               new KeyboardEvent("keydown", { key: "ArrowLeft" })
             );
             break;
           case "ArrowRight":
+          case "PageDown":
             e.preventDefault();
             window.opener.dispatchEvent(
               new KeyboardEvent("keydown", { key: "ArrowRight" })
@@ -143,7 +145,33 @@ export class Presenter {
   }
 
   update() {
-    this.init(true);
+    const newHash = this.context.el.dataset.hash;
+    const newMaxPage = parseInt(this.context.el.dataset.maxPage);
+    const newPage = parseInt(this.context.el.dataset.currentPage);
+    const embedActive = this.context.el.dataset.embedActive === "true";
+
+    // Toggle slider visibility for embeds (phx-update="ignore" prevents LiveView from doing it)
+    const sliderEl = document.getElementById("slider");
+    if (sliderEl) {
+      if (embedActive) {
+        sliderEl.classList.add("hidden");
+      } else {
+        sliderEl.classList.remove("hidden");
+      }
+    }
+
+    if (newHash !== this.hash || newMaxPage !== this.maxPage) {
+      // Presentation file changed — full re-init needed
+      this.hash = newHash;
+      this.maxPage = newMaxPage;
+      this.currentPage = newPage;
+      this.init(true);
+    } else if (newPage !== this.currentPage) {
+      // Just a page change — navigate without re-init
+      this.currentPage = newPage;
+      this.slider.goTo(newPage);
+    }
+    // Otherwise: unrelated DOM update (e.g. transcription text) — do nothing
   }
 
   fullscreen() {

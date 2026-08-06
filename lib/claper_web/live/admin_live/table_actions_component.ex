@@ -121,7 +121,7 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
           </button>
 
           <%= if @dropdown_open do %>
-            <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200">
+            <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-md z-10 border border-gray-200">
               <div class="py-1">
                 <%= for action <- @dropdown_actions do %>
                   <button

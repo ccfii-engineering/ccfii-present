@@ -99,12 +99,14 @@ defmodule Lti13.Jwks.Validator do
           "name" => name,
           "email" => email,
           "https://purl.imsglobal.org/spec/lti/claim/roles" => roles
-        },
+        } = claims,
         registration
       ) do
     case Lti13.Users.get_or_create_user(%{
            sub: sub,
            name: name,
+           first_name: claims["given_name"],
+           last_name: claims["family_name"],
            email: email,
            roles: roles,
            registration_id: registration.id

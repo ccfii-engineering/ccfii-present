@@ -42,7 +42,18 @@ defmodule ClaperWeb.ConnCase do
       Ecto.Adapters.SQL.Sandbox.stop_owner(pid)
     end)
 
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    {:ok, conn: Phoenix.ConnTest.build_conn() |> Map.put(:remote_ip, unique_remote_ip())}
+  end
+
+  defp unique_remote_ip do
+    suffix = System.unique_integer([:positive])
+
+    {
+      127,
+      rem(div(suffix, 65_536), 256),
+      rem(div(suffix, 256), 256),
+      rem(suffix, 256)
+    }
   end
 
   defp drain_task_supervisor(supervisor) do

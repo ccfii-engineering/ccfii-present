@@ -15,11 +15,12 @@
   data-max-page={@event.presentation_file.length || 0}
   data-hash={@event.presentation_file.hash}
   data-current-page={@state.position}
+  data-embed-active={if @current_embed, do: "true", else: "false"}
 >
   <!-- JOIN SCREEN -->
   <div
     id="joinScreen"
-    class={"#{if @state.join_screen_visible, do: "opacity-100 z-40", else: "opacity-0"} h-full w-full flex flex-col justify-center bg-black absolute transition-opacity"}
+    class={"#{if @state.join_screen_visible, do: "opacity-100 z-40", else: "opacity-0 pointer-events-none"} h-full w-full flex flex-col justify-center bg-black absolute transition-opacity"}
   >
     <div class="h-full bg-white text-black text-center flex flex-col items-center justify-center">
       <span class="font-semibold mb-10 sm:text-3xl md:text-4xl lg:text-6xl">
@@ -46,7 +47,7 @@
   <%= if @current_poll do %>
     <div
       id="poll"
-      class={"#{if @state.poll_visible, do: "opacity-100", else: "opacity-0"} h-full w-full flex flex-col justify-center bg-black/90 absolute z-30 left-1/2 top-1/2 transform -translate-y-1/2 -translate-x-1/2 p-10 transition-opacity"}
+      class={"#{if @state.poll_visible, do: "opacity-100", else: "opacity-0 pointer-events-none"} h-full w-full flex flex-col justify-center bg-black/90 absolute z-30 left-1/2 top-1/2 transform -translate-y-1/2 -translate-x-1/2 p-10 transition-opacity"}
     >
       <div class="w-full md:w-1/2 mx-auto h-full">
         <p class={"#{if @iframe, do: "text-xl mb-12", else: "text-5xl mb-24"} text-white font-bold  text-center"}>
@@ -59,7 +60,7 @@
               <div class={"#{if @iframe, do: "py-1", else: "py-4"} bg-gray-500 px-6 rounded-3xl flex justify-between items-center relative text-white"}>
                 <div
                   style={"width: #{opt.percentage}%;"}
-                  class="bg-linear-to-r from-primary-500 to-secondary-500 rounded-3xl h-full absolute left-0 transition-all"
+                  class="bg-primary rounded-3xl h-full absolute left-0 transition-all"
                 >
                 </div>
                 <div class="flex space-x-3 z-10 text-left">
@@ -212,10 +213,15 @@
             module={ClaperWeb.EventLive.EmbedIframeComponent}
             provider={@current_embed.provider}
             content={@current_embed.content}
+            title={@current_embed.title}
           />
         </div>
       <% end %>
-      <div class={"#{if @current_embed, do: "hidden", else: ""} text-center"} id="slider">
+      <div
+        class={"#{if @current_embed, do: "hidden", else: ""} text-center"}
+        id="slider"
+        phx-update="ignore"
+      >
         <img
           :for={src <- Presentations.get_slide_urls(@event.presentation_file)}
           src={src}
@@ -224,18 +230,43 @@
       </div>
     </div>
   </div>
-  <!-- ONLINE BADGE -->
+  <div
+    :if={!@iframe}
+    id="reacts"
+    phx-hook="GlobalReacts"
+    data-class-name="h-24"
+    class="fixed right-5 bottom-5 z-30 w-24 pointer-events-none"
+    phx-update="ignore"
+  >
+  </div>
+  
+<!-- ONLINE BADGE -->
   <div
     :if={!@iframe && @state.show_attendee_count}
     class="absolute z-20 bottom-5 right-5 px-4 pt-3 pb-1 rounded-md bg-black shadow-md text-white flex-1"
   >
-    <div id="reacts" phx-hook="GlobalReacts" data-class-name="h-24" phx-update="ignore"></div>
-
     <div class="inline-flex justify-between items-center text-white text-2xl">
       <img src="/images/icons/online-users.svg" class="h-12 mr-2" />
       <span id="counter" phx-hook="UpdateAttendees" phx-update="ignore">
         {@attendees_nb}
       </span>
     </div>
+  </div>
+</div>
+<!-- TRANSCRIPTION SUBTITLES (outside #presenter to avoid slider re-init on text updates) -->
+<div
+  id="transcription-subtitles"
+  class="fixed z-50 bottom-16 left-1/2 transform -translate-x-1/2 max-w-3xl w-full px-4"
+>
+  <div
+    :if={
+      @transcription_config && @transcription_config.enabled &&
+        @transcription_config.visibility in ["both", "presenter"] && @transcription_text != ""
+    }
+    class="bg-black/80 rounded-lg px-6 py-3 text-center"
+  >
+    <p class={"#{if @iframe, do: "text-lg", else: "text-2xl"} text-white font-medium"}>
+      {@transcription_text}
+    </p>
   </div>
 </div>

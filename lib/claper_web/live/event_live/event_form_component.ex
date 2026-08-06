@@ -13,6 +13,7 @@ defmodule ClaperWeb.EventLive.EventFormComponent do
     {:ok,
      socket
      |> assign(assigns)
+     |> assign_new(:container, fn -> :page end)
      |> assign(:changeset, changeset)
      |> assign(:max_file_size, max_file_size)
      |> allow_upload(:presentation_file,
@@ -46,7 +47,10 @@ defmodule ClaperWeb.EventLive.EventFormComponent do
 
   @impl true
   def handle_event("save", %{"event" => event_params}, socket) do
-    save_event(socket, socket.assigns.action, event_params)
+    case uploaded_entries(socket, :presentation_file) do
+      {_, []} -> save_event(socket, socket.assigns.action, event_params)
+      _ -> {:noreply, socket}
+    end
   end
 
   @impl true

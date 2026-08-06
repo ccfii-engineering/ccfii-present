@@ -2,22 +2,34 @@ defmodule ClaperWeb.Component.Alert do
   use ClaperWeb, :view_component
 
   def info(assigns) do
-    assigns =
-      assigns
-      |> assign_new(:stick, fn -> false end)
+    alert(assign(assigns, :kind, :info))
+  end
+
+  def error(assigns) do
+    alert(assign(assigns, :kind, :error))
+  end
+
+  defp alert(assigns) do
+    assigns = assign_new(assigns, :stick, fn -> false end)
 
     ~H"""
     <div
-      class="bg-supporting-green-50 border-t-4 rounded-b-md shadow-md border-supporting-green-400 p-4 mb-3"
+      class={[
+        "alert shadow-lg",
+        @kind == :info && "alert-success text-white",
+        @kind == :error && "alert-error"
+      ]}
       x-data="{ open: true }"
       x-show={if @stick, do: "true", else: "open"}
-      x-init="setTimeout(() => {open = false},  4000)"
-      x-transition
+      x-init={if @stick, do: nil, else: "setTimeout(() => { open = false }, 4000)"}
+      x-transition.opacity
+      role="alert"
     >
-      <div class="flex">
+      <div class="flex items-center gap-3">
         <div class="shrink-0">
           <svg
-            class="h-5 w-5 text-green-400"
+            :if={@kind == :info}
+            class="h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -29,35 +41,9 @@ defmodule ClaperWeb.Component.Alert do
               clip-rule="evenodd"
             />
           </svg>
-        </div>
-        <div class="ml-3">
-          <p class="text-sm text-supporting-green-700">
-            {@message}
-          </p>
-        </div>
-      </div>
-    </div>
-    """
-  end
-
-  def error(assigns) do
-    assigns =
-      assigns
-      |> assign_new(:stick, fn -> false end)
-
-    ~H"""
-    <div
-      class="bg-supporting-red-50 border-t-4 rounded-b-md shadow-md border-supporting-red-400 p-4 mb-3"
-      x-data="{ open: true }"
-      x-show={if @stick, do: "true", else: "open"}
-      x-init="setTimeout(() => {open = false},  4000)"
-      x-transition
-    >
-      <div class="flex">
-        <div class="shrink-0">
-          <!-- Heroicon name: solid/exclamation -->
           <svg
-            class="h-5 w-5 text-supporting-red-400"
+            :if={@kind == :error}
+            class="h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -70,11 +56,7 @@ defmodule ClaperWeb.Component.Alert do
             />
           </svg>
         </div>
-        <div class="ml-3">
-          <p class="text-sm text-supporting-red-700">
-            {@message}
-          </p>
-        </div>
+        <span>{@message}</span>
       </div>
     </div>
     """

@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "deploy": "NODE_ENV=production tailwindcss --postcss --minify --input=css/app.css --output=../priv/static/assets/app.css"
+    "deploy": "NODE_ENV=production tailwindcss --postcss --minify --input=css/app.css --output=../priv/static/assets/app.css",
+    "test": "node --test test/*.mjs"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",
@@ -11,9 +12,6 @@
     "tailwindcss": "^4.1.11"
   },
   "dependencies": {
-    "@sjmc11/tourguidejs": "^0.0.16",
-    "@tailwindcss/container-queries": "^0.1.1",
-    "air-datepicker": "^3.5.0",
     "animate.css": "^4.1.1",
     "chart.js": "^4.4.0",
     "chartjs-adapter-moment": "^1.0.1",
