@@ -1,3 +1,9 @@
+## v.3.0.1
+
+### Fixes and improvements
+
+- Fix datetime being reset at every changes
+
 ## v.3.0.0
 
 ### Features
