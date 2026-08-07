@@ -3,6 +3,7 @@
 ### Fixes and improvements
 
 - Fix datetime being reset at every changes
+- Fix account creation with a soft-deleted email
 
 ## v.3.0.0
 

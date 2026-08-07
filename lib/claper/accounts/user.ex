@@ -2,6 +2,7 @@ defmodule Claper.Accounts.User do
   use Ecto.Schema
 
   import Ecto.Changeset
+  import Ecto.Query
 
   @derive {
     Flop.Schema,
@@ -129,7 +130,9 @@ defmodule Claper.Accounts.User do
     |> validate_required([:email])
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
     |> validate_length(:email, max: 160)
-    |> unsafe_validate_unique(:email, Claper.Repo)
+    |> unsafe_validate_unique(:email, Claper.Repo,
+      query: from(user in __MODULE__, where: is_nil(user.deleted_at))
+    )
     |> unique_constraint(:email)
   end
 
