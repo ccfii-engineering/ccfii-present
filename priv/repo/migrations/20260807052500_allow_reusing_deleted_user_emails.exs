@@ -8,7 +8,7 @@ defmodule Claper.Repo.Migrations.AllowReusingDeletedUserEmails do
     WITH ranked_users AS (
       SELECT
         id,
-        ROW_NUMBER() OVER (PARTITION BY email ORDER BY inserted_at, id) AS email_position
+        ROW_NUMBER() OVER (PARTITION BY email ORDER BY inserted_at DESC, id DESC) AS email_position
       FROM users
       WHERE deleted_at IS NULL
     )
