@@ -2,6 +2,7 @@ defmodule ClaperWeb.BrandComponents do
   @moduledoc "Reusable CCFII Present branding components."
 
   use Phoenix.Component
+  use Gettext, backend: ClaperWeb.Gettext
 
   attr :variant, :atom, values: [:full, :mark], default: :full
   attr :class, :any, default: nil
@@ -11,7 +12,7 @@ defmodule ClaperWeb.BrandComponents do
     assigns = assign(assigns, :src, logo_src(assigns.variant))
 
     ~H"""
-    <img src={@src} alt="CCFII Present" class={@class} />
+    <img src={@src} alt={gettext("CCFII Present")} class={@class} />
     """
   end
 
@@ -26,7 +27,7 @@ defmodule ClaperWeb.BrandComponents do
       rel="noopener noreferrer"
       class={@class}
     >
-      Powered by Claper
+      {gettext("Powered by Claper")}
     </a>
     """
   end
