@@ -10,7 +10,7 @@ defmodule ClaperWeb.EventLive.PollComponent do
       <div
         :if={!@focus_mode}
         id="collapsed-poll"
-        class="mx-auto hidden w-max rounded-full bg-gray-900 px-5 py-3 shadow-xl ring-1 ring-white/10"
+        class="mx-auto hidden w-max rounded-full bg-base-100 px-5 py-3 shadow-xl ring-1 ring-base-300"
       >
         <button
           type="button"
@@ -40,7 +40,7 @@ defmodule ClaperWeb.EventLive.PollComponent do
       <div
         id="extended-poll"
         class={[
-          "w-full rounded-2xl bg-gray-900 p-4 text-gray-100",
+          "w-full rounded-2xl bg-base-100 p-4 text-base-content",
           @focus_mode && "shadow-none ring-0",
           !@focus_mode && "shadow-2xl ring-1 ring-white/10"
         ]}
@@ -82,9 +82,9 @@ defmodule ClaperWeb.EventLive.PollComponent do
                 <%= if (length @current_poll_vote) > 0 do %>
                   <% voted = Enum.any?(@current_poll_vote, &(&1.poll_opt_id == opt.id)) %>
                   <div class={[
-                    "relative flex shrink-0 items-center justify-between overflow-hidden rounded-xl border bg-gray-800 px-3 py-2 text-sm font-semibold text-white",
+                    "relative flex shrink-0 items-center justify-between overflow-hidden rounded-xl border bg-base-200 px-3 py-2 text-sm font-semibold text-base-content",
                     voted && "border-primary-400",
-                    !voted && "border-gray-700"
+                    !voted && "border-base-300"
                   ]}>
                     <div
                       style={"width: #{if @show_results, do: opt.percentage, else: 0}%;"}
@@ -129,7 +129,7 @@ defmodule ClaperWeb.EventLive.PollComponent do
                       Enum.member?(@selected_poll_opt, "#{idx}") &&
                         "border-primary-400 bg-primary-900/40",
                       !Enum.member?(@selected_poll_opt, "#{idx}") &&
-                        "border-gray-700 bg-gray-800 hover:border-primary-400"
+                        "border-base-300 bg-base-200 hover:border-primary-400"
                     ]}
                   >
                     <div

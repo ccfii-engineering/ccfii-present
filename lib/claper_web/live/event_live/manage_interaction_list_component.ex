@@ -325,7 +325,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
         <input
           type="checkbox"
           aria-label={gettext("Transcription")}
-          class="toggle toggle-sm shrink-0 bg-base-300 border-base-300 [--tglbg:var(--color-base-content)] checked:bg-info checked:border-info checked:[--tglbg:var(--color-info-content)]"
+          class="toggle toggle-sm shrink-0 border-base-300 bg-base-300 [--tglbg:var(--color-base-content)] checked:border-primary checked:bg-primary checked:[--tglbg:var(--color-primary-content)]"
           checked={@transcription_config.enabled}
           phx-click={
             if(@transcription_config.enabled,
@@ -367,7 +367,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
           class={[
             "flex items-center gap-2 overflow-hidden pl-2 pr-3 py-2 rounded-xl w-full cursor-grab active:cursor-grabbing",
             if(interaction.enabled,
-              do: "bg-info/15 border-b-2 border-info",
+              do: "border-b-2 border-primary bg-primary/15",
               else: "bg-base-100 border border-base-300"
             )
           ]}
@@ -475,7 +475,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
           <input
             type="checkbox"
             aria-label={interaction.title}
-            class="toggle toggle-sm shrink-0 bg-base-300 border-base-300 [--tglbg:var(--color-base-content)] checked:bg-info checked:border-info checked:[--tglbg:var(--color-info-content)]"
+            class="toggle toggle-sm shrink-0 border-base-300 bg-base-300 [--tglbg:var(--color-base-content)] checked:border-primary checked:bg-primary checked:[--tglbg:var(--color-primary-content)]"
             checked={interaction.enabled}
             phx-click={toggle_event(interaction)}
             phx-value-id={interaction.id}

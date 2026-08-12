@@ -30,7 +30,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
     ~H"""
     <div
       id={dom_id(@id, "card")}
-      class="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-200 h-96"
+      class="group relative h-96 overflow-hidden rounded-2xl border border-base-300 bg-base-100 text-base-content transition-shadow duration-200 hover:shadow-lg"
       x-data="{showJoinMenu: false}"
       @mouseleave="showJoinMenu = false"
     >
@@ -39,7 +39,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
         <%= if @thumbnail_url do %>
           <img src={@thumbnail_url} alt={@event.name} class="w-full h-full object-cover" />
         <% else %>
-          <div class="w-full h-full bg-gray-100 flex items-center justify-center">
+          <div class="flex h-full w-full items-center justify-center bg-base-200">
             <ClaperWeb.BrandComponents.logo variant={:mark} class="h-12 w-12 opacity-30" />
           </div>
         <% end %>
@@ -93,15 +93,15 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
       </div>
       
     <!-- Sliding Bottom Panel -->
-      <div class="absolute bottom-0 left-0 right-0 bg-white transition-transform duration-300 ease-out z-20 translate-y-14 group-hover:translate-y-0 group-focus-within:translate-y-0">
+      <div class="absolute bottom-0 left-0 right-0 z-20 translate-y-14 bg-base-100 text-base-content transition-transform duration-300 ease-out group-hover:translate-y-0 group-focus-within:translate-y-0">
         <!-- Card Body (Title, Code, Menu) -->
         <div class="p-2 border-t border-gray-200">
           <div class="flex items-start justify-between gap-4">
             <div class="flex-1 min-w-0">
-              <h3 class="font-bold text-gray-800 truncate">
+              <h3 class="truncate font-bold text-base-content">
                 {@event.name}
               </h3>
-              <p class="text-gray-500 text-base uppercase">
+              <p class="text-base uppercase text-neutral-400">
                 # {@event.code}
               </p>
             </div>
@@ -278,7 +278,7 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
   defp render_list_card(assigns) do
     ~H"""
     <div class="w-full" id={dom_id(@id, "card")} x-data="{showJoinMenu: false}">
-      <div class="bg-white rounded-2xl border border-gray-200 hover:shadow-lg transition-shadow duration-200">
+      <div class="rounded-2xl border border-base-300 bg-base-100 text-base-content transition-shadow duration-200 hover:shadow-lg">
         <div class="p-4 flex items-center gap-4">
           <!-- Thumbnail -->
           <div class="shrink-0 w-24 h-16 rounded-lg overflow-hidden border border-gray-200 relative">
@@ -529,12 +529,12 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
   defp render_mobile_card(assigns) do
     ~H"""
     <div class="w-full" id={dom_id(@id, "card")} x-data="{showJoinMenu: false}">
-      <div class="bg-white rounded-3xl border border-gray-200 p-2">
+      <div class="rounded-3xl border border-base-300 bg-base-100 p-2 text-base-content">
         <div class="flex flex-col gap-2">
           <!-- Top Row: Thumbnail + Info + Menu -->
           <div class="flex gap-3 items-start">
             <!-- Thumbnail -->
-            <div class="shrink-0 w-28 h-24 rounded-2xl overflow-hidden bg-gray-100 relative">
+            <div class="relative h-24 w-28 shrink-0 overflow-hidden rounded-2xl bg-base-200">
               <%= if @thumbnail_url do %>
                 <img src={@thumbnail_url} alt={@event.name} class="w-full h-full object-cover" />
               <% else %>
@@ -553,11 +553,11 @@ defmodule ClaperWeb.EventLive.EventCardComponent do
             
     <!-- Event Info -->
             <div class="flex-1 min-w-0 py-1">
-              <h3 class="font-semibold text-gray-800 text-lg leading-tight truncate">
+              <h3 class="truncate text-lg font-semibold leading-tight text-base-content">
                 {@event.name}
               </h3>
               <div class="flex items-center gap-2 mt-1">
-                <span class="text-xs text-gray-500"># {@event.code}</span>
+                <span class="text-xs text-neutral-400"># {@event.code}</span>
                 <!-- Status Badge -->
                 <%= if Event.started?(@event) && !Event.finished?(@event) do %>
                   <span class="px-2 py-0.5 text-[10px] font-medium rounded-tr-lg rounded-br-lg rounded-bl-lg bg-red-600 text-white flex items-center gap-1">

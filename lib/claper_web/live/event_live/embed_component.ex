@@ -10,7 +10,7 @@ defmodule ClaperWeb.EventLive.EmbedComponent do
       <div
         :if={!@focus_mode}
         id="collapsed-embed"
-        class="mx-auto hidden w-max rounded-full bg-gray-900 px-5 py-3 shadow-xl ring-1 ring-white/10"
+        class="mx-auto hidden w-max rounded-full bg-base-100 px-5 py-3 shadow-xl ring-1 ring-base-300"
       >
         <button
           type="button"
@@ -40,7 +40,7 @@ defmodule ClaperWeb.EventLive.EmbedComponent do
       <div
         id="extended-embed"
         class={[
-          "w-full rounded-2xl bg-gray-900 p-4 text-gray-100",
+          "w-full rounded-2xl bg-base-100 p-4 text-base-content",
           @focus_mode && "shadow-none ring-0",
           !@focus_mode && "shadow-2xl ring-1 ring-white/10"
         ]}

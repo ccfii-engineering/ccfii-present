@@ -85,7 +85,8 @@ defmodule ClaperWeb.EventLive.InteractionComponentsTest do
     assert Floki.find(document, "#collapsed-form > button") != []
     submit_classes = classes(document, ~s(button[type="submit"]))
 
-    assert "bg-gray-800" in classes(document, ~s(input[name="form_submit[Feedback]"]))
+    assert "bg-base-200" in classes(document, ~s(input[name="form_submit[Feedback]"]))
+    assert "text-base-content" in classes(document, ~s(input[name="form_submit[Feedback]"]))
     assert "btn-gradient" in submit_classes
     assert "w-full" in submit_classes
 
@@ -327,7 +328,8 @@ defmodule ClaperWeb.EventLive.InteractionComponentsTest do
   end
 
   defp assert_card_shell(document, card_selector, close_selector) do
-    assert "bg-gray-900" in classes(document, card_selector)
+    assert "bg-base-100" in classes(document, card_selector)
+    assert "text-base-content" in classes(document, card_selector)
     assert "rounded-2xl" in classes(document, card_selector)
     assert "shadow-2xl" in classes(document, card_selector)
     assert Floki.attribute(document, close_selector, "aria-label") == ["Close"]

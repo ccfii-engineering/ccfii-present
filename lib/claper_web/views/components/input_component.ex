@@ -17,7 +17,9 @@ defmodule ClaperWeb.Component.Input do
         %{name: name} -> name
       end)
       |> assign_new(:labelClass, fn -> "text-gray-700" end)
-      |> assign_new(:fieldClass, fn -> "bg-white" end)
+      |> assign_new(:fieldClass, fn ->
+        "border-base-300 bg-base-200 text-base-content placeholder:text-neutral-400"
+      end)
       |> assign_new(:value, fn -> input_value(assigns.form, assigns.key) end)
       |> assign_new(:minlength, fn -> nil end)
       |> assign_new(:maxlength, fn -> nil end)
@@ -54,7 +56,9 @@ defmodule ClaperWeb.Component.Input do
       |> assign_new(:placeholder, fn -> false end)
       |> assign_new(:readonly, fn -> false end)
       |> assign_new(:labelClass, fn -> "text-gray-700" end)
-      |> assign_new(:fieldClass, fn -> "bg-white" end)
+      |> assign_new(:fieldClass, fn ->
+        "border-base-300 bg-base-200 text-base-content placeholder:text-neutral-400"
+      end)
       |> assign_new(:value, fn -> input_value(assigns.form, assigns.key) end)
 
     ~H"""
@@ -86,7 +90,7 @@ defmodule ClaperWeb.Component.Input do
       |> assign_new(:autofocus, fn -> false end)
       |> assign_new(:placeholder, fn -> false end)
       |> assign_new(:labelClass, fn -> "text-gray-700" end)
-      |> assign_new(:fieldClass, fn -> "bg-white" end)
+      |> assign_new(:fieldClass, fn -> "border-base-300 bg-base-200 text-base-content" end)
 
     ~H"""
     <div class="relative">
@@ -255,7 +259,7 @@ defmodule ClaperWeb.Component.Input do
           minlength: 5,
           maxlength: 10,
           class:
-            "input h-12 w-full bg-white pl-12 pr-4 uppercase read-only:opacity-50 #{if Keyword.has_key?(@form.errors, @key), do: "input-error", else: ""}"
+            "input h-12 w-full border-base-300 bg-base-200 pl-12 pr-4 uppercase text-base-content placeholder:text-neutral-400 read-only:text-neutral-400 #{if Keyword.has_key?(@form.errors, @key), do: "input-error", else: ""}"
         )}
       </div>
       <%= if Keyword.has_key?(@form.errors, @key) do %>
@@ -290,7 +294,7 @@ defmodule ClaperWeb.Component.Input do
             lang: @locale,
             step: 300,
             class:
-              "input h-12 w-full bg-white px-4 read-only:opacity-50 #{if Keyword.has_key?(@form.errors, @key), do: "input-error", else: ""}"
+              "input h-12 w-full border-base-300 bg-base-200 px-4 text-base-content read-only:text-neutral-400 #{if Keyword.has_key?(@form.errors, @key), do: "input-error", else: ""}"
           )}
         </div>
 
@@ -314,7 +318,9 @@ defmodule ClaperWeb.Component.Input do
         %{name: name} -> name
       end)
       |> assign_new(:labelClass, fn -> "text-gray-700" end)
-      |> assign_new(:fieldClass, fn -> "bg-white" end)
+      |> assign_new(:fieldClass, fn ->
+        "border-base-300 bg-base-200 text-base-content placeholder:text-neutral-400"
+      end)
       |> assign_new(:value, fn -> input_value(assigns.form, assigns.key) end)
 
     ~H"""
@@ -348,7 +354,9 @@ defmodule ClaperWeb.Component.Input do
       |> assign_new(:autofocus, fn -> false end)
       |> assign_new(:placeholder, fn -> false end)
       |> assign_new(:labelClass, fn -> "text-gray-700" end)
-      |> assign_new(:fieldClass, fn -> "bg-white" end)
+      |> assign_new(:fieldClass, fn ->
+        "border-base-300 bg-base-200 text-base-content placeholder:text-neutral-400"
+      end)
       |> assign_new(:value, fn -> Map.get(assigns.form.data, assigns.key, "") end)
 
     ~H"""
