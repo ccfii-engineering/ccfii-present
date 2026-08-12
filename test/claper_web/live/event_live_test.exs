@@ -329,6 +329,13 @@ defmodule ClaperWeb.EventLiveTest do
       assert has_element?(join_live, ~s(#input[class*="uppercase"]))
       refute html =~ "cyan-"
       refute html =~ "rgba(134, 17, 237"
+
+      join_css = Path.expand("../../../assets/css/app.css", __DIR__) |> File.read!()
+
+      assert join_css =~ """
+             .ccfii-join-page .ccfii-join-menu-overlay button:focus-visible {
+               outline: 2px solid #120A0A;
+             """
     end
   end
 end
