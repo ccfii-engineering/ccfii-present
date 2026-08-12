@@ -151,7 +151,7 @@ defmodule ClaperWeb.EventLive.ManagePresentationOptionsComponent do
     ~H"""
     <div class={[
       "flex items-center gap-2 rounded-full pl-2 pr-3 py-2 overflow-hidden transition-colors",
-      if(@disabled, do: "opacity-50"),
+      if(@disabled, do: "cursor-not-allowed text-neutral-400"),
       if(@checked,
         do: "bg-primary/15 border-b-2 border-primary",
         else: "bg-base-100 border border-base-300"
@@ -159,11 +159,19 @@ defmodule ClaperWeb.EventLive.ManagePresentationOptionsComponent do
     ]}>
       <div class={[
         "flex items-center justify-center w-8 h-8 rounded-full shrink-0",
-        if(@checked, do: "bg-primary text-primary-content", else: "bg-base-200 text-secondary")
+        if(@disabled,
+          do: "bg-base-200 text-neutral-400",
+          else:
+            if(@checked, do: "bg-primary text-primary-content", else: "bg-base-200 text-secondary")
+        )
       ]}>
         {render_slot(@icon)}
       </div>
-      <span class={["flex-1 text-xs text-base-content", if(@checked, do: "font-semibold")]}>
+      <span class={[
+        "flex-1 text-xs",
+        if(@disabled, do: "text-neutral-400", else: "text-base-content"),
+        if(@checked, do: "font-semibold")
+      ]}>
         {@label}
       </span>
       <div class="flex items-center gap-x-2 shrink-0">
@@ -175,7 +183,7 @@ defmodule ClaperWeb.EventLive.ManagePresentationOptionsComponent do
           disabled={@disabled}
           phx-value-key={@key}
           type="button"
-          class={"relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:cursor-not-allowed #{if @checked, do: "bg-primary", else: "bg-base-300"}"}
+          class={"relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 disabled:cursor-not-allowed #{if @checked, do: "bg-primary", else: "bg-base-300"}"}
           role="switch"
           aria-checked={@checked}
           phx-key={@shortcut}

@@ -92,8 +92,8 @@ msgstr "minuti"
 #: lib/claper_web/live/event_live/event_card_component.ex:379
 #: lib/claper_web/live/event_live/event_card_component.ex:632
 #: lib/claper_web/live/event_live/join.ex:41
-#: lib/claper_web/live/event_live/join.html.heex:143
-#: lib/claper_web/live/event_live/join.html.heex:146
+#: lib/claper_web/live/event_live/join.html.heex:113
+#: lib/claper_web/live/event_live/join.html.heex:116
 #: lib/claper_web/live/event_live/manage.html.heex:459
 #, elixir-autogen, elixir-format
 msgid "Join"
@@ -102,8 +102,8 @@ msgstr "Partecipa"
 #: lib/claper_web/live/admin_live/dashboard_live.ex:22
 #: lib/claper_web/live/admin_live/dashboard_live.html.heex:3
 #: lib/claper_web/live/event_live/index.ex:192
+#: lib/claper_web/live/event_live/join.html.heex:37
 #: lib/claper_web/live/event_live/join.html.heex:71
-#: lib/claper_web/live/event_live/join.html.heex:101
 #: lib/claper_web/templates/layout/admin_app.html.heex:69
 #, elixir-autogen, elixir-format
 msgid "Dashboard"
@@ -159,8 +159,8 @@ msgstr "Inizia il"
 msgid "Updated successfully"
 msgstr "Aggiornato correttamente"
 
-#: lib/claper_web/templates/error/404.html.heex:36
-#: lib/claper_web/templates/error/500.html.heex:37
+#: lib/claper_web/templates/error/404.html.heex:49
+#: lib/claper_web/templates/error/500.html.heex:50
 #, elixir-autogen, elixir-format
 msgid "Return to home"
 msgstr "Ritorna alla home"
@@ -337,12 +337,12 @@ msgstr "Chiedi, commenta..."
 msgid "Messages"
 msgstr "Messaggi"
 
-#: lib/claper_web/templates/error/404.html.heex:31
+#: lib/claper_web/templates/error/404.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "Oops, page doesn't exist."
 msgstr "Ops, la pagina non esiste."
 
-#: lib/claper_web/templates/error/500.html.heex:31
+#: lib/claper_web/templates/error/500.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "The site is under maintenance, we'll be back very soon!"
 msgstr "Il sito è in manutenzione, torneremo presto!"
@@ -477,8 +477,8 @@ msgstr "Tasso di coinvolgimento"
 msgid "Error when processing the file"
 msgstr "Errore durante l'elaborazione del file"
 
+#: lib/claper_web/live/event_live/join.html.heex:33
 #: lib/claper_web/live/event_live/join.html.heex:67
-#: lib/claper_web/live/event_live/join.html.heex:97
 #, elixir-autogen, elixir-format
 msgid "About"
 msgstr "Informazioni"
@@ -888,7 +888,7 @@ msgstr "Dal vivo"
 msgid "My events"
 msgstr "I miei eventi"
 
-#: lib/claper_web/live/event_live/join.html.heex:152
+#: lib/claper_web/live/event_live/join.html.heex:122
 #, elixir-autogen, elixir-format
 msgid "Return to your last event"
 msgstr "Torna al tuo ultimo evento"
@@ -2168,7 +2168,7 @@ msgstr "(facoltativo)"
 msgid "Add a poll to gauge your audience's opinion."
 msgstr "Aggiungi un sondaggio per conoscere l'opinione del tuo pubblico."
 
-#: lib/claper_web/live/event_live/join.html.heex:173
+#: lib/claper_web/live/event_live/join.html.heex:143
 #, elixir-autogen, elixir-format
 msgid "Are you a presenter?"
 msgstr "Sei un presentatore?"
@@ -2215,7 +2215,7 @@ msgstr "Incorpora contenuti web esterni nella tua presentazione."
 msgid "End Event"
 msgstr "Termina evento"
 
-#: lib/claper_web/live/event_live/join.html.heex:119
+#: lib/claper_web/live/event_live/join.html.heex:89
 #, elixir-autogen, elixir-format
 msgid "Enter the code shared by the presenter"
 msgstr "Inserisci il codice condiviso dal presentatore"
@@ -2238,7 +2238,7 @@ msgstr "Responsabile eventi"
 msgid "Form submissions will appear here."
 msgstr "I moduli compilati dai partecipanti appariranno qui."
 
-#: lib/claper_web/live/event_live/join.html.heex:116
+#: lib/claper_web/live/event_live/join.html.heex:86
 #, elixir-autogen, elixir-format
 msgid "Join the event"
 msgstr "Partecipa all'evento"
@@ -2258,7 +2258,7 @@ msgstr "Più recenti"
 msgid "NEWS:"
 msgstr "NOVITÀ:"
 
-#: lib/claper_web/live/event_live/manage_interaction_options_component.ex:194
+#: lib/claper_web/live/event_live/manage_interaction_options_component.ex:195
 #, elixir-autogen, elixir-format
 msgid "No interaction enabled"
 msgstr "Nessuna interazione attivata"
@@ -2268,7 +2268,7 @@ msgstr "Nessuna interazione attivata"
 msgid "No interactions on this slide"
 msgstr "Nessuna interazione su questa diapositiva"
 
-#: lib/claper_web/live/event_live/manage_interaction_options_component.ex:197
+#: lib/claper_web/live/event_live/manage_interaction_options_component.ex:199
 #, elixir-autogen, elixir-format
 msgid "No settings available for this interaction"
 msgstr "Nessuna impostazione disponibile per questa interazione"
@@ -2316,7 +2316,7 @@ msgstr "Mostra prima le domande più recenti"
 msgid "Sort by:"
 msgstr "Ordina per:"
 
-#: lib/claper_web/live/event_live/join.html.heex:178
+#: lib/claper_web/live/event_live/join.html.heex:148
 #, elixir-autogen, elixir-format
 msgid "Start creating for free"
 msgstr "Inizia a creare gratuitamente"
@@ -2475,8 +2475,8 @@ msgstr "Creando un account, accetti i nostri"
 msgid "Join 6,000+ speakers"
 msgstr "Unisciti a oltre 6.000 relatori"
 
+#: lib/claper_web/live/event_live/join.html.heex:41
 #: lib/claper_web/live/event_live/join.html.heex:75
-#: lib/claper_web/live/event_live/join.html.heex:105
 #: lib/claper_web/templates/user_registration/new.html.heex:131
 #: lib/claper_web/templates/user_session/new.html.heex:34
 #: lib/claper_web/templates/user_session/new.html.heex:75
@@ -3624,4 +3624,19 @@ msgstr ""
 #: lib/claper_web/templates/error/500.html.heex:8
 #, elixir-autogen, elixir-format
 msgid "Not found - CCFII Present"
+msgstr ""
+
+#: lib/claper_web/live/event_live/join.html.heex:20
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Close menu"
+msgstr "Chiudi"
+
+#: lib/claper_web/live/event_live/join.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "Open menu"
+msgstr ""
+
+#: lib/claper_web/live/admin_live/table_component.ex:69
+#, elixir-autogen, elixir-format
+msgid "View"
 msgstr ""

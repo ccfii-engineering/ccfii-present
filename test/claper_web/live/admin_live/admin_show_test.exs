@@ -161,6 +161,21 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
       assert document |> Floki.find(~s(tbody td:first-child button)) |> Floki.text() =~ "View"
     end
 
+    test "localizes the keyboard row action" do
+      document =
+        Gettext.with_locale(ClaperWeb.Gettext, "fr", fn ->
+          render_component(TableComponent,
+            id: "localized-keyboard-table",
+            headers: [%{label: "Name", field: "name", sortable: false}],
+            rows: [["Ada"]],
+            row_click_enabled: true
+          )
+        end)
+        |> Floki.parse_document!()
+
+      assert document |> Floki.find(~s(tbody td:first-child button)) |> Floki.text() =~ "Voir"
+    end
+
     test "sort and row click events preserve their parent messages" do
       socket = %Phoenix.LiveView.Socket{
         assigns: %{

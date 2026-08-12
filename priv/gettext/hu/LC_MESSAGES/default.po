@@ -91,8 +91,8 @@ msgstr "perc"
 #: lib/claper_web/live/event_live/event_card_component.ex:379
 #: lib/claper_web/live/event_live/event_card_component.ex:632
 #: lib/claper_web/live/event_live/join.ex:41
-#: lib/claper_web/live/event_live/join.html.heex:143
-#: lib/claper_web/live/event_live/join.html.heex:146
+#: lib/claper_web/live/event_live/join.html.heex:113
+#: lib/claper_web/live/event_live/join.html.heex:116
 #: lib/claper_web/live/event_live/manage.html.heex:459
 #, elixir-autogen, elixir-format
 msgid "Join"
@@ -101,8 +101,8 @@ msgstr "Csatlakozás"
 #: lib/claper_web/live/admin_live/dashboard_live.ex:22
 #: lib/claper_web/live/admin_live/dashboard_live.html.heex:3
 #: lib/claper_web/live/event_live/index.ex:192
+#: lib/claper_web/live/event_live/join.html.heex:37
 #: lib/claper_web/live/event_live/join.html.heex:71
-#: lib/claper_web/live/event_live/join.html.heex:101
 #: lib/claper_web/templates/layout/admin_app.html.heex:69
 #, elixir-autogen, elixir-format
 msgid "Dashboard"
@@ -158,8 +158,8 @@ msgstr "Kezdés: "
 msgid "Updated successfully"
 msgstr "Sikeresen frissítve"
 
-#: lib/claper_web/templates/error/404.html.heex:36
-#: lib/claper_web/templates/error/500.html.heex:37
+#: lib/claper_web/templates/error/404.html.heex:49
+#: lib/claper_web/templates/error/500.html.heex:50
 #, elixir-autogen, elixir-format
 msgid "Return to home"
 msgstr "Vissza a kezdőlapra"
@@ -336,12 +336,12 @@ msgstr "Kérdezzen, kommenteljen..."
 msgid "Messages"
 msgstr "Üzenetek"
 
-#: lib/claper_web/templates/error/404.html.heex:31
+#: lib/claper_web/templates/error/404.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "Oops, page doesn't exist."
 msgstr "Az oldal nem található."
 
-#: lib/claper_web/templates/error/500.html.heex:31
+#: lib/claper_web/templates/error/500.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "The site is under maintenance, we'll be back very soon!"
 msgstr "Karbantartás alatt. Próbálja újra később."
@@ -476,8 +476,8 @@ msgstr "Aktivitási arány"
 msgid "Error when processing the file"
 msgstr "Hiba a fájl feldolgozásakor"
 
+#: lib/claper_web/live/event_live/join.html.heex:33
 #: lib/claper_web/live/event_live/join.html.heex:67
-#: lib/claper_web/live/event_live/join.html.heex:97
 #, elixir-autogen, elixir-format
 msgid "About"
 msgstr "Rólunk"
@@ -887,7 +887,7 @@ msgstr "Élő"
 msgid "My events"
 msgstr "Eseményeim"
 
-#: lib/claper_web/live/event_live/join.html.heex:152
+#: lib/claper_web/live/event_live/join.html.heex:122
 #, elixir-autogen, elixir-format
 msgid "Return to your last event"
 msgstr "Vissza az utolsó eseményre"
@@ -2167,7 +2167,7 @@ msgstr "(opcionális)"
 msgid "Add a poll to gauge your audience's opinion."
 msgstr "Adjon hozzá egy szavazást a közönség véleményének felméréséhez."
 
-#: lib/claper_web/live/event_live/join.html.heex:173
+#: lib/claper_web/live/event_live/join.html.heex:143
 #, elixir-autogen, elixir-format
 msgid "Are you a presenter?"
 msgstr "Ön előadó?"
@@ -2214,7 +2214,7 @@ msgstr "Ágyazzon be külső webes tartalmat a prezentációjába."
 msgid "End Event"
 msgstr "Esemény befejezése"
 
-#: lib/claper_web/live/event_live/join.html.heex:119
+#: lib/claper_web/live/event_live/join.html.heex:89
 #, elixir-autogen, elixir-format
 msgid "Enter the code shared by the presenter"
 msgstr "Adja meg az előadó által megosztott kódot"
@@ -2237,7 +2237,7 @@ msgstr "Eseménykezelő"
 msgid "Form submissions will appear here."
 msgstr "A résztvevők által beküldött űrlapok itt fognak megjelenni."
 
-#: lib/claper_web/live/event_live/join.html.heex:116
+#: lib/claper_web/live/event_live/join.html.heex:86
 #, elixir-autogen, elixir-format
 msgid "Join the event"
 msgstr "Csatlakozás az eseményhez"
@@ -2257,7 +2257,7 @@ msgstr "Legújabb"
 msgid "NEWS:"
 msgstr "HÍREK:"
 
-#: lib/claper_web/live/event_live/manage_interaction_options_component.ex:194
+#: lib/claper_web/live/event_live/manage_interaction_options_component.ex:195
 #, elixir-autogen, elixir-format
 msgid "No interaction enabled"
 msgstr "Nincs interakció engedélyezve"
@@ -2267,7 +2267,7 @@ msgstr "Nincs interakció engedélyezve"
 msgid "No interactions on this slide"
 msgstr "Nincs interakció ezen a dián"
 
-#: lib/claper_web/live/event_live/manage_interaction_options_component.ex:197
+#: lib/claper_web/live/event_live/manage_interaction_options_component.ex:199
 #, elixir-autogen, elixir-format
 msgid "No settings available for this interaction"
 msgstr "Nincsenek elérhető beállítások ehhez az interakcióhoz"
@@ -2315,7 +2315,7 @@ msgstr "Legújabb kérdések megjelenítése elöl"
 msgid "Sort by:"
 msgstr "Rendezés:"
 
-#: lib/claper_web/live/event_live/join.html.heex:178
+#: lib/claper_web/live/event_live/join.html.heex:148
 #, elixir-autogen, elixir-format
 msgid "Start creating for free"
 msgstr "Kezdjen el ingyen alkotni"
@@ -2474,8 +2474,8 @@ msgstr "Fiók létrehozásával elfogadja a következőket:"
 msgid "Join 6,000+ speakers"
 msgstr "Csatlakozzon 6000+ előadóhoz"
 
+#: lib/claper_web/live/event_live/join.html.heex:41
 #: lib/claper_web/live/event_live/join.html.heex:75
-#: lib/claper_web/live/event_live/join.html.heex:105
 #: lib/claper_web/templates/user_registration/new.html.heex:131
 #: lib/claper_web/templates/user_session/new.html.heex:34
 #: lib/claper_web/templates/user_session/new.html.heex:75
@@ -3623,4 +3623,19 @@ msgstr ""
 #: lib/claper_web/templates/error/500.html.heex:8
 #, elixir-autogen, elixir-format
 msgid "Not found - CCFII Present"
+msgstr ""
+
+#: lib/claper_web/live/event_live/join.html.heex:20
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Close menu"
+msgstr "Bezárás"
+
+#: lib/claper_web/live/event_live/join.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "Open menu"
+msgstr ""
+
+#: lib/claper_web/live/admin_live/table_component.ex:69
+#, elixir-autogen, elixir-format
+msgid "View"
 msgstr ""

@@ -2,7 +2,12 @@ defmodule ClaperWeb.EventLiveTest do
   use ClaperWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import Claper.{FormsFixtures, PresentationsFixtures}
+  import Claper.{FormsFixtures, PollsFixtures, PostsFixtures, PresentationsFixtures}
+
+  alias ClaperWeb.EventLive.{
+    ManageInteractionListComponent,
+    ManageablePostComponent
+  }
 
   @update_attrs %{name: "some updated name"}
 
@@ -223,6 +228,87 @@ defmodule ClaperWeb.EventLiveTest do
       end
     end
 
+    test "uses semantic manager response bubbles without legacy purple", %{
+      presentation_file: presentation_file
+    } do
+      post =
+        post_fixture(%{
+          event: presentation_file.event,
+          body: "Can we review this?",
+          pinned: true
+        })
+
+      html =
+        render_component(ManageablePostComponent,
+          id: "semantic-response",
+          event: presentation_file.event,
+          post: post
+        )
+
+      document = Floki.parse_document!(html)
+
+      assert "bg-base-100" in classes(document, ".rounded-br-2xl")
+      assert "text-base-content" in classes(document, ".rounded-br-2xl")
+      refute html =~ "rgba(134,17,237"
+      refute html =~ "#fff"
+      refute html =~ "text-gray-"
+      refute html =~ "border-gray-"
+    end
+
+    test "gives every manager switch a visible focus indicator and readable disabled label", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      poll_fixture(%{presentation_file_id: presentation_file.id, position: 0, enabled: true})
+
+      {:ok, _manage_live, html} = live(conn, ~p"/e/#{presentation_file.event.code}/manage")
+      document = Floki.parse_document!(html)
+
+      switch_classes = Floki.attribute(document, ~s(button[role="switch"]), "class")
+
+      assert length(switch_classes) >= 8
+      assert Enum.all?(switch_classes, &String.contains?(&1, "focus-visible:ring-2"))
+      assert Enum.all?(switch_classes, &String.contains?(&1, "focus-visible:ring-secondary"))
+      refute Enum.any?(switch_classes, &String.contains?(&1, "focus:outline-none"))
+
+      assert Floki.find(document, ~s(div.opacity-50 button[role="switch"][disabled])) == []
+      assert Floki.find(document, ~s(div.text-neutral-400 button[role="switch"][disabled])) != []
+    end
+
+    test "keeps disabled manager descriptions readable without opacity", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      {:ok, _setting} = Claper.Settings.set("transcription_enabled", "true")
+
+      {:ok, transcription_config} =
+        Claper.Transcriptions.create_transcription_config(%{
+          presentation_file_id: presentation_file.id,
+          enabled: false
+        })
+
+      popup_document =
+        ManageInteractionListComponent
+        |> render_component(
+          id: "readable-disabled-popup",
+          interactions: [],
+          event_code: presentation_file.event.code,
+          transcription_config: transcription_config,
+          transcription_globally_enabled: true
+        )
+        |> Floki.parse_document!()
+
+      assert Floki.find(popup_document, ~s(div[aria-disabled="true"].opacity-50)) == []
+      assert "text-neutral-400" in classes(popup_document, ~s(div[aria-disabled="true"]))
+
+      {:ok, manage_live, _html} = live(conn, ~p"/e/#{presentation_file.event.code}/manage")
+
+      render_click(manage_live, "toggle-interaction-modal")
+
+      assert has_element?(manage_live, ~s(#option-5 div[aria-disabled="true"].text-neutral-400))
+      refute has_element?(manage_live, ~s(#option-5 div[aria-disabled="true"].opacity-50))
+    end
+
     test "prompts to regenerate missing thumbnails and starts regeneration", %{
       conn: conn,
       presentation_file: presentation_file
@@ -366,5 +452,20 @@ defmodule ClaperWeb.EventLiveTest do
                outline: 2px solid #120A0A;
              """
     end
+
+    test "localizes the mobile menu controls", %{conn: conn} do
+      conn = put_req_header(conn, "accept-language", "fr")
+      {:ok, join_live, _html} = live(conn, ~p"/")
+
+      assert has_element?(join_live, ~s(button[aria-label="Ouvrir le menu"]))
+      assert has_element?(join_live, ~s(button[aria-label="Fermer le menu"]))
+    end
+  end
+
+  defp classes(document, selector) do
+    document
+    |> Floki.attribute(selector, "class")
+    |> List.first()
+    |> String.split()
   end
 end

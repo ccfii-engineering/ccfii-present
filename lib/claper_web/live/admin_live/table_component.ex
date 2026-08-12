@@ -66,7 +66,7 @@ defmodule ClaperWeb.AdminLive.TableComponent do
                         phx-value-row-index={row_index}
                         phx-target={@myself}
                       >
-                        View
+                        {gettext("View")}
                       </button>
                       <%= case cell_content do %>
                         <% {:safe, content} -> %>

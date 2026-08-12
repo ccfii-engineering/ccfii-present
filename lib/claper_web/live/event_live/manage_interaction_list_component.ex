@@ -601,18 +601,18 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
     ~H"""
     <%= if @disabled do %>
       <div
-        class="flex items-center gap-3 p-2 rounded-xl opacity-50 cursor-not-allowed"
+        class="flex items-center gap-3 p-2 rounded-xl cursor-not-allowed text-neutral-400"
         aria-disabled="true"
       >
-        <div class="flex items-center justify-center w-9 h-9 rounded-full bg-primary/15 text-secondary shrink-0">
+        <div class="flex items-center justify-center w-9 h-9 rounded-full bg-base-200 text-neutral-400 shrink-0">
           {render_slot(@inner_block)}
         </div>
         <div class="min-w-0">
           <div class="flex items-center gap-2">
-            <p class="font-bold text-sm text-base-content leading-snug">{@title}</p>
+            <p class="font-bold text-sm leading-snug">{@title}</p>
             <span :if={@badge} class="badge badge-sm badge-soft badge-primary">{@badge}</span>
           </div>
-          <p class="text-xs text-base-content/70 leading-tight">{@description}</p>
+          <p class="text-xs leading-tight">{@description}</p>
         </div>
       </div>
     <% else %>

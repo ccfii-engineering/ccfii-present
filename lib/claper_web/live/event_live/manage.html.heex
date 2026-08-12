@@ -211,10 +211,10 @@
               </a>
               <div
                 :if={@transcription_config && @transcription_config.id}
-                class="flex select-none rounded-xl p-3 w-full opacity-50 cursor-not-allowed"
+                class="flex select-none rounded-xl p-3 w-full cursor-not-allowed text-neutral-400"
                 aria-disabled="true"
               >
-                <div class="flex h-12 w-12 flex-none text-primary-content items-center justify-center rounded-lg bg-primary">
+                <div class="flex h-12 w-12 flex-none text-neutral-400 items-center justify-center rounded-lg bg-base-200">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -228,12 +228,12 @@
                 </div>
                 <div class="ml-4 flex-auto text-left">
                   <div class="flex items-center gap-2">
-                    <p class="font-medium text-base-content">{gettext("Transcription")}</p>
+                    <p class="font-medium">{gettext("Transcription")}</p>
                     <span class="badge badge-sm badge-soft badge-primary">
                       {gettext("Global")}
                     </span>
                   </div>
-                  <p class="text-base-content/70">
+                  <p>
                     {gettext("Already added to this presentation.")}
                   </p>
                 </div>
