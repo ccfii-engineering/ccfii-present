@@ -194,6 +194,35 @@ defmodule ClaperWeb.EventLiveTest do
   describe "Manage" do
     setup [:register_and_log_in_user, :create_event]
 
+    test "uses semantic dark console surfaces without legacy manager chrome", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      manage_path = ~p"/e/#{presentation_file.event.code}/manage"
+      {:ok, manage_live, _html} = live(conn, manage_path)
+
+      assert has_element?(manage_live, "#manager.bg-base-200.text-base-content")
+      assert has_element?(manage_live, "#manager header.bg-base-100.border-base-300")
+      assert has_element?(manage_live, "#manager main.bg-base-100")
+      assert has_element?(manage_live, "#manager aside.bg-base-100")
+
+      assert has_element?(
+               manage_live,
+               "#manager #interaction-drag-list.bg-base-100.border-base-300"
+             )
+
+      default_html = render(manage_live)
+
+      {:ok, import_live, _html} =
+        live(conn, ~p"/e/#{presentation_file.event.code}/manage/import")
+
+      manager_html = default_html <> render(import_live)
+
+      for legacy_class <- ["#140553", "#f3defa", "bg-white", "bg-blue-500"] do
+        refute manager_html =~ legacy_class
+      end
+    end
+
     test "prompts to regenerate missing thumbnails and starts regeneration", %{
       conn: conn,
       presentation_file: presentation_file

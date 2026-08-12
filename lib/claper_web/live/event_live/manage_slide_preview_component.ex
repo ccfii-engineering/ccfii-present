@@ -9,7 +9,7 @@ defmodule ClaperWeb.EventLive.ManageSlidePreviewComponent do
     assigns = assign(assigns, :current_slide_url, current_slide_url)
 
     ~H"""
-    <div class="flex flex-col h-full">
+    <div class="flex flex-col h-full bg-base-100 text-base-content">
       <div class="px-4 py-3 flex items-center justify-between">
         <div class="flex items-center gap-x-2">
           <svg
@@ -22,15 +22,15 @@ defmodule ClaperWeb.EventLive.ManageSlidePreviewComponent do
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="icon icon-tabler icons-tabler-outline icon-tabler-eye shrink-0 text-[#140553]"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-eye shrink-0 text-secondary"
           >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
             <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
           </svg>
-          <span class="font-bold text-sm text-[#140553]">{gettext("Preview")}</span>
+          <span class="font-bold text-sm text-base-content">{gettext("Preview")}</span>
         </div>
-        <div class="flex items-center gap-x-2 bg-gray-100 rounded-full px-4 py-2 text-sm text-secondary-500">
+        <div class="flex items-center gap-x-2 bg-base-200 rounded-full px-4 py-2 text-sm text-secondary">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="none">
             <path
               d="M2.5 3.3335H17.5M3.33333 3.3335V11.6668C3.33333 12.1089 3.50893 12.5328 3.82149 12.8453C4.13405 13.1579 4.55797 13.3335 5 13.3335H15C15.442 13.3335 15.866 13.1579 16.1785 12.8453C16.4911 12.5328 16.6667 12.1089 16.6667 11.6668V3.3335M10 13.3335V16.6668M7.5 16.6668H12.5"
@@ -52,12 +52,12 @@ defmodule ClaperWeb.EventLive.ManageSlidePreviewComponent do
       </div>
       <div
         :if={@missing_slide_thumbnails}
-        class="mx-4 mb-2 rounded-xl border border-dashed border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900"
+        class="mx-4 mb-2 rounded-xl border border-dashed border-warning bg-warning/15 px-4 py-3 text-sm text-warning"
       >
         <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
             <p class="font-semibold">{gettext("No thumbnails are available")}</p>
-            <p class="mt-1 text-xs text-amber-800">
+            <p class="mt-1 text-xs text-base-content/70">
               {gettext("Regenerate them to restore the presentation preview sidebar.")}
             </p>
           </div>
@@ -80,7 +80,7 @@ defmodule ClaperWeb.EventLive.ManageSlidePreviewComponent do
             :if={@current_position > 0}
             phx-click="current-page"
             phx-value-page={@current_position - 1}
-            class="btn btn-circle bg-primary-50 border-none hover:bg-primary-100"
+            class="btn btn-circle bg-primary/15 border-none text-secondary hover:bg-primary/25"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -96,11 +96,11 @@ defmodule ClaperWeb.EventLive.ManageSlidePreviewComponent do
           </button>
           <div
             :if={@current_position <= 0}
-            class="btn btn-circle bg-gray-100 border-none opacity-50 cursor-not-allowed"
+            class="btn btn-circle bg-base-200 border-none text-base-content/60 opacity-50 cursor-not-allowed"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-4 h-4 text-gray-400 rotate-180"
+              class="w-4 h-4 rotate-180"
               viewBox="0 0 16 16"
               fill="none"
             >
@@ -112,7 +112,7 @@ defmodule ClaperWeb.EventLive.ManageSlidePreviewComponent do
           </div>
         </div>
 
-        <div class="h-full aspect-video bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <div class="h-full aspect-video bg-black rounded-lg border border-base-300 overflow-hidden">
           <img
             :if={@current_slide_url}
             src={@current_slide_url}
@@ -121,7 +121,7 @@ defmodule ClaperWeb.EventLive.ManageSlidePreviewComponent do
           />
           <div
             :if={!@current_slide_url}
-            class="w-full h-full flex items-center justify-center text-gray-400"
+            class="w-full h-full flex items-center justify-center text-base-content/60"
           >
             <span>{gettext("No slide available")}</span>
           </div>
@@ -132,7 +132,7 @@ defmodule ClaperWeb.EventLive.ManageSlidePreviewComponent do
             :if={@current_position < @total_slides - 1}
             phx-click="current-page"
             phx-value-page={@current_position + 1}
-            class="btn btn-circle bg-primary-50 border-none hover:bg-primary-100"
+            class="btn btn-circle bg-primary/15 border-none text-secondary hover:bg-primary/25"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 16 16" fill="none">
               <path
@@ -143,14 +143,9 @@ defmodule ClaperWeb.EventLive.ManageSlidePreviewComponent do
           </button>
           <div
             :if={@current_position >= @total_slides - 1}
-            class="btn btn-circle bg-gray-100 border-none opacity-50 cursor-not-allowed"
+            class="btn btn-circle bg-base-200 border-none text-base-content/60 opacity-50 cursor-not-allowed"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-4 h-4 text-gray-400"
-              viewBox="0 0 16 16"
-              fill="none"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 16 16" fill="none">
               <path
                 d="M-0.000155798 8.91984L-0.000155623 6.91984L11.9998 6.91984L6.49984 1.41984L7.91985 -0.000157095L15.8398 7.91984L7.91984 15.8398L6.49984 14.4198L11.9998 8.91984L-0.000155798 8.91984Z"
                 fill="currentColor"

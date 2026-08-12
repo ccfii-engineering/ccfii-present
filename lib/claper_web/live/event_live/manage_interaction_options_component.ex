@@ -7,7 +7,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionOptionsComponent do
     assigns = assigns |> assign_new(:show_shortcut, fn -> true end)
 
     ~H"""
-    <div class="flex flex-col gap-2 border border-gray-200 rounded-2xl p-2 bg-white shadow-lg">
+    <div class="flex flex-col gap-2 border border-base-300 rounded-2xl p-2 bg-base-100 text-base-content shadow-lg">
       <div class="flex items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +19,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionOptionsComponent do
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-pointer-cog shrink-0 text-[#140553]"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-pointer-cog shrink-0 text-secondary"
         >
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
           <path d="M15.774 13.218l-.996 -.996l3.113 -2.09a1.2 1.2 0 0 0 -.309 -2.228l-13.582 -3.904l3.904 13.563a1.2 1.2 0 0 0 2.228 .308l2.09 -3.093l.343 .343" />
@@ -31,7 +31,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionOptionsComponent do
           <path d="M15.97 17.25l1.3 .75" />
           <path d="M20.733 20l1.3 .75" />
         </svg>
-        <span class="font-bold text-sm text-[#140553]">
+        <span class="font-bold text-sm text-base-content">
           {gettext("Current Interaction Settings")}
         </span>
       </div>
@@ -191,9 +191,11 @@ defmodule ClaperWeb.EventLive.ManageInteractionOptionsComponent do
               </div>
             </div>
           <% nil -> %>
-            <p class="text-gray-400 italic mt-1.5 text-sm">{gettext("No interaction enabled")}</p>
+            <p class="text-base-content/60 italic mt-1.5 text-sm">
+              {gettext("No interaction enabled")}
+            </p>
           <% _ -> %>
-            <p class="text-gray-400 italic mt-1.5 text-sm">
+            <p class="text-base-content/60 italic mt-1.5 text-sm">
               {gettext("No settings available for this interaction")}
             </p>
         <% end %>
@@ -216,17 +218,17 @@ defmodule ClaperWeb.EventLive.ManageInteractionOptionsComponent do
       "flex items-center gap-2 rounded-full pl-2 pr-3 py-2 overflow-hidden transition-colors",
       if(@disabled, do: "opacity-50"),
       if(@checked,
-        do: "bg-[#f3defa] border-b-2 border-primary",
-        else: "bg-white border border-gray-200"
+        do: "bg-primary/15 border-b-2 border-primary",
+        else: "bg-base-100 border border-base-300"
       )
     ]}>
       <div class={[
         "flex items-center justify-center w-8 h-8 rounded-full shrink-0",
-        if(@checked, do: "bg-white text-primary-500", else: "bg-gray-100 text-secondary-500")
+        if(@checked, do: "bg-primary text-primary-content", else: "bg-base-200 text-secondary")
       ]}>
         {render_slot(@icon)}
       </div>
-      <span class={["flex-1 text-xs text-gray-700", if(@checked, do: "font-semibold")]}>
+      <span class={["flex-1 text-xs text-base-content", if(@checked, do: "font-semibold")]}>
         {@label}
       </span>
       <div class="flex items-center gap-x-2 shrink-0">
@@ -238,7 +240,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionOptionsComponent do
           disabled={@disabled}
           phx-value-key={@key}
           type="button"
-          class={"relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:cursor-not-allowed #{if @checked, do: "bg-primary-500", else: "bg-gray-200"}"}
+          class={"relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:cursor-not-allowed #{if @checked, do: "bg-primary", else: "bg-base-300"}"}
           role="switch"
           aria-checked={@checked}
           phx-key={@shortcut}
@@ -246,7 +248,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionOptionsComponent do
             if @shortcut && not @disabled, do: ClaperWeb.Component.Input.checked(@checked, @key)
           }
         >
-          <span class={"pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out #{if @checked, do: "translate-x-5", else: "translate-x-0"}"}>
+          <span class={"pointer-events-none inline-block h-5 w-5 transform rounded-full bg-base-content shadow ring-0 transition duration-200 ease-in-out #{if @checked, do: "translate-x-5", else: "translate-x-0"}"}>
           </span>
         </button>
       </div>
@@ -269,17 +271,17 @@ defmodule ClaperWeb.EventLive.ManageInteractionOptionsComponent do
       type="button"
       disabled={@disabled}
       class={[
-        "w-full flex items-center rounded-full border border-gray-200 bg-white text-left transition-colors",
+        "w-full flex items-center rounded-full border border-base-300 bg-base-100 text-left transition-colors",
         if(@compact, do: "px-1 py-2", else: "gap-3 pl-2 pr-3 py-2"),
         if(@reverse, do: "flex-row-reverse"),
-        if(@disabled, do: "opacity-50 cursor-not-allowed", else: "hover:bg-primary-50")
+        if(@disabled, do: "opacity-50 cursor-not-allowed", else: "hover:bg-primary/15")
       ]}
     >
-      <div class="flex items-center justify-center w-8 h-8 rounded-full shrink-0 bg-gray-100 text-secondary-500">
+      <div class="flex items-center justify-center w-8 h-8 rounded-full shrink-0 bg-base-200 text-secondary">
         {render_slot(@icon)}
       </div>
       <span class={[
-        "text-xs text-gray-700",
+        "text-xs text-base-content",
         if(@compact, do: "flex-1 text-center font-medium", else: "flex-1")
       ]}>
         {@label}

@@ -5,7 +5,7 @@
   phx-hook="Manager"
   data-max-page={@event.presentation_file.length}
   data-current-page={@state.position}
-  class="h-screen flex flex-col overflow-hidden bg-gray-50"
+  class="h-screen flex flex-col overflow-hidden bg-base-200 text-base-content"
 >
   <!-- Settings Modal (Mobile) -->
   <div
@@ -60,9 +60,9 @@
                 data-phx-link="patch"
                 data-phx-link-state="push"
                 href={~p"/e/#{@event.code}/manage/add/poll"}
-                class="group flex select-none rounded-xl p-3 w-full hover:bg-gray-200 cursor-pointer"
+                class="group flex select-none rounded-xl p-3 w-full hover:bg-base-300 cursor-pointer"
               >
-                <div class="flex h-12 w-12 flex-none text-white items-center justify-center rounded-lg bg-primary">
+                <div class="flex h-12 w-12 flex-none text-primary-content items-center justify-center rounded-lg bg-primary">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-7 w-7"
@@ -79,8 +79,8 @@
                   </svg>
                 </div>
                 <div class="ml-4 flex-auto text-left">
-                  <p class="font-medium text-gray-700">{gettext("Poll")}</p>
-                  <p class="text-gray-500">
+                  <p class="font-medium text-base-content">{gettext("Poll")}</p>
+                  <p class="text-base-content/70">
                     {gettext("Add poll to know opinion of your public.")}
                   </p>
                 </div>
@@ -91,9 +91,9 @@
                 data-phx-link="patch"
                 data-phx-link-state="push"
                 href={~p"/e/#{@event.code}/manage/add/form"}
-                class="group flex select-none rounded-xl p-3 w-full hover:bg-gray-200 cursor-pointer"
+                class="group flex select-none rounded-xl p-3 w-full hover:bg-base-300 cursor-pointer"
               >
-                <div class="flex h-12 w-12 flex-none text-white items-center justify-center rounded-lg bg-primary">
+                <div class="flex h-12 w-12 flex-none text-primary-content items-center justify-center rounded-lg bg-primary">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-7 w-7"
@@ -110,8 +110,8 @@
                   </svg>
                 </div>
                 <div class="ml-4 flex-auto text-left">
-                  <p class="font-medium text-gray-700">{gettext("Form")}</p>
-                  <p class="text-gray-500">
+                  <p class="font-medium text-base-content">{gettext("Form")}</p>
+                  <p class="text-base-content/70">
                     {gettext("Add form to collect data from your public.")}
                   </p>
                 </div>
@@ -122,9 +122,9 @@
                 data-phx-link="patch"
                 data-phx-link-state="push"
                 href={~p"/e/#{@event.code}/manage/add/embed"}
-                class="group flex select-none rounded-xl p-3 w-full hover:bg-gray-200 cursor-pointer"
+                class="group flex select-none rounded-xl p-3 w-full hover:bg-base-300 cursor-pointer"
               >
-                <div class="flex h-12 w-12 flex-none text-white items-center justify-center rounded-lg bg-primary">
+                <div class="flex h-12 w-12 flex-none text-primary-content items-center justify-center rounded-lg bg-primary">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -141,8 +141,8 @@
                   </svg>
                 </div>
                 <div class="ml-4 flex-auto text-left">
-                  <p class="font-medium text-gray-700">{gettext("Web content")}</p>
-                  <p class="text-gray-500">
+                  <p class="font-medium text-base-content">{gettext("Web content")}</p>
+                  <p class="text-base-content/70">
                     {gettext("Add a Youtube video or any web content.")}
                   </p>
                 </div>
@@ -153,9 +153,9 @@
                 data-phx-link="patch"
                 data-phx-link-state="push"
                 href={~p"/e/#{@event.code}/manage/add/quiz"}
-                class="group flex select-none rounded-xl p-3 w-full hover:bg-gray-200 cursor-pointer"
+                class="group flex select-none rounded-xl p-3 w-full hover:bg-base-300 cursor-pointer"
               >
-                <div class="flex h-12 w-12 flex-none text-white items-center justify-center rounded-lg bg-primary">
+                <div class="flex h-12 w-12 flex-none text-primary-content items-center justify-center rounded-lg bg-primary">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -172,8 +172,8 @@
                   </svg>
                 </div>
                 <div class="ml-4 flex-auto text-left">
-                  <p class="font-medium text-gray-700">{gettext("Quiz")}</p>
-                  <p class="text-gray-500">{gettext("Add a quiz to test knowledge.")}</p>
+                  <p class="font-medium text-base-content">{gettext("Quiz")}</p>
+                  <p class="text-base-content/70">{gettext("Add a quiz to test knowledge.")}</p>
                 </div>
               </a>
             </li>
@@ -183,9 +183,9 @@
                 data-phx-link="patch"
                 data-phx-link-state="push"
                 href={~p"/e/#{@event.code}/manage/add/transcription"}
-                class="group flex select-none rounded-xl p-3 w-full hover:bg-gray-200 cursor-pointer"
+                class="group flex select-none rounded-xl p-3 w-full hover:bg-base-300 cursor-pointer"
               >
-                <div class="flex h-12 w-12 flex-none text-white items-center justify-center rounded-lg bg-linear-to-br from-primary-500 to-secondary-500">
+                <div class="flex h-12 w-12 flex-none text-primary-content items-center justify-center rounded-lg bg-primary">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -199,12 +199,12 @@
                 </div>
                 <div class="ml-4 flex-auto text-left">
                   <div class="flex items-center gap-2">
-                    <p class="font-medium text-gray-700">{gettext("Transcription")}</p>
+                    <p class="font-medium text-base-content">{gettext("Transcription")}</p>
                     <span class="badge badge-sm badge-soft badge-primary">
                       {gettext("Global")}
                     </span>
                   </div>
-                  <p class="text-gray-500">
+                  <p class="text-base-content/70">
                     {gettext("Add real-time subtitles from your microphone.")}
                   </p>
                 </div>
@@ -214,7 +214,7 @@
                 class="flex select-none rounded-xl p-3 w-full opacity-50 cursor-not-allowed"
                 aria-disabled="true"
               >
-                <div class="flex h-12 w-12 flex-none text-white items-center justify-center rounded-lg bg-linear-to-br from-primary-500 to-secondary-500">
+                <div class="flex h-12 w-12 flex-none text-primary-content items-center justify-center rounded-lg bg-primary">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -228,12 +228,12 @@
                 </div>
                 <div class="ml-4 flex-auto text-left">
                   <div class="flex items-center gap-2">
-                    <p class="font-medium text-gray-700">{gettext("Transcription")}</p>
+                    <p class="font-medium text-base-content">{gettext("Transcription")}</p>
                     <span class="badge badge-sm badge-soft badge-primary">
                       {gettext("Global")}
                     </span>
                   </div>
-                  <p class="text-gray-500">
+                  <p class="text-base-content/70">
                     {gettext("Already added to this presentation.")}
                   </p>
                 </div>
@@ -342,7 +342,7 @@
         <% end %>
 
         <%= if @create == "import" do %>
-          <div class="scroll-py-3 overflow-y-auto bg-gray-100 p-3">
+          <div class="scroll-py-3 overflow-y-auto bg-base-200 p-3 text-base-content">
             <p class="text-xl font-bold">{gettext("Select presentation")}</p>
             <ul>
               <%= for event <- @events do %>
@@ -350,7 +350,7 @@
                   <button
                     phx-click="import"
                     phx-value-event={event.uuid}
-                    class="bg-blue-500 text-white flex gap-x-2 items-center px-2 py-1 rounded-md"
+                    class="bg-info text-info-content flex gap-x-2 items-center px-2 py-1 rounded-md"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -381,18 +381,18 @@
   </div>
   
 <!-- Header Bar -->
-  <header class="flex-shrink-0 flex items-center justify-between px-4 lg:px-8 py-5 bg-white">
+  <header class="flex-shrink-0 flex items-center justify-between border-b border-base-300 px-4 lg:px-8 py-5 bg-base-100">
     <!-- Left: Back button, Title, and Code Badge -->
     <div class="flex items-center gap-x-2">
       <a
         data-phx-link="patch"
         data-phx-link-state="push"
         href={~p"/events"}
-        class="btn btn-circle bg-primary-50 border-none hover:bg-primary-100"
+        class="btn btn-circle bg-primary/15 border-none text-secondary hover:bg-primary/25"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="w-4 h-4 text-secondary-500 rotate-180"
+          class="w-4 h-4 text-secondary rotate-180"
           viewBox="0 0 16 16"
           fill="none"
         >
@@ -403,28 +403,28 @@
         </svg>
       </a>
       <div class="flex items-center gap-x-2">
-        <h1 class="text-base font-bold text-secondary-500 truncate max-w-[175px] md:max-w-none">
+        <h1 class="text-base font-bold text-secondary truncate max-w-[175px] md:max-w-none">
           {@event.name}
         </h1>
-        <span class="badge badge-primary text-white font-bold uppercase">
+        <span class="badge badge-primary text-primary-content font-bold uppercase">
           #{@event.code}
         </span>
       </div>
     </div>
     
 <!-- Center: Logo -->
-    <div class="hidden md:flex items-center justify-center absolute left-1/2 -translate-x-1/2 bg-white rounded-full p-2">
+    <div class="hidden md:flex items-center justify-center absolute left-1/2 -translate-x-1/2 bg-base-100 rounded-full p-2">
       <ClaperWeb.BrandComponents.logo variant={:mark} class="h-8 w-8" />
     </div>
     
 <!-- Right: Action Buttons -->
-    <div class="bg-white p-1 rounded-full shadow-lg flex items-center gap-x-2">
+    <div class="bg-base-100 border border-base-300 p-1 rounded-full shadow-lg flex items-center gap-x-2">
       <button
         phx-hook="OpenPresenter"
         id={"openPresenter-#{@event.uuid}"}
         data-url={~p"/e/#{@event.code}/presenter"}
         type="button"
-        class="hidden lg:inline-flex btn btn-gradient"
+        class="hidden lg:inline-flex btn btn-primary"
       >
         <!-- Play icon -->
         <svg
@@ -447,7 +447,7 @@
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          class="w-5 h-5 text-gray-700"
+          class="w-5 h-5 text-base-content"
         >
           <path
             fill-rule="evenodd"
@@ -456,7 +456,7 @@
           />
           <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
         </svg>
-        <span class="text-gray-700">{gettext("Join")}</span>
+        <span class="text-base-content">{gettext("Join")}</span>
         <span
           id="attendees-count"
           phx-update="ignore"
@@ -464,11 +464,11 @@
           data-label-id="attendees-label"
           data-singular={gettext("attendee")}
           data-plural={gettext("attendees")}
-          class="text-gray-700"
+          class="text-base-content"
         >
           {@attendees_nb}
         </span>
-        <span id="attendees-label" class="text-gray-700">
+        <span id="attendees-label" class="text-base-content">
           {if @attendees_nb > 1, do: gettext("attendees"), else: gettext("attendee")}
         </span>
         <!-- Arrow icon -->
@@ -476,7 +476,7 @@
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          class="w-5 h-5 text-gray-700"
+          class="w-5 h-5 text-base-content"
         >
           <path
             fill-rule="evenodd"
@@ -488,13 +488,13 @@
       <!-- Mobile settings button -->
       <button
         phx-click="toggle-settings-modal"
-        class="lg:hidden p-2 rounded-full hover:bg-gray-100"
+        class="lg:hidden p-2 rounded-full hover:bg-base-200"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          class="w-5 h-5 text-gray-600"
+          class="w-5 h-5 text-base-content/70"
         >
           <path
             fill-rule="evenodd"
@@ -511,7 +511,7 @@
     <!-- Left Sidebar - Slide Thumbnails -->
     <aside
       :if={@event.presentation_file.length > 0 and not @missing_slide_thumbnails}
-      class="hidden lg:flex w-56 flex-shrink-0 bg-white overflow-hidden"
+      class="hidden lg:flex w-56 flex-shrink-0 border-r border-base-300 bg-base-100 overflow-hidden"
     >
       <.live_component
         id="slide-sidebar"
@@ -523,7 +523,7 @@
     </aside>
     
 <!-- Center Content -->
-    <main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-white">
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-base-100">
       <!-- Slide Preview (only if presentation has slides) -->
       <div :if={@event.presentation_file.length > 0} class="flex-shrink-0 h-2/5">
         <.live_component
@@ -567,7 +567,7 @@
     </main>
     
 <!-- Right Sidebar - Settings -->
-    <aside class="hidden xl:flex w-80 flex-shrink-0 flex-col overflow-hidden bg-white">
+    <aside class="hidden xl:flex w-80 flex-shrink-0 flex-col overflow-hidden border-l border-base-300 bg-base-100">
       <div class="flex-1 overflow-y-auto">
         <.live_component
           id="settings-pane"
