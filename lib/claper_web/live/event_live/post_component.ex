@@ -23,7 +23,7 @@ defmodule ClaperWeb.EventLive.PostComponent do
       class={[
         "relative rounded-xl border px-3 py-2 shadow-sm",
         @host_message &&
-          "border-supporting-yellow-300 bg-supporting-yellow-50 text-supporting-yellow-950",
+          "border-supporting-yellow-300 bg-supporting-yellow-50 text-supporting-yellow-900",
         !@host_message && @own_message && "border-gray-600 bg-gray-700 text-white",
         !@host_message && !@own_message && "border-gray-200 bg-white text-gray-900"
       ]}
