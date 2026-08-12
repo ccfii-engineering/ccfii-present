@@ -50,7 +50,7 @@ defmodule ClaperWeb.Component.Select do
         id={input_id(@form, @key)}
         required={@required}
         class={[
-          "select w-full bg-white",
+          "select w-full border-base-300 bg-base-200 text-base-content focus:border-secondary focus:outline-secondary",
           size_class(@size),
           @errors != [] && "select-error",
           @class
