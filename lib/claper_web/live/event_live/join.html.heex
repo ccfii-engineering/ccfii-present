@@ -100,10 +100,32 @@
               maxlength: 10,
               placeholder: "ABCD1234",
               id: "input",
+              "aria-invalid": to_string(not is_nil(@join_error)),
+              "aria-describedby": if(@join_error, do: "join-code-error"),
               class:
                 "join-code-input w-full px-3 py-4 text-center text-xl font-bold uppercase tracking-[0.15em] sm:text-2xl sm:tracking-[0.2em] md:px-4 md:text-5xl md:tracking-[0.28em]"
             )}
           </div>
+          <p
+            :if={@join_error}
+            id="join-code-error"
+            role="alert"
+            class="mt-4 flex items-center justify-center gap-2 text-sm font-semibold text-[#F0A4AA]"
+          >
+            <svg
+              aria-hidden="true"
+              class="size-5 shrink-0"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM9 7a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0V7Zm1 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span>{@join_error}</span>
+          </p>
         </div>
 
         <div class="mt-10 flex justify-center">

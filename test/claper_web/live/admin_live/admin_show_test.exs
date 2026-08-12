@@ -10,8 +10,10 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
   import Claper.AccountsFixtures
   import Claper.AuditFixtures
   import Claper.EventsFixtures
+  import Claper.PresentationsFixtures
 
   alias Claper.Accounts
+  alias Claper.Accounts.Oidc.Provider
   alias Claper.Repo
 
   alias ClaperWeb.AdminLive.{
@@ -40,6 +42,58 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
   end
 
   describe "shared admin chrome" do
+    test "admin pages use contrast-safe foregrounds on dark surfaces", %{conn: conn} do
+      %{conn: conn} = register_and_log_in_admin(%{conn: conn})
+      event = event_fixture()
+      presentation_file = presentation_file_fixture(%{event: event})
+
+      {:ok, _transcription} =
+        Claper.Transcriptions.create_transcription(%{
+          presentation_file_id: presentation_file.id,
+          language: "en",
+          text: "Contrast audit transcript"
+        })
+
+      user = confirmed_user_fixture()
+
+      provider =
+        Repo.insert!(%Provider{
+          name: "Contrast Provider",
+          issuer: "https://issuer.example.com",
+          client_id: "contrast-client",
+          client_secret: "contrast-secret",
+          redirect_uri: "https://app.example.com/callback"
+        })
+
+      {:ok, _dashboard, dashboard_html} = live(conn, ~p"/admin")
+      {:ok, _events, events_html} = live(conn, ~p"/admin/events")
+      {:ok, _event, event_html} = live(conn, ~p"/admin/events/#{event.id}")
+      {:ok, _users, users_html} = live(conn, ~p"/admin/users")
+      {:ok, _user, user_html} = live(conn, ~p"/admin/users/#{user.id}")
+      {:ok, providers, providers_html} = live(conn, ~p"/admin/oidc_providers")
+
+      sorted_providers_html =
+        providers
+        |> element(~s(button[phx-click="sort"][phx-value-field="name"]))
+        |> render_click()
+
+      assert providers_html =~ provider.name
+
+      for html <- [
+            dashboard_html,
+            events_html,
+            event_html,
+            users_html,
+            user_html,
+            providers_html,
+            sorted_providers_html
+          ] do
+        document = Floki.parse_document!(html)
+        assert Floki.find(document, ".text-primary") == []
+        assert Floki.find(document, ".text-gray-500") == []
+      end
+    end
+
     test "renders search and filter controls with semantic surfaces and focus colors" do
       document =
         SearchFilterComponent

@@ -17,11 +17,11 @@
 }
 
 @utility btn-gradient {
-  background: linear-gradient(to bottom right, #810E0E, #FAA739);
+  background: #810E0E;
   border: none;
   color: #FFFFFF;
   &:hover {
-    background: linear-gradient(to bottom right, #6A0B0B, #CF7A20);
+    background: #6A0B0B;
   }
 }
 

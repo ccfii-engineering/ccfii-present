@@ -259,7 +259,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
                   <span class="min-w-0 truncate text-sm font-bold text-secondary">
                     {submission.form.title}
                   </span>
-                  <div class="ml-auto flex shrink-0 items-center divide-x divide-base-300 rounded-lg border border-base-300 opacity-0 transition-opacity group-hover:opacity-100">
+                  <div class="ml-auto flex shrink-0 items-center divide-x divide-base-300 rounded-lg border border-base-300 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
                     <div class="tooltip tooltip-bottom" data-tip={gettext("Delete")}>
                       <button
                         type="button"

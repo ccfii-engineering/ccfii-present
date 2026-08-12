@@ -52,6 +52,17 @@ defmodule ClaperWeb.Accessibility.CCFIIContrastTest do
     end
   end
 
+  test "text-bearing gradient button API uses one contrast-safe background" do
+    app_css = Path.expand("../../../assets/css/app.css", __DIR__) |> File.read!()
+
+    [button_rules] =
+      Regex.run(~r/@utility btn-gradient \{(.*?)\n\}/s, app_css, capture: :all_but_first)
+
+    assert button_rules =~ "background: #810E0E;"
+    assert button_rules =~ "color: #FFFFFF;"
+    refute button_rules =~ "linear-gradient"
+  end
+
   @spec contrast_ratio(String.t(), String.t()) :: float()
   defp contrast_ratio(foreground, background) do
     foreground_luminance = relative_luminance(foreground)

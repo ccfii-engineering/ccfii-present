@@ -9,6 +9,14 @@ defmodule ClaperWeb.EventLive.Join do
       Gettext.put_locale(ClaperWeb.Gettext, locale)
     end
 
+    event_not_found = gettext("Event doesn't exist")
+
+    join_error =
+      if Phoenix.Flash.get(socket.assigns.flash, :error) == event_not_found,
+        do: event_not_found
+
+    socket = assign(socket, :join_error, join_error)
+
     if params["disconnected_from"] do
       try do
         event = Claper.Events.get_event!(params["disconnected_from"])

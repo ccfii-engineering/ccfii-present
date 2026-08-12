@@ -255,21 +255,102 @@ defmodule ClaperWeb.EventLiveTest do
       refute html =~ "border-gray-"
     end
 
+    test "reveals manager row actions on keyboard focus and names icon buttons", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      post =
+        post_fixture(%{
+          event: presentation_file.event,
+          body: "Please moderate this response",
+          attendee_identifier: "manager-action-attendee",
+          user_id: nil
+        })
+
+      post_document =
+        ManageablePostComponent
+        |> render_component(
+          id: "keyboard-actions-response",
+          event: presentation_file.event,
+          post: post
+        )
+        |> Floki.parse_document!()
+
+      assert Floki.find(
+               post_document,
+               ~s(.group-focus-within\\:opacity-100 button[aria-label="Pin"])
+             ) != []
+
+      assert Floki.find(
+               post_document,
+               ~s(.group-focus-within\\:opacity-100 button[aria-label="Ban"])
+             ) != []
+
+      assert Floki.find(
+               post_document,
+               ~s(.group-focus-within\\:opacity-100 button[aria-label="Delete"])
+             ) != []
+
+      form =
+        form_fixture(%{
+          presentation_file_id: presentation_file.id,
+          title: "Accessible feedback"
+        })
+
+      {:ok, submission} =
+        Claper.Forms.create_form_submit(%{
+          form_id: form.id,
+          attendee_identifier: "manager-form-attendee",
+          response: %{"Feedback" => "Clear"}
+        })
+
+      {:ok, manage_live, _html} = live(conn, ~p"/e/#{presentation_file.event.code}/manage")
+      forms_html = render_click(manage_live, "list-tab", %{"tab" => "forms"})
+      forms_document = Floki.parse_document!(forms_html)
+
+      assert Floki.find(
+               forms_document,
+               ~s(#form-list .group-focus-within\\:opacity-100 button[phx-click="delete-form-submit"][phx-value-id="#{submission.id}"][aria-label="Delete"])
+             ) != []
+    end
+
     test "gives every manager switch a visible focus indicator and readable disabled label", %{
       conn: conn,
       presentation_file: presentation_file
     } do
       poll_fixture(%{presentation_file_id: presentation_file.id, position: 0, enabled: true})
 
+      {:ok, _setting} = Claper.Settings.set("transcription_enabled", "true")
+
+      {:ok, _transcription_config} =
+        Claper.Transcriptions.create_transcription_config(%{
+          presentation_file_id: presentation_file.id,
+          enabled: false
+        })
+
       {:ok, _manage_live, html} = live(conn, ~p"/e/#{presentation_file.event.code}/manage")
       document = Floki.parse_document!(html)
 
-      switch_classes = Floki.attribute(document, ~s(button[role="switch"]), "class")
+      switches = Floki.find(document, ~s(button[role="switch"]))
+      switch_classes = Floki.attribute(switches, "class")
 
       assert length(switch_classes) >= 8
       assert Enum.all?(switch_classes, &String.contains?(&1, "focus-visible:ring-2"))
       assert Enum.all?(switch_classes, &String.contains?(&1, "focus-visible:ring-secondary"))
       refute Enum.any?(switch_classes, &String.contains?(&1, "focus:outline-none"))
+
+      assert Enum.all?(switches, fn switch ->
+               switch |> Floki.attribute("aria-label") |> Enum.any?(&(&1 != ""))
+             end)
+
+      interaction_checkboxes =
+        Floki.find(document, ~s(#interaction-drag-list input[type="checkbox"]))
+
+      assert length(interaction_checkboxes) == 2
+
+      assert Enum.all?(interaction_checkboxes, fn checkbox ->
+               checkbox |> Floki.attribute("aria-label") |> Enum.any?(&(&1 != ""))
+             end)
 
       assert Floki.find(document, ~s(div.opacity-50 button[role="switch"][disabled])) == []
       assert Floki.find(document, ~s(div.text-neutral-400 button[role="switch"][disabled])) != []
@@ -442,6 +523,7 @@ defmodule ClaperWeb.EventLiveTest do
       assert has_element?(join_live, "#submit.btn-primary")
       assert has_element?(join_live, ~s(#input[maxlength="10"][required][autofocus]))
       assert has_element?(join_live, ~s(#input[class*="uppercase"]))
+      assert has_element?(join_live, ~s(#form[action="/join"]))
       refute html =~ "cyan-"
       refute html =~ "rgba(134, 17, 237"
 
@@ -451,6 +533,39 @@ defmodule ClaperWeb.EventLiveTest do
              .ccfii-join-page .ccfii-join-menu-overlay button:focus-visible {
                outline: 2px solid #120A0A;
              """
+    end
+
+    test "marks the join input invalid and explains a missing event code", %{conn: conn} do
+      {:ok, join_live, _html} = live(conn, ~p"/")
+
+      invalid_event_redirect =
+        join_live
+        |> form("#form", event: %{code: "MISSING999"})
+        |> render_submit()
+
+      root_redirect =
+        follow_redirect(invalid_event_redirect, conn, ~p"/e/missing999")
+
+      {:ok, redirected_conn} = follow_redirect(root_redirect, conn, ~p"/")
+      {:ok, redirected_join_live, _html} = live(redirected_conn)
+
+      assert has_element?(redirected_join_live, ~s(#form[action="/join"]))
+
+      assert has_element?(
+               redirected_join_live,
+               ~s(#input[aria-invalid="true"][aria-describedby="join-code-error"])
+             )
+
+      assert has_element?(
+               redirected_join_live,
+               ~s(#join-code-error[role="alert"]),
+               "Event doesn't exist"
+             )
+
+      assert has_element?(
+               redirected_join_live,
+               ~s(#join-code-error svg[aria-hidden="true"])
+             )
     end
 
     test "localizes the mobile menu controls", %{conn: conn} do

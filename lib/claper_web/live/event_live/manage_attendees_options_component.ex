@@ -158,6 +158,7 @@ defmodule ClaperWeb.EventLive.ManageAttendeesOptionsComponent do
           type="button"
           class={"relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 disabled:cursor-not-allowed #{if @checked, do: "bg-primary", else: "bg-base-300"}"}
           role="switch"
+          aria-label={@label}
           aria-checked={@checked}
           phx-key={@shortcut}
           phx-window-keydown={

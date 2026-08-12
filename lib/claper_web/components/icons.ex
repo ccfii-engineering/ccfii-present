@@ -24,7 +24,7 @@ defmodule ClaperWeb.Icons do
   def arrow_up(assigns) do
     ~H"""
     <svg
-      class="ml-2 h-5 w-5 text-gray-500 group-hover:text-gray-700 inline"
+      class="ml-2 h-5 w-5 text-neutral-400 group-hover:text-base-content inline"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
       fill="currentColor"
@@ -41,7 +41,7 @@ defmodule ClaperWeb.Icons do
   def arrow_down(assigns) do
     ~H"""
     <svg
-      class="ml-2 h-5 w-5 text-gray-500 group-hover:text-gray-700 inline"
+      class="ml-2 h-5 w-5 text-neutral-400 group-hover:text-base-content inline"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
       fill="currentColor"

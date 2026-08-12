@@ -324,6 +324,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
 
         <input
           type="checkbox"
+          aria-label={gettext("Transcription")}
           class="toggle toggle-sm shrink-0 bg-base-300 border-base-300 [--tglbg:var(--color-base-content)] checked:bg-info checked:border-info checked:[--tglbg:var(--color-info-content)]"
           checked={@transcription_config.enabled}
           phx-click={
@@ -473,6 +474,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
 
           <input
             type="checkbox"
+            aria-label={interaction.title}
             class="toggle toggle-sm shrink-0 bg-base-300 border-base-300 [--tglbg:var(--color-base-content)] checked:bg-info checked:border-info checked:[--tglbg:var(--color-info-content)]"
             checked={interaction.enabled}
             phx-click={toggle_event(interaction)}

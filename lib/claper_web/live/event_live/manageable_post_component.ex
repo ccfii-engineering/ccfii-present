@@ -44,7 +44,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
     <!-- Actions (visible on hover) -->
           <div
             :if={!@readonly}
-            class="relative z-20 ml-auto flex items-center divide-x divide-base-300 border border-base-300 rounded-lg group-hover:opacity-100 transition-opacity shrink-0"
+            class="relative z-20 ml-auto flex items-center divide-x divide-base-300 border border-base-300 rounded-lg group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity shrink-0"
             x-bind:class="actionsOpen ? 'opacity-100' : 'opacity-0'"
           >
             <div
@@ -52,6 +52,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
               data-tip={if @post.pinned, do: gettext("Unpin"), else: gettext("Pin")}
             >
               <button
+                aria-label={if @post.pinned, do: gettext("Unpin"), else: gettext("Pin")}
                 class="flex items-center justify-center w-8 h-6"
                 phx-click="pin"
                 phx-value-id={@post.uuid}
@@ -79,6 +80,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
             <%= if @post.attendee_identifier do %>
               <div class="tooltip tooltip-bottom" data-tip={gettext("Ban")}>
                 <button
+                  aria-label={gettext("Ban")}
                   class="flex items-center justify-center w-8 h-6"
                   phx-click="ban"
                   phx-value-attendee_identifier={@post.attendee_identifier}
@@ -109,6 +111,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
             <% else %>
               <div class="tooltip tooltip-bottom" data-tip={gettext("Ban")}>
                 <button
+                  aria-label={gettext("Ban")}
                   class="flex items-center justify-center w-8 h-6"
                   phx-click="ban"
                   phx-value-user_id={@post.user_id}
@@ -139,6 +142,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
             <% end %>
             <div class="tooltip tooltip-bottom" data-tip={gettext("Delete")}>
               <button
+                aria-label={gettext("Delete")}
                 class="flex items-center justify-center w-8 h-6"
                 phx-click="delete"
                 phx-value-id={@post.uuid}
