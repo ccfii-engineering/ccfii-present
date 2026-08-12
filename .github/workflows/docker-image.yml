@@ -55,6 +55,27 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Refuse to overwrite an immutable image tag
+        env:
+          IMAGE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.image_tag || github.ref_name }}
+        run: |
+          set -o pipefail
+          inspect_output="$(mktemp)"
+
+          if docker buildx imagetools inspect "$IMAGE_NAME:$IMAGE_TAG" >"$inspect_output" 2>&1; then
+            echo "Refusing to overwrite existing immutable image: $IMAGE_NAME:$IMAGE_TAG" >&2
+            cat "$inspect_output" >&2
+            exit 1
+          fi
+
+          if grep -Eqi 'manifest unknown|manifest not found|no such manifest' "$inspect_output"; then
+            echo "Immutable image tag is available: $IMAGE_NAME:$IMAGE_TAG"
+            exit 0
+          fi
+
+          echo "Could not verify whether immutable image exists: $IMAGE_NAME:$IMAGE_TAG" >&2
+          cat "$inspect_output" >&2
+          exit 1
       - name: Docker metadata
         id: meta
         uses: docker/metadata-action@v6

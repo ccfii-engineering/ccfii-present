@@ -64,9 +64,12 @@ The CCFII Present seal originates from `ccfii-web/public/images/ccfii-logo.png`.
 Verify a local change with:
 
 ```bash
-mix format --check-formatted
-mix credo
-MIX_ENV=test mix test
+npm --prefix assets ci
+./with_env.sh mix assets.deploy
+./with_env.sh mix format --check-formatted
+./with_env.sh mix credo
+# Ensure .env sets MIX_ENV=test before running the test suite.
+./with_env.sh mix test
 npx --yes yaml-lint .github/workflows/elixir.yml .github/workflows/docker-image.yml
 ```
 
