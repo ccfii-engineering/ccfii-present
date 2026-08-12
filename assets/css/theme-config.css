@@ -4,6 +4,7 @@
   prefersdark: true;
   color-scheme: dark;
 
+  /* Keep semantic content/surface pairs aligned with the WCAG contrast contract. */
   --color-primary: #810E0E;
   --color-primary-content: #FFFFFF;
   --color-secondary: #FAA739;
