@@ -82,6 +82,13 @@ defmodule ClaperWeb.BrandingSurfaceTest do
     end
   end
 
+  test "serves the Apple touch icon referenced by layouts", %{conn: conn} do
+    conn = get(conn, "/apple-touch-icon.png")
+
+    assert response(conn, 200) != ""
+    assert get_resp_header(conn, "content-type") == ["image/png"]
+  end
+
   defp title(html) do
     html
     |> Floki.parse_document!()

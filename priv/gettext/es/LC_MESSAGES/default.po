@@ -220,11 +220,6 @@ msgstr "Cambiar la dirección email asociada a tu cuenta."
 msgid "Update your email"
 msgstr "Modificar tu email"
 
-#: lib/claper_web/notifiers/user_notifier.ex:12
-#, elixir-autogen, elixir-format
-msgid "Connect to Claper"
-msgstr "Conectar a Claper"
-
 #: lib/claper_web/templates/user_notifier/magic.html.heex:29
 #, elixir-autogen, elixir-format
 msgid "ACCESS TO MY ACCOUNT"
@@ -3578,6 +3573,7 @@ msgid "Bring CCFII Present to your LMS"
 msgstr ""
 
 #: lib/claper_web/components/brand_components.ex:15
+#: lib/claper_web/controllers/lti/registration_controller.ex:83
 #: lib/claper_web/live/event_live/show.html.heex:115
 #: lib/claper_web/templates/layout/email.html.heex:5
 #: lib/claper_web/templates/layout/email.html.heex:45
@@ -3607,6 +3603,7 @@ msgstr ""
 msgid "Congrats! You've taken the first step to improving your presentations. Here are the next steps to create step up your presentations with CCFII Present:"
 msgstr ""
 
+#: lib/claper_web/notifiers/user_notifier.ex:12
 #: lib/claper_web/templates/user_notifier/magic.html.heex:17
 #, elixir-autogen, elixir-format
 msgid "Connect to CCFII Present"

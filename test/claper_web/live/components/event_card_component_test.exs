@@ -4,11 +4,21 @@ defmodule ClaperWeb.EventCardComponentTest do
   import Phoenix.LiveViewTest
   import Claper.{PresentationsFixtures, EventsFixtures}
 
-  @spec create_event(Claper.Accounts.User.t(), NaiveDateTime.t(), NaiveDateTime.t()) ::
+  @spec create_event(
+          Claper.Accounts.User.t(),
+          NaiveDateTime.t(),
+          NaiveDateTime.t() | nil,
+          map()
+        ) ::
           Claper.Presentations.PresentationFile.t()
-  defp create_event(user, started_at, expired_at \\ nil) do
+  defp create_event(user, started_at, expired_at \\ nil, presentation_attrs \\ %{}) do
     event = event_fixture(%{user: user, started_at: started_at, expired_at: expired_at})
-    presentation_file = presentation_file_fixture(%{event: event}, [:event])
+
+    presentation_file =
+      presentation_attrs
+      |> Map.put(:event, event)
+      |> presentation_file_fixture([:event])
+
     presentation_state_fixture(%{presentation_file: presentation_file})
     presentation_file
   end
@@ -35,6 +45,34 @@ defmodule ClaperWeb.EventCardComponentTest do
       assert html =~ "group-hover:translate-y-0"
       assert html =~ "group-focus-within:translate-y-0"
       refute html =~ "showActions"
+    end
+
+    test "uses the CCFII mark when an event has no thumbnail", %{conn: conn, user: user} do
+      presentation_file = create_event(user, NaiveDateTime.utc_now(), nil, %{length: 0})
+      {:ok, view, _html} = live(conn, "/events")
+
+      card = "#event-#{presentation_file.event.id}-card"
+
+      assert has_element?(
+               view,
+               ~s(#{card} img[src="/images/ccfii-present-mark.png"][alt="CCFII Present"])
+             )
+
+      refute has_element?(view, ~s(#{card} img[src="/images/logo.svg"]))
+    end
+
+    test "uses the CCFII mark while a presentation is processing", %{conn: conn, user: user} do
+      presentation_file = create_event(user, NaiveDateTime.utc_now(), nil, %{status: "progress"})
+      {:ok, view, _html} = live(conn, "/events")
+
+      card = "#event-#{presentation_file.event.id}-card"
+
+      assert has_element?(
+               view,
+               ~s(#{card} img.animate-pulse[src="/images/ccfii-present-mark.png"][alt="CCFII Present"])
+             )
+
+      refute has_element?(view, ~s(#{card} img[src="/images/logo.svg"]))
     end
 
     test "renders finished for expired event", %{conn: conn, user: user} do

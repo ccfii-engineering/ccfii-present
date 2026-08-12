@@ -248,7 +248,7 @@ config :claper, :presentations,
 
 config :claper, :mail,
   from: get_var_from_path_or_env(config_dir, "MAIL_FROM", "noreply@claper.co"),
-  from_name: get_var_from_path_or_env(config_dir, "MAIL_FROM_NAME", "Claper")
+  from_name: get_var_from_path_or_env(config_dir, "MAIL_FROM_NAME", "CCFII Present")
 
 config :claper, ClaperWeb.MailboxGuard,
   username: get_var_from_path_or_env(config_dir, "MAILBOX_USER", nil),
