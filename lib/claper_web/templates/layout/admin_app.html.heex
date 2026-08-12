@@ -24,7 +24,8 @@
       </div>
       <div class="flex-1">
         <a href={~p"/admin"} class="btn btn-ghost normal-case text-xl">
-          <img src="/images/logo.svg" class="h-10 mr-2" /> {gettext("Admin")}
+          <ClaperWeb.BrandComponents.logo variant={:mark} class="h-10 w-10 mr-2" />
+          {gettext("Admin")}
         </a>
       </div>
     </div>
@@ -49,12 +50,12 @@
 <!-- Sidebar -->
   <div class="drawer-side">
     <label for="drawer-toggle" class="drawer-overlay"></label>
-    <aside class="bg-base-100 min-h-full px-4">
+    <aside class="bg-base-100 min-h-full px-4 flex flex-col">
       <div class="flex items-center p-5 gap-x-3">
-        <img src="/images/logo.svg" class="h-10" />
+        <ClaperWeb.BrandComponents.logo variant={:mark} class="h-10 w-10" />
         <h1 class="text-xl font-bold !font-display">{gettext("Admin")}</h1>
       </div>
-      <ul class="menu">
+      <ul class="menu flex-1">
         <li>
           <.link navigate={~p"/admin"} class={admin_active(@active_tab, :dashboard)}>
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -180,6 +181,7 @@
           </li>
         </div>
       </ul>
+      <ClaperWeb.BrandComponents.attribution class="px-5 pb-6 text-xs text-base-content/60 hover:text-base-content" />
     </aside>
   </div>
 </div>
