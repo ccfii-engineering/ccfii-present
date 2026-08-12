@@ -9,7 +9,10 @@ defmodule ClaperWeb.Accessibility.CCFIIContrastTest do
     {"white on info", "#FFFFFF", "#3567FF", 4.5},
     {"white on success", "#FFFFFF", "#147A4C", 4.5},
     {"white on error", "#FFFFFF", "#C12B34", 4.5},
-    {"gold focus on warm black", "#FAA739", "#120A0A", 3.0}
+    {"gold focus on warm black", "#FAA739", "#120A0A", 3.0},
+    {"muted boundary on dark brown", "#B99B9B", "#1E1414", 3.0},
+    {"light error action on dark brown", "#F0A4AA", "#1E1414", 4.5},
+    {"light success action on dark brown", "#9DDCBC", "#1E1414", 4.5}
   ]
 
   @semantic_tokens [
@@ -27,6 +30,7 @@ defmodule ClaperWeb.Accessibility.CCFIIContrastTest do
     {"color-error", "#C12B34"},
     {"color-error-content", "#FFFFFF"},
     {"color-neutral-400", "#B99B9B"},
+    {"color-neutral-100", "#F7EDED"},
     {"color-neutral-900", "#1E1414"}
   ]
 

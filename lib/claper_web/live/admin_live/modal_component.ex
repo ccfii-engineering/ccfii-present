@@ -29,7 +29,7 @@ defmodule ClaperWeb.AdminLive.ModalComponent do
               {@title}
             </h3>
             <%= if @description do %>
-              <p class="py-2 text-sm text-base-content/60">
+              <p class="py-2 text-sm text-neutral-400">
                 {@description}
               </p>
             <% end %>
@@ -84,8 +84,8 @@ defmodule ClaperWeb.AdminLive.ModalComponent do
       |> assign(assigns)
       |> assign_new(:show, fn -> false end)
       |> assign_new(:icon, fn -> nil end)
-      |> assign_new(:icon_bg_class, fn -> "bg-error/15" end)
-      |> assign_new(:icon_text_class, fn -> "text-error" end)
+      |> assign_new(:icon_bg_class, fn -> "bg-error" end)
+      |> assign_new(:icon_text_class, fn -> "text-error-content" end)
       |> assign_new(:description, fn -> nil end)
       |> assign_new(:content, fn -> [] end)
       |> assign_new(:confirm_action, fn -> nil end)
@@ -125,8 +125,8 @@ defmodule ClaperWeb.AdminLive.ModalComponent do
   def delete_modal_config(title, description) do
     %{
       icon: "fa-exclamation-triangle",
-      icon_bg_class: "bg-error/15",
-      icon_text_class: "text-error",
+      icon_bg_class: "bg-error",
+      icon_text_class: "text-error-content",
       title: title,
       description: description,
       confirm_action: "Delete",

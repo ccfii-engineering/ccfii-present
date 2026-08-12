@@ -36,7 +36,7 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
           type="button"
           phx-click="delete_item"
           phx-target={@myself}
-          class="text-error hover:text-error/80 transition-colors duration-200"
+          class="rounded text-supporting-red-200 hover:bg-error hover:text-error-content transition-colors duration-200"
           title="Delete"
           data-confirm={
             @delete_confirm_message ||
@@ -53,7 +53,7 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
           type="button"
           phx-click="duplicate_item"
           phx-target={@myself}
-          class="text-success hover:text-success/80 transition-colors duration-200"
+          class="rounded text-supporting-green-200 hover:bg-success hover:text-success-content transition-colors duration-200"
           title="Duplicate"
         >
           <i class="fas fa-copy"></i>
@@ -69,7 +69,7 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
           class={[
             "transition-colors duration-200",
             if(@item_archived,
-              do: "text-warning hover:text-warning/80",
+              do: "rounded text-warning hover:bg-warning hover:text-warning-content",
               else: "text-base-content/70 hover:text-base-content"
             )
           ]}
@@ -88,7 +88,7 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
           class={[
             "transition-colors duration-200",
             if(@item_active,
-              do: "text-success hover:text-success/80",
+              do: "rounded text-supporting-green-200 hover:bg-success hover:text-success-content",
               else: "text-base-content/70 hover:text-base-content"
             )
           ]}
@@ -115,13 +115,18 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
             phx-target={@myself}
             class="text-base-content/70 hover:text-base-content transition-colors duration-200"
             title="More actions"
+            aria-haspopup="menu"
+            aria-expanded={to_string(@dropdown_open)}
           >
             <i class="fas fa-ellipsis-v"></i>
             <span class="sr-only">More actions</span>
           </button>
 
           <%= if @dropdown_open do %>
-            <div class="absolute right-0 mt-2 w-48 bg-base-100 rounded-md shadow-md z-10 border border-base-300">
+            <div
+              class="absolute right-0 mt-2 w-48 bg-base-100 rounded-md shadow-md z-10 border border-base-300"
+              role="menu"
+            >
               <div class="py-1">
                 <%= for action <- @dropdown_actions do %>
                   <button
@@ -132,12 +137,18 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
                     class={[
                       "block w-full text-left px-4 py-2 text-sm transition-colors duration-200",
                       case action.type do
-                        "danger" -> "text-error hover:bg-error/15"
-                        "warning" -> "text-warning hover:bg-warning/15"
-                        _ -> "text-base-content hover:bg-base-200"
+                        "danger" ->
+                          "text-supporting-red-200 hover:bg-error hover:text-error-content"
+
+                        "warning" ->
+                          "text-warning hover:bg-warning hover:text-warning-content"
+
+                        _ ->
+                          "text-base-content hover:bg-base-200"
                       end
                     ]}
                     data-confirm={action[:confirm]}
+                    role="menuitem"
                   >
                     <%= if action[:icon] do %>
                       <i class={"#{action.icon} mr-2"}></i>

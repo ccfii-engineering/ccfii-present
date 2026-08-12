@@ -107,7 +107,7 @@
             <div class={if post.__meta__.state == :deleted, do: "hidden"} id={"#{post.id}-post"}>
               <div class="px-4 pb-2 pt-3 rounded-b-lg rounded-tr-lg bg-base-100 shadow-md text-base-content break-word mt-4">
                 <%= if post.name do %>
-                  <p class={"#{if @iframe, do: "text-base", else: "text-lg"} text-base-content/60 font-semibold mb-2 mr-2"}>
+                  <p class={"#{if @iframe, do: "text-base", else: "text-lg"} text-neutral-400 font-semibold mb-2 mr-2"}>
                     {post.name}
                   </p>
                 <% end %>
@@ -154,7 +154,7 @@
             <div class={if post.__meta__.state == :deleted, do: "hidden"} id={"#{post.id}-post"}>
               <div class="px-4 pb-2 pt-3 rounded-b-lg rounded-tr-lg bg-base-100 shadow-md text-base-content break-word mt-4">
                 <%= if post.name do %>
-                  <p class={"#{if @iframe, do: "text-base", else: "text-lg"} text-base-content/60 font-semibold mb-2 mr-2"}>
+                  <p class={"#{if @iframe, do: "text-base", else: "text-lg"} text-neutral-400 font-semibold mb-2 mr-2"}>
                     {post.name}
                   </p>
                 <% end %>

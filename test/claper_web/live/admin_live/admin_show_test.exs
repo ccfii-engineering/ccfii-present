@@ -60,7 +60,8 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
       assert "border-base-300" in classes(document, "div")
       assert "bg-base-100" in classes(document, ~s(input[name="search"]))
       assert "text-base-content" in classes(document, ~s(input[name="search"]))
-      assert "border-base-300" in classes(document, ~s(input[name="search"]))
+      assert "border-neutral-400" in classes(document, ~s(input[name="search"]))
+      assert "border-neutral-400" in classes(document, ~s(select[name="role"]))
       assert "focus:ring-secondary" in classes(document, ~s(input[name="search"]))
       assert "bg-primary" in classes(document, ~s(button[type="submit"]))
       assert "text-primary-content" in classes(document, ~s(button[type="submit"]))
@@ -105,7 +106,71 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
       refute html =~ "border-gray-"
     end
 
-    test "renders table actions and informational modals with semantic colors" do
+    test "makes sortable headers and clickable rows keyboard operable with sort state" do
+      document =
+        TableComponent
+        |> render_component(
+          id: "keyboard-table",
+          headers: [
+            %{label: "Name", field: "name", sortable: true},
+            %{label: "Role", field: "role", sortable: true}
+          ],
+          rows: [["Ada", "Admin"]],
+          sortable: true,
+          row_click_enabled: true,
+          sort_config: %{field: "name", direction: :desc}
+        )
+        |> Floki.parse_document!()
+
+      assert Floki.attribute(document, ~s(th[phx-value-field="name"]), "tabindex") == ["0"]
+      assert Floki.attribute(document, ~s(th[phx-value-field="name"]), "role") == []
+      assert Floki.attribute(document, ~s(th[phx-value-field="name"]), "phx-keydown") == ["sort"]
+      assert Floki.attribute(document, ~s(th[phx-value-field="name"]), "phx-key") == []
+
+      assert Floki.attribute(document, ~s(th[phx-value-field="name"]), "aria-sort") == [
+               "descending"
+             ]
+
+      assert Floki.attribute(document, ~s(th[phx-value-field="role"]), "aria-sort") == ["none"]
+
+      assert Floki.attribute(document, ~s(tbody tr[phx-click="row_clicked"]), "tabindex") == ["0"]
+
+      assert Floki.attribute(document, ~s(tbody tr[phx-click="row_clicked"]), "phx-keydown") == [
+               "row_clicked"
+             ]
+
+      assert Floki.attribute(document, ~s(tbody tr[phx-click="row_clicked"]), "phx-key") == []
+    end
+
+    test "uses contrast-safe disabled pagination and empty-state colors" do
+      document =
+        TableComponent
+        |> render_component(
+          id: "disabled-table",
+          headers: [%{label: "Name", field: "name", sortable: true}],
+          rows: [],
+          sortable: true,
+          sort_config: %{field: nil, direction: :asc},
+          empty_icon: "fas fa-inbox",
+          pagination: %{
+            page_number: 1,
+            page_size: 10,
+            total_entries: 0,
+            total_pages: 1
+          }
+        )
+        |> Floki.parse_document!()
+
+      disabled_classes = Floki.attribute(document, ~s(span.cursor-not-allowed), "class")
+      assert disabled_classes != []
+      assert Enum.all?(disabled_classes, &String.contains?(&1, "text-neutral-400"))
+      refute Enum.any?(disabled_classes, &String.contains?(&1, "text-base-content/30"))
+      assert "text-neutral-400" in classes(document, ".fa-sort")
+      assert "text-neutral-400" in classes(document, ".fa-inbox")
+      assert Floki.find(document, "tbody td") |> Floki.text() =~ "No items found"
+    end
+
+    test "renders table actions with contrast-safe states and popup semantics" do
       actions_html =
         render_component(TableActionsComponent,
           id: "semantic-actions",
@@ -113,33 +178,82 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
           item_id: 1,
           view_enabled: true,
           edit_enabled: true,
+          delete_enabled: true,
+          duplicate_enabled: true,
           dropdown_open: true,
-          dropdown_actions: [%{key: "inspect", label: "Inspect", type: "default"}]
+          dropdown_actions: [
+            %{key: "destroy", label: "Destroy", type: "danger"},
+            %{key: "warn", label: "Warn", type: "warning"}
+          ]
         )
 
       actions_document = Floki.parse_document!(actions_html)
 
       assert "text-secondary" in classes(actions_document, ~s(button[title="View"]))
       assert "text-secondary" in classes(actions_document, ~s(button[title="Edit"]))
+      assert "text-supporting-red-200" in classes(actions_document, ~s(button[title="Delete"]))
+
+      assert "text-supporting-green-200" in classes(
+               actions_document,
+               ~s(button[title="Duplicate"])
+             )
+
       assert "bg-base-100" in classes(actions_document, "div.absolute")
       assert "border-base-300" in classes(actions_document, "div.absolute")
+
+      assert "text-supporting-red-200" in classes(
+               actions_document,
+               ~s(button[phx-value-action="destroy"])
+             )
+
+      assert "text-warning" in classes(
+               actions_document,
+               ~s(button[phx-value-action="warn"])
+             )
+
+      assert Floki.attribute(actions_document, ~s(button[title="More actions"]), "aria-haspopup") ==
+               [
+                 "menu"
+               ]
+
+      assert Floki.attribute(actions_document, ~s(button[title="More actions"]), "aria-expanded") ==
+               [
+                 "true"
+               ]
+
+      assert Floki.attribute(actions_document, "div.absolute", "role") == ["menu"]
+
+      assert Enum.all?(
+               Floki.attribute(actions_document, ~s(button[phx-click="dropdown_action"]), "role"),
+               &(&1 == "menuitem")
+             )
+
       refute actions_html =~ "indigo-"
       refute actions_html =~ "bg-white"
+    end
 
-      info_config = ModalComponent.info_modal_config("Information", "Semantic modal")
+    test "renders modal presets with contrast-safe content pairs" do
+      for {id, config, background, foreground, confirm_content} <- [
+            {"delete-modal", ModalComponent.delete_modal_config("Delete", "Danger"), "bg-error",
+             "text-error-content", "text-error-content"},
+            {"warning-modal", ModalComponent.warning_modal_config("Warning", "Caution"),
+             "bg-warning/15", "text-warning", "text-warning-content"},
+            {"info-modal", ModalComponent.info_modal_config("Information", "Semantic modal"),
+             "bg-info/15", "text-info", "text-info-content"}
+          ] do
+        modal_html =
+          render_component(
+            ModalComponent,
+            Map.merge(config, %{id: id, show: true})
+          )
 
-      modal_html =
-        render_component(
-          ModalComponent,
-          Map.merge(info_config, %{id: "semantic-info-modal", show: true})
-        )
+        modal_document = Floki.parse_document!(modal_html)
 
-      assert modal_html =~ "bg-info/15"
-      assert modal_html =~ "text-info"
-      assert modal_html =~ "text-info-content"
-      assert modal_html =~ "text-base-content/60"
-      refute modal_html =~ "bg-blue-100"
-      refute modal_html =~ "text-blue-600"
+        assert background in classes(modal_document, ".rounded-full")
+        assert foreground in classes(modal_document, ".rounded-full i")
+        assert confirm_content in classes(modal_document, ~s(button[phx-click="confirm"]))
+        assert "text-neutral-400" in classes(modal_document, "p")
+      end
     end
   end
 

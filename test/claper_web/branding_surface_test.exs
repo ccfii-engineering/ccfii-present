@@ -138,6 +138,67 @@ defmodule ClaperWeb.BrandingSurfaceTest do
     refute composer_rules =~ "rgba(163, 39, 255"
   end
 
+  test "attendee explanatory states and pinned presenter cards use contrast-safe colors", %{
+    conn: conn
+  } do
+    presenter = confirmed_user_fixture()
+
+    disabled_file = presentation_file_fixture(%{user: presenter}, [:event])
+
+    presentation_state_fixture(%{
+      presentation_file: disabled_file,
+      chat_enabled: true,
+      anonymous_chat_enabled: false
+    })
+
+    {:ok, _disabled_view, disabled_html} = live(conn, ~p"/e/#{disabled_file.event.code}")
+    disabled_document = Floki.parse_document!(disabled_html)
+
+    assert "placeholder:text-neutral-100" in classes(disabled_document, "#postFormTA")
+    assert "disabled:text-neutral-100" in classes(disabled_document, "#postFormTA")
+    refute "disabled:opacity-50" in classes(disabled_document, "#postFormTA")
+
+    chat_off_file = presentation_file_fixture(%{user: presenter}, [:event])
+
+    presentation_state_fixture(%{
+      presentation_file: chat_off_file,
+      chat_enabled: false
+    })
+
+    {:ok, _chat_off_view, chat_off_html} = live(conn, ~p"/e/#{chat_off_file.event.code}")
+    chat_off_document = Floki.parse_document!(chat_off_html)
+
+    assert "text-neutral-100" in classes(chat_off_document, "#room-composer .attendee-composer")
+    refute "text-white/60" in classes(chat_off_document, "#room-composer .attendee-composer")
+
+    pinned_file = presentation_file_fixture(%{user: presenter}, [:event])
+
+    presentation_state_fixture(%{
+      presentation_file: pinned_file,
+      chat_visible: true,
+      show_only_pinned: true
+    })
+
+    post_fixture(%{
+      event: pinned_file.event,
+      user: presenter,
+      name: "Pinned surface",
+      pinned: true
+    })
+
+    {:ok, _pinned_view, pinned_html} =
+      conn
+      |> recycle()
+      |> log_in_user(presenter)
+      |> live(~p"/e/#{pinned_file.event.code}/presenter")
+
+    pinned_document = Floki.parse_document!(pinned_html)
+    assert "bg-base-100" in classes(pinned_document, "#pinned-posts > div > div")
+    assert "text-base-content" in classes(pinned_document, "#pinned-posts > div > div")
+    assert "text-neutral-400" in classes(pinned_document, "#pinned-posts p:first-child")
+    assert "bg-black" in classes(pinned_document, "#slider-wrapper")
+  end
+
   test "serves the Apple touch icon referenced by layouts", %{conn: conn} do
     conn = get(conn, "/apple-touch-icon.png")
 

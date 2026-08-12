@@ -16,7 +16,7 @@ defmodule ClaperWeb.AdminLive.SearchFilterComponent do
                 type="text"
                 name="search"
                 value={@search_value || ""}
-                class="block w-full rounded-md border-base-300 bg-base-100 pl-10 text-base-content placeholder:text-base-content/50 focus:border-secondary focus:ring-secondary sm:text-sm"
+                class="block w-full rounded-md border-neutral-400 bg-base-100 pl-10 text-base-content placeholder:text-neutral-400 focus:border-secondary focus:ring-secondary sm:text-sm"
                 placeholder={@search_placeholder || "Search..."}
                 phx-debounce="300"
                 phx-change="search_change"
@@ -29,7 +29,7 @@ defmodule ClaperWeb.AdminLive.SearchFilterComponent do
                 <%= for filter <- @filters do %>
                   <select
                     name={filter.name}
-                    class="block w-full rounded-md border-base-300 bg-base-100 py-2 pl-3 pr-10 text-base text-base-content focus:border-secondary focus:outline-none focus:ring-secondary sm:text-sm"
+                    class="block w-full rounded-md border-neutral-400 bg-base-100 py-2 pl-3 pr-10 text-base text-base-content focus:border-secondary focus:outline-none focus:ring-secondary sm:text-sm"
                     phx-change="filter_change"
                     phx-target={@myself}
                     phx-value-filter={filter.name}
