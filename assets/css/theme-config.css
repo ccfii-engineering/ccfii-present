@@ -1,30 +1,29 @@
 @plugin "daisyui/theme" {
-  name: "claper";
+  name: "ccfii-present";
   default: true;
-  prefersdark: false;
-  color-scheme: light;
+  prefersdark: true;
+  color-scheme: dark;
 
-  /* Map custom colors to DaisyUI semantic tokens */
-  --color-primary: #8611ed;           /* primary-500 */
-  --color-primary-content: #ffffff;
-  --color-secondary: #140553;         /* secondary-500 */
-  --color-secondary-content: #ffffff;
-  --color-accent: #507DAA;            /* neutral-500 */
-  --color-accent-content: #ffffff;
-  --color-neutral: #374151;           /* gray-700 */
-  --color-neutral-content: #ffffff;
-  --color-base-100: #ffffff;
-  --color-base-200: #f9fafb;          /* gray-50 */
-  --color-base-300: #e5e7eb;          /* gray-200 */
-  --color-base-content: #1f2937;      /* gray-800 */
-  --color-info: #79bfe2;
-  --color-info-content: #0e3649;
-  --color-success: #10B981;           /* supporting-green-500 */
-  --color-success-content: #064E3B;   /* supporting-green-900 */
-  --color-warning: #F59E0B;           /* supporting-yellow-500 */
-  --color-warning-content: #78350F;   /* supporting-yellow-900 */
-  --color-error: #E12D39;             /* supporting-red-500 */
-  --color-error-content: #ffffff;
+  --color-primary: #810E0E;
+  --color-primary-content: #FFFFFF;
+  --color-secondary: #FAA739;
+  --color-secondary-content: #120A0A;
+  --color-accent: #3567FF;
+  --color-accent-content: #FFFFFF;
+  --color-neutral: #2A1C1C;
+  --color-neutral-content: #F7EDED;
+  --color-base-100: #1E1414;
+  --color-base-200: #120A0A;
+  --color-base-300: #2A1C1C;
+  --color-base-content: #F7EDED;
+  --color-info: #3567FF;
+  --color-info-content: #FFFFFF;
+  --color-success: #147A4C;
+  --color-success-content: #FFFFFF;
+  --color-warning: #FAA739;
+  --color-warning-content: #120A0A;
+  --color-error: #C12B34;
+  --color-error-content: #FFFFFF;
 
   /* Border radius (preserve from admin.css) */
   --radius-selector: 1rem;
@@ -61,75 +60,75 @@
   --text-body: 16px;
   --text-small-body: 14px;
 
-  /* Primary Colors - Claper Purple (from old theme.css) */
-  --color-primary-50: #f3defa;
-  --color-primary-100: #e8bef5;
-  --color-primary-200: #d08def;
-  --color-primary-300: #b85ce9;
-  --color-primary-400: #9f2be3;
-  --color-primary-500: #8611ed;
-  --color-primary-600: #6b0dbe;
-  --color-primary-700: #500a8e;
-  --color-primary-800: #35065f;
-  --color-primary-900: #1a032f;
+  /* Primary Colors - CCFII Maroon */
+  --color-primary-50: #FBEAEA;
+  --color-primary-100: #F5D3D3;
+  --color-primary-200: #E9AAAA;
+  --color-primary-300: #DC7B7B;
+  --color-primary-400: #C84A4A;
+  --color-primary-500: #810E0E;
+  --color-primary-600: #6A0B0B;
+  --color-primary-700: #540909;
+  --color-primary-800: #3E0606;
+  --color-primary-900: #280404;
 
-  /* Secondary Colors - Navy Purple (from old theme.css) */
-  --color-secondary-50: #e8e6f0;
-  --color-secondary-100: #c5c0db;
-  --color-secondary-200: #9f97c2;
-  --color-secondary-300: #7a6ea9;
-  --color-secondary-400: #5d4f95;
-  --color-secondary-500: #140553;
-  --color-secondary-600: #100442;
-  --color-secondary-700: #0c0332;
-  --color-secondary-800: #080221;
-  --color-secondary-900: #040111;
+  /* Secondary Colors - CCFII Gold */
+  --color-secondary-50: #FFF7E8;
+  --color-secondary-100: #FEEBC8;
+  --color-secondary-200: #FDD79A;
+  --color-secondary-300: #FCC36B;
+  --color-secondary-400: #FBB144;
+  --color-secondary-500: #FAA739;
+  --color-secondary-600: #CF7A20;
+  --color-secondary-700: #A55F18;
+  --color-secondary-800: #7C4511;
+  --color-secondary-900: #532D0A;
 
-  /* Neutral Colors - Wedgewood (from old theme.css) */
-  --color-neutral-50: #F0F4F8;
-  --color-neutral-100: #D9E3ED;
-  --color-neutral-200: #B9CCDF;
-  --color-neutral-300: #97B3CE;
-  --color-neutral-400: #7499BE;
-  --color-neutral-500: #507DAA;
-  --color-neutral-600: #3F6388;
-  --color-neutral-700: #314D68;
-  --color-neutral-800: #253B50;
-  --color-neutral-900: #1A2938;
+  /* Neutral Colors - warm dark console surfaces */
+  --color-neutral-50: #FCF9F9;
+  --color-neutral-100: #F7EDED;
+  --color-neutral-200: #E9DADA;
+  --color-neutral-300: #D7C1C1;
+  --color-neutral-400: #B99B9B;
+  --color-neutral-500: #947575;
+  --color-neutral-600: #735858;
+  --color-neutral-700: #523D3D;
+  --color-neutral-800: #382828;
+  --color-neutral-900: #1E1414;
 
-  /* Supporting Red Colors (from old theme.css) */
-  --color-supporting-red-50: #FCEDEE;
-  --color-supporting-red-100: #F9D5D7;
-  --color-supporting-red-200: #F3ABB0;
-  --color-supporting-red-300: #ED8188;
-  --color-supporting-red-400: #E75761;
-  --color-supporting-red-500: #E12D39;
-  --color-supporting-red-600: #B4242E;
-  --color-supporting-red-700: #871B22;
-  --color-supporting-red-800: #5A1217;
-  --color-supporting-red-900: #2D090B;
+  /* Supporting Red Colors */
+  --color-supporting-red-50: #FCEBED;
+  --color-supporting-red-100: #F8D0D4;
+  --color-supporting-red-200: #F0A4AA;
+  --color-supporting-red-300: #E67780;
+  --color-supporting-red-400: #D94D59;
+  --color-supporting-red-500: #C12B34;
+  --color-supporting-red-600: #A8232B;
+  --color-supporting-red-700: #8C1C23;
+  --color-supporting-red-800: #6E151A;
+  --color-supporting-red-900: #4D0E11;
 
-  /* Supporting Yellow Colors (from old theme.css) */
-  --color-supporting-yellow-50: #FFFBEB;
-  --color-supporting-yellow-100: #FEF3C7;
-  --color-supporting-yellow-200: #FDE68A;
-  --color-supporting-yellow-300: #FCD34D;
-  --color-supporting-yellow-400: #FBBF24;
-  --color-supporting-yellow-500: #F59E0B;
-  --color-supporting-yellow-600: #D97706;
-  --color-supporting-yellow-700: #B45309;
-  --color-supporting-yellow-800: #92400E;
-  --color-supporting-yellow-900: #78350F;
+  /* Supporting Yellow Colors */
+  --color-supporting-yellow-50: #FFF7E8;
+  --color-supporting-yellow-100: #FEEBC8;
+  --color-supporting-yellow-200: #FDD79A;
+  --color-supporting-yellow-300: #FCC36B;
+  --color-supporting-yellow-400: #FBB144;
+  --color-supporting-yellow-500: #FAA739;
+  --color-supporting-yellow-600: #CF7A20;
+  --color-supporting-yellow-700: #A55F18;
+  --color-supporting-yellow-800: #7C4511;
+  --color-supporting-yellow-900: #532D0A;
 
-  /* Supporting Green Colors (from old theme.css) */
-  --color-supporting-green-50: #ECFDF5;
-  --color-supporting-green-100: #D1FAE5;
-  --color-supporting-green-200: #A7F3D0;
-  --color-supporting-green-300: #6EE7B7;
-  --color-supporting-green-400: #34D399;
-  --color-supporting-green-500: #10B981;
-  --color-supporting-green-600: #059669;
-  --color-supporting-green-700: #047857;
-  --color-supporting-green-800: #065F46;
-  --color-supporting-green-900: #064E3B;
+  /* Supporting Green Colors */
+  --color-supporting-green-50: #EAF8F1;
+  --color-supporting-green-100: #CDEDDC;
+  --color-supporting-green-200: #9DDCBC;
+  --color-supporting-green-300: #6DCB9B;
+  --color-supporting-green-400: #3DAC76;
+  --color-supporting-green-500: #147A4C;
+  --color-supporting-green-600: #10663F;
+  --color-supporting-green-700: #0C5233;
+  --color-supporting-green-800: #083E27;
+  --color-supporting-green-900: #052B1B;
 }

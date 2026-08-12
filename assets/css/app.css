@@ -5,7 +5,7 @@
 @import './ticket.css';
 
 @plugin "daisyui" {
-  themes: claper --default;
+  themes: ccfii-present --default;
 }
 
 @utility btn {
@@ -17,11 +17,11 @@
 }
 
 @utility btn-gradient {
-  background: linear-gradient(to bottom right, var(--color-cyan-500, #06b6d4), var(--color-primary-500, #8611ed));
+  background: linear-gradient(to bottom right, #810E0E, #FAA739);
   border: none;
-  color: white;
+  color: #FFFFFF;
   &:hover {
-    background: linear-gradient(to bottom right, var(--color-cyan-600, #0891b2), var(--color-primary-600, #6b0dbe));
+    background: linear-gradient(to bottom right, #6A0B0B, #CF7A20);
   }
 }
 
@@ -50,9 +50,21 @@
   [role="button"] {
     cursor: pointer;
   }
+
+  :focus-visible {
+    outline: 3px solid #3567FF;
+    outline-offset: 3px;
+  }
 }
 
 [x-cloak] { display: none !important; }
+
+.ccfii-auth-backdrop {
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(129, 14, 14, 0.56), transparent 42%),
+    radial-gradient(circle at 85% 0%, rgba(250, 167, 57, 0.2), transparent 36%),
+    linear-gradient(135deg, #120A0A 0%, #1E1414 52%, #2A1C1C 100%);
+}
 
 /*
  The manager screen uses its own full-height scrolling containers. DaisyUI's
