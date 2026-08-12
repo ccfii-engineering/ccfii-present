@@ -25,7 +25,7 @@ defmodule ClaperWeb.EventLive.QuizComponent do
       <div
         :if={!@focus_mode}
         id="collapsed-quiz"
-        class="mx-auto hidden w-max rounded-full bg-gray-900 px-5 py-3 shadow-xl ring-1 ring-white/10"
+        class="mx-auto hidden w-max rounded-full bg-base-100 px-5 py-3 shadow-xl ring-1 ring-base-300"
       >
         <button
           type="button"
@@ -55,7 +55,7 @@ defmodule ClaperWeb.EventLive.QuizComponent do
       <div
         id="extended-quiz"
         class={[
-          "w-full rounded-2xl bg-gray-900 p-4 text-gray-100",
+          "w-full rounded-2xl bg-base-100 p-4 text-base-content",
           @focus_mode && "shadow-none ring-0",
           !@focus_mode && "shadow-2xl ring-1 ring-white/10"
         ]}
@@ -107,7 +107,7 @@ defmodule ClaperWeb.EventLive.QuizComponent do
                     !opt.is_correct && selected &&
                       "border-supporting-red-400 bg-supporting-red-900/40 text-supporting-red-200",
                     !opt.is_correct && !selected &&
-                      "border-gray-700 bg-gray-800 text-gray-300 opacity-60"
+                      "border-base-300 bg-base-200 text-neutral-400"
                   ]}>
                     <div class="flex min-w-0 items-center gap-3 text-left">
                       <span class={[
@@ -145,7 +145,7 @@ defmodule ClaperWeb.EventLive.QuizComponent do
                       Enum.any?(@selected_quiz_question_opts, &(&1.id == opt.id)) &&
                         "border-primary-400 bg-primary-900/40",
                       !Enum.any?(@selected_quiz_question_opts, &(&1.id == opt.id)) &&
-                        "border-gray-700 bg-gray-800 hover:border-primary-400"
+                        "border-base-300 bg-base-200 hover:border-primary-400"
                     ]}
                   >
                     <div class="flex min-w-0 items-center gap-3 text-left">
