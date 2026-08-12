@@ -69,7 +69,7 @@ defmodule ClaperWeb.Component.TextInput do
           minlength={@minlength}
           maxlength={@maxlength}
           class={[
-            "input w-full bg-white",
+            "input w-full border-base-300 bg-base-200 text-base-content placeholder:text-neutral-400 focus:border-secondary focus:outline-secondary",
             size_class(@size),
             @errors != [] && "input-error",
             @class

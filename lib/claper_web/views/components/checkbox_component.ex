@@ -38,7 +38,7 @@ defmodule ClaperWeb.Component.Checkbox do
 
   def checkbox(assigns) do
     ~H"""
-    <label class="flex items-center gap-3 cursor-pointer py-2">
+    <label class="flex cursor-pointer items-center gap-3 py-2 has-[:disabled]:cursor-not-allowed">
       <input type="hidden" name={input_name(@form, @key)} value="false" disabled={@rest[:disabled]} />
       <input
         type="checkbox"
@@ -49,7 +49,7 @@ defmodule ClaperWeb.Component.Checkbox do
         class={["checkbox shrink-0", color_class(@color), size_class(@size), @class]}
         {@rest}
       />
-      <span :if={@label} class="text-base text-neutral">{@label}</span>
+      <span :if={@label} class="text-base text-base-content">{@label}</span>
       {render_slot(@inner_block)}
     </label>
     """
