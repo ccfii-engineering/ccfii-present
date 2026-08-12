@@ -68,7 +68,8 @@ jobs:
             exit 1
           fi
 
-          if grep -Eqi 'manifest unknown|manifest not found|no such manifest' "$inspect_output"; then
+          if grep -Eqi 'manifest unknown|manifest not found|no such manifest' "$inspect_output" || \
+            grep -Fxq "ERROR: $IMAGE_NAME:$IMAGE_TAG: not found" "$inspect_output"; then
             echo "Immutable image tag is available: $IMAGE_NAME:$IMAGE_TAG"
             exit 0
           fi
