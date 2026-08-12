@@ -20,6 +20,15 @@ defmodule ClaperWeb.BrandComponentsTest do
     end
   end
 
+  test "committed Apple touch icon is a 180px PNG" do
+    path = Path.join([File.cwd!(), "priv", "static", "apple-touch-icon.png"])
+
+    assert File.regular?(path), "expected apple-touch-icon.png to be committed at #{path}"
+    assert File.stat!(path).size > 0, "expected apple-touch-icon.png to be non-empty"
+    assert File.read!(path) |> binary_part(0, 8) == @png_signature
+    assert png_dimensions(path) == {180, 180}
+  end
+
   test "renders the accessible full lockup" do
     html = render_component(&BrandComponents.logo/1, %{variant: :full, class: "h-10"})
     assert html =~ ~s(src="/images/ccfii-present-logo.png")
@@ -38,5 +47,12 @@ defmodule ClaperWeb.BrandComponentsTest do
     assert html =~ ~s(href="https://github.com/ClaperCo/Claper")
     assert html =~ ~s(target="_blank")
     assert html =~ ~s(rel="noopener noreferrer")
+  end
+
+  defp png_dimensions(path) do
+    <<@png_signature, _length::32, "IHDR", width::32, height::32, _rest::binary>> =
+      File.read!(path)
+
+    {width, height}
   end
 end
