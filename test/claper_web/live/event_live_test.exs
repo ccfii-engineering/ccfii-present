@@ -2,7 +2,12 @@ defmodule ClaperWeb.EventLiveTest do
   use ClaperWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import Claper.{FormsFixtures, PresentationsFixtures}
+  import Claper.{FormsFixtures, PollsFixtures, PostsFixtures, PresentationsFixtures}
+
+  alias ClaperWeb.EventLive.{
+    ManageInteractionListComponent,
+    ManageablePostComponent
+  }
 
   @update_attrs %{name: "some updated name"}
 
@@ -194,6 +199,197 @@ defmodule ClaperWeb.EventLiveTest do
   describe "Manage" do
     setup [:register_and_log_in_user, :create_event]
 
+    test "uses semantic dark console surfaces without legacy manager chrome", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      manage_path = ~p"/e/#{presentation_file.event.code}/manage"
+      {:ok, manage_live, _html} = live(conn, manage_path)
+
+      assert has_element?(manage_live, "#manager.bg-base-200.text-base-content")
+      assert has_element?(manage_live, "#manager header.bg-base-100.border-base-300")
+      assert has_element?(manage_live, "#manager main.bg-base-100")
+      assert has_element?(manage_live, "#manager aside.bg-base-100")
+
+      assert has_element?(
+               manage_live,
+               "#manager #interaction-drag-list.bg-base-100.border-base-300"
+             )
+
+      default_html = render(manage_live)
+
+      {:ok, import_live, _html} =
+        live(conn, ~p"/e/#{presentation_file.event.code}/manage/import")
+
+      manager_html = default_html <> render(import_live)
+
+      for legacy_class <- ["#140553", "#f3defa", "bg-white", "bg-blue-500"] do
+        refute manager_html =~ legacy_class
+      end
+    end
+
+    test "uses semantic manager response bubbles without legacy purple", %{
+      presentation_file: presentation_file
+    } do
+      post =
+        post_fixture(%{
+          event: presentation_file.event,
+          body: "Can we review this?",
+          pinned: true
+        })
+
+      html =
+        render_component(ManageablePostComponent,
+          id: "semantic-response",
+          event: presentation_file.event,
+          post: post
+        )
+
+      document = Floki.parse_document!(html)
+
+      assert "bg-base-100" in classes(document, ".rounded-br-2xl")
+      assert "text-base-content" in classes(document, ".rounded-br-2xl")
+      refute html =~ "rgba(134,17,237"
+      refute html =~ "#fff"
+      refute html =~ "text-gray-"
+      refute html =~ "border-gray-"
+    end
+
+    test "reveals manager row actions on keyboard focus and names icon buttons", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      post =
+        post_fixture(%{
+          event: presentation_file.event,
+          body: "Please moderate this response",
+          attendee_identifier: "manager-action-attendee",
+          user_id: nil
+        })
+
+      post_document =
+        ManageablePostComponent
+        |> render_component(
+          id: "keyboard-actions-response",
+          event: presentation_file.event,
+          post: post
+        )
+        |> Floki.parse_document!()
+
+      assert Floki.find(
+               post_document,
+               ~s(.group-focus-within\\:opacity-100 button[aria-label="Pin"])
+             ) != []
+
+      assert Floki.find(
+               post_document,
+               ~s(.group-focus-within\\:opacity-100 button[aria-label="Ban"])
+             ) != []
+
+      assert Floki.find(
+               post_document,
+               ~s(.group-focus-within\\:opacity-100 button[aria-label="Delete"])
+             ) != []
+
+      form =
+        form_fixture(%{
+          presentation_file_id: presentation_file.id,
+          title: "Accessible feedback"
+        })
+
+      {:ok, submission} =
+        Claper.Forms.create_form_submit(%{
+          form_id: form.id,
+          attendee_identifier: "manager-form-attendee",
+          response: %{"Feedback" => "Clear"}
+        })
+
+      {:ok, manage_live, _html} = live(conn, ~p"/e/#{presentation_file.event.code}/manage")
+      forms_html = render_click(manage_live, "list-tab", %{"tab" => "forms"})
+      forms_document = Floki.parse_document!(forms_html)
+
+      assert Floki.find(
+               forms_document,
+               ~s(#form-list .group-focus-within\\:opacity-100 button[phx-click="delete-form-submit"][phx-value-id="#{submission.id}"][aria-label="Delete"])
+             ) != []
+    end
+
+    test "gives every manager switch a visible focus indicator and readable disabled label", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      poll_fixture(%{presentation_file_id: presentation_file.id, position: 0, enabled: true})
+
+      {:ok, _setting} = Claper.Settings.set("transcription_enabled", "true")
+
+      {:ok, _transcription_config} =
+        Claper.Transcriptions.create_transcription_config(%{
+          presentation_file_id: presentation_file.id,
+          enabled: false
+        })
+
+      {:ok, _manage_live, html} = live(conn, ~p"/e/#{presentation_file.event.code}/manage")
+      document = Floki.parse_document!(html)
+
+      switches = Floki.find(document, ~s(button[role="switch"]))
+      switch_classes = Floki.attribute(switches, "class")
+
+      assert length(switch_classes) >= 8
+      assert Enum.all?(switch_classes, &String.contains?(&1, "focus-visible:ring-2"))
+      assert Enum.all?(switch_classes, &String.contains?(&1, "focus-visible:ring-secondary"))
+      refute Enum.any?(switch_classes, &String.contains?(&1, "focus:outline-none"))
+
+      assert Enum.all?(switches, fn switch ->
+               switch |> Floki.attribute("aria-label") |> Enum.any?(&(&1 != ""))
+             end)
+
+      interaction_checkboxes =
+        Floki.find(document, ~s(#interaction-drag-list input[type="checkbox"]))
+
+      assert length(interaction_checkboxes) == 2
+
+      assert Enum.all?(interaction_checkboxes, fn checkbox ->
+               checkbox |> Floki.attribute("aria-label") |> Enum.any?(&(&1 != ""))
+             end)
+
+      assert Floki.find(document, ~s(div.opacity-50 button[role="switch"][disabled])) == []
+      assert Floki.find(document, ~s(div.text-neutral-400 button[role="switch"][disabled])) != []
+    end
+
+    test "keeps disabled manager descriptions readable without opacity", %{
+      conn: conn,
+      presentation_file: presentation_file
+    } do
+      {:ok, _setting} = Claper.Settings.set("transcription_enabled", "true")
+
+      {:ok, transcription_config} =
+        Claper.Transcriptions.create_transcription_config(%{
+          presentation_file_id: presentation_file.id,
+          enabled: false
+        })
+
+      popup_document =
+        ManageInteractionListComponent
+        |> render_component(
+          id: "readable-disabled-popup",
+          interactions: [],
+          event_code: presentation_file.event.code,
+          transcription_config: transcription_config,
+          transcription_globally_enabled: true
+        )
+        |> Floki.parse_document!()
+
+      assert Floki.find(popup_document, ~s(div[aria-disabled="true"].opacity-50)) == []
+      assert "text-neutral-400" in classes(popup_document, ~s(div[aria-disabled="true"]))
+
+      {:ok, manage_live, _html} = live(conn, ~p"/e/#{presentation_file.event.code}/manage")
+
+      render_click(manage_live, "toggle-interaction-modal")
+
+      assert has_element?(manage_live, ~s(#option-5 div[aria-disabled="true"].text-neutral-400))
+      refute has_element?(manage_live, ~s(#option-5 div[aria-disabled="true"].opacity-50))
+    end
+
     test "prompts to regenerate missing thumbnails and starts regeneration", %{
       conn: conn,
       presentation_file: presentation_file
@@ -322,6 +518,69 @@ defmodule ClaperWeb.EventLiveTest do
 
       assert has_element?(join_live, "#form")
       assert has_element?(join_live, "#input[placeholder='ABCD1234']")
+      assert has_element?(join_live, ".ccfii-join-page")
+      assert has_element?(join_live, "#input.join-code-input")
+      assert has_element?(join_live, "#submit.btn-primary")
+      assert has_element?(join_live, ~s(#input[maxlength="10"][required][autofocus]))
+      assert has_element?(join_live, ~s(#input[class*="uppercase"]))
+      assert has_element?(join_live, ~s(#form[action="/join"]))
+      refute html =~ "cyan-"
+      refute html =~ "rgba(134, 17, 237"
+
+      join_css = Path.expand("../../../assets/css/app.css", __DIR__) |> File.read!()
+
+      assert join_css =~ """
+             .ccfii-join-page .ccfii-join-menu-overlay button:focus-visible {
+               outline: 2px solid #120A0A;
+             """
     end
+
+    test "marks the join input invalid and explains a missing event code", %{conn: conn} do
+      {:ok, join_live, _html} = live(conn, ~p"/")
+
+      invalid_event_redirect =
+        join_live
+        |> form("#form", event: %{code: "MISSING999"})
+        |> render_submit()
+
+      root_redirect =
+        follow_redirect(invalid_event_redirect, conn, ~p"/e/missing999")
+
+      {:ok, redirected_conn} = follow_redirect(root_redirect, conn, ~p"/")
+      {:ok, redirected_join_live, _html} = live(redirected_conn)
+
+      assert has_element?(redirected_join_live, ~s(#form[action="/join"]))
+
+      assert has_element?(
+               redirected_join_live,
+               ~s(#input[aria-invalid="true"][aria-describedby="join-code-error"])
+             )
+
+      assert has_element?(
+               redirected_join_live,
+               ~s(#join-code-error[role="alert"]),
+               "Event doesn't exist"
+             )
+
+      assert has_element?(
+               redirected_join_live,
+               ~s(#join-code-error svg[aria-hidden="true"])
+             )
+    end
+
+    test "localizes the mobile menu controls", %{conn: conn} do
+      conn = put_req_header(conn, "accept-language", "fr")
+      {:ok, join_live, _html} = live(conn, ~p"/")
+
+      assert has_element?(join_live, ~s(button[aria-label="Ouvrir le menu"]))
+      assert has_element?(join_live, ~s(button[aria-label="Fermer le menu"]))
+    end
+  end
+
+  defp classes(document, selector) do
+    document
+    |> Floki.attribute(selector, "class")
+    |> List.first()
+    |> String.split()
   end
 end

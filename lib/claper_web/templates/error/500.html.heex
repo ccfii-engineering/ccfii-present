@@ -7,9 +7,22 @@
     {csrf_meta_tag()}
     <title>{gettext("Not found - CCFII Present")}</title>
     <link rel="icon" type="image/png" href="/images/favicon.png" />
-    <link phx-track-static rel="stylesheet" href="/assets/app.css" />
-    <link phx-track-static rel="stylesheet" href="/assets/custom.css" />
-    <script defer phx-track-static type="text/javascript" src="/assets/app.js">
+    <link
+      phx-track-static
+      rel="stylesheet"
+      href={static_path(ClaperWeb.Endpoint, "/assets/app.css")}
+    />
+    <link
+      phx-track-static
+      rel="stylesheet"
+      href={static_path(ClaperWeb.Endpoint, "/assets/custom.css")}
+    />
+    <script
+      defer
+      phx-track-static
+      type="text/javascript"
+      src={static_path(ClaperWeb.Endpoint, "/assets/app.js")}
+    >
     </script>
   </head>
   <body class="">

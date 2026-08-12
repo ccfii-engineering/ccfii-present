@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="ccfii-present">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,11 +8,24 @@
     <.live_title suffix={" · #{gettext("CCFII Present Admin")}"}>
       {assigns[:page_title] || "Admin Dashboard"}
     </.live_title>
-    <link phx-track-static rel="stylesheet" href="/assets/app.css" />
-    <link phx-track-static rel="stylesheet" href="/assets/admin.css" />
+    <link
+      phx-track-static
+      rel="stylesheet"
+      href={static_path(ClaperWeb.Endpoint, "/assets/app.css")}
+    />
+    <link
+      phx-track-static
+      rel="stylesheet"
+      href={static_path(ClaperWeb.Endpoint, "/assets/admin.css")}
+    />
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <script defer phx-track-static type="text/javascript" src="/assets/app.js">
+    <script
+      defer
+      phx-track-static
+      type="text/javascript"
+      src={static_path(ClaperWeb.Endpoint, "/assets/app.js")}
+    >
     </script>
   </head>
   <body>

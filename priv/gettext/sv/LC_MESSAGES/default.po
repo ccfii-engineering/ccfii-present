@@ -98,8 +98,8 @@ msgstr "minuter"
 #: lib/claper_web/live/event_live/event_card_component.ex:379
 #: lib/claper_web/live/event_live/event_card_component.ex:632
 #: lib/claper_web/live/event_live/join.ex:41
-#: lib/claper_web/live/event_live/join.html.heex:143
-#: lib/claper_web/live/event_live/join.html.heex:146
+#: lib/claper_web/live/event_live/join.html.heex:113
+#: lib/claper_web/live/event_live/join.html.heex:116
 #: lib/claper_web/live/event_live/manage.html.heex:459
 #, elixir-autogen, elixir-format
 msgid "Join"
@@ -108,8 +108,8 @@ msgstr "Gå med"
 #: lib/claper_web/live/admin_live/dashboard_live.ex:22
 #: lib/claper_web/live/admin_live/dashboard_live.html.heex:3
 #: lib/claper_web/live/event_live/index.ex:192
+#: lib/claper_web/live/event_live/join.html.heex:37
 #: lib/claper_web/live/event_live/join.html.heex:71
-#: lib/claper_web/live/event_live/join.html.heex:101
 #: lib/claper_web/templates/layout/admin_app.html.heex:69
 #, elixir-autogen, elixir-format
 msgid "Dashboard"
@@ -165,8 +165,8 @@ msgstr "Startar den"
 msgid "Updated successfully"
 msgstr "Uppdaterades"
 
-#: lib/claper_web/templates/error/404.html.heex:36
-#: lib/claper_web/templates/error/500.html.heex:37
+#: lib/claper_web/templates/error/404.html.heex:49
+#: lib/claper_web/templates/error/500.html.heex:50
 #, elixir-autogen, elixir-format
 msgid "Return to home"
 msgstr "Tillbaka till start"
@@ -344,12 +344,12 @@ msgstr "Fråga, kommentera..."
 msgid "Messages"
 msgstr "Meddelanden"
 
-#: lib/claper_web/templates/error/404.html.heex:31
+#: lib/claper_web/templates/error/404.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "Oops, page doesn't exist."
 msgstr "Hoppsan! Sidan finns inte."
 
-#: lib/claper_web/templates/error/500.html.heex:31
+#: lib/claper_web/templates/error/500.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "The site is under maintenance, we'll be back very soon!"
 msgstr "Webbplatsen underhålls just nu. Vi är snart tillbaka!"
@@ -505,8 +505,8 @@ msgstr "Engagemangsgrad"
 msgid "Error when processing the file"
 msgstr "Fel vid bearbetning av filen"
 
+#: lib/claper_web/live/event_live/join.html.heex:33
 #: lib/claper_web/live/event_live/join.html.heex:67
-#: lib/claper_web/live/event_live/join.html.heex:97
 #, elixir-autogen, elixir-format
 msgid "About"
 msgstr "Om"
@@ -919,7 +919,7 @@ msgstr "Live"
 msgid "My events"
 msgstr "Mina evenemang"
 
-#: lib/claper_web/live/event_live/join.html.heex:152
+#: lib/claper_web/live/event_live/join.html.heex:122
 #, elixir-autogen, elixir-format
 msgid "Return to your last event"
 msgstr "Återgå till ditt senaste evenemang"
@@ -2201,7 +2201,7 @@ msgstr "(valfritt)"
 msgid "Add a poll to gauge your audience's opinion."
 msgstr "Lägg till en omröstning för att mäta din publiks åsikt."
 
-#: lib/claper_web/live/event_live/join.html.heex:173
+#: lib/claper_web/live/event_live/join.html.heex:143
 #, elixir-autogen, elixir-format
 msgid "Are you a presenter?"
 msgstr "Är du presentatör?"
@@ -2248,7 +2248,7 @@ msgstr "Bädda in externt webbinnehåll i din presentation."
 msgid "End Event"
 msgstr "Avsluta evenemang"
 
-#: lib/claper_web/live/event_live/join.html.heex:119
+#: lib/claper_web/live/event_live/join.html.heex:89
 #, elixir-autogen, elixir-format
 msgid "Enter the code shared by the presenter"
 msgstr "Ange koden som delades av presentatören"
@@ -2271,7 +2271,7 @@ msgstr "Evenemangsansvarig"
 msgid "Form submissions will appear here."
 msgstr "Formulärsvar från deltagare kommer att visas här."
 
-#: lib/claper_web/live/event_live/join.html.heex:116
+#: lib/claper_web/live/event_live/join.html.heex:86
 #, elixir-autogen, elixir-format
 msgid "Join the event"
 msgstr "Anslut till evenemanget"
@@ -2291,7 +2291,7 @@ msgstr "Senaste"
 msgid "NEWS:"
 msgstr "NYHETER:"
 
-#: lib/claper_web/live/event_live/manage_interaction_options_component.ex:194
+#: lib/claper_web/live/event_live/manage_interaction_options_component.ex:195
 #, elixir-autogen, elixir-format
 msgid "No interaction enabled"
 msgstr "Ingen interaktion aktiverad"
@@ -2301,7 +2301,7 @@ msgstr "Ingen interaktion aktiverad"
 msgid "No interactions on this slide"
 msgstr "Inga interaktioner på den här bilden"
 
-#: lib/claper_web/live/event_live/manage_interaction_options_component.ex:197
+#: lib/claper_web/live/event_live/manage_interaction_options_component.ex:199
 #, elixir-autogen, elixir-format
 msgid "No settings available for this interaction"
 msgstr "Inga inställningar tillgängliga för den här interaktionen"
@@ -2349,7 +2349,7 @@ msgstr "Visa nyaste frågor först"
 msgid "Sort by:"
 msgstr "Sortera efter:"
 
-#: lib/claper_web/live/event_live/join.html.heex:178
+#: lib/claper_web/live/event_live/join.html.heex:148
 #, elixir-autogen, elixir-format
 msgid "Start creating for free"
 msgstr "Börja skapa gratis"
@@ -2508,8 +2508,8 @@ msgstr "Genom att skapa ett konto godkänner du vår"
 msgid "Join 6,000+ speakers"
 msgstr "Anslut dig till 6 000+ talare"
 
+#: lib/claper_web/live/event_live/join.html.heex:41
 #: lib/claper_web/live/event_live/join.html.heex:75
-#: lib/claper_web/live/event_live/join.html.heex:105
 #: lib/claper_web/templates/user_registration/new.html.heex:131
 #: lib/claper_web/templates/user_session/new.html.heex:34
 #: lib/claper_web/templates/user_session/new.html.heex:75
@@ -3657,4 +3657,19 @@ msgstr ""
 #: lib/claper_web/templates/error/500.html.heex:8
 #, elixir-autogen, elixir-format
 msgid "Not found - CCFII Present"
+msgstr ""
+
+#: lib/claper_web/live/event_live/join.html.heex:20
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Close menu"
+msgstr "Stäng"
+
+#: lib/claper_web/live/event_live/join.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "Open menu"
+msgstr ""
+
+#: lib/claper_web/live/admin_live/table_component.ex:69
+#, elixir-autogen, elixir-format
+msgid "View"
 msgstr ""

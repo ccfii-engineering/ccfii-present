@@ -7,7 +7,7 @@ defmodule ClaperWeb.EventLive.ManageAttendeesOptionsComponent do
     assigns = assigns |> assign_new(:show_shortcut, fn -> true end)
 
     ~H"""
-    <div class="flex flex-col gap-2 border border-gray-200 rounded-2xl p-2 bg-white shadow-lg">
+    <div class="flex flex-col gap-2 border border-base-300 rounded-2xl p-2 bg-base-100 text-base-content shadow-lg">
       <div class="flex items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +19,7 @@ defmodule ClaperWeb.EventLive.ManageAttendeesOptionsComponent do
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-mood-cog shrink-0 text-[#140553]"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-mood-cog shrink-0 text-secondary"
         >
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
           <path d="M21 12a9 9 0 1 0 -8.983 9" />
@@ -34,7 +34,7 @@ defmodule ClaperWeb.EventLive.ManageAttendeesOptionsComponent do
           <path d="M15 10h.01" />
           <path d="M9.5 15c.658 .64 1.56 1 2.5 1" />
         </svg>
-        <span class="font-bold text-sm text-[#140553]">{gettext("Attendee Settings")}</span>
+        <span class="font-bold text-sm text-base-content">{gettext("Attendee Settings")}</span>
       </div>
 
       <div class="space-y-2 px-1">
@@ -124,19 +124,27 @@ defmodule ClaperWeb.EventLive.ManageAttendeesOptionsComponent do
     ~H"""
     <div class={[
       "flex items-center gap-2 rounded-full pl-2 pr-3 py-2 overflow-hidden transition-colors",
-      if(@disabled, do: "opacity-50"),
+      if(@disabled, do: "cursor-not-allowed text-neutral-400"),
       if(@checked,
-        do: "bg-[#f3defa] border-b-2 border-primary",
-        else: "bg-white border border-gray-200"
+        do: "bg-primary/15 border-b-2 border-primary",
+        else: "bg-base-100 border border-base-300"
       )
     ]}>
       <div class={[
         "flex items-center justify-center w-8 h-8 rounded-full shrink-0",
-        if(@checked, do: "bg-white text-primary-500", else: "bg-gray-100 text-secondary-500")
+        if(@disabled,
+          do: "bg-base-200 text-neutral-400",
+          else:
+            if(@checked, do: "bg-primary text-primary-content", else: "bg-base-200 text-secondary")
+        )
       ]}>
         {render_slot(@icon)}
       </div>
-      <span class={["flex-1 text-xs text-gray-700", if(@checked, do: "font-semibold")]}>
+      <span class={[
+        "flex-1 text-xs",
+        if(@disabled, do: "text-neutral-400", else: "text-base-content"),
+        if(@checked, do: "font-semibold")
+      ]}>
         {@label}
       </span>
       <div class="flex items-center gap-x-2 shrink-0">
@@ -148,15 +156,16 @@ defmodule ClaperWeb.EventLive.ManageAttendeesOptionsComponent do
           disabled={@disabled}
           phx-value-key={@key}
           type="button"
-          class={"relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:cursor-not-allowed #{if @checked, do: "bg-primary-500", else: "bg-gray-200"}"}
+          class={"relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 disabled:cursor-not-allowed #{if @checked, do: "bg-primary", else: "bg-base-300"}"}
           role="switch"
+          aria-label={@label}
           aria-checked={@checked}
           phx-key={@shortcut}
           phx-window-keydown={
             if @shortcut && not @disabled, do: ClaperWeb.Component.Input.checked(@checked, @key)
           }
         >
-          <span class={"pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out #{if @checked, do: "translate-x-5", else: "translate-x-0"}"}>
+          <span class={"pointer-events-none inline-block h-5 w-5 transform rounded-full bg-base-content shadow ring-0 transition duration-200 ease-in-out #{if @checked, do: "translate-x-5", else: "translate-x-0"}"}>
           </span>
         </button>
       </div>

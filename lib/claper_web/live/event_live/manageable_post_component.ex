@@ -23,7 +23,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
     >
       <!-- Left: time + avatar -->
       <div class="flex flex-col items-center gap-2 shrink-0">
-        <span class="text-xs text-gray-400 leading-4">
+        <span class="text-xs text-base-content/70 leading-4">
           {Calendar.strftime(@post.inserted_at, "%H:%M")}
         </span>
         <div class="avatar avatar-placeholder">
@@ -37,14 +37,14 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
       <div class="flex-1 min-w-0 flex flex-col">
         <!-- Header: name + actions -->
         <div class="flex items-center gap-1 min-h-6 mb-1 ml-4">
-          <p :if={@post.name} class="font-bold text-xs text-gray-700 truncate">
+          <p :if={@post.name} class="font-bold text-xs text-base-content truncate">
             {@post.name}
           </p>
           
     <!-- Actions (visible on hover) -->
           <div
             :if={!@readonly}
-            class="relative z-20 ml-auto flex items-center divide-x divide-gray-200 border border-gray-200 rounded-lg group-hover:opacity-100 transition-opacity shrink-0"
+            class="relative z-20 ml-auto flex items-center divide-x divide-base-300 border border-base-300 rounded-lg group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity shrink-0"
             x-bind:class="actionsOpen ? 'opacity-100' : 'opacity-0'"
           >
             <div
@@ -52,6 +52,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
               data-tip={if @post.pinned, do: gettext("Unpin"), else: gettext("Pin")}
             >
               <button
+                aria-label={if @post.pinned, do: gettext("Unpin"), else: gettext("Pin")}
                 class="flex items-center justify-center w-8 h-6"
                 phx-click="pin"
                 phx-value-id={@post.uuid}
@@ -67,7 +68,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  class="icon icon-tabler icons-tabler-outline icon-tabler-pinned size-4 text-secondary-500"
+                  class="icon icon-tabler icons-tabler-outline icon-tabler-pinned size-4 text-secondary"
                 >
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                   <path d="M9 4v6l-2 4v2h10v-2l-2 -4v-6" />
@@ -79,6 +80,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
             <%= if @post.attendee_identifier do %>
               <div class="tooltip tooltip-bottom" data-tip={gettext("Ban")}>
                 <button
+                  aria-label={gettext("Ban")}
                   class="flex items-center justify-center w-8 h-6"
                   phx-click="ban"
                   phx-value-attendee_identifier={@post.attendee_identifier}
@@ -109,6 +111,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
             <% else %>
               <div class="tooltip tooltip-bottom" data-tip={gettext("Ban")}>
                 <button
+                  aria-label={gettext("Ban")}
                   class="flex items-center justify-center w-8 h-6"
                   phx-click="ban"
                   phx-value-user_id={@post.user_id}
@@ -139,6 +142,7 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
             <% end %>
             <div class="tooltip tooltip-bottom" data-tip={gettext("Delete")}>
               <button
+                aria-label={gettext("Delete")}
                 class="flex items-center justify-center w-8 h-6"
                 phx-click="delete"
                 phx-value-id={@post.uuid}
@@ -170,19 +174,19 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
         
     <!-- Message bubble with tail -->
         <% is_question = ClaperWeb.Helpers.body_without_links(@post.body) =~ "?" %>
-        <% bubble_bg =
+        <% bubble_classes =
           cond do
             @post.pinned && is_question ->
-              "background: linear-gradient(92deg, rgba(0,0,0,0) 0%, rgba(251,191,36,0.38) 50%, rgba(134,17,237,0.38) 98%), #fff"
+              "bg-base-100 border-2 border-secondary ring-1 ring-primary"
 
             @post.pinned ->
-              "background: linear-gradient(92deg, rgba(0,0,0,0) 0%, rgba(251,191,36,0.38) 98%), #fff"
+              "bg-secondary/15 border border-secondary"
 
             is_question ->
-              "background: linear-gradient(92deg, rgba(0,0,0,0) 0%, rgba(134,17,237,0.38) 98%), #fff"
+              "bg-primary/15 border border-primary"
 
             true ->
-              "background: #fff"
+              "bg-base-100 border border-base-300"
           end %>
         <div class="flex items-end drop-shadow-sm">
           <svg
@@ -191,18 +195,18 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
             height="16"
             viewBox="0 0 16 16"
             fill="none"
-            class="shrink-0 -mr-px"
+            class="shrink-0 -mr-px text-base-100"
           >
-            <path d="M0 16H16V0C16 5.33333 5.33333 16 0 16Z" fill="white" />
+            <path d="M0 16H16V0C16 5.33333 5.33333 16 0 16Z" fill="currentColor" />
           </svg>
-          <div
-            class="rounded-tl-2xl rounded-tr-2xl rounded-br-2xl flex-1 min-w-0 px-3 py-4 relative overflow-hidden"
-            style={bubble_bg}
-          >
+          <div class={[
+            "rounded-tl-2xl rounded-tr-2xl rounded-br-2xl flex-1 min-w-0 px-3 py-4 relative overflow-hidden text-base-content",
+            bubble_classes
+          ]}>
             <!-- Watermark icons -->
             <div
               :if={is_question || @post.pinned}
-              class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-3 opacity-100 pointer-events-none select-none"
+              class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-3 opacity-100 pointer-events-none select-none text-secondary"
             >
               <svg
                 :if={@post.pinned}
@@ -214,37 +218,37 @@ defmodule ClaperWeb.EventLive.ManageablePostComponent do
               >
                 <path
                   d="M0.5 12.5006L3.58667 9.41327M3.59 9.40994L1.73667 7.5566C1.10067 6.92127 1.74067 5.55927 2.61 5.5046C3.39533 5.4546 5.21333 5.73927 5.818 5.1346L7.478 3.4746C7.88933 3.0626 7.628 2.14127 7.60133 1.63327C7.56267 0.955937 8.64 0.11927 9.21133 0.690603L12.3093 3.78927C12.8827 4.36127 12.0427 5.43527 11.3673 5.39927C10.8593 5.3726 9.93733 5.11127 9.52533 5.5226L7.86533 7.1826C7.26133 7.78727 7.54533 9.6046 7.496 10.3899C7.44133 11.2599 6.07933 11.8999 5.44267 11.2633L3.59 9.40994Z"
-                  stroke="white"
+                  stroke="currentColor"
                   stroke-width="1.2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 />
               </svg>
-              <span :if={is_question} class="text-2xl text-white leading-none">?</span>
+              <span :if={is_question} class="text-2xl text-secondary leading-none">?</span>
             </div>
-            <p class="text-sm text-gray-700 break-words relative">
+            <p class="text-sm text-base-content break-words relative">
               {ClaperWeb.Helpers.format_body(@post.body)}
             </p>
 
             <%= if @post.like_count > 0 || @post.love_count > 0 || @post.lol_count > 0 do %>
-              <div class="flex items-center gap-1 mt-2 text-gray-700">
+              <div class="flex items-center gap-1 mt-2 text-base-content">
                 <div
                   :if={@post.like_count > 0}
-                  class="border border-gray-200 rounded-full px-2 py-2 flex items-center gap-1"
+                  class="border border-base-300 rounded-full px-2 py-2 flex items-center gap-1"
                 >
                   <span class="text-sm leading-none">👍</span>
                   <span class="font-bold text-xs">{@post.like_count}</span>
                 </div>
                 <div
                   :if={@post.love_count > 0}
-                  class="border border-gray-200 rounded-full px-2 py-2 flex items-center gap-1"
+                  class="border border-base-300 rounded-full px-2 py-2 flex items-center gap-1"
                 >
                   <span class="text-sm leading-none">❤️</span>
                   <span class="font-bold text-xs">{@post.love_count}</span>
                 </div>
                 <div
                   :if={@post.lol_count > 0}
-                  class="border border-gray-200 rounded-full px-2 py-2 flex items-center gap-1"
+                  class="border border-base-300 rounded-full px-2 py-2 flex items-center gap-1"
                 >
                   <span class="text-sm leading-none">😂</span>
                   <span class="font-bold text-xs">{@post.lol_count}</span>

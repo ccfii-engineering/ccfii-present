@@ -41,7 +41,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
     <div
       id="interaction-drag-list"
       phx-hook="InteractionDrag"
-      class="relative flex flex-col gap-2 border border-gray-200 rounded-2xl p-2"
+      class="relative flex flex-col gap-2 border border-base-300 rounded-2xl bg-base-100 p-2 text-base-content"
     >
       <div class="flex items-center gap-2">
         <svg
@@ -54,7 +54,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-north-star shrink-0 text-[#140553]"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-north-star shrink-0 text-secondary"
         >
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
           <path d="M3 12h18" />
@@ -62,7 +62,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
           <path d="M7.5 7.5l9 9" />
           <path d="M7.5 16.5l9 -9" />
         </svg>
-        <span class="font-bold text-sm text-[#140553]">{gettext("Interactions")}</span>
+        <span class="font-bold text-sm text-base-content">{gettext("Interactions")}</span>
       </div>
 
       <div class="grid grid-cols-4 gap-1">
@@ -118,11 +118,11 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
         <div class="static" x-data="{ open: false }" @click.outside="open = false">
           <button
             @click="open = !open"
-            class="flex flex-col items-center justify-center gap-0.5 py-2 rounded-xl text-gray-600 transition-colors hover:bg-primary-50 hover:text-primary-600 w-full"
+            class="flex flex-col items-center justify-center gap-0.5 py-2 rounded-xl text-base-content transition-colors hover:bg-primary/15 hover:text-secondary w-full"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 text-primary-500"
+              class="h-5 w-5 text-secondary"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -145,7 +145,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
             x-transition:leave="transition ease-in duration-100"
             x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-95"
-            class="absolute left-0 right-0 mt-1 bg-white border border-gray-100 rounded-2xl p-2 shadow-lg z-50"
+            class="absolute left-0 right-0 mt-1 bg-base-100 border border-base-300 rounded-2xl p-2 shadow-lg z-50"
             x-cloak
           >
             <.popup_item
@@ -264,18 +264,18 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
         class={[
           "flex items-center gap-2 overflow-hidden pl-2 pr-3 py-2 rounded-xl w-full",
           if(@transcription_config.enabled,
-            do: "bg-gray-100 border-b-2 border-accent",
-            else: "bg-white border border-gray-200"
+            do: "bg-info/15 border-b-2 border-info",
+            else: "bg-base-100 border border-base-300"
           )
         ]}
       >
         <div class={[
           "flex items-center justify-center rounded-full w-[42px] h-[41px] shrink-0",
-          if(@transcription_config.enabled, do: "bg-white", else: "bg-gray-100")
+          if(@transcription_config.enabled, do: "bg-base-100", else: "bg-base-200")
         ]}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 text-gray-700"
+            class="h-5 w-5 text-base-content"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -291,19 +291,19 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
 
         <div class="flex-1 min-w-0">
           <div class="flex items-center gap-2">
-            <p class="font-bold text-sm text-gray-800 leading-snug truncate">
+            <p class="font-bold text-sm text-base-content leading-snug truncate">
               {gettext("Transcription")}
             </p>
             <span class="badge badge-sm badge-soft badge-primary">{gettext("Global")}</span>
           </div>
-          <p class="text-xs text-gray-500 leading-tight truncate">
+          <p class="text-xs text-base-content/70 leading-tight truncate">
             {transcription_subtitle(@transcription_config)}
           </p>
         </div>
 
         <.link
           patch={~p"/e/#{@event_code}/manage/edit/transcription/#{@transcription_config.id}"}
-          class="flex items-center justify-center rounded-full w-[42px] h-[41px] shrink-0 border border-[#140553] text-[#140553]"
+          class="flex items-center justify-center rounded-full w-[42px] h-[41px] shrink-0 border border-base-300 text-secondary"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -314,7 +314,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
           >
             <path
               d="M3.33301 17.4998H16.6663M4.72134 10.989C4.36602 11.3451 4.16643 11.8276 4.16634 12.3306V14.9998H6.85217C7.35551 14.9998 7.83801 14.7998 8.19384 14.4431L16.1105 6.52229C16.4657 6.16612 16.6652 5.68364 16.6652 5.18063C16.6652 4.67761 16.4657 4.19513 16.1105 3.83896L15.3288 3.05563C15.1526 2.87925 14.9432 2.73935 14.7129 2.64393C14.4825 2.54851 14.2355 2.49943 13.9862 2.49951C13.7368 2.49959 13.4899 2.54882 13.2596 2.64438C13.0292 2.73995 12.82 2.87998 12.6438 3.05646L4.72134 10.989Z"
-              stroke="#140553"
+              stroke="currentColor"
               stroke-width="1.5"
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -324,7 +324,8 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
 
         <input
           type="checkbox"
-          class="toggle toggle-sm shrink-0 bg-gray-200 border-gray-300 [--tglbg:white] checked:bg-white checked:border-accent checked:[--tglbg:var(--color-accent)]"
+          aria-label={gettext("Transcription")}
+          class="toggle toggle-sm shrink-0 bg-base-300 border-base-300 [--tglbg:var(--color-base-content)] checked:bg-info checked:border-info checked:[--tglbg:var(--color-info-content)]"
           checked={@transcription_config.enabled}
           phx-click={
             if(@transcription_config.enabled,
@@ -338,7 +339,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
 
       <div
         :if={length(@interactions) == 0}
-        class="flex flex-col items-center justify-center text-gray-400 py-8"
+        class="flex flex-col items-center justify-center text-base-content/60 py-8"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -366,20 +367,20 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
           class={[
             "flex items-center gap-2 overflow-hidden pl-2 pr-3 py-2 rounded-xl w-full cursor-grab active:cursor-grabbing",
             if(interaction.enabled,
-              do: "bg-gray-100 border-b-2 border-accent",
-              else: "bg-white border border-gray-200"
+              do: "bg-info/15 border-b-2 border-info",
+              else: "bg-base-100 border border-base-300"
             )
           ]}
         >
           <div class={[
             "flex items-center justify-center rounded-full w-[42px] h-[41px] shrink-0",
-            if(interaction.enabled, do: "bg-white", else: "bg-gray-100")
+            if(interaction.enabled, do: "bg-base-100", else: "bg-base-200")
           ]}>
             <%= case interaction do %>
               <% %Claper.Polls.Poll{} -> %>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 text-gray-700"
+                  class="h-5 w-5 text-base-content"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -394,7 +395,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
               <% %Claper.Forms.Form{} -> %>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 text-gray-700"
+                  class="h-5 w-5 text-base-content"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -413,7 +414,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
                   viewBox="0 0 24 24"
                   stroke-width="2"
                   stroke="currentColor"
-                  class="h-5 w-5 text-gray-700"
+                  class="h-5 w-5 text-base-content"
                 >
                   <path
                     stroke-linecap="round"
@@ -428,7 +429,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
                   viewBox="0 0 24 24"
                   stroke-width="2"
                   stroke="currentColor"
-                  class="h-5 w-5 text-gray-700"
+                  class="h-5 w-5 text-base-content"
                 >
                   <path
                     stroke-linecap="round"
@@ -441,10 +442,10 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
           </div>
 
           <div class="flex-1 min-w-0">
-            <p class="font-bold text-sm text-gray-800 leading-snug truncate">
+            <p class="font-bold text-sm text-base-content leading-snug truncate">
               {interaction.title}
             </p>
-            <p class="text-xs text-gray-500 leading-tight truncate">
+            <p class="text-xs text-base-content/70 leading-tight truncate">
               {type_label(interaction)}
             </p>
           </div>
@@ -452,7 +453,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
           <.link
             patch={edit_path(@event_code, interaction)}
             draggable="false"
-            class="flex items-center justify-center rounded-full w-[42px] h-[41px] shrink-0 border border-[#140553] text-[#140553]"
+            class="flex items-center justify-center rounded-full w-[42px] h-[41px] shrink-0 border border-base-300 text-secondary"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -463,7 +464,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
             >
               <path
                 d="M3.33301 17.4998H16.6663M4.72134 10.989C4.36602 11.3451 4.16643 11.8276 4.16634 12.3306V14.9998H6.85217C7.35551 14.9998 7.83801 14.7998 8.19384 14.4431L16.1105 6.52229C16.4657 6.16612 16.6652 5.68364 16.6652 5.18063C16.6652 4.67761 16.4657 4.19513 16.1105 3.83896L15.3288 3.05563C15.1526 2.87925 14.9432 2.73935 14.7129 2.64393C14.4825 2.54851 14.2355 2.49943 13.9862 2.49951C13.7368 2.49959 13.4899 2.54882 13.2596 2.64438C13.0292 2.73995 12.82 2.87998 12.6438 3.05646L4.72134 10.989Z"
-                stroke="#140553"
+                stroke="currentColor"
                 stroke-width="1.5"
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -473,7 +474,8 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
 
           <input
             type="checkbox"
-            class="toggle toggle-sm shrink-0 bg-gray-200 border-gray-300 [--tglbg:white] checked:bg-white checked:border-accent checked:[--tglbg:var(--color-accent)]"
+            aria-label={interaction.title}
+            class="toggle toggle-sm shrink-0 bg-base-300 border-base-300 [--tglbg:var(--color-base-content)] checked:bg-info checked:border-info checked:[--tglbg:var(--color-info-content)]"
             checked={interaction.enabled}
             phx-click={toggle_event(interaction)}
             phx-value-id={interaction.id}
@@ -486,7 +488,7 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
           phx-click="prev-page"
           phx-target={@myself}
           disabled={@page == 0}
-          class="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+          class="p-1 rounded-lg text-base-content/60 hover:text-base-content hover:bg-base-300 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -499,14 +501,14 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <span class="text-xs text-gray-400">
+        <span class="text-xs text-base-content/60">
           {@page + 1} / {@total_pages}
         </span>
         <button
           phx-click="next-page"
           phx-target={@myself}
           disabled={@page >= @total_pages - 1}
-          class="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+          class="p-1 rounded-lg text-base-content/60 hover:text-base-content hover:bg-base-300 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -582,9 +584,9 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
     ~H"""
     <.link
       patch={@patch}
-      class="flex flex-col items-center justify-center gap-0.5 py-2 px-3 rounded-xl text-gray-600 transition-colors hover:bg-primary-50 hover:text-primary-600"
+      class="flex flex-col items-center justify-center gap-0.5 py-2 px-3 rounded-xl text-base-content transition-colors hover:bg-primary/15 hover:text-secondary"
     >
-      <div class="text-primary-500">
+      <div class="text-secondary">
         {render_slot(@inner_block)}
       </div>
       <span class="font-bold text-xs leading-normal">{@label}</span>
@@ -601,34 +603,34 @@ defmodule ClaperWeb.EventLive.ManageInteractionListComponent do
     ~H"""
     <%= if @disabled do %>
       <div
-        class="flex items-center gap-3 p-2 rounded-xl opacity-50 cursor-not-allowed"
+        class="flex items-center gap-3 p-2 rounded-xl cursor-not-allowed text-neutral-400"
         aria-disabled="true"
       >
-        <div class="flex items-center justify-center w-9 h-9 rounded-full bg-primary-50 text-primary-500 shrink-0">
+        <div class="flex items-center justify-center w-9 h-9 rounded-full bg-base-200 text-neutral-400 shrink-0">
           {render_slot(@inner_block)}
         </div>
         <div class="min-w-0">
           <div class="flex items-center gap-2">
-            <p class="font-bold text-sm text-gray-900 leading-snug">{@title}</p>
+            <p class="font-bold text-sm leading-snug">{@title}</p>
             <span :if={@badge} class="badge badge-sm badge-soft badge-primary">{@badge}</span>
           </div>
-          <p class="text-xs text-gray-500 leading-tight">{@description}</p>
+          <p class="text-xs leading-tight">{@description}</p>
         </div>
       </div>
     <% else %>
       <.link
         patch={@patch}
-        class="flex items-center gap-3 p-2 rounded-xl transition-colors hover:bg-primary-50"
+        class="flex items-center gap-3 p-2 rounded-xl transition-colors hover:bg-primary/15"
       >
-        <div class="flex items-center justify-center w-9 h-9 rounded-full bg-primary-50 text-primary-500 shrink-0">
+        <div class="flex items-center justify-center w-9 h-9 rounded-full bg-primary/15 text-secondary shrink-0">
           {render_slot(@inner_block)}
         </div>
         <div class="min-w-0">
           <div class="flex items-center gap-2">
-            <p class="font-bold text-sm text-gray-900 leading-snug">{@title}</p>
+            <p class="font-bold text-sm text-base-content leading-snug">{@title}</p>
             <span :if={@badge} class="badge badge-sm badge-soft badge-primary">{@badge}</span>
           </div>
-          <p class="text-xs text-gray-500 leading-tight">{@description}</p>
+          <p class="text-xs text-base-content/70 leading-tight">{@description}</p>
         </div>
       </.link>
     <% end %>

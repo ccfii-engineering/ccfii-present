@@ -105,16 +105,16 @@
         <div id="post-list" phx-update="replace">
           <%= for post <- @posts do %>
             <div class={if post.__meta__.state == :deleted, do: "hidden"} id={"#{post.id}-post"}>
-              <div class="px-4 pb-2 pt-3 rounded-b-lg rounded-tr-lg bg-white shadow-md text-black break-word mt-4">
+              <div class="px-4 pb-2 pt-3 rounded-b-lg rounded-tr-lg bg-base-100 shadow-md text-base-content break-word mt-4">
                 <%= if post.name do %>
-                  <p class={"#{if @iframe, do: "text-base", else: "text-lg"} text-gray-400 font-semibold mb-2 mr-2"}>
+                  <p class={"#{if @iframe, do: "text-base", else: "text-lg"} text-neutral-400 font-semibold mb-2 mr-2"}>
                     {post.name}
                   </p>
                 <% end %>
                 <p class={"#{if @iframe, do: "text-xl", else: "text-3xl"}"}>{post.body}</p>
 
                 <%= if post.like_count > 0 || post.love_count > 0 || post.lol_count > 0 do %>
-                  <div class="flex h-6 space-x-2 text-lg text-gray-500 pb-3 items-center mt-5">
+                  <div class="flex h-6 space-x-2 text-lg text-base-content/70 pb-3 items-center mt-5">
                     <div class="flex items-center">
                       <%= if post.like_count > 0 do %>
                         <img
@@ -152,16 +152,16 @@
         <div id="pinned-posts" phx-update="replace">
           <%= for post <- @pinned_posts do %>
             <div class={if post.__meta__.state == :deleted, do: "hidden"} id={"#{post.id}-post"}>
-              <div class="px-4 pb-2 pt-3 rounded-b-lg rounded-tr-lg bg-white shadow-md text-black break-word mt-4">
+              <div class="px-4 pb-2 pt-3 rounded-b-lg rounded-tr-lg bg-base-100 shadow-md text-base-content break-word mt-4">
                 <%= if post.name do %>
-                  <p class={"#{if @iframe, do: "text-base", else: "text-lg"} text-gray-400 font-semibold mb-2 mr-2"}>
+                  <p class={"#{if @iframe, do: "text-base", else: "text-lg"} text-neutral-400 font-semibold mb-2 mr-2"}>
                     {post.name}
                   </p>
                 <% end %>
                 <p class={"#{if @iframe, do: "text-xl", else: "text-3xl"}"}>{post.body}</p>
 
                 <%= if post.like_count > 0 || post.love_count > 0 || post.lol_count > 0 do %>
-                  <div class="flex h-6 space-x-2 text-lg text-gray-500 pb-3 items-center mt-5">
+                  <div class="flex h-6 space-x-2 text-lg text-base-content/70 pb-3 items-center mt-5">
                     <div class="flex items-center">
                       <%= if post.like_count > 0 do %>
                         <img

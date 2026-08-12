@@ -10,7 +10,7 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
           type="button"
           phx-click="view_item"
           phx-target={@myself}
-          class="text-indigo-600 hover:text-indigo-900 transition-colors duration-200"
+          class="text-secondary hover:text-secondary/80 transition-colors duration-200"
           title="View"
         >
           <i class="fas fa-eye"></i>
@@ -23,7 +23,7 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
           type="button"
           phx-click="edit_item"
           phx-target={@myself}
-          class="text-indigo-600 hover:text-indigo-900 transition-colors duration-200"
+          class="text-secondary hover:text-secondary/80 transition-colors duration-200"
           title="Edit"
         >
           <i class="fas fa-edit"></i>
@@ -36,7 +36,7 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
           type="button"
           phx-click="delete_item"
           phx-target={@myself}
-          class="text-red-600 hover:text-red-900 transition-colors duration-200"
+          class="rounded text-supporting-red-200 hover:bg-error hover:text-error-content transition-colors duration-200"
           title="Delete"
           data-confirm={
             @delete_confirm_message ||
@@ -53,7 +53,7 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
           type="button"
           phx-click="duplicate_item"
           phx-target={@myself}
-          class="text-green-600 hover:text-green-900 transition-colors duration-200"
+          class="rounded text-supporting-green-200 hover:bg-success hover:text-success-content transition-colors duration-200"
           title="Duplicate"
         >
           <i class="fas fa-copy"></i>
@@ -69,8 +69,8 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
           class={[
             "transition-colors duration-200",
             if(@item_archived,
-              do: "text-orange-600 hover:text-orange-900",
-              else: "text-gray-600 hover:text-gray-900"
+              do: "rounded text-warning hover:bg-warning hover:text-warning-content",
+              else: "text-base-content/70 hover:text-base-content"
             )
           ]}
           title={if @item_archived, do: "Unarchive", else: "Archive"}
@@ -88,8 +88,8 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
           class={[
             "transition-colors duration-200",
             if(@item_active,
-              do: "text-green-600 hover:text-green-900",
-              else: "text-gray-600 hover:text-gray-900"
+              do: "rounded text-supporting-green-200 hover:bg-success hover:text-success-content",
+              else: "text-base-content/70 hover:text-base-content"
             )
           ]}
           title={
@@ -113,15 +113,20 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
             type="button"
             phx-click="toggle_dropdown"
             phx-target={@myself}
-            class="text-gray-600 hover:text-gray-900 transition-colors duration-200"
+            class="text-base-content/70 hover:text-base-content transition-colors duration-200"
             title="More actions"
+            aria-expanded={to_string(@dropdown_open)}
+            aria-controls={"#{@id}-actions"}
           >
             <i class="fas fa-ellipsis-v"></i>
             <span class="sr-only">More actions</span>
           </button>
 
           <%= if @dropdown_open do %>
-            <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-md z-10 border border-gray-200">
+            <div
+              id={"#{@id}-actions"}
+              class="absolute right-0 mt-2 w-48 bg-base-100 rounded-md shadow-md z-10 border border-base-300"
+            >
               <div class="py-1">
                 <%= for action <- @dropdown_actions do %>
                   <button
@@ -132,9 +137,14 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
                     class={[
                       "block w-full text-left px-4 py-2 text-sm transition-colors duration-200",
                       case action.type do
-                        "danger" -> "text-red-700 hover:bg-red-50"
-                        "warning" -> "text-orange-700 hover:bg-orange-50"
-                        _ -> "text-gray-700 hover:bg-gray-50"
+                        "danger" ->
+                          "text-supporting-red-200 hover:bg-error hover:text-error-content"
+
+                        "warning" ->
+                          "text-warning hover:bg-warning hover:text-warning-content"
+
+                        _ ->
+                          "text-base-content hover:bg-base-200"
                       end
                     ]}
                     data-confirm={action[:confirm]}

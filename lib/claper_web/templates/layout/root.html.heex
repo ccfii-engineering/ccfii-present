@@ -10,14 +10,27 @@
     </.live_title>
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link phx-track-static rel="stylesheet" href="/assets/app.css" />
-    <link phx-track-static rel="stylesheet" href="/assets/custom.css" />
+    <link
+      phx-track-static
+      rel="stylesheet"
+      href={static_path(ClaperWeb.Endpoint, "/assets/app.css")}
+    />
+    <link
+      phx-track-static
+      rel="stylesheet"
+      href={static_path(ClaperWeb.Endpoint, "/assets/custom.css")}
+    />
     <script>
       window.claperConfig = {
         supportedLocales: <%= raw(Jason.encode!(Application.get_env(:claper, :languages, ["en", "fr", "es", "it", "de"]))) %>
       };
     </script>
-    <script defer phx-track-static type="text/javascript" src="/assets/app.js">
+    <script
+      defer
+      phx-track-static
+      type="text/javascript"
+      src={static_path(ClaperWeb.Endpoint, "/assets/app.js")}
+    >
     </script>
   </head>
   <body class="">

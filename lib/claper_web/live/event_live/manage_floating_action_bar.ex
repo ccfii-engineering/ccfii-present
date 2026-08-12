@@ -4,7 +4,7 @@ defmodule ClaperWeb.EventLive.ManageFloatingActionBar do
   def render(assigns) do
     ~H"""
     <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
-      <div class="flex items-center gap-2 bg-white rounded-full shadow-lg px-2 py-2 border border-gray-100">
+      <div class="flex items-center gap-2 bg-base-100 text-base-content rounded-full shadow-lg px-2 py-2 border border-base-300">
         <.action_item
           patch={~p"/e/#{@event_code}/manage/add/poll"}
           title={gettext("Poll")}
@@ -102,18 +102,18 @@ defmodule ClaperWeb.EventLive.ManageFloatingActionBar do
     <div class="relative group">
       <.link
         patch={@patch}
-        class="relative flex flex-col items-center justify-center gap-0.5 h-16 px-4 py-1.5 rounded-full text-gray-800 transition-all duration-200 hover:bg-primary-50 hover:border hover:border-primary-500 hover:text-primary-600 border border-transparent"
+        class="relative flex flex-col items-center justify-center gap-0.5 h-16 px-4 py-1.5 rounded-full text-base-content transition-all duration-200 hover:bg-primary/15 hover:border hover:border-primary hover:text-secondary border border-transparent"
       >
-        <div class="text-primary-500">
+        <div class="text-secondary">
           {render_slot(@inner_block)}
         </div>
         <span class="font-bold text-sm leading-normal">{@label}</span>
       </.link>
 
       <div class="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-72 z-50">
-        <div class="bg-white border border-gray-100 rounded-3xl p-4 shadow-lg">
-          <p class="font-bold text-base text-gray-900 leading-normal">{@title}</p>
-          <p class="text-base text-gray-900 leading-normal mt-2">{@description}</p>
+        <div class="bg-base-100 border border-base-300 rounded-3xl p-4 shadow-lg">
+          <p class="font-bold text-base text-base-content leading-normal">{@title}</p>
+          <p class="text-base text-base-content/70 leading-normal mt-2">{@description}</p>
         </div>
       </div>
     </div>

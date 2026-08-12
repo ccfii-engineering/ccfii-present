@@ -10,7 +10,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="flex flex-col gap-2 border border-gray-200 rounded-2xl p-2 flex-1 overflow-hidden bg-gray-100">
+    <div class="flex flex-col gap-2 border border-base-300 rounded-2xl p-2 flex-1 overflow-hidden bg-base-200 text-base-content">
       <div class="flex items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -22,14 +22,14 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-message shrink-0 text-[#140553]"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-message shrink-0 text-secondary"
         >
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
           <path d="M8 9h8" />
           <path d="M8 13h6" />
           <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12" />
         </svg>
-        <span class="font-bold text-sm text-[#140553]">{gettext("Audience Responses")}</span>
+        <span class="font-bold text-sm text-base-content">{gettext("Audience Responses")}</span>
       </div>
       
     <!-- Tabs -->
@@ -38,7 +38,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
           <button
             phx-click="list-tab"
             phx-value-tab="posts"
-            class={"px-3 py-1.5 rounded-full text-sm font-medium transition-colors #{if @list_tab == :posts, do: "bg-secondary-500 text-white", else: "text-gray-600 hover:bg-gray-100"}"}
+            class={"px-3 py-1.5 rounded-full text-sm font-medium transition-colors #{if @list_tab == :posts, do: "bg-secondary text-secondary-content", else: "text-base-content/70 hover:bg-base-300"}"}
           >
             {gettext("Messages")} ({@post_count})
           </button>
@@ -47,7 +47,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
           <button
             phx-click="list-tab"
             phx-value-tab="questions"
-            class={"px-3 py-1.5 rounded-full text-sm font-medium transition-colors #{if @list_tab == :questions, do: "bg-secondary-500 text-white", else: "text-gray-600 hover:bg-gray-100"}"}
+            class={"px-3 py-1.5 rounded-full text-sm font-medium transition-colors #{if @list_tab == :questions, do: "bg-secondary text-secondary-content", else: "text-base-content/70 hover:bg-base-300"}"}
           >
             {gettext("Questions")} ({@question_count})
           </button>
@@ -56,7 +56,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
           <button
             phx-click="list-tab"
             phx-value-tab="pinned_posts"
-            class={"px-3 py-1.5 rounded-full text-sm font-medium transition-colors #{if @list_tab == :pinned_posts, do: "bg-secondary-500 text-white", else: "text-gray-600 hover:bg-gray-100"}"}
+            class={"px-3 py-1.5 rounded-full text-sm font-medium transition-colors #{if @list_tab == :pinned_posts, do: "bg-secondary text-secondary-content", else: "text-base-content/70 hover:bg-base-300"}"}
           >
             {gettext("Pinned")} ({@pinned_post_count})
           </button>
@@ -65,7 +65,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
           <button
             phx-click="list-tab"
             phx-value-tab="forms"
-            class={"px-3 py-1.5 rounded-full text-sm font-medium transition-colors #{if @list_tab == :forms, do: "bg-secondary-500 text-white", else: "text-gray-600 hover:bg-gray-100"}"}
+            class={"px-3 py-1.5 rounded-full text-sm font-medium transition-colors #{if @list_tab == :forms, do: "bg-secondary text-secondary-content", else: "text-base-content/70 hover:bg-base-300"}"}
           >
             {gettext("Forms")} ({@form_submit_count})
           </button>
@@ -77,7 +77,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
         <%= if @list_tab == :posts do %>
           <div
             :if={@post_count == 0}
-            class="h-full flex flex-col items-center justify-center text-gray-400 py-8"
+            class="h-full flex flex-col items-center justify-center text-base-content/60 py-8"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -109,7 +109,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
         <%= if @list_tab == :questions do %>
           <div
             :if={@question_count == 0}
-            class="h-full flex flex-col items-center justify-center text-gray-400 py-8"
+            class="h-full flex flex-col items-center justify-center text-base-content/60 py-8"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -129,10 +129,10 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
           </div>
           <div :if={@question_count > 0} class="flex flex-col h-full">
             <div class="px-2 py-2 flex items-center gap-x-2">
-              <span class="text-xs text-gray-500">{gettext("Sort by:")}</span>
+              <span class="text-xs text-base-content/70">{gettext("Sort by:")}</span>
               <div class="tooltip tooltip-bottom" data-tip={gettext("Show newest questions first")}>
                 <button
-                  class="px-3 py-1 text-xs rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 flex items-center gap-x-1"
+                  class="px-3 py-1 text-xs rounded-md bg-base-100 text-base-content hover:bg-base-300 flex items-center gap-x-1"
                   phx-click="sort-questions"
                   phx-value-sort="date"
                 >
@@ -144,7 +144,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
                 data-tip={gettext("Show most voted questions first")}
               >
                 <button
-                  class="px-3 py-1 text-xs rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 flex items-center gap-x-1"
+                  class="px-3 py-1 text-xs rounded-md bg-base-100 text-base-content hover:bg-base-300 flex items-center gap-x-1"
                   phx-click="sort-questions"
                   phx-value-sort="likes"
                 >
@@ -171,7 +171,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
         <%= if @list_tab == :pinned_posts do %>
           <div
             :if={@pinned_post_count == 0}
-            class="h-full flex flex-col items-center justify-center text-gray-400 py-8"
+            class="h-full flex flex-col items-center justify-center text-base-content/60 py-8"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -206,7 +206,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
         <%= if @list_tab == :forms do %>
           <div
             :if={@form_submit_count == 0}
-            class="h-full flex flex-col items-center justify-center text-gray-400 py-8"
+            class="h-full flex flex-col items-center justify-center text-base-content/60 py-8"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -241,7 +241,7 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
               class="group flex items-end gap-2"
             >
               <div class="flex shrink-0 flex-col items-center gap-1">
-                <span class="text-xs leading-4 text-gray-400">
+                <span class="text-xs leading-4 text-base-content/60">
                   {Calendar.strftime(submission.inserted_at, "%H:%M")}
                 </span>
                 <div class="avatar avatar-placeholder">
@@ -256,10 +256,10 @@ defmodule ClaperWeb.EventLive.ManageAudienceResponsesComponent do
 
               <div class="flex min-w-0 flex-1 flex-col">
                 <div class="mb-0.5 ml-3 flex min-h-5 items-center gap-2">
-                  <span class="min-w-0 truncate text-sm font-bold text-secondary-500">
+                  <span class="min-w-0 truncate text-sm font-bold text-secondary">
                     {submission.form.title}
                   </span>
-                  <div class="ml-auto flex shrink-0 items-center divide-x divide-gray-200 rounded-lg border border-gray-200 opacity-0 transition-opacity group-hover:opacity-100">
+                  <div class="ml-auto flex shrink-0 items-center divide-x divide-base-300 rounded-lg border border-base-300 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
                     <div class="tooltip tooltip-bottom" data-tip={gettext("Delete")}>
                       <button
                         type="button"

@@ -29,7 +29,7 @@ defmodule ClaperWeb.AdminLive.ModalComponent do
               {@title}
             </h3>
             <%= if @description do %>
-              <p class="py-2 text-sm text-gray-500">
+              <p class="py-2 text-sm text-neutral-400">
                 {@description}
               </p>
             <% end %>
@@ -84,12 +84,12 @@ defmodule ClaperWeb.AdminLive.ModalComponent do
       |> assign(assigns)
       |> assign_new(:show, fn -> false end)
       |> assign_new(:icon, fn -> nil end)
-      |> assign_new(:icon_bg_class, fn -> "bg-red-100" end)
-      |> assign_new(:icon_text_class, fn -> "text-red-600" end)
+      |> assign_new(:icon_bg_class, fn -> "bg-error" end)
+      |> assign_new(:icon_text_class, fn -> "text-error-content" end)
       |> assign_new(:description, fn -> nil end)
       |> assign_new(:content, fn -> [] end)
       |> assign_new(:confirm_action, fn -> nil end)
-      |> assign_new(:confirm_class, fn -> "btn-error text-white" end)
+      |> assign_new(:confirm_class, fn -> "btn-error text-error-content" end)
       |> assign_new(:cancel_action, fn -> "Cancel" end)
       |> assign_new(:custom_actions, fn -> [] end)
       |> assign_new(:size_class, fn -> "max-w-lg" end)
@@ -125,12 +125,12 @@ defmodule ClaperWeb.AdminLive.ModalComponent do
   def delete_modal_config(title, description) do
     %{
       icon: "fa-exclamation-triangle",
-      icon_bg_class: "bg-red-100",
-      icon_text_class: "text-red-600",
+      icon_bg_class: "bg-error",
+      icon_text_class: "text-error-content",
       title: title,
       description: description,
       confirm_action: "Delete",
-      confirm_class: "btn-error text-white",
+      confirm_class: "btn-error text-error-content",
       cancel_action: "Cancel"
     }
   end
@@ -138,12 +138,12 @@ defmodule ClaperWeb.AdminLive.ModalComponent do
   def warning_modal_config(title, description) do
     %{
       icon: "fa-exclamation-triangle",
-      icon_bg_class: "bg-yellow-100",
-      icon_text_class: "text-yellow-600",
+      icon_bg_class: "bg-warning/15",
+      icon_text_class: "text-warning",
       title: title,
       description: description,
       confirm_action: "Continue",
-      confirm_class: "btn-warning text-white",
+      confirm_class: "btn-warning text-warning-content",
       cancel_action: "Cancel"
     }
   end
@@ -151,12 +151,12 @@ defmodule ClaperWeb.AdminLive.ModalComponent do
   def info_modal_config(title, description) do
     %{
       icon: "fa-info-circle",
-      icon_bg_class: "bg-blue-100",
-      icon_text_class: "text-blue-600",
+      icon_bg_class: "bg-info/15",
+      icon_text_class: "text-info",
       title: title,
       description: description,
       confirm_action: "OK",
-      confirm_class: "btn-info text-white",
+      confirm_class: "btn-info text-info-content",
       cancel_action: nil
     }
   end

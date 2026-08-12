@@ -10,9 +10,18 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
   import Claper.AccountsFixtures
   import Claper.AuditFixtures
   import Claper.EventsFixtures
+  import Claper.PresentationsFixtures
 
   alias Claper.Accounts
+  alias Claper.Accounts.Oidc.Provider
   alias Claper.Repo
+
+  alias ClaperWeb.AdminLive.{
+    ModalComponent,
+    SearchFilterComponent,
+    TableActionsComponent,
+    TableComponent
+  }
 
   defp role_fixture(name) do
     Accounts.get_role_by_name(name) ||
@@ -30,6 +39,398 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
     {:ok, user} = Accounts.assign_role(user, "admin")
 
     %{conn: log_in_user(conn, user), admin: user}
+  end
+
+  describe "shared admin chrome" do
+    test "admin pages use contrast-safe foregrounds on dark surfaces", %{conn: conn} do
+      %{conn: conn} = register_and_log_in_admin(%{conn: conn})
+      event = event_fixture()
+      presentation_file = presentation_file_fixture(%{event: event})
+
+      {:ok, _transcription} =
+        Claper.Transcriptions.create_transcription(%{
+          presentation_file_id: presentation_file.id,
+          language: "en",
+          text: "Contrast audit transcript"
+        })
+
+      user = confirmed_user_fixture()
+
+      provider =
+        Repo.insert!(%Provider{
+          name: "Contrast Provider",
+          issuer: "https://issuer.example.com",
+          client_id: "contrast-client",
+          client_secret: "contrast-secret",
+          redirect_uri: "https://app.example.com/callback"
+        })
+
+      {:ok, _dashboard, dashboard_html} = live(conn, ~p"/admin")
+      {:ok, _events, events_html} = live(conn, ~p"/admin/events")
+      {:ok, _event, event_html} = live(conn, ~p"/admin/events/#{event.id}")
+      {:ok, _users, users_html} = live(conn, ~p"/admin/users")
+      {:ok, _user, user_html} = live(conn, ~p"/admin/users/#{user.id}")
+      {:ok, providers, providers_html} = live(conn, ~p"/admin/oidc_providers")
+
+      sorted_providers_html =
+        providers
+        |> element(~s(button[phx-click="sort"][phx-value-field="name"]))
+        |> render_click()
+
+      assert providers_html =~ provider.name
+
+      for html <- [
+            dashboard_html,
+            events_html,
+            event_html,
+            users_html,
+            user_html,
+            providers_html,
+            sorted_providers_html
+          ] do
+        document = Floki.parse_document!(html)
+        assert Floki.find(document, ".text-primary") == []
+        assert Floki.find(document, ".text-gray-500") == []
+      end
+    end
+
+    test "renders search and filter controls with semantic surfaces and focus colors" do
+      document =
+        SearchFilterComponent
+        |> render_component(
+          id: "semantic-search",
+          search_value: "Ada",
+          filters: [
+            %{name: "role", label: "Role", options: [{"Admin", "admin"}]}
+          ],
+          filter_values: %{"role" => "admin"},
+          show_clear: true,
+          export_csv_enabled: true,
+          new_path: "/admin/users/new"
+        )
+        |> Floki.parse_document!()
+
+      assert "bg-base-100" in classes(document, "div")
+      assert "border-base-300" in classes(document, "div")
+      assert "bg-base-100" in classes(document, ~s(input[name="search"]))
+      assert "text-base-content" in classes(document, ~s(input[name="search"]))
+      assert "border-neutral-400" in classes(document, ~s(input[name="search"]))
+      assert "border-neutral-400" in classes(document, ~s(select[name="role"]))
+      assert "focus:ring-secondary" in classes(document, ~s(input[name="search"]))
+      assert "bg-primary" in classes(document, ~s(button[type="submit"]))
+      assert "text-primary-content" in classes(document, ~s(button[type="submit"]))
+
+      html = Floki.raw_html(document)
+      refute html =~ "indigo-"
+      refute html =~ "bg-white"
+      refute html =~ "border-gray-"
+    end
+
+    test "renders tables and pagination with semantic base tokens" do
+      document =
+        TableComponent
+        |> render_component(
+          id: "semantic-table",
+          headers: [%{label: "Name", field: "name", sortable: true}],
+          rows: [["Ada"]],
+          sortable: true,
+          sort_config: %{field: "name", direction: :asc},
+          pagination: %{
+            page_number: 1,
+            page_size: 10,
+            total_entries: 11,
+            total_pages: 2
+          }
+        )
+        |> Floki.parse_document!()
+
+      assert "divide-base-300" in classes(document, "table")
+      assert "bg-base-200" in classes(document, "thead")
+      assert "bg-base-100" in classes(document, "tbody")
+      assert "text-base-content/70" in classes(document, "tbody td")
+      assert "bg-base-100" in classes(document, "div.border-t")
+      assert "border-base-300" in classes(document, "div.border-t")
+
+      html = Floki.raw_html(document)
+      assert html =~ "border-secondary"
+      assert html =~ "bg-secondary"
+      assert html =~ "text-secondary-content"
+      refute html =~ "indigo-"
+      refute html =~ "bg-white"
+      refute html =~ "border-gray-"
+    end
+
+    test "uses native controls for sortable headers and row actions" do
+      document =
+        TableComponent
+        |> render_component(
+          id: "keyboard-table",
+          headers: [
+            %{label: "Name", field: "name", sortable: true},
+            %{label: "Role", field: "role", sortable: true}
+          ],
+          rows: [["Ada", "Admin"]],
+          sortable: true,
+          row_click_enabled: true,
+          sort_config: %{field: "name", direction: :desc}
+        )
+        |> Floki.parse_document!()
+
+      assert Floki.attribute(document, ~s(th[aria-sort="descending"]), "aria-sort") == [
+               "descending"
+             ]
+
+      assert Floki.attribute(document, ~s(th[aria-sort="none"]), "aria-sort") == ["none"]
+
+      assert Floki.attribute(document, ~s(th button[phx-click="sort"]), "type") == [
+               "button",
+               "button"
+             ]
+
+      assert Floki.attribute(document, ~s(th button[phx-click="sort"]), "phx-keydown") == []
+      assert Floki.attribute(document, ~s(tbody tr[phx-click="row_clicked"]), "role") == []
+      assert Floki.attribute(document, ~s(tbody tr[phx-click="row_clicked"]), "tabindex") == []
+      assert Floki.attribute(document, ~s(tbody tr[phx-click="row_clicked"]), "phx-keydown") == []
+
+      assert Floki.attribute(
+               document,
+               ~s(tbody td:first-child button[phx-click="row_clicked"]),
+               "type"
+             ) == [
+               "button"
+             ]
+
+      row_action_classes =
+        classes(document, ~s(tbody td:first-child button[phx-click="row_clicked"]))
+
+      assert "sr-only" in row_action_classes
+      assert "focus:not-sr-only" in row_action_classes
+      assert "focus:absolute" in row_action_classes
+      assert "focus:bg-secondary" in row_action_classes
+      assert "focus:text-secondary-content" in row_action_classes
+      assert "focus:ring-2" in row_action_classes
+      assert "focus:ring-secondary" in row_action_classes
+      assert "relative" in classes(document, "tbody td:first-child")
+
+      assert document |> Floki.find(~s(tbody td:first-child button)) |> Floki.text() =~ "View"
+    end
+
+    test "localizes the keyboard row action" do
+      document =
+        Gettext.with_locale(ClaperWeb.Gettext, "fr", fn ->
+          render_component(TableComponent,
+            id: "localized-keyboard-table",
+            headers: [%{label: "Name", field: "name", sortable: false}],
+            rows: [["Ada"]],
+            row_click_enabled: true
+          )
+        end)
+        |> Floki.parse_document!()
+
+      assert document |> Floki.find(~s(tbody td:first-child button)) |> Floki.text() =~ "Voir"
+    end
+
+    test "sort and row click events preserve their parent messages" do
+      socket = %Phoenix.LiveView.Socket{
+        assigns: %{
+          __changed__: %{},
+          sort_config: %{field: "name", direction: :asc},
+          rows: [["Ada"]]
+        }
+      }
+
+      assert {:noreply, sorted_socket} =
+               TableComponent.handle_event("sort", %{"field" => "name"}, socket)
+
+      assert_receive {:table_sort_changed, %{field: "name", direction: :desc}}
+      assert sorted_socket.assigns.sort_config == %{field: "name", direction: :desc}
+
+      assert {:noreply, ^socket} =
+               TableComponent.handle_event("row_clicked", %{"row-index" => "0"}, socket)
+
+      assert_receive {:table_row_clicked, ["Ada"], 0}
+    end
+
+    test "uses contrast-safe disabled pagination and empty-state colors" do
+      document =
+        TableComponent
+        |> render_component(
+          id: "disabled-table",
+          headers: [%{label: "Name", field: "name", sortable: true}],
+          rows: [],
+          sortable: true,
+          sort_config: %{field: nil, direction: :asc},
+          empty_icon: "fas fa-inbox",
+          pagination: %{
+            page_number: 1,
+            page_size: 10,
+            total_entries: 0,
+            total_pages: 1
+          }
+        )
+        |> Floki.parse_document!()
+
+      disabled_classes = Floki.attribute(document, ~s(span.cursor-not-allowed), "class")
+      assert disabled_classes != []
+      assert Enum.all?(disabled_classes, &String.contains?(&1, "text-neutral-400"))
+      refute Enum.any?(disabled_classes, &String.contains?(&1, "text-base-content/30"))
+      assert "text-neutral-400" in classes(document, ".fa-sort")
+      assert "text-neutral-400" in classes(document, ".fa-inbox")
+      assert Floki.find(document, "tbody td") |> Floki.text() =~ "No items found"
+    end
+
+    test "renders table actions with contrast-safe states and popup semantics" do
+      actions_html =
+        render_component(TableActionsComponent,
+          id: "semantic-actions",
+          item: %{name: "Ada"},
+          item_id: 1,
+          view_enabled: true,
+          edit_enabled: true,
+          delete_enabled: true,
+          duplicate_enabled: true,
+          archive_enabled: true,
+          item_archived: true,
+          toggle_enabled: true,
+          item_active: true,
+          dropdown_open: true,
+          dropdown_actions: [
+            %{key: "destroy", label: "Destroy", type: "danger"},
+            %{key: "warn", label: "Warn", type: "warning"},
+            %{key: "inspect", label: "Inspect", type: "default"}
+          ]
+        )
+
+      actions_document = Floki.parse_document!(actions_html)
+
+      assert "text-secondary" in classes(actions_document, ~s(button[title="View"]))
+      assert "text-secondary" in classes(actions_document, ~s(button[title="Edit"]))
+      assert "text-supporting-red-200" in classes(actions_document, ~s(button[title="Delete"]))
+
+      assert "text-supporting-green-200" in classes(
+               actions_document,
+               ~s(button[title="Duplicate"])
+             )
+
+      assert "text-warning" in classes(actions_document, ~s(button[title="Unarchive"]))
+
+      assert "text-supporting-green-200" in classes(
+               actions_document,
+               ~s(button[title="Deactivate"])
+             )
+
+      assert "bg-base-100" in classes(actions_document, "div.absolute")
+      assert "border-base-300" in classes(actions_document, "div.absolute")
+
+      assert "text-supporting-red-200" in classes(
+               actions_document,
+               ~s(button[phx-value-action="destroy"])
+             )
+
+      assert "text-warning" in classes(
+               actions_document,
+               ~s(button[phx-value-action="warn"])
+             )
+
+      assert "text-base-content" in classes(
+               actions_document,
+               ~s(button[phx-value-action="inspect"])
+             )
+
+      assert Floki.attribute(actions_document, ~s(button[title="More actions"]), "aria-expanded") ==
+               [
+                 "true"
+               ]
+
+      assert Floki.attribute(actions_document, ~s(button[title="More actions"]), "aria-controls") ==
+               ["semantic-actions-actions"]
+
+      assert Floki.attribute(actions_document, "#semantic-actions-actions", "role") == []
+
+      assert Floki.attribute(actions_document, ~s(button[phx-click="dropdown_action"]), "role") ==
+               []
+
+      closed_document =
+        TableActionsComponent
+        |> render_component(
+          id: "closed-actions",
+          item: %{name: "Ada"},
+          item_id: 1,
+          dropdown_open: false,
+          dropdown_actions: [%{key: "inspect", label: "Inspect", type: "default"}]
+        )
+        |> Floki.parse_document!()
+
+      assert Floki.attribute(closed_document, ~s(button[title="More actions"]), "aria-expanded") ==
+               [
+                 "false"
+               ]
+
+      assert Floki.attribute(closed_document, ~s(button[title="More actions"]), "aria-controls") ==
+               [
+                 "closed-actions-actions"
+               ]
+
+      assert Floki.find(closed_document, "#closed-actions-actions") == []
+
+      refute actions_html =~ "indigo-"
+      refute actions_html =~ "bg-white"
+    end
+
+    test "archived, active, and default dropdown actions preserve parent messages" do
+      socket = %Phoenix.LiveView.Socket{
+        assigns: %{
+          __changed__: %{},
+          id: "behavior-actions",
+          item: %{name: "Ada"},
+          item_id: 7,
+          item_archived: true,
+          item_active: true,
+          dropdown_open: true,
+          dropdown_actions: [%{key: "view", label: "View", type: "default"}]
+        }
+      }
+
+      assert {:noreply, ^socket} = TableActionsComponent.handle_event("archive_item", %{}, socket)
+      assert_receive {:table_action, :unarchive, %{name: "Ada"}, 7}
+
+      assert {:noreply, ^socket} = TableActionsComponent.handle_event("toggle_item", %{}, socket)
+      assert_receive {:table_action, :deactivate, %{name: "Ada"}, 7}
+
+      assert {:noreply, closed_socket} =
+               TableActionsComponent.handle_event(
+                 "dropdown_action",
+                 %{"action" => "view"},
+                 socket
+               )
+
+      assert_receive {:table_action, :view, %{name: "Ada"}, 7}
+      refute closed_socket.assigns.dropdown_open
+    end
+
+    test "renders modal presets with contrast-safe content pairs" do
+      for {id, config, background, foreground, confirm_content} <- [
+            {"delete-modal", ModalComponent.delete_modal_config("Delete", "Danger"), "bg-error",
+             "text-error-content", "text-error-content"},
+            {"warning-modal", ModalComponent.warning_modal_config("Warning", "Caution"),
+             "bg-warning/15", "text-warning", "text-warning-content"},
+            {"info-modal", ModalComponent.info_modal_config("Information", "Semantic modal"),
+             "bg-info/15", "text-info", "text-info-content"}
+          ] do
+        modal_html =
+          render_component(
+            ModalComponent,
+            Map.merge(config, %{id: id, show: true})
+          )
+
+        modal_document = Floki.parse_document!(modal_html)
+
+        assert background in classes(modal_document, ".rounded-full")
+        assert foreground in classes(modal_document, ".rounded-full i")
+        assert confirm_content in classes(modal_document, ~s(button[phx-click="confirm"]))
+        assert "text-neutral-400" in classes(modal_document, "p")
+      end
+    end
   end
 
   describe "audit log show" do
@@ -275,5 +676,12 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
       assert html =~ "No owner"
       assert html =~ "Not expired"
     end
+  end
+
+  defp classes(document, selector) do
+    document
+    |> Floki.attribute(selector, "class")
+    |> List.first()
+    |> String.split()
   end
 end

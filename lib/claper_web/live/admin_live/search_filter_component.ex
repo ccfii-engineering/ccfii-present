@@ -4,19 +4,19 @@ defmodule ClaperWeb.AdminLive.SearchFilterComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+    <div class="bg-base-100 px-4 py-5 border-b border-base-300 sm:px-6">
       <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
         <div class="ml-4 mt-2">
           <form phx-submit="search" phx-target={@myself} class="flex items-center">
             <div class="relative rounded-md shadow-sm">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-search text-gray-400"></i>
+                <i class="fas fa-search text-base-content/40"></i>
               </div>
               <input
                 type="text"
                 name="search"
                 value={@search_value || ""}
-                class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                class="block w-full rounded-md border-neutral-400 bg-base-100 pl-10 text-base-content placeholder:text-neutral-400 focus:border-secondary focus:ring-secondary sm:text-sm"
                 placeholder={@search_placeholder || "Search..."}
                 phx-debounce="300"
                 phx-change="search_change"
@@ -29,7 +29,7 @@ defmodule ClaperWeb.AdminLive.SearchFilterComponent do
                 <%= for filter <- @filters do %>
                   <select
                     name={filter.name}
-                    class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                    class="block w-full rounded-md border-neutral-400 bg-base-100 py-2 pl-3 pr-10 text-base text-base-content focus:border-secondary focus:outline-none focus:ring-secondary sm:text-sm"
                     phx-change="filter_change"
                     phx-target={@myself}
                     phx-value-filter={filter.name}
@@ -52,7 +52,7 @@ defmodule ClaperWeb.AdminLive.SearchFilterComponent do
 
             <button
               type="submit"
-              class="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              class="ml-3 inline-flex items-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-primary-content shadow-sm hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-base-100"
             >
               Search
             </button>
@@ -62,7 +62,7 @@ defmodule ClaperWeb.AdminLive.SearchFilterComponent do
                 type="button"
                 phx-click="clear_all"
                 phx-target={@myself}
-                class="ml-2 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="ml-2 inline-flex items-center rounded-md border border-base-300 bg-base-100 px-3 py-2 text-sm font-medium leading-4 text-base-content shadow-sm hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-base-100"
               >
                 Clear
               </button>
@@ -76,7 +76,7 @@ defmodule ClaperWeb.AdminLive.SearchFilterComponent do
               type="button"
               phx-click="export_csv"
               phx-target={@myself}
-              class="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              class="relative inline-flex items-center rounded-md border border-transparent bg-success px-4 py-2 text-sm font-medium text-success-content shadow-sm hover:bg-success/80 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-base-100"
             >
               <i class="fas fa-file-csv mr-2"></i> Export CSV
             </button>
@@ -85,7 +85,7 @@ defmodule ClaperWeb.AdminLive.SearchFilterComponent do
           <%= if @new_path do %>
             <.link
               navigate={@new_path}
-              class="ml-3 relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              class="relative ml-3 inline-flex items-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-primary-content shadow-sm hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-base-100"
             >
               <i class="fas fa-plus mr-2"></i>
               {@new_label || "New"}
