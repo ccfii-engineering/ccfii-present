@@ -17,7 +17,7 @@
 - Keep `Claper` in internal module names, OTP application names, release commands, cookies, database identifiers, and upstream legal notices.
 - Do not add database migrations or change authentication, registration, uploads, interaction logic, PubSub, Presence, LiveView, or WebSocket behavior.
 - Show “Powered by Claper” on account-access, presenter dashboard, and admin surfaces; do not overlay it on audience or projected presentation surfaces.
-- Publish `ghcr.io/ccfii-engineering/ccfii-present:3.0.0-ccfii.1`; Railway must use that immutable tag.
+- Publish `ghcr.io/ccfii-engineering/ccfii-present:3.0.0-ccfii.2`; Railway must use that immutable tag.
 - Preserve `ghcr.io/claperco/claper:3.0.0` as the rollback image.
 
 ## File Structure
@@ -311,8 +311,8 @@ git commit -m "feat: apply CCFII Present branding"
 - Modify: `README.md`
 
 **Interfaces:**
-- Consumes: Git tag `3.0.0-ccfii.1`.
-- Produces: multi-architecture `ghcr.io/ccfii-engineering/ccfii-present:3.0.0-ccfii.1`.
+- Consumes: Git tag `3.0.0-ccfii.2`.
+- Produces: multi-architecture `ghcr.io/ccfii-engineering/ccfii-present:3.0.0-ccfii.2`.
 - Produces: optional `production` tag only through an explicitly dispatched promotion job after validation.
 
 - [ ] **Step 1: Add a workflow contract check**
@@ -355,7 +355,7 @@ Run:
 npx --yes yaml-lint .github/workflows/elixir.yml .github/workflows/docker-image.yml
 rg -q '^  packages: write$' .github/workflows/docker-image.yml
 rg -q 'images: ghcr.io/ccfii-engineering/ccfii-present' .github/workflows/docker-image.yml
-rg -n 'ghcr.io/ccfii-engineering/ccfii-present|3.0.0-ccfii.1|ClaperCo/Claper' README.md .github/workflows
+rg -n 'ghcr.io/ccfii-engineering/ccfii-present|3.0.0-ccfii.2|ClaperCo/Claper' README.md .github/workflows
 ```
 
 Expected: YAML parses and every required identity/release string is present.
@@ -375,7 +375,7 @@ git commit -m "ci: publish versioned CCFII Present images"
 - Modify only files needed to fix failures caused by Tasks 1–4.
 
 **Interfaces:**
-- Produces: a clean, releasable commit suitable for tag `3.0.0-ccfii.1`.
+- Produces: a clean, releasable commit suitable for tag `3.0.0-ccfii.2`.
 
 - [ ] **Step 1: Run formatting and static checks**
 
@@ -396,7 +396,7 @@ Expected: 0 failures.
 
 ```bash
 MIX_ENV=prod mix assets.deploy
-docker build --platform linux/amd64 -t ccfii-present:3.0.0-ccfii.1 .
+docker build --platform linux/amd64 -t ccfii-present:3.0.0-ccfii.2 .
 ```
 
 Expected: both commands exit 0.
@@ -408,7 +408,7 @@ Run the container with disposable local PostgreSQL or the repository’s support
 ```bash
 curl -fsS http://localhost:4000/users/log_in | rg 'CCFII Present|Powered by Claper'
 curl -fsS http://localhost:4000/images/ccfii-present-logo.png >/dev/null
-! docker history --no-trunc ccfii-present:3.0.0-ccfii.1 | rg 'SMTP_PASSWORD|SECRET_KEY_BASE'
+! docker history --no-trunc ccfii-present:3.0.0-ccfii.2 | rg 'SMTP_PASSWORD|SECRET_KEY_BASE'
 ```
 
 The final command must return no matching secret names or values embedded by this implementation.
@@ -438,7 +438,7 @@ If no fixes were required, do not create an empty commit.
 
 **Interfaces:**
 - Consumes: verified branch commit and existing Railway PostgreSQL, SMTP variables, and `/app/uploads` volume.
-- Produces: production service running `ghcr.io/ccfii-engineering/ccfii-present:3.0.0-ccfii.1`.
+- Produces: production service running `ghcr.io/ccfii-engineering/ccfii-present:3.0.0-ccfii.2`.
 
 - [ ] **Step 1: Push the implementation branch and open a pull request**
 
@@ -447,8 +447,8 @@ Push `ccfii/v3.0.0`, open a PR against the fork’s protected production branch,
 - [ ] **Step 2: Tag the reviewed commit**
 
 ```bash
-git tag -a 3.0.0-ccfii.1 -m "CCFII Present 3.0.0-ccfii.1"
-git push origin 3.0.0-ccfii.1
+git tag -a 3.0.0-ccfii.2 -m "CCFII Present 3.0.0-ccfii.2"
+git push origin 3.0.0-ccfii.2
 ```
 
 Wait for GitHub Actions and verify the GHCR package digest exists for both `linux/amd64` and `linux/arm64`.
@@ -459,7 +459,7 @@ Before changing Railway, record the current service image, successful deployment
 
 - [ ] **Step 4: Deploy the immutable CCFII image**
 
-Change only the Railway Claper service image to `ghcr.io/ccfii-engineering/ccfii-present:3.0.0-ccfii.1`. Preserve all variables, PostgreSQL references, one Singapore replica, port 4000, and `/app/uploads` mount. Do not recreate the service, database, or volume.
+Change only the Railway Claper service image to `ghcr.io/ccfii-engineering/ccfii-present:3.0.0-ccfii.2`. Preserve all variables, PostgreSQL references, one Singapore replica, port 4000, and `/app/uploads` mount. Do not recreate the service, database, or volume.
 
 - [ ] **Step 5: Run production smoke and persistence checks**
 
@@ -482,4 +482,4 @@ If startup, login, uploads, real-time behavior, or persistence fails, immediatel
 
 - [ ] **Step 7: Promote only after validation**
 
-After all smoke checks pass, manually dispatch the workflow promotion that advances `production` to the verified immutable digest. Keep Railway pinned to `3.0.0-ccfii.1`; the mutable tag is informational and must not drive production automatically.
+After all smoke checks pass, manually dispatch the workflow promotion that advances `production` to the verified immutable digest. Keep Railway pinned to `3.0.0-ccfii.2`; the mutable tag is informational and must not drive production automatically.
