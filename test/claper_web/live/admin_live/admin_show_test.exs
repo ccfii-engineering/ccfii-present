@@ -14,6 +14,13 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
   alias Claper.Accounts
   alias Claper.Repo
 
+  alias ClaperWeb.AdminLive.{
+    ModalComponent,
+    SearchFilterComponent,
+    TableActionsComponent,
+    TableComponent
+  }
+
   defp role_fixture(name) do
     Accounts.get_role_by_name(name) ||
       case Accounts.create_role(%{name: name}) do
@@ -30,6 +37,110 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
     {:ok, user} = Accounts.assign_role(user, "admin")
 
     %{conn: log_in_user(conn, user), admin: user}
+  end
+
+  describe "shared admin chrome" do
+    test "renders search and filter controls with semantic surfaces and focus colors" do
+      document =
+        SearchFilterComponent
+        |> render_component(
+          id: "semantic-search",
+          search_value: "Ada",
+          filters: [
+            %{name: "role", label: "Role", options: [{"Admin", "admin"}]}
+          ],
+          filter_values: %{"role" => "admin"},
+          show_clear: true,
+          export_csv_enabled: true,
+          new_path: "/admin/users/new"
+        )
+        |> Floki.parse_document!()
+
+      assert "bg-base-100" in classes(document, "div")
+      assert "border-base-300" in classes(document, "div")
+      assert "bg-base-100" in classes(document, ~s(input[name="search"]))
+      assert "text-base-content" in classes(document, ~s(input[name="search"]))
+      assert "border-base-300" in classes(document, ~s(input[name="search"]))
+      assert "focus:ring-secondary" in classes(document, ~s(input[name="search"]))
+      assert "bg-primary" in classes(document, ~s(button[type="submit"]))
+      assert "text-primary-content" in classes(document, ~s(button[type="submit"]))
+
+      html = Floki.raw_html(document)
+      refute html =~ "indigo-"
+      refute html =~ "bg-white"
+      refute html =~ "border-gray-"
+    end
+
+    test "renders tables and pagination with semantic base tokens" do
+      document =
+        TableComponent
+        |> render_component(
+          id: "semantic-table",
+          headers: [%{label: "Name", field: "name", sortable: true}],
+          rows: [["Ada"]],
+          sortable: true,
+          sort_config: %{field: "name", direction: :asc},
+          pagination: %{
+            page_number: 1,
+            page_size: 10,
+            total_entries: 11,
+            total_pages: 2
+          }
+        )
+        |> Floki.parse_document!()
+
+      assert "divide-base-300" in classes(document, "table")
+      assert "bg-base-200" in classes(document, "thead")
+      assert "bg-base-100" in classes(document, "tbody")
+      assert "text-base-content/70" in classes(document, "tbody td")
+      assert "bg-base-100" in classes(document, "div.border-t")
+      assert "border-base-300" in classes(document, "div.border-t")
+
+      html = Floki.raw_html(document)
+      assert html =~ "border-secondary"
+      assert html =~ "bg-secondary"
+      assert html =~ "text-secondary-content"
+      refute html =~ "indigo-"
+      refute html =~ "bg-white"
+      refute html =~ "border-gray-"
+    end
+
+    test "renders table actions and informational modals with semantic colors" do
+      actions_html =
+        render_component(TableActionsComponent,
+          id: "semantic-actions",
+          item: %{name: "Ada"},
+          item_id: 1,
+          view_enabled: true,
+          edit_enabled: true,
+          dropdown_open: true,
+          dropdown_actions: [%{key: "inspect", label: "Inspect", type: "default"}]
+        )
+
+      actions_document = Floki.parse_document!(actions_html)
+
+      assert "text-secondary" in classes(actions_document, ~s(button[title="View"]))
+      assert "text-secondary" in classes(actions_document, ~s(button[title="Edit"]))
+      assert "bg-base-100" in classes(actions_document, "div.absolute")
+      assert "border-base-300" in classes(actions_document, "div.absolute")
+      refute actions_html =~ "indigo-"
+      refute actions_html =~ "bg-white"
+
+      info_config = ModalComponent.info_modal_config("Information", "Semantic modal")
+
+      modal_html =
+        render_component(
+          ModalComponent,
+          Map.merge(info_config, %{id: "semantic-info-modal", show: true})
+        )
+
+      assert modal_html =~ "bg-info/15"
+      assert modal_html =~ "text-info"
+      assert modal_html =~ "text-info-content"
+      assert modal_html =~ "text-base-content/60"
+      refute modal_html =~ "bg-blue-100"
+      refute modal_html =~ "text-blue-600"
+    end
   end
 
   describe "audit log show" do
@@ -275,5 +386,12 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
       assert html =~ "No owner"
       assert html =~ "Not expired"
     end
+  end
+
+  defp classes(document, selector) do
+    document
+    |> Floki.attribute(selector, "class")
+    |> List.first()
+    |> String.split()
   end
 end

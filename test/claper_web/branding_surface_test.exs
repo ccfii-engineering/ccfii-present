@@ -3,6 +3,7 @@ defmodule ClaperWeb.BrandingSurfaceTest do
 
   import Phoenix.LiveViewTest
   import Claper.AccountsFixtures
+  import Claper.PostsFixtures
   import Claper.PresentationsFixtures
 
   alias Claper.Accounts
@@ -63,6 +64,8 @@ defmodule ClaperWeb.BrandingSurfaceTest do
 
     assert html =~ @attribution
     assert title(html) == "Dashboard · CCFII Present Admin"
+    assert html =~ ~s(data-theme="ccfii-present")
+    refute html =~ ~s(data-theme="light")
     refute html =~ " · Claper Admin"
   end
 
@@ -80,6 +83,59 @@ defmodule ClaperWeb.BrandingSurfaceTest do
       refute html =~ "github.com/ClaperCo/Claper"
       refute html =~ "powered-by"
     end
+  end
+
+  test "attendee and presenter chrome use semantic surfaces without changing black media regions",
+       %{
+         conn: conn
+       } do
+    presenter = confirmed_user_fixture()
+    presentation_file = presentation_file_fixture(%{user: presenter}, [:event])
+
+    presentation_state_fixture(%{
+      presentation_file: presentation_file,
+      chat_visible: true
+    })
+
+    post_fixture(%{
+      event: presentation_file.event,
+      user: presenter,
+      name: "Presenter surface"
+    })
+
+    {:ok, _attendee_view, attendee_html} =
+      live(conn, ~p"/e/#{presentation_file.event.code}")
+
+    {:ok, _presenter_view, presenter_html} =
+      conn
+      |> recycle()
+      |> log_in_user(presenter)
+      |> live(~p"/e/#{presentation_file.event.code}/presenter")
+
+    attendee_document = Floki.parse_document!(attendee_html)
+    presenter_document = Floki.parse_document!(presenter_html)
+
+    assert "bg-base-100" in classes(attendee_document, "#side-menu")
+    assert "text-base-content" in classes(attendee_document, "#side-menu")
+    assert "bg-base-200" in classes(attendee_document, "#side-menu a")
+    assert "bg-black" in classes(attendee_document, "#focus-media")
+    assert "border-secondary" in classes(attendee_document, "#post-form")
+
+    assert "bg-base-100" in classes(presenter_document, "#post-list > div > div")
+    assert "text-base-content" in classes(presenter_document, "#post-list > div > div")
+    assert "bg-black" in classes(presenter_document, "#slider-wrapper")
+    assert "bg-black" in classes(presenter_document, "#post-list-wrapper")
+
+    app_css = Path.expand("../../assets/css/app.css", __DIR__) |> File.read!()
+
+    [composer_rules] =
+      Regex.run(~r/\.attendee-composer\s*\{(.*?)\}/s, app_css, capture: :all_but_first)
+
+    assert composer_rules =~ "var(--color-primary)"
+    assert composer_rules =~ "var(--color-secondary)"
+    assert composer_rules =~ "80%"
+    refute composer_rules =~ "rgba(17, 134, 213"
+    refute composer_rules =~ "rgba(163, 39, 255"
   end
 
   test "serves the Apple touch icon referenced by layouts", %{conn: conn} do
@@ -166,6 +222,13 @@ defmodule ClaperWeb.BrandingSurfaceTest do
     |> Floki.text()
     |> String.replace(~r/\s+/, " ")
     |> String.trim()
+  end
+
+  defp classes(document, selector) do
+    document
+    |> Floki.attribute(selector, "class")
+    |> List.first()
+    |> String.split()
   end
 
   defp ensure_role(name) do

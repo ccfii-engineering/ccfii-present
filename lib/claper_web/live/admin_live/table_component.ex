@@ -6,15 +6,15 @@ defmodule ClaperWeb.AdminLive.TableComponent do
     ~H"""
     <div>
       <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+        <table class="min-w-full divide-y divide-base-300">
+          <thead class="bg-base-200">
             <tr>
               <%= for {header, _index} <- Enum.with_index(@headers) do %>
                 <th
                   scope="col"
                   class={[
-                    "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
-                    if(@sortable && header.sortable, do: "cursor-pointer hover:bg-gray-100", else: "")
+                    "px-6 py-3 text-left text-xs font-medium text-base-content/60 uppercase tracking-wider",
+                    if(@sortable && header.sortable, do: "cursor-pointer hover:bg-base-300", else: "")
                   ]}
                   phx-click={if @sortable && header.sortable, do: "sort", else: nil}
                   phx-value-field={if @sortable && header.sortable, do: header.field, else: nil}
@@ -25,11 +25,11 @@ defmodule ClaperWeb.AdminLive.TableComponent do
                     <%= if @sortable && header.sortable do %>
                       <%= case @sort_config do %>
                         <% %{field: field, direction: :asc} when field == header.field -> %>
-                          <i class="fas fa-sort-up ml-2 text-indigo-500"></i>
+                          <i class="fas fa-sort-up ml-2 text-secondary"></i>
                         <% %{field: field, direction: :desc} when field == header.field -> %>
-                          <i class="fas fa-sort-down ml-2 text-indigo-500"></i>
+                          <i class="fas fa-sort-down ml-2 text-secondary"></i>
                         <% _ -> %>
-                          <i class="fas fa-sort ml-2 text-gray-400"></i>
+                          <i class="fas fa-sort ml-2 text-base-content/40"></i>
                       <% end %>
                     <% end %>
                   </div>
@@ -37,12 +37,12 @@ defmodule ClaperWeb.AdminLive.TableComponent do
               <% end %>
             </tr>
           </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
+          <tbody class="bg-base-100 divide-y divide-base-300">
             <%= if length(@rows) > 0 do %>
               <%= for {row, row_index} <- Enum.with_index(@rows) do %>
                 <tr
                   class={[
-                    "hover:bg-gray-50",
+                    "hover:bg-base-200",
                     if(@row_click_enabled, do: "cursor-pointer", else: "")
                   ]}
                   phx-click={if @row_click_enabled, do: "row_clicked", else: nil}
@@ -50,7 +50,7 @@ defmodule ClaperWeb.AdminLive.TableComponent do
                   phx-target={@myself}
                 >
                   <%= for {cell_content, _cell_index} <- Enum.with_index(get_row_cells(row, @headers, @row_func)) do %>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-base-content/70">
                       <%= case cell_content do %>
                         <% {:safe, content} -> %>
                           {raw(content)}
@@ -65,15 +65,18 @@ defmodule ClaperWeb.AdminLive.TableComponent do
               <% end %>
             <% else %>
               <tr>
-                <td colspan={length(@headers)} class="px-6 py-4 text-center text-sm text-gray-500">
+                <td
+                  colspan={length(@headers)}
+                  class="px-6 py-4 text-center text-sm text-base-content/70"
+                >
                   <div class="flex flex-col items-center py-8">
                     <%= if @empty_icon do %>
-                      <i class={"#{@empty_icon} text-gray-300 text-4xl mb-4"}></i>
+                      <i class={"#{@empty_icon} text-base-content/30 text-4xl mb-4"}></i>
                     <% end %>
-                    <p class="text-lg font-medium text-gray-900 mb-2">
+                    <p class="text-lg font-medium text-base-content mb-2">
                       {@empty_title || "No items found"}
                     </p>
-                    <p class="text-gray-500">
+                    <p class="text-base-content/70">
                       {@empty_message || "There are no items to display."}
                     </p>
                     <%= if @empty_action do %>
@@ -90,7 +93,7 @@ defmodule ClaperWeb.AdminLive.TableComponent do
       </div>
 
       <%= if @pagination do %>
-        <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+        <div class="bg-base-100 px-4 py-3 flex items-center justify-between border-t border-base-300 sm:px-6">
           <div class="flex-1 flex justify-between sm:hidden">
             <%= if @pagination.page_number > 1 do %>
               <button
@@ -98,12 +101,12 @@ defmodule ClaperWeb.AdminLive.TableComponent do
                 phx-click="paginate"
                 phx-value-page={@pagination.page_number - 1}
                 phx-target={@myself}
-                class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                class="relative inline-flex items-center px-4 py-2 border border-base-300 text-sm font-medium rounded-md text-base-content bg-base-100 hover:bg-base-200"
               >
                 Previous
               </button>
             <% else %>
-              <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-300 bg-gray-50 cursor-not-allowed">
+              <span class="relative inline-flex items-center px-4 py-2 border border-base-300 text-sm font-medium rounded-md text-base-content/30 bg-base-200 cursor-not-allowed">
                 Previous
               </span>
             <% end %>
@@ -114,12 +117,12 @@ defmodule ClaperWeb.AdminLive.TableComponent do
                 phx-click="paginate"
                 phx-value-page={@pagination.page_number + 1}
                 phx-target={@myself}
-                class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                class="ml-3 relative inline-flex items-center px-4 py-2 border border-base-300 text-sm font-medium rounded-md text-base-content bg-base-100 hover:bg-base-200"
               >
                 Next
               </button>
             <% else %>
-              <span class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-300 bg-gray-50 cursor-not-allowed">
+              <span class="ml-3 relative inline-flex items-center px-4 py-2 border border-base-300 text-sm font-medium rounded-md text-base-content/30 bg-base-200 cursor-not-allowed">
                 Next
               </span>
             <% end %>
@@ -127,7 +130,7 @@ defmodule ClaperWeb.AdminLive.TableComponent do
 
           <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
-              <p class="text-sm text-gray-700">
+              <p class="text-sm text-base-content/70">
                 Showing
                 <span class="font-medium">
                   {(@pagination.page_number - 1) * @pagination.page_size + 1}
@@ -152,13 +155,13 @@ defmodule ClaperWeb.AdminLive.TableComponent do
                     phx-click="paginate"
                     phx-value-page={@pagination.page_number - 1}
                     phx-target={@myself}
-                    class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                    class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-base-300 bg-base-100 text-sm font-medium text-base-content/70 hover:bg-base-200"
                   >
                     <span class="sr-only">Previous</span>
                     <i class="fas fa-chevron-left"></i>
                   </button>
                 <% else %>
-                  <span class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-gray-50 text-sm font-medium text-gray-300 cursor-not-allowed">
+                  <span class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-base-300 bg-base-200 text-sm font-medium text-base-content/30 cursor-not-allowed">
                     <span class="sr-only">Previous</span>
                     <i class="fas fa-chevron-left"></i>
                   </span>
@@ -166,7 +169,7 @@ defmodule ClaperWeb.AdminLive.TableComponent do
 
                 <%= for page <- get_page_range(@pagination) do %>
                   <%= if page == @pagination.page_number do %>
-                    <span class="relative inline-flex items-center px-4 py-2 border border-indigo-500 bg-indigo-50 text-sm font-medium text-indigo-600">
+                    <span class="relative inline-flex items-center px-4 py-2 border border-secondary bg-secondary text-sm font-medium text-secondary-content">
                       {page}
                     </span>
                   <% else %>
@@ -175,7 +178,7 @@ defmodule ClaperWeb.AdminLive.TableComponent do
                       phx-click="paginate"
                       phx-value-page={page}
                       phx-target={@myself}
-                      class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+                      class="relative inline-flex items-center px-4 py-2 border border-base-300 bg-base-100 text-sm font-medium text-base-content hover:bg-base-200"
                     >
                       {page}
                     </button>
@@ -188,13 +191,13 @@ defmodule ClaperWeb.AdminLive.TableComponent do
                     phx-click="paginate"
                     phx-value-page={@pagination.page_number + 1}
                     phx-target={@myself}
-                    class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                    class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-base-300 bg-base-100 text-sm font-medium text-base-content/70 hover:bg-base-200"
                   >
                     <span class="sr-only">Next</span>
                     <i class="fas fa-chevron-right"></i>
                   </button>
                 <% else %>
-                  <span class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-gray-50 text-sm font-medium text-gray-300 cursor-not-allowed">
+                  <span class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-base-300 bg-base-200 text-sm font-medium text-base-content/30 cursor-not-allowed">
                     <span class="sr-only">Next</span>
                     <i class="fas fa-chevron-right"></i>
                   </span>
