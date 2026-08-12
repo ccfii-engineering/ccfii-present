@@ -322,6 +322,13 @@ defmodule ClaperWeb.EventLiveTest do
 
       assert has_element?(join_live, "#form")
       assert has_element?(join_live, "#input[placeholder='ABCD1234']")
+      assert has_element?(join_live, ".ccfii-join-page")
+      assert has_element?(join_live, "#input.join-code-input")
+      assert has_element?(join_live, "#submit.btn-primary")
+      assert has_element?(join_live, ~s(#input[maxlength="10"][required][autofocus]))
+      assert has_element?(join_live, ~s(#input[class*="uppercase"]))
+      refute html =~ "cyan-"
+      refute html =~ "rgba(134, 17, 237"
     end
   end
 end

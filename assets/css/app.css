@@ -66,6 +66,97 @@
     linear-gradient(135deg, #120A0A 0%, #1E1414 52%, #2A1C1C 100%);
 }
 
+.ccfii-join-page {
+  background: linear-gradient(180deg, #1E1414 0%, #120A0A 100%);
+  color: #F7EDED;
+}
+
+.ccfii-join-page .join-code-input {
+  color: #F7EDED;
+  background: #1E1414;
+  border: 2px solid #FAA739;
+  box-shadow: none;
+  transition: border-color 0.2s ease, color 0.2s ease, outline-color 0.2s ease;
+}
+
+.ccfii-join-page .join-code-input::placeholder {
+  color: #B99B9B;
+  opacity: 1;
+}
+
+.ccfii-join-page .join-code-input:focus-visible {
+  outline: 2px solid #FAA739;
+  outline-offset: 4px;
+}
+
+.ccfii-join-page .join-code-input[aria-invalid="true"],
+.ccfii-join-page .join-code-input.input-error {
+  border-color: #C12B34;
+}
+
+.ccfii-join-page .join-code-input:disabled {
+  color: #B99B9B;
+  background: #2A1C1C;
+  border-color: #735858;
+}
+
+.ccfii-join-page .join-code-input:-webkit-autofill,
+.ccfii-join-page .join-code-input:-webkit-autofill:hover,
+.ccfii-join-page .join-code-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #F7EDED;
+  -webkit-box-shadow: 0 0 0 1000px #1E1414 inset;
+  caret-color: #F7EDED;
+}
+
+.ccfii-join-page .btn-primary {
+  color: #FFFFFF;
+  background: #810E0E;
+  border-color: #810E0E;
+}
+
+.ccfii-join-page .btn-primary:hover {
+  color: #FFFFFF;
+  background: #6A0B0B;
+  border-color: #6A0B0B;
+}
+
+.ccfii-join-page .btn-primary:focus-visible,
+.ccfii-join-page .ccfii-join-menu-toggle:focus-visible,
+.ccfii-join-page .ccfii-join-link:focus-visible,
+.ccfii-join-page .ccfii-join-menu-overlay button:focus-visible {
+  outline: 2px solid #FAA739;
+  outline-offset: 4px;
+}
+
+.ccfii-join-page .ccfii-join-menu-overlay {
+  color: #120A0A;
+  background: #FAA739;
+}
+
+.ccfii-join-page .ccfii-join-menu-overlay a,
+.ccfii-join-page .ccfii-join-menu-toggle,
+.ccfii-join-page .ccfii-join-link {
+  color: #FAA739;
+}
+
+.ccfii-join-page .ccfii-join-menu-overlay a:hover,
+.ccfii-join-page .ccfii-join-link:hover {
+  color: #FDD79A;
+}
+
+.ccfii-join-page .ccfii-join-menu-overlay .btn-primary {
+  color: #FFFFFF;
+}
+
+.ccfii-join-page .ccfii-join-menu-overlay button,
+.ccfii-join-page .ccfii-join-menu-overlay a:not(.btn-primary) {
+  color: #120A0A;
+}
+
+.ccfii-join-page .ccfii-join-menu-overlay a:not(.btn-primary):hover {
+  color: #532D0A;
+}
+
 /*
  The manager screen uses its own full-height scrolling containers. DaisyUI's
  root scrollbar gutter for open modals adds an unnecessary right-side gutter
