@@ -57,11 +57,11 @@ defmodule ClaperWeb.AdminLive.TableComponent do
                   phx-target={@myself}
                 >
                   <%= for {cell_content, cell_index} <- Enum.with_index(get_row_cells(row, @headers, @row_func)) do %>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-base-content/70">
+                    <td class="relative px-6 py-4 whitespace-nowrap text-sm text-base-content/70">
                       <button
                         :if={@row_click_enabled && cell_index == 0}
                         type="button"
-                        class="sr-only"
+                        class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-1/2 focus:z-10 focus:-translate-y-1/2 focus:rounded-md focus:bg-secondary focus:px-3 focus:py-2 focus:text-secondary-content focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-base-100"
                         phx-click="row_clicked"
                         phx-value-row-index={row_index}
                         phx-target={@myself}

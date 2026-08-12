@@ -146,6 +146,18 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
                "button"
              ]
 
+      row_action_classes =
+        classes(document, ~s(tbody td:first-child button[phx-click="row_clicked"]))
+
+      assert "sr-only" in row_action_classes
+      assert "focus:not-sr-only" in row_action_classes
+      assert "focus:absolute" in row_action_classes
+      assert "focus:bg-secondary" in row_action_classes
+      assert "focus:text-secondary-content" in row_action_classes
+      assert "focus:ring-2" in row_action_classes
+      assert "focus:ring-secondary" in row_action_classes
+      assert "relative" in classes(document, "tbody td:first-child")
+
       assert document |> Floki.find(~s(tbody td:first-child button)) |> Floki.text() =~ "View"
     end
 
