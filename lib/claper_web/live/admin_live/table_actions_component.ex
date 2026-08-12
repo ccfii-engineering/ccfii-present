@@ -115,8 +115,8 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
             phx-target={@myself}
             class="text-base-content/70 hover:text-base-content transition-colors duration-200"
             title="More actions"
-            aria-haspopup="menu"
             aria-expanded={to_string(@dropdown_open)}
+            aria-controls={"#{@id}-actions"}
           >
             <i class="fas fa-ellipsis-v"></i>
             <span class="sr-only">More actions</span>
@@ -124,8 +124,8 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
 
           <%= if @dropdown_open do %>
             <div
+              id={"#{@id}-actions"}
               class="absolute right-0 mt-2 w-48 bg-base-100 rounded-md shadow-md z-10 border border-base-300"
-              role="menu"
             >
               <div class="py-1">
                 <%= for action <- @dropdown_actions do %>
@@ -148,7 +148,6 @@ defmodule ClaperWeb.AdminLive.TableActionsComponent do
                       end
                     ]}
                     data-confirm={action[:confirm]}
-                    role="menuitem"
                   >
                     <%= if action[:icon] do %>
                       <i class={"#{action.icon} mr-2"}></i>

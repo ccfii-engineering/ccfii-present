@@ -12,22 +12,20 @@ defmodule ClaperWeb.AdminLive.TableComponent do
               <%= for {header, _index} <- Enum.with_index(@headers) do %>
                 <th
                   scope="col"
-                  class={[
-                    "px-6 py-3 text-left text-xs font-medium text-base-content/60 uppercase tracking-wider",
-                    if(@sortable && header.sortable, do: "cursor-pointer hover:bg-base-300", else: "")
-                  ]}
-                  phx-click={if @sortable && header.sortable, do: "sort", else: nil}
-                  phx-keydown={if @sortable && header.sortable, do: "sort", else: nil}
-                  phx-value-field={if @sortable && header.sortable, do: header.field, else: nil}
-                  phx-target={@myself}
-                  tabindex={if @sortable && header.sortable, do: "0", else: nil}
+                  class="px-6 py-3 text-left text-xs font-medium text-base-content/60 uppercase tracking-wider"
                   aria-sort={
                     if @sortable && header.sortable, do: aria_sort(@sort_config, header.field)
                   }
                 >
-                  <div class="flex items-center">
-                    {if is_binary(header), do: header, else: header.label}
-                    <%= if @sortable && header.sortable do %>
+                  <%= if @sortable && header.sortable do %>
+                    <button
+                      type="button"
+                      class="flex w-full items-center text-left uppercase tracking-wider hover:text-base-content"
+                      phx-click="sort"
+                      phx-value-field={header.field}
+                      phx-target={@myself}
+                    >
+                      {header.label}
                       <%= case @sort_config do %>
                         <% %{field: field, direction: :asc} when field == header.field -> %>
                           <i class="fas fa-sort-up ml-2 text-secondary"></i>
@@ -36,8 +34,12 @@ defmodule ClaperWeb.AdminLive.TableComponent do
                         <% _ -> %>
                           <i class="fas fa-sort ml-2 text-neutral-400"></i>
                       <% end %>
-                    <% end %>
-                  </div>
+                    </button>
+                  <% else %>
+                    <div class="flex items-center">
+                      {if is_binary(header), do: header, else: header.label}
+                    </div>
+                  <% end %>
                 </th>
               <% end %>
             </tr>
@@ -51,14 +53,21 @@ defmodule ClaperWeb.AdminLive.TableComponent do
                     if(@row_click_enabled, do: "cursor-pointer", else: "")
                   ]}
                   phx-click={if @row_click_enabled, do: "row_clicked", else: nil}
-                  phx-keydown={if @row_click_enabled, do: "row_clicked", else: nil}
                   phx-value-row-index={row_index}
                   phx-target={@myself}
-                  tabindex={if @row_click_enabled, do: "0", else: nil}
-                  role={if @row_click_enabled, do: "button", else: nil}
                 >
-                  <%= for {cell_content, _cell_index} <- Enum.with_index(get_row_cells(row, @headers, @row_func)) do %>
+                  <%= for {cell_content, cell_index} <- Enum.with_index(get_row_cells(row, @headers, @row_func)) do %>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-base-content/70">
+                      <button
+                        :if={@row_click_enabled && cell_index == 0}
+                        type="button"
+                        class="sr-only"
+                        phx-click="row_clicked"
+                        phx-value-row-index={row_index}
+                        phx-target={@myself}
+                      >
+                        View
+                      </button>
                       <%= case cell_content do %>
                         <% {:safe, content} -> %>
                           {raw(content)}
@@ -243,12 +252,6 @@ defmodule ClaperWeb.AdminLive.TableComponent do
   end
 
   @impl true
-  def handle_event("sort", %{"key" => key} = params, socket) when key in ["Enter", " "] do
-    handle_event("sort", Map.delete(params, "key"), socket)
-  end
-
-  def handle_event("sort", %{"key" => _key}, socket), do: {:noreply, socket}
-
   def handle_event("sort", %{"field" => field}, socket) do
     current_sort = socket.assigns.sort_config
 
@@ -270,12 +273,6 @@ defmodule ClaperWeb.AdminLive.TableComponent do
     send(self(), {:table_page_changed, page_number})
     {:noreply, socket}
   end
-
-  def handle_event("row_clicked", %{"key" => key} = params, socket) when key in ["Enter", " "] do
-    handle_event("row_clicked", Map.delete(params, "key"), socket)
-  end
-
-  def handle_event("row_clicked", %{"key" => _key}, socket), do: {:noreply, socket}
 
   def handle_event("row_clicked", %{"row-index" => row_index}, socket) do
     index = String.to_integer(row_index)

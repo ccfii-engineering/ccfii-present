@@ -106,7 +106,7 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
       refute html =~ "border-gray-"
     end
 
-    test "makes sortable headers and clickable rows keyboard operable with sort state" do
+    test "uses native controls for sortable headers and row actions" do
       document =
         TableComponent
         |> render_component(
@@ -122,24 +122,52 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
         )
         |> Floki.parse_document!()
 
-      assert Floki.attribute(document, ~s(th[phx-value-field="name"]), "tabindex") == ["0"]
-      assert Floki.attribute(document, ~s(th[phx-value-field="name"]), "role") == []
-      assert Floki.attribute(document, ~s(th[phx-value-field="name"]), "phx-keydown") == ["sort"]
-      assert Floki.attribute(document, ~s(th[phx-value-field="name"]), "phx-key") == []
-
-      assert Floki.attribute(document, ~s(th[phx-value-field="name"]), "aria-sort") == [
+      assert Floki.attribute(document, ~s(th[aria-sort="descending"]), "aria-sort") == [
                "descending"
              ]
 
-      assert Floki.attribute(document, ~s(th[phx-value-field="role"]), "aria-sort") == ["none"]
+      assert Floki.attribute(document, ~s(th[aria-sort="none"]), "aria-sort") == ["none"]
 
-      assert Floki.attribute(document, ~s(tbody tr[phx-click="row_clicked"]), "tabindex") == ["0"]
-
-      assert Floki.attribute(document, ~s(tbody tr[phx-click="row_clicked"]), "phx-keydown") == [
-               "row_clicked"
+      assert Floki.attribute(document, ~s(th button[phx-click="sort"]), "type") == [
+               "button",
+               "button"
              ]
 
-      assert Floki.attribute(document, ~s(tbody tr[phx-click="row_clicked"]), "phx-key") == []
+      assert Floki.attribute(document, ~s(th button[phx-click="sort"]), "phx-keydown") == []
+      assert Floki.attribute(document, ~s(tbody tr[phx-click="row_clicked"]), "role") == []
+      assert Floki.attribute(document, ~s(tbody tr[phx-click="row_clicked"]), "tabindex") == []
+      assert Floki.attribute(document, ~s(tbody tr[phx-click="row_clicked"]), "phx-keydown") == []
+
+      assert Floki.attribute(
+               document,
+               ~s(tbody td:first-child button[phx-click="row_clicked"]),
+               "type"
+             ) == [
+               "button"
+             ]
+
+      assert document |> Floki.find(~s(tbody td:first-child button)) |> Floki.text() =~ "View"
+    end
+
+    test "sort and row click events preserve their parent messages" do
+      socket = %Phoenix.LiveView.Socket{
+        assigns: %{
+          __changed__: %{},
+          sort_config: %{field: "name", direction: :asc},
+          rows: [["Ada"]]
+        }
+      }
+
+      assert {:noreply, sorted_socket} =
+               TableComponent.handle_event("sort", %{"field" => "name"}, socket)
+
+      assert_receive {:table_sort_changed, %{field: "name", direction: :desc}}
+      assert sorted_socket.assigns.sort_config == %{field: "name", direction: :desc}
+
+      assert {:noreply, ^socket} =
+               TableComponent.handle_event("row_clicked", %{"row-index" => "0"}, socket)
+
+      assert_receive {:table_row_clicked, ["Ada"], 0}
     end
 
     test "uses contrast-safe disabled pagination and empty-state colors" do
@@ -180,10 +208,15 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
           edit_enabled: true,
           delete_enabled: true,
           duplicate_enabled: true,
+          archive_enabled: true,
+          item_archived: true,
+          toggle_enabled: true,
+          item_active: true,
           dropdown_open: true,
           dropdown_actions: [
             %{key: "destroy", label: "Destroy", type: "danger"},
-            %{key: "warn", label: "Warn", type: "warning"}
+            %{key: "warn", label: "Warn", type: "warning"},
+            %{key: "inspect", label: "Inspect", type: "default"}
           ]
         )
 
@@ -196,6 +229,13 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
       assert "text-supporting-green-200" in classes(
                actions_document,
                ~s(button[title="Duplicate"])
+             )
+
+      assert "text-warning" in classes(actions_document, ~s(button[title="Unarchive"]))
+
+      assert "text-supporting-green-200" in classes(
+               actions_document,
+               ~s(button[title="Deactivate"])
              )
 
       assert "bg-base-100" in classes(actions_document, "div.absolute")
@@ -211,25 +251,80 @@ defmodule ClaperWeb.AdminLive.AdminShowTest do
                ~s(button[phx-value-action="warn"])
              )
 
-      assert Floki.attribute(actions_document, ~s(button[title="More actions"]), "aria-haspopup") ==
-               [
-                 "menu"
-               ]
+      assert "text-base-content" in classes(
+               actions_document,
+               ~s(button[phx-value-action="inspect"])
+             )
 
       assert Floki.attribute(actions_document, ~s(button[title="More actions"]), "aria-expanded") ==
                [
                  "true"
                ]
 
-      assert Floki.attribute(actions_document, "div.absolute", "role") == ["menu"]
+      assert Floki.attribute(actions_document, ~s(button[title="More actions"]), "aria-controls") ==
+               ["semantic-actions-actions"]
 
-      assert Enum.all?(
-               Floki.attribute(actions_document, ~s(button[phx-click="dropdown_action"]), "role"),
-               &(&1 == "menuitem")
-             )
+      assert Floki.attribute(actions_document, "#semantic-actions-actions", "role") == []
+
+      assert Floki.attribute(actions_document, ~s(button[phx-click="dropdown_action"]), "role") ==
+               []
+
+      closed_document =
+        TableActionsComponent
+        |> render_component(
+          id: "closed-actions",
+          item: %{name: "Ada"},
+          item_id: 1,
+          dropdown_open: false,
+          dropdown_actions: [%{key: "inspect", label: "Inspect", type: "default"}]
+        )
+        |> Floki.parse_document!()
+
+      assert Floki.attribute(closed_document, ~s(button[title="More actions"]), "aria-expanded") ==
+               [
+                 "false"
+               ]
+
+      assert Floki.attribute(closed_document, ~s(button[title="More actions"]), "aria-controls") ==
+               [
+                 "closed-actions-actions"
+               ]
+
+      assert Floki.find(closed_document, "#closed-actions-actions") == []
 
       refute actions_html =~ "indigo-"
       refute actions_html =~ "bg-white"
+    end
+
+    test "archived, active, and default dropdown actions preserve parent messages" do
+      socket = %Phoenix.LiveView.Socket{
+        assigns: %{
+          __changed__: %{},
+          id: "behavior-actions",
+          item: %{name: "Ada"},
+          item_id: 7,
+          item_archived: true,
+          item_active: true,
+          dropdown_open: true,
+          dropdown_actions: [%{key: "view", label: "View", type: "default"}]
+        }
+      }
+
+      assert {:noreply, ^socket} = TableActionsComponent.handle_event("archive_item", %{}, socket)
+      assert_receive {:table_action, :unarchive, %{name: "Ada"}, 7}
+
+      assert {:noreply, ^socket} = TableActionsComponent.handle_event("toggle_item", %{}, socket)
+      assert_receive {:table_action, :deactivate, %{name: "Ada"}, 7}
+
+      assert {:noreply, closed_socket} =
+               TableActionsComponent.handle_event(
+                 "dropdown_action",
+                 %{"action" => "view"},
+                 socket
+               )
+
+      assert_receive {:table_action, :view, %{name: "Ada"}, 7}
+      refute closed_socket.assigns.dropdown_open
     end
 
     test "renders modal presets with contrast-safe content pairs" do
