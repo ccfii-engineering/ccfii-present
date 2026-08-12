@@ -111,22 +111,37 @@ defmodule ClaperWeb.BrandingSurfaceTest do
     login_html = conn |> get(~p"/users/log_in") |> html_response(200)
     join_html = conn |> get(~p"/") |> html_response(200)
     not_found_html = Phoenix.View.render_to_string(ClaperWeb.ErrorView, "404.html", %{})
+    server_error_html = Phoenix.View.render_to_string(ClaperWeb.ErrorView, "500.html", %{})
 
     ensure_role("user")
     ensure_role("admin")
+
+    presenter = confirmed_user_fixture()
+
+    {:ok, _view, presenter_html} =
+      conn |> recycle() |> log_in_user(presenter) |> live(~p"/events")
 
     admin = confirmed_user_fixture()
     {:ok, admin} = Accounts.assign_role(admin, "admin")
     {:ok, _view, admin_html} = conn |> recycle() |> log_in_user(admin) |> live(~p"/admin")
 
-    for html <- [login_html, join_html, not_found_html, admin_html] do
+    for html <- [
+          login_html,
+          join_html,
+          presenter_html,
+          not_found_html,
+          server_error_html,
+          admin_html
+        ] do
       assert html =~ fingerprints["/assets/app.css"]
       assert html =~ fingerprints["/assets/app.js"]
     end
 
     assert login_html =~ fingerprints["/assets/custom.css"]
     assert join_html =~ fingerprints["/assets/custom.css"]
+    assert presenter_html =~ fingerprints["/assets/custom.css"]
     assert not_found_html =~ fingerprints["/assets/custom.css"]
+    assert server_error_html =~ fingerprints["/assets/custom.css"]
     assert admin_html =~ fingerprints["/assets/admin.css"]
   end
 
