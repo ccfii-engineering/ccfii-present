@@ -1119,11 +1119,6 @@ msgstr ""
 msgid "CSRF Verification Failed"
 msgstr ""
 
-#: lib/claper_web/templates/error/csrf_error.html.heex:17
-#, elixir-autogen, elixir-format
-msgid "Clear cookies (at least for Claper domain)"
-msgstr ""
-
 #: lib/claper_web/templates/error/csrf_error.html.heex:20
 #, elixir-autogen, elixir-format
 msgid "Ensure the URL does not contain an extra \"/\" anywhere"
@@ -3617,4 +3612,15 @@ msgstr ""
 #: lib/claper_web/templates/user_registration/new.html.heex:18
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Thousands of presenters already use CCFII Present to engage their audience in real time."
+msgstr ""
+
+#: lib/claper_web/templates/error/csrf_error.html.heex:17
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Clear cookies (at least for CCFII Present domain)"
+msgstr ""
+
+#: lib/claper_web/templates/error/404.html.heex:8
+#: lib/claper_web/templates/error/500.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "Not found - CCFII Present"
 msgstr ""

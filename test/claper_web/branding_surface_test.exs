@@ -89,6 +89,20 @@ defmodule ClaperWeb.BrandingSurfaceTest do
     assert get_resp_header(conn, "content-type") == ["image/png"]
   end
 
+  test "error surfaces identify the deployed product as CCFII Present" do
+    not_found_html = Phoenix.View.render_to_string(ClaperWeb.ErrorView, "404.html", %{})
+    server_error_html = Phoenix.View.render_to_string(ClaperWeb.ErrorView, "500.html", %{})
+    csrf_error_html = Phoenix.View.render_to_string(ClaperWeb.ErrorView, "csrf_error.html", %{})
+
+    assert title(not_found_html) == "Not found - CCFII Present"
+    assert title(server_error_html) == "Not found - CCFII Present"
+    assert csrf_error_html =~ "Clear cookies (at least for CCFII Present domain)"
+
+    for html <- [not_found_html, server_error_html, csrf_error_html] do
+      refute html =~ "Claper"
+    end
+  end
+
   defp title(html) do
     html
     |> Floki.parse_document!()
