@@ -66,7 +66,7 @@ The branding release must not intentionally change:
 
 - GitHub Actions builds a production container from approved repository tags.
 - Publish immutable images as `ghcr.io/ccfii-engineering/ccfii-present:<version>`.
-- Initial version: `3.0.0-ccfii.1`.
+- Initial version: `3.0.0-ccfii.2`.
 - A mutable `production` tag may be advanced only after the immutable image passes validation.
 - Railway deploys an exact immutable image tag, never an unreviewed branch head or `latest`.
 - Preserve the official `ghcr.io/claperco/claper:3.0.0` image reference as the rollback target.
@@ -77,7 +77,7 @@ The existing `CCFII Claper` Railway project remains the production platform. Its
 
 Rollout sequence:
 
-1. Build and publish `ghcr.io/ccfii-engineering/ccfii-present:3.0.0-ccfii.1`.
+1. Build and publish `ghcr.io/ccfii-engineering/ccfii-present:3.0.0-ccfii.2`.
 2. Validate the image against the existing configuration using Railway’s generated domain.
 3. Confirm database migrations introduce no unexpected changes.
 4. Switch the Claper service image to the exact branded tag.

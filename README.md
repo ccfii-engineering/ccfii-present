@@ -73,7 +73,7 @@ npm --prefix assets ci
 npx --yes yaml-lint .github/workflows/elixir.yml .github/workflows/docker-image.yml
 ```
 
-Release tags use the immutable format `3.0.0-ccfii.1`. Pushing such a tag publishes the multi-architecture image `ghcr.io/ccfii-engineering/ccfii-present:3.0.0-ccfii.1`. Deploy that exact tag in Railway; do not use a mutable branch or `latest` image. After validation, explicitly dispatch the **CCFII Present container image** workflow with the immutable `image_tag` and `promote=true` to add the `production` tag to the same digest without rebuilding it.
+Release tags use the immutable format `3.0.0-ccfii.2`. Pushing such a tag publishes the multi-architecture image `ghcr.io/ccfii-engineering/ccfii-present:3.0.0-ccfii.2`. Deploy that exact tag in Railway; do not use a mutable branch or `latest` image. After validation, explicitly dispatch the **CCFII Present container image** workflow with the immutable `image_tag` and `promote=true` to add the `production` tag to the same digest without rebuilding it.
 
 To roll back, update Railway to `ghcr.io/claperco/claper:3.0.0`. CCFII Present remains an AGPLv3 fork: preserve the upstream Claper copyright, license notices, and visible/source attribution when distributing or operating modified versions.
 
