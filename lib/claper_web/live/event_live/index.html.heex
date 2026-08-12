@@ -92,12 +92,12 @@
         <div
           id="view-mode-toggle"
           phx-hook="ViewModePreference"
-          class="flex items-center gap-1 bg-white border border-gray-200 rounded-full p-1 h-12"
+          class="flex h-12 items-center gap-1 rounded-full border border-base-300 bg-base-200 p-1"
         >
           <button
             phx-click="change-view"
             phx-value-view="grid"
-            class={"p-2 rounded-full transition #{if @view_mode == "grid", do: "bg-primary-50 border-b-2 border-primary-500", else: "hover:bg-gray-100"}"}
+            class={"rounded-full p-2 transition #{if @view_mode == "grid", do: "border-b-2 border-primary-500 bg-primary-900 text-primary-100", else: "text-secondary hover:bg-base-300"}"}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +115,7 @@
           <button
             phx-click="change-view"
             phx-value-view="list"
-            class={"p-2 rounded-full transition #{if @view_mode == "list", do: "bg-primary-50 border-b-2 border-primary-500", else: "hover:bg-gray-100"}"}
+            class={"rounded-full p-2 transition #{if @view_mode == "list", do: "border-b-2 border-primary-500 bg-primary-900 text-primary-100", else: "text-secondary hover:bg-base-300"}"}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

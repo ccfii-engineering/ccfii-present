@@ -123,7 +123,7 @@ defmodule ClaperWeb.Component.Tabs do
   end
 
   defp container_classes(:boxed) do
-    "inline-flex items-center bg-gray-100 rounded-full"
+    "inline-flex items-center rounded-full border border-base-300 bg-base-200"
   end
 
   # Base tab classes based on style
@@ -157,14 +157,14 @@ defmodule ClaperWeb.Component.Tabs do
   end
 
   defp tab_state_classes(:boxed, true) do
-    "text-white bg-primary-500 font-semibold"
+    "bg-primary-500 text-white font-semibold"
   end
 
   defp tab_state_classes(:boxed, false) do
-    "text-gray-500 hover:text-gray-700 bg-transparent"
+    "bg-transparent text-neutral-400 hover:bg-base-300 hover:text-base-content"
   end
 
   # Disabled classes
-  defp disabled_classes(true), do: "opacity-50 cursor-not-allowed"
+  defp disabled_classes(true), do: "cursor-not-allowed text-neutral-400"
   defp disabled_classes(false), do: "cursor-pointer"
 end
