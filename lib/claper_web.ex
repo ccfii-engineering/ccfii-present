@@ -17,7 +17,8 @@ defmodule ClaperWeb do
   and import those modules here.
   """
 
-  def static_paths, do: ~w(assets fonts .well-known images worklets favicon.ico robots.txt)
+  def static_paths,
+    do: ~w(assets fonts .well-known images worklets apple-touch-icon.png favicon.ico robots.txt)
 
   def controller do
     quote do
