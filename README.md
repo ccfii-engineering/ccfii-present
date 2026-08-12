@@ -50,6 +50,30 @@ Claper is proudly powered by Phoenix and Elixir.
 
 You can find all the instructions and configuration in [the documentation](https://docs.claper.co/).
 
+## CCFII Present operations
+
+CCFII Present is the public fork at [ccfii-engineering/ccfii-present](https://github.com/ccfii-engineering/ccfii-present). Its upstream remains [ClaperCo/Claper](https://github.com/ClaperCo/Claper). To bring in upstream release tags before reviewing an upgrade, run:
+
+```bash
+git fetch upstream --tags
+git log --oneline HEAD..upstream/main
+```
+
+The CCFII Present seal originates from `ccfii-web/public/images/ccfii-logo.png`. The deployment palette is maroon `#810E0E`, gold `#FAA739`, blue `#3567FF`, and dark neutrals `#1E1414` / `#120A0A`.
+
+Verify a local change with:
+
+```bash
+mix format --check-formatted
+mix credo
+MIX_ENV=test mix test
+npx --yes yaml-lint .github/workflows/elixir.yml .github/workflows/docker-image.yml
+```
+
+Release tags use the immutable format `3.0.0-ccfii.1`. Pushing such a tag publishes the multi-architecture image `ghcr.io/ccfii-engineering/ccfii-present:3.0.0-ccfii.1`. Deploy that exact tag in Railway; do not use a mutable branch or `latest` image. After validation, explicitly dispatch the **CCFII Present container image** workflow with the immutable `image_tag` and `promote=true` to add the `production` tag to the same digest without rebuilding it.
+
+To roll back, update Railway to `ghcr.io/claperco/claper:3.0.0`. CCFII Present remains an AGPLv3 fork: preserve the upstream Claper copyright, license notices, and visible/source attribution when distributing or operating modified versions.
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -67,7 +91,7 @@ Don't forget to give the project a star! Thanks again!
 
 ## License
 
-Distributed under the GPLv3 License. See `LICENSE.txt` for more information.
+Distributed under the AGPLv3 License. See `LICENSE.txt` for more information.
 
 <!-- CONTACT -->
 
