@@ -89,6 +89,47 @@ defmodule ClaperWeb.BrandingSurfaceTest do
     assert get_resp_header(conn, "content-type") == ["image/png"]
   end
 
+  test "HTML surfaces reference fingerprinted release assets", %{conn: conn} do
+    fingerprints = %{
+      "/assets/app.css" => "/assets/app-ccfii-test.css?vsn=d",
+      "/assets/admin.css" => "/assets/admin-ccfii-test.css?vsn=d",
+      "/assets/custom.css" => "/assets/custom-ccfii-test.css?vsn=d",
+      "/assets/app.js" => "/assets/app-ccfii-test.js?vsn=d"
+    }
+
+    Phoenix.Config.clear_cache(ClaperWeb.Endpoint)
+
+    Enum.each(fingerprints, fn {source, fingerprint} ->
+      :ets.insert(
+        ClaperWeb.Endpoint,
+        {{:__phoenix_static__, source}, :cache, {fingerprint, nil}}
+      )
+    end)
+
+    on_exit(fn -> Phoenix.Config.clear_cache(ClaperWeb.Endpoint) end)
+
+    login_html = conn |> get(~p"/users/log_in") |> html_response(200)
+    join_html = conn |> get(~p"/") |> html_response(200)
+    not_found_html = Phoenix.View.render_to_string(ClaperWeb.ErrorView, "404.html", %{})
+
+    ensure_role("user")
+    ensure_role("admin")
+
+    admin = confirmed_user_fixture()
+    {:ok, admin} = Accounts.assign_role(admin, "admin")
+    {:ok, _view, admin_html} = conn |> recycle() |> log_in_user(admin) |> live(~p"/admin")
+
+    for html <- [login_html, join_html, not_found_html, admin_html] do
+      assert html =~ fingerprints["/assets/app.css"]
+      assert html =~ fingerprints["/assets/app.js"]
+    end
+
+    assert login_html =~ fingerprints["/assets/custom.css"]
+    assert join_html =~ fingerprints["/assets/custom.css"]
+    assert not_found_html =~ fingerprints["/assets/custom.css"]
+    assert admin_html =~ fingerprints["/assets/admin.css"]
+  end
+
   test "error surfaces identify the deployed product as CCFII Present" do
     not_found_html = Phoenix.View.render_to_string(ClaperWeb.ErrorView, "404.html", %{})
     server_error_html = Phoenix.View.render_to_string(ClaperWeb.ErrorView, "500.html", %{})
