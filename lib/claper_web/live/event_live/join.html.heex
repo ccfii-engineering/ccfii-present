@@ -29,7 +29,12 @@
             </path>
           </svg>
         </button>
-        <a href="https://get.claper.co/" class="text-lg font-semibold transition-colors">
+        <a
+          href="https://ccfii.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-lg font-semibold transition-colors"
+        >
           {gettext("About")}
         </a>
         <%= if @current_user do %>
@@ -61,7 +66,9 @@
 
       <div class="hidden md:flex items-center gap-6">
         <a
-          href="https://get.claper.co/"
+          href="https://ccfii.org"
+          target="_blank"
+          rel="noopener noreferrer"
           class="ccfii-join-link text-sm font-medium transition-colors"
         >
           {gettext("About")}
@@ -163,12 +170,12 @@
 
       <div class="mt-16 text-sm text-[#B99B9B]">
         <span>{gettext("Are you a presenter?")}</span>
-        <a
-          href="https://get.claper.co/"
+        <.link
+          href={~p"/users/register"}
           class="ccfii-join-link ml-2 font-medium transition-colors"
         >
-          {gettext("Start creating for free")}
-        </a>
+          {gettext("Start creating")}
+        </.link>
       </div>
     </div>
   </div>

@@ -2319,10 +2319,10 @@ msgstr "Afficher les questions les plus récentes en premier"
 msgid "Sort by:"
 msgstr "Trier par :"
 
-#: lib/claper_web/live/event_live/join.html.heex:148
+#: lib/claper_web/live/event_live/join.html.heex:177
 #, elixir-autogen, elixir-format
-msgid "Start creating for free"
-msgstr "Commencer gratuitement"
+msgid "Start creating"
+msgstr ""
 
 #: lib/claper_web/live/event_live/manage_floating_action_bar.ex:78
 #: lib/claper_web/live/event_live/manage_interaction_list_component.ex:214

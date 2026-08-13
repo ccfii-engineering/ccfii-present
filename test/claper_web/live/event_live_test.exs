@@ -513,7 +513,8 @@ defmodule ClaperWeb.EventLiveTest do
       assert html =~ "Join the event"
       assert html =~ "Enter the code shared by the presenter"
       assert html =~ "Are you a presenter?"
-      assert html =~ "Start creating for free"
+      assert html =~ "Start creating"
+      assert html =~ "/users/register"
       refute html =~ "Turn your slides into conversations"
 
       assert has_element?(join_live, "#form")
