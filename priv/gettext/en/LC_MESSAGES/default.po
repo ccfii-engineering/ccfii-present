@@ -2315,9 +2315,9 @@ msgstr ""
 msgid "Sort by:"
 msgstr ""
 
-#: lib/claper_web/live/event_live/join.html.heex:148
+#: lib/claper_web/live/event_live/join.html.heex:177
 #, elixir-autogen, elixir-format
-msgid "Start creating for free"
+msgid "Start creating"
 msgstr ""
 
 #: lib/claper_web/live/event_live/manage_floating_action_bar.ex:78
